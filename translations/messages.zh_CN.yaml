@@ -1,0 +1,14 @@
+Dashboard: 数据统计
+Product: 产品
+ProductAgency: 代理商产品
+ProductStore: 门店产品
+ProductRestaurant: 餐厅产品
+Order: 订单
+OrderAgency: 代理商订单
+OrderStore: 门店订单
+OrderRestaurant: 餐厅订单
+Agency: 代理商
+Store: 门店
+Restaurant: 餐厅
+Voucher: 代金券
+User: 用户
