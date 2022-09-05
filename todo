@@ -6,9 +6,6 @@ role:
   - agency
   - store
 
-product_agency
-product_store
-product_restaurant
 voucher_agency
 voucher_store
 voucher_restaurant
