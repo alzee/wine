@@ -1,7 +1,6 @@
 order:
   - status
 finance
-user
 role:
   - admin
   - agency
