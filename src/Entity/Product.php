@@ -34,9 +34,13 @@ class Product
     #[ORM\Column(length: 255)]
     private ?string $sn = null;
 
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductAgency::class)]
+    private Collection $productAgencies;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
+        $this->productAgencies = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -130,6 +134,36 @@ class Product
     public function setSn(string $sn): self
     {
         $this->sn = $sn;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProductAgency>
+     */
+    public function getProductAgencies(): Collection
+    {
+        return $this->productAgencies;
+    }
+
+    public function addProductAgency(ProductAgency $productAgency): self
+    {
+        if (!$this->productAgencies->contains($productAgency)) {
+            $this->productAgencies->add($productAgency);
+            $productAgency->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductAgency(ProductAgency $productAgency): self
+    {
+        if ($this->productAgencies->removeElement($productAgency)) {
+            // set the owning side to null (unless already changed)
+            if ($productAgency->getProduct() === $this) {
+                $productAgency->setProduct(null);
+            }
+        }
 
         return $this;
     }

@@ -33,9 +33,13 @@ class Agency
     #[ORM\OneToMany(mappedBy: 'agency', targetEntity: Order::class)]
     private Collection $orders;
 
+    #[ORM\OneToMany(mappedBy: 'agency', targetEntity: ProductAgency::class)]
+    private Collection $productAgencies;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
+        $this->productAgencies = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -127,6 +131,36 @@ class Agency
             // set the owning side to null (unless already changed)
             if ($order->getAgency() === $this) {
                 $order->setAgency(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProductAgency>
+     */
+    public function getProductAgencies(): Collection
+    {
+        return $this->productAgencies;
+    }
+
+    public function addProductAgency(ProductAgency $productAgency): self
+    {
+        if (!$this->productAgencies->contains($productAgency)) {
+            $this->productAgencies->add($productAgency);
+            $productAgency->setAgency($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductAgency(ProductAgency $productAgency): self
+    {
+        if ($this->productAgencies->removeElement($productAgency)) {
+            // set the owning side to null (unless already changed)
+            if ($productAgency->getAgency() === $this) {
+                $productAgency->setAgency(null);
             }
         }
 
