@@ -1,6 +1,5 @@
 order:
   - status
-  - date
 role:
   - admin
   - agency
