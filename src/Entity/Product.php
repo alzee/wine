@@ -31,6 +31,9 @@ class Product
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: Order::class)]
     private Collection $orders;
 
+    #[ORM\Column(length: 255)]
+    private ?string $sn = null;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
@@ -115,6 +118,18 @@ class Product
                 $order->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSn(): ?string
+    {
+        return $this->sn;
+    }
+
+    public function setSn(string $sn): self
+    {
+        $this->sn = $sn;
 
         return $this;
     }

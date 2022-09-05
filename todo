@@ -1,6 +1,3 @@
-voucher_agency
-voucher_store
-voucher_restaurant
 order:
   - status
   - date
@@ -8,13 +5,13 @@ role:
   - admin
   - agency
   - store
-order_agency:
-  - date
-order_store:
-  - date
+
 product_agency
 product_store
 product_restaurant
+voucher_agency
+voucher_store
+voucher_restaurant
 
 finance
 consumer
