@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\StoreRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: StoreRepository::class)]
@@ -24,6 +26,14 @@ class Store
 
     #[ORM\Column(length: 255)]
     private ?string $address = null;
+
+    #[ORM\OneToMany(mappedBy: 'store', targetEntity: OrderAgency::class)]
+    private Collection $orderAgencies;
+
+    public function __construct()
+    {
+        $this->orderAgencies = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -74,6 +84,36 @@ class Store
     public function setAddress(string $address): self
     {
         $this->address = $address;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, OrderAgency>
+     */
+    public function getOrderAgencies(): Collection
+    {
+        return $this->orderAgencies;
+    }
+
+    public function addOrderAgency(OrderAgency $orderAgency): self
+    {
+        if (!$this->orderAgencies->contains($orderAgency)) {
+            $this->orderAgencies->add($orderAgency);
+            $orderAgency->setStore($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderAgency(OrderAgency $orderAgency): self
+    {
+        if ($this->orderAgencies->removeElement($orderAgency)) {
+            // set the owning side to null (unless already changed)
+            if ($orderAgency->getStore() === $this) {
+                $orderAgency->setStore(null);
+            }
+        }
 
         return $this;
     }
