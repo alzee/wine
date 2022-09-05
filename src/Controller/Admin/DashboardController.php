@@ -8,6 +8,19 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
+use App\Entity\Product;
+use App\Entity\ProductAgency;
+use App\Entity\ProductStore;
+use App\Entity\ProductRestaurant;
+use App\Entity\Order;
+use App\Entity\OrderAgency;
+use App\Entity\OrderStore;
+use App\Entity\OrderRestaurant;
+use App\Entity\Voucher;
+use App\Entity\Agency;
+use App\Entity\Store;
+use App\Entity\Restaurant;
+use App\Entity\User;
 
 class DashboardController extends AbstractDashboardController
 {
@@ -43,5 +56,18 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
+        yield MenuItem::linkToCrud('Product', 'fas fa-list', Product::class);
+        yield MenuItem::linkToCrud('ProductAgency', 'fas fa-list', ProductAgency::class);
+        yield MenuItem::linkToCrud('ProductStore', 'fas fa-list', ProductStore::class);
+        yield MenuItem::linkToCrud('ProductRestaurant', 'fas fa-list', ProductRestaurant::class);
+        yield MenuItem::linkToCrud('Order', 'fas fa-list', Order::class);
+        yield MenuItem::linkToCrud('OrderAgency', 'fas fa-list', OrderAgency::class);
+        yield MenuItem::linkToCrud('OrderStore', 'fas fa-list', OrderStore::class);
+        yield MenuItem::linkToCrud('OrderRestaurant', 'fas fa-list', OrderRestaurant::class);
+        yield MenuItem::linkToCrud('Agency', 'fas fa-list', Agency::class);
+        yield MenuItem::linkToCrud('Store', 'fas fa-list', Store::class);
+        yield MenuItem::linkToCrud('Restaurant', 'fas fa-list', Restaurant::class);
+        yield MenuItem::linkToCrud('Voucher', 'fas fa-list', Voucher::class);
+        yield MenuItem::linkToCrud('User', 'fas fa-list', User::class);
     }
 }
