@@ -30,9 +30,13 @@ class Restaurant
     #[ORM\OneToMany(mappedBy: 'restaurant', targetEntity: OrderStore::class)]
     private Collection $orderStores;
 
+    #[ORM\OneToMany(mappedBy: 'restaurant', targetEntity: ProductRestaurant::class)]
+    private Collection $productRestaurants;
+
     public function __construct()
     {
         $this->orderStores = new ArrayCollection();
+        $this->productRestaurants = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -112,6 +116,36 @@ class Restaurant
             // set the owning side to null (unless already changed)
             if ($orderStore->getRestaurant() === $this) {
                 $orderStore->setRestaurant(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProductRestaurant>
+     */
+    public function getProductRestaurants(): Collection
+    {
+        return $this->productRestaurants;
+    }
+
+    public function addProductRestaurant(ProductRestaurant $productRestaurant): self
+    {
+        if (!$this->productRestaurants->contains($productRestaurant)) {
+            $this->productRestaurants->add($productRestaurant);
+            $productRestaurant->setRestaurant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductRestaurant(ProductRestaurant $productRestaurant): self
+    {
+        if ($this->productRestaurants->removeElement($productRestaurant)) {
+            // set the owning side to null (unless already changed)
+            if ($productRestaurant->getRestaurant() === $this) {
+                $productRestaurant->setRestaurant(null);
             }
         }
 
