@@ -1,3 +1,4 @@
+ID: 序号
 Dashboard: 数据统计
 Product: 产品
 ProductAgency: 代理商产品
@@ -12,3 +13,18 @@ Store: 门店
 Restaurant: 餐厅
 Voucher: 代金券
 User: 用户
+Quantity: 数量
+Price: 单价
+Date: 日期
+Stock: 库存
+Name: 名称
+Spec: 规格
+Sn: 商品编号
+Contact: 联系人
+Phone: 电话
+Address: 地址
+Value: 面值
+Username: 用户名
+Password: 密码
+Roles: 角色
+Order No: 餐厅订单号
