@@ -1,14 +1,22 @@
 order:
   - status
-finance
+  - date
 role:
   - admin
   - agency
   - store
 
+order_agency:
+  - date
+order_store:
+  - date
+order_restaurant:
+  - date
+product_agency
+product_store
+product_restaurant
+
+finance
 consumer
-order_agency
-order_store
-order_restaurant
 
 # vim:ft=yaml
