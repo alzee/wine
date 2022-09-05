@@ -1,16 +1,15 @@
-agency
-restaurant
-product
-user:
+order:
+  - status
+finance
+user
+role:
   - admin
   - agency
   - store
-role
-voucher
+
 store
+restaurant
 consumer
-finance
-order
 order_agency
 order_store
 order_restaurant
