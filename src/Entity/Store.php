@@ -30,9 +30,13 @@ class Store
     #[ORM\OneToMany(mappedBy: 'store', targetEntity: OrderAgency::class)]
     private Collection $orderAgencies;
 
+    #[ORM\OneToMany(mappedBy: 'store', targetEntity: ProductStore::class)]
+    private Collection $productStores;
+
     public function __construct()
     {
         $this->orderAgencies = new ArrayCollection();
+        $this->productStores = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -112,6 +116,36 @@ class Store
             // set the owning side to null (unless already changed)
             if ($orderAgency->getStore() === $this) {
                 $orderAgency->setStore(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProductStore>
+     */
+    public function getProductStores(): Collection
+    {
+        return $this->productStores;
+    }
+
+    public function addProductStore(ProductStore $productStore): self
+    {
+        if (!$this->productStores->contains($productStore)) {
+            $this->productStores->add($productStore);
+            $productStore->setStore($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductStore(ProductStore $productStore): self
+    {
+        if ($this->productStores->removeElement($productStore)) {
+            // set the owning side to null (unless already changed)
+            if ($productStore->getStore() === $this) {
+                $productStore->setStore(null);
             }
         }
 
