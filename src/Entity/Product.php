@@ -49,6 +49,10 @@ class Product
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: Returns::class)]
     private Collection $returns;
 
+    #[ORM\ManyToOne(inversedBy: 'products')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Org $org = null;
+
     public function __construct()
     {
         $this->productAgencies = new ArrayCollection();
@@ -286,6 +290,18 @@ class Product
                 $return->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getOrg(): ?Org
+    {
+        return $this->org;
+    }
+
+    public function setOrg(?Org $org): self
+    {
+        $this->org = $org;
 
         return $this;
     }
