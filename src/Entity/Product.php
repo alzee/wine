@@ -46,12 +46,16 @@ class Product
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: Orders::class)]
     private Collection $orders;
 
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Returns::class)]
+    private Collection $returns;
+
     public function __construct()
     {
         $this->productAgencies = new ArrayCollection();
         $this->productStores = new ArrayCollection();
         $this->productRestaurants = new ArrayCollection();
         $this->orders = new ArrayCollection();
+        $this->returns = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -250,6 +254,36 @@ class Product
             // set the owning side to null (unless already changed)
             if ($order->getProduct() === $this) {
                 $order->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Returns>
+     */
+    public function getReturns(): Collection
+    {
+        return $this->returns;
+    }
+
+    public function addReturn(Returns $return): self
+    {
+        if (!$this->returns->contains($return)) {
+            $this->returns->add($return);
+            $return->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReturn(Returns $return): self
+    {
+        if ($this->returns->removeElement($return)) {
+            // set the owning side to null (unless already changed)
+            if ($return->getProduct() === $this) {
+                $return->setProduct(null);
             }
         }
 

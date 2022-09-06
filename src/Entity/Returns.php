@@ -2,27 +2,27 @@
 
 namespace App\Entity;
 
-use App\Repository\OrdersRepository;
+use App\Repository\ReturnsRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: OrdersRepository::class)]
-class Orders
+#[ORM\Entity(repositoryClass: ReturnsRepository::class)]
+class Returns
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'orders')]
+    #[ORM\ManyToOne(inversedBy: 'returns')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Org $seller = null;
+    private ?Org $sender = null;
 
-    #[ORM\ManyToOne(inversedBy: 'orders')]
+    #[ORM\ManyToOne(inversedBy: 'returns')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Org $buyer = null;
+    private ?Org $recipient = null;
 
-    #[ORM\ManyToOne(inversedBy: 'orders')]
+    #[ORM\ManyToOne(inversedBy: 'returns')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Product $product = null;
 
@@ -58,26 +58,26 @@ class Orders
         return $this->id;
     }
 
-    public function getSeller(): ?Org
+    public function getSender(): ?Org
     {
-        return $this->seller;
+        return $this->sender;
     }
 
-    public function setSeller(?Org $seller): self
+    public function setSender(?Org $sender): self
     {
-        $this->seller = $seller;
+        $this->sender = $sender;
 
         return $this;
     }
 
-    public function getBuyer(): ?Org
+    public function getRecipient(): ?Org
     {
-        return $this->buyer;
+        return $this->recipient;
     }
 
-    public function setBuyer(?Org $buyer): self
+    public function setRecipient(?Org $recipient): self
     {
-        $this->buyer = $buyer;
+        $this->recipient = $recipient;
 
         return $this;
     }

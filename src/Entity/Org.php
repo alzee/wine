@@ -42,9 +42,13 @@ class Org
     #[ORM\OneToMany(mappedBy: 'seller', targetEntity: Orders::class)]
     private Collection $orders;
 
+    #[ORM\OneToMany(mappedBy: 'sender', targetEntity: Returns::class)]
+    private Collection $returns;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
+        $this->returns = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -148,6 +152,36 @@ class Org
             // set the owning side to null (unless already changed)
             if ($order->getSeller() === $this) {
                 $order->setSeller(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Returns>
+     */
+    public function getReturns(): Collection
+    {
+        return $this->returns;
+    }
+
+    public function addReturn(Returns $return): self
+    {
+        if (!$this->returns->contains($return)) {
+            $this->returns->add($return);
+            $return->setSender($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReturn(Returns $return): self
+    {
+        if ($this->returns->removeElement($return)) {
+            // set the owning side to null (unless already changed)
+            if ($return->getSender() === $this) {
+                $return->setSender(null);
             }
         }
 
