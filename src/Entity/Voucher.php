@@ -14,37 +14,67 @@ class Voucher
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $name = null;
-
     #[ORM\Column(type: Types::SMALLINT)]
-    private ?int $value = null;
+    private ?int $type = null;
+
+    #[ORM\ManyToOne(inversedBy: 'vouchers')]
+    private ?Org $org = null;
+
+    #[ORM\Column]
+    private ?int $voucher = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $date = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getType(): ?int
     {
-        return $this->name;
+        return $this->type;
     }
 
-    public function setName(string $name): self
+    public function setType(int $type): self
     {
-        $this->name = $name;
+        $this->type = $type;
 
         return $this;
     }
 
-    public function getValue(): ?int
+    public function getOrg(): ?Org
     {
-        return $this->value;
+        return $this->org;
     }
 
-    public function setValue(int $value): self
+    public function setOrg(?Org $org): self
     {
-        $this->value = $value;
+        $this->org = $org;
+
+        return $this;
+    }
+
+    public function getVoucher(): ?int
+    {
+        return $this->voucher;
+    }
+
+    public function setVoucher(int $voucher): self
+    {
+        $this->voucher = $voucher;
+
+        return $this;
+    }
+
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(\DateTimeInterface $date): self
+    {
+        $this->date = $date;
 
         return $this;
     }
