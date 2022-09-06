@@ -23,9 +23,17 @@ class Withdraw
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $status = null;
 
+    #[ORM\ManyToOne(inversedBy: 'withdraws')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Org $org = null;
+
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $discount = null;
+
     public function __construct()
     {
         $this->date = new \DateTime();
+        $this->discount = 100;
     }
 
     public function getId(): ?int
@@ -65,6 +73,30 @@ class Withdraw
     public function setStatus(int $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getOrg(): ?Org
+    {
+        return $this->org;
+    }
+
+    public function setOrg(?Org $org): self
+    {
+        $this->org = $org;
+
+        return $this;
+    }
+
+    public function getDiscount(): ?int
+    {
+        return $this->discount;
+    }
+
+    public function setDiscount(int $discount): self
+    {
+        $this->discount = $discount;
 
         return $this;
     }

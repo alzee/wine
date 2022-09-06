@@ -12,6 +12,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\PercentField;
 
 class WithdrawCrudController extends AbstractCrudController
 {
@@ -24,8 +25,9 @@ class WithdrawCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->onlyOnIndex(),
-            AssociationField::new('restaurant'),
+            AssociationField::new('org'),
             IntegerField::new('amount'),
+            PercentField::new('discount'),
             ChoiceField::new('status')->setChoices(['Pending' => 0, 'Rejected' => 4, 'Success' => 5]),
         ];
     }
