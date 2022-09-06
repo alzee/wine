@@ -30,6 +30,10 @@ class OrderRestaurant
     #[ORM\JoinColumn(nullable: false)]
     private ?Consumer $consumer = null;
 
+    #[ORM\ManyToOne(inversedBy: 'orderRestaurants')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Org $restaurant = null;
+
     public function __construct()
     {
         $this->date = new \DateTime();
@@ -96,6 +100,18 @@ class OrderRestaurant
     public function setConsumer(?Consumer $consumer): self
     {
         $this->consumer = $consumer;
+
+        return $this;
+    }
+
+    public function getRestaurant(): ?Org
+    {
+        return $this->restaurant;
+    }
+
+    public function setRestaurant(?Org $restaurant): self
+    {
+        $this->restaurant = $restaurant;
 
         return $this;
     }

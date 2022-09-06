@@ -51,12 +51,16 @@ class Org
     #[ORM\Column]
     private ?int $voucher = null;
 
+    #[ORM\OneToMany(mappedBy: 'restaurant', targetEntity: OrderRestaurant::class)]
+    private Collection $orderRestaurants;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
         $this->returns = new ArrayCollection();
         $this->products = new ArrayCollection();
         $this->voucher = 0;
+        $this->orderRestaurants = new ArrayCollection();
     }
 
     public function __toString()
@@ -239,6 +243,36 @@ class Org
     public function setVoucher(int $voucher): self
     {
         $this->voucher = $voucher;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, OrderRestaurant>
+     */
+    public function getOrderRestaurants(): Collection
+    {
+        return $this->orderRestaurants;
+    }
+
+    public function addOrderRestaurant(OrderRestaurant $orderRestaurant): self
+    {
+        if (!$this->orderRestaurants->contains($orderRestaurant)) {
+            $this->orderRestaurants->add($orderRestaurant);
+            $orderRestaurant->setRestaurant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderRestaurant(OrderRestaurant $orderRestaurant): self
+    {
+        if ($this->orderRestaurants->removeElement($orderRestaurant)) {
+            // set the owning side to null (unless already changed)
+            if ($orderRestaurant->getRestaurant() === $this) {
+                $orderRestaurant->setRestaurant(null);
+            }
+        }
 
         return $this;
     }
