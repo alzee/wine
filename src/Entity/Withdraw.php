@@ -14,10 +14,6 @@ class Withdraw
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'withdraws')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Restaurant $restaurant = null;
-
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
@@ -35,18 +31,6 @@ class Withdraw
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getRestaurant(): ?Restaurant
-    {
-        return $this->restaurant;
-    }
-
-    public function setRestaurant(?Restaurant $restaurant): self
-    {
-        $this->restaurant = $restaurant;
-
-        return $this;
     }
 
     public function getDate(): ?\DateTimeInterface
