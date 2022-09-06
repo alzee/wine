@@ -33,6 +33,7 @@ class Withdraw
     public function __construct()
     {
         $this->date = new \DateTime();
+        $this->discount = 1;
     }
 
     public function getId(): ?int
