@@ -27,13 +27,12 @@ class Withdraw
     #[ORM\JoinColumn(nullable: false)]
     private ?Org $org = null;
 
-    #[ORM\Column(type: Types::SMALLINT)]
-    private ?int $discount = null;
+    #[ORM\Column]
+    private ?float $discount = null;
 
     public function __construct()
     {
         $this->date = new \DateTime();
-        $this->discount = 100;
     }
 
     public function getId(): ?int
@@ -89,12 +88,12 @@ class Withdraw
         return $this;
     }
 
-    public function getDiscount(): ?int
+    public function getDiscount(): ?float
     {
         return $this->discount;
     }
 
-    public function setDiscount(int $discount): self
+    public function setDiscount(float $discount): self
     {
         $this->discount = $discount;
 
