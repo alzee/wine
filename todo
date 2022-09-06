@@ -1,6 +1,7 @@
 questions:
   - 门店不提现？
-  - 请货数量限制
+  - 请货数量是否作限制？
+  - 门店是否和代理商有对应关系？是否可以跨区域请货？
 
 role:
   - admin
@@ -11,10 +12,6 @@ order/return:
   - 1 agency_store
 
 finance
-
-voucher_agency
-voucher_store
-voucher_restaurant
 
 voucher 以钱包的形式
 
