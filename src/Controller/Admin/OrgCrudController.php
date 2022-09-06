@@ -29,7 +29,7 @@ class OrgCrudController extends AbstractCrudController
             TelephoneField::new('phone'),
             TextField::new('address'),
             TextField::new('district'),
-            ChoiceField::new('type')->setChoices(['Head' => 0, 'Agency' => 1, 'Store' => 2]),
+            ChoiceField::new('type')->setChoices(['Head' => 0, 'Agency' => 1, 'Store' => 2, 'Restaurant' => 3]),
             IntegerField::new('voucher'),
         ];
     }
