@@ -30,7 +30,7 @@ class OrgCrudController extends AbstractCrudController
             TelephoneField::new('phone'),
             TextField::new('address'),
             TextField::new('district'),
-            ChoiceField::new('type')->setChoices(['Head' => 0, 'Agency' => 1, 'Store' => 2, 'Restaurant' => 3]),
+            ChoiceField::new('type')->setChoices(['Head' => 0, 'Agency' => 1, 'Store' => 2, 'Restaurant' => 3, 'Consumer' => 4]),
             MoneyField::new('voucher')->setCurrency('CNY'),
         ];
     }
