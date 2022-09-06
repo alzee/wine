@@ -21,6 +21,8 @@ use App\Entity\Agency;
 use App\Entity\Store;
 use App\Entity\Restaurant;
 use App\Entity\User;
+use App\Entity\Org;
+use App\Entity\Orders;
 
 class DashboardController extends AbstractDashboardController
 {
