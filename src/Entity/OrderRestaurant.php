@@ -23,6 +23,18 @@ class OrderRestaurant
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
+    #[ORM\Column]
+    private ?int $voucher = null;
+
+    #[ORM\ManyToOne(inversedBy: 'orderRestaurants')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Consumer $consumer = null;
+
+    public function __construct()
+    {
+        $this->date = new \DateTime();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -60,6 +72,30 @@ class OrderRestaurant
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    public function getVoucher(): ?int
+    {
+        return $this->voucher;
+    }
+
+    public function setVoucher(int $voucher): self
+    {
+        $this->voucher = $voucher;
+
+        return $this;
+    }
+
+    public function getConsumer(): ?Consumer
+    {
+        return $this->consumer;
+    }
+
+    public function setConsumer(?Consumer $consumer): self
+    {
+        $this->consumer = $consumer;
 
         return $this;
     }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ConsumerRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ConsumerRepository::class)]
@@ -18,6 +20,14 @@ class Consumer
 
     #[ORM\Column]
     private ?int $voucher = null;
+
+    #[ORM\OneToMany(mappedBy: 'consumer', targetEntity: OrderRestaurant::class)]
+    private Collection $orderRestaurants;
+
+    public function __construct()
+    {
+        $this->orderRestaurants = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -44,6 +54,36 @@ class Consumer
     public function setVoucher(int $voucher): self
     {
         $this->voucher = $voucher;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, OrderRestaurant>
+     */
+    public function getOrderRestaurants(): Collection
+    {
+        return $this->orderRestaurants;
+    }
+
+    public function addOrderRestaurant(OrderRestaurant $orderRestaurant): self
+    {
+        if (!$this->orderRestaurants->contains($orderRestaurant)) {
+            $this->orderRestaurants->add($orderRestaurant);
+            $orderRestaurant->setConsumer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderRestaurant(OrderRestaurant $orderRestaurant): self
+    {
+        if ($this->orderRestaurants->removeElement($orderRestaurant)) {
+            // set the owning side to null (unless already changed)
+            if ($orderRestaurant->getConsumer() === $this) {
+                $orderRestaurant->setConsumer(null);
+            }
+        }
 
         return $this;
     }
