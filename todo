@@ -5,11 +5,6 @@ role:
 order/return:
   - 0 head_agency
   - 1 agency_store
-org:
-  - 0 head
-  - 1 agency
-  - 2 store
-  - 3 restaurant
 consumer
 
 finance
