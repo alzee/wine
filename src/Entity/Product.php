@@ -28,9 +28,6 @@ class Product
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $stock = null;
 
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Order::class)]
-    private Collection $orders;
-
     #[ORM\Column(length: 255)]
     private ?string $sn = null;
 
@@ -46,12 +43,15 @@ class Product
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $voucher = null;
 
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Orders::class)]
+    private Collection $orders;
+
     public function __construct()
     {
-        $this->orders = new ArrayCollection();
         $this->productAgencies = new ArrayCollection();
         $this->productStores = new ArrayCollection();
         $this->productRestaurants = new ArrayCollection();
+        $this->orders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -103,36 +103,6 @@ class Product
     public function setStock(int $stock): self
     {
         $this->stock = $stock;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Order>
-     */
-    public function getOrders(): Collection
-    {
-        return $this->orders;
-    }
-
-    public function addOrder(Order $order): self
-    {
-        if (!$this->orders->contains($order)) {
-            $this->orders->add($order);
-            $order->setProduct($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOrder(Order $order): self
-    {
-        if ($this->orders->removeElement($order)) {
-            // set the owning side to null (unless already changed)
-            if ($order->getProduct() === $this) {
-                $order->setProduct(null);
-            }
-        }
 
         return $this;
     }
@@ -254,5 +224,35 @@ class Product
     public function __toString(): string
     {
         return $this->name;
+    }
+
+    /**
+     * @return Collection<int, Orders>
+     */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function addOrder(Orders $order): self
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders->add($order);
+            $order->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrder(Orders $order): self
+    {
+        if ($this->orders->removeElement($order)) {
+            // set the owning side to null (unless already changed)
+            if ($order->getProduct() === $this) {
+                $order->setProduct(null);
+            }
+        }
+
+        return $this;
     }
 }
