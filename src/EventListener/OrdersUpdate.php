@@ -43,7 +43,7 @@ class OrdersUpdate
                 // buyer stock + quantity
                 $buyer_product->setStock($buyer_product->getStock() + $quantity);
                 // buyer voucher + voucher
-                // $buyer_product->setVoucher($buyer->getVoucher() + $voucher);
+                $buyer->setVoucher($buyer->getVoucher() + $voucher);
                 $em->flush();
                 dump($seller_product);
                 dump($buyer_product);
