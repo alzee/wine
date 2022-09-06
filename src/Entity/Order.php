@@ -41,6 +41,9 @@ class Order
     public function __construct()
     {
         $this->date = new \DateTimeImmutable();
+        $this->price = 50;
+        $this->amount = 500;
+        $this->voucher = 50;
     }
 
     public function getId(): ?int

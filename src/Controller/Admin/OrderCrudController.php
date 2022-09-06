@@ -24,9 +24,10 @@ class OrderCrudController extends AbstractCrudController
             // ChoiceField::new('product'),
             AssociationField::new('agency'),
             AssociationField::new('product'),
-            IntegerField::new('price'),
             IntegerField::new('quantity'),
-            IntegerField::new('amount'),
+            IntegerField::new('price')->onlyOnIndex(),
+            IntegerField::new('amount')->onlyOnIndex(),
+            IntegerField::new('voucher')->onlyOnIndex(),
         ];
     }
 }
