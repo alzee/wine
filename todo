@@ -23,7 +23,7 @@ status:
   - 5 已完成
 return status:
   - 0 待处理
-  - 6 已退货
+  - 5 已退货
 
 
 # vim:ft=yaml

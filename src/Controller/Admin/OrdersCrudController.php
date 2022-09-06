@@ -31,7 +31,7 @@ class OrdersCrudController extends AbstractCrudController
             IntegerField::new('amount'),
             IntegerField::new('voucher'),
             ChoiceField::new('type')->setChoices(['Head2Agency' => 1, 'Agency2Store' => 2]),
-            ChoiceField::new('status')->setChoices(['Pending' => 0, 'Cancelled' => 1, 'Success' => 2]),
+            ChoiceField::new('status')->setChoices(['Pending' => 0, 'Cancelled' => 4, 'Success' => 5]),
         ];
     }
 }
