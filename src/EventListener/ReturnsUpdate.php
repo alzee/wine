@@ -12,6 +12,7 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
 use App\Entity\Returns;
 use App\Entity\Product;
 use App\Entity\Org;
+use App\Entity\Voucher;
 
 class ReturnsUpdate
 {
@@ -40,6 +41,25 @@ class ReturnsUpdate
                 $recipient_product->setStock($recipient_product->getStock() + $quantity);
                 // recipient voucher + voucher
                 $recipient->setVoucher($recipient->getVoucher() + $voucher);
+
+                // voucher record for sender
+                $record = new Voucher();
+                $record ->setOrg($sender);
+                $record->setVoucher(-$voucher);
+                $type = match ($sender->getType()) {
+                    1 => 12,
+                    2 => 13,
+                };
+                $record->setType($type);
+                $em->persist($record);
+
+                // voucher record for recipient 
+                $record = new Voucher();
+                $record ->setOrg($recipient);
+                $record->setVoucher($voucher);
+                $record->setType($type - 10);
+                $em->persist($record);
+
                 $em->flush();
             }
         }

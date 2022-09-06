@@ -49,7 +49,6 @@ class OrdersUpdate
                 // buyer voucher + voucher
                 $buyer->setVoucher($buyer->getVoucher() + $voucher);
 
-
                 // voucher record for seller
                 $record = new Voucher();
                 $record ->setOrg($seller);
