@@ -36,11 +36,15 @@ class Restaurant
     #[ORM\OneToMany(mappedBy: 'restaurant', targetEntity: OrderRestaurant::class)]
     private Collection $orderRestaurants;
 
+    #[ORM\Column]
+    private ?int $voucher = null;
+
     public function __construct()
     {
         $this->orderStores = new ArrayCollection();
         $this->productRestaurants = new ArrayCollection();
         $this->orderRestaurants = new ArrayCollection();
+        $this->voucher = 0;
     }
 
     public function __toString()
@@ -187,6 +191,18 @@ class Restaurant
                 $orderRestaurant->setRestaurant(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getVoucher(): ?int
+    {
+        return $this->voucher;
+    }
+
+    public function setVoucher(int $voucher): self
+    {
+        $this->voucher = $voucher;
 
         return $this;
     }
