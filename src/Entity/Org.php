@@ -48,11 +48,15 @@ class Org
     #[ORM\OneToMany(mappedBy: 'org', targetEntity: Product::class)]
     private Collection $products;
 
+    #[ORM\Column]
+    private ?int $voucher = null;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
         $this->returns = new ArrayCollection();
         $this->products = new ArrayCollection();
+        $this->voucher = 0;
     }
 
     public function __toString()
@@ -223,6 +227,18 @@ class Org
                 $product->setOrg(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getVoucher(): ?int
+    {
+        return $this->voucher;
+    }
+
+    public function setVoucher(int $voucher): self
+    {
+        $this->voucher = $voucher;
 
         return $this;
     }
