@@ -5,8 +5,10 @@ namespace App\Entity;
 use App\Repository\ReturnsRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 #[ORM\Entity(repositoryClass: ReturnsRepository::class)]
+#[ApiResource]
 class Returns
 {
     #[ORM\Id]

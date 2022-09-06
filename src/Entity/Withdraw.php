@@ -5,8 +5,10 @@ namespace App\Entity;
 use App\Repository\WithdrawRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 #[ORM\Entity(repositoryClass: WithdrawRepository::class)]
+#[ApiResource]
 class Withdraw
 {
     #[ORM\Id]
