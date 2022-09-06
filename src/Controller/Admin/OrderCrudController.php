@@ -30,7 +30,7 @@ class OrderCrudController extends AbstractCrudController
             IntegerField::new('price')->onlyOnIndex(),
             IntegerField::new('amount')->onlyOnIndex(),
             IntegerField::new('voucher')->onlyOnIndex(),
-            ChoiceField::new('amount')->setChoices([0,1]),
+            ChoiceField::new('status')->setChoices(['Pending' => 0,'Success' => 9]),
         ];
     }
 }

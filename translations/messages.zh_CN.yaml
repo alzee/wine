@@ -30,3 +30,6 @@ Password: 密码
 Roles: 角色
 Order No: 餐厅订单号
 District: 区域
+Status: 状态
+Pending: 待处理
+Success: 成功

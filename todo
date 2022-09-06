@@ -1,15 +1,34 @@
-order:
-  - status
 role:
   - admin
   - agency
   - store
+order/return:
+  - 0 head_agency
+  - 1 agency_store
+org:
+  - 0 head
+  - 1 agency
+  - 2 store
+  - 3 restaurant
+consumer
+
+finance
 
 voucher_agency
 voucher_store
 voucher_restaurant
 
-finance
-consumer
+
+请货数量限制
+voucher 以钱包的形式
+
+status:
+  - 0 待处理
+  - 4 已取消
+  - 5 已完成
+return status:
+  - 0 待处理
+  - 6 已退货
+
 
 # vim:ft=yaml
