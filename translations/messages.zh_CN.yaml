@@ -33,7 +33,7 @@ District: 区域
 Status: 状态
 Pending: 待处理
 Cancelled: 已取消
-Success: 成功
+Success: 已完成
 Orders: 订单
 Org: 机构
 Returns: 退货
@@ -45,3 +45,4 @@ Head2Agency: 代理商订货
 Agency2Store: 门店订货
 Head: 总部
 Withdraw: 提现申请
+Rejected: 已拒绝

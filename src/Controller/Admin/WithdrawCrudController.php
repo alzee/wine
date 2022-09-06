@@ -26,6 +26,7 @@ class WithdrawCrudController extends AbstractCrudController
             IdField::new('id')->onlyOnIndex(),
             AssociationField::new('restaurant'),
             IntegerField::new('amount'),
+            ChoiceField::new('status')->setChoices(['Pending' => 0, 'Rejected' => 4, 'Success' => 5]),
         ];
     }
 }

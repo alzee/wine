@@ -24,6 +24,9 @@ class Withdraw
     #[ORM\Column]
     private ?int $amount = null;
 
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $status = null;
+
     public function __construct()
     {
         $this->date = new \DateTime();
@@ -66,6 +69,18 @@ class Withdraw
     public function setAmount(int $amount): self
     {
         $this->amount = $amount;
+
+        return $this;
+    }
+
+    public function getStatus(): ?int
+    {
+        return $this->status;
+    }
+
+    public function setStatus(int $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
