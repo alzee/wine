@@ -38,8 +38,8 @@ class Order
     #[ORM\Column]
     private ?int $voucher = null;
 
-    #[ORM\Column(type: Types::ARRAY)]
-    private array $status = ['Pending', 'Success'];
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $status = null;
 
     public function __construct()
     {
@@ -138,12 +138,12 @@ class Order
         return $this;
     }
 
-    public function getStatus(): array
+    public function getStatus(): ?int
     {
         return $this->status;
     }
 
-    public function setStatus(array $status): self
+    public function setStatus(int $status): self
     {
         $this->status = $status;
 
