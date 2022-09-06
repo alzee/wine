@@ -39,6 +39,18 @@ class ProductRepository extends ServiceEntityRepository
         }
     }
 
+    public function findOneByOrgAndSN($org, $sn): ?Product
+    {
+        return $this->createQueryBuilder('p')
+                    ->andWhere('p.org = :org')
+                    ->andWhere('p.sn = :sn')
+                    ->setParameter('org', $org)
+                    ->setParameter('sn', $sn)
+                    ->getQuery()
+                    ->getOneOrNullResult()
+                ;
+    }
+
 //    /**
 //     * @return Product[] Returns an array of Product objects
 //     */
