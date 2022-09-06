@@ -39,12 +39,16 @@ class Restaurant
     #[ORM\Column]
     private ?int $voucher = null;
 
+    #[ORM\OneToMany(mappedBy: 'restaurant', targetEntity: Withdraw::class)]
+    private Collection $withdraws;
+
     public function __construct()
     {
         $this->orderStores = new ArrayCollection();
         $this->productRestaurants = new ArrayCollection();
         $this->orderRestaurants = new ArrayCollection();
         $this->voucher = 0;
+        $this->withdraws = new ArrayCollection();
     }
 
     public function __toString()
@@ -203,6 +207,36 @@ class Restaurant
     public function setVoucher(int $voucher): self
     {
         $this->voucher = $voucher;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Withdraw>
+     */
+    public function getWithdraws(): Collection
+    {
+        return $this->withdraws;
+    }
+
+    public function addWithdraw(Withdraw $withdraw): self
+    {
+        if (!$this->withdraws->contains($withdraw)) {
+            $this->withdraws->add($withdraw);
+            $withdraw->setRestaurant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWithdraw(Withdraw $withdraw): self
+    {
+        if ($this->withdraws->removeElement($withdraw)) {
+            // set the owning side to null (unless already changed)
+            if ($withdraw->getRestaurant() === $this) {
+                $withdraw->setRestaurant(null);
+            }
+        }
 
         return $this;
     }

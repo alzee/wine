@@ -25,6 +25,7 @@ use App\Entity\Org;
 use App\Entity\Orders;
 use App\Entity\Returns;
 use App\Entity\Consumer;
+use App\Entity\Withdraw;
 
 class DashboardController extends AbstractDashboardController
 {
@@ -73,6 +74,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Restaurant', 'fas fa-utensils', Restaurant::class);
         yield MenuItem::linkToCrud('Voucher', 'fas fa-money-bill', Voucher::class);
         yield MenuItem::linkToCrud('OrderRestaurant', 'fas fa-list', OrderRestaurant::class);
+        yield MenuItem::linkToCrud('Withdraw', 'fas fa-list', Withdraw::class);
         yield MenuItem::linkToCrud('Returns', 'fas fa-cart-arrow-down', Returns::class);
         yield MenuItem::linkToCrud('Consumer', 'fas fa-users', Consumer::class);
         yield MenuItem::linkToCrud('User', 'fas fa-user', User::class);
