@@ -38,6 +38,9 @@ class Order
     #[ORM\Column]
     private ?int $voucher = null;
 
+    #[ORM\Column(type: Types::ARRAY)]
+    private array $status = ['Pending', 'Success'];
+
     public function __construct()
     {
         $this->date = new \DateTimeImmutable();
@@ -131,6 +134,18 @@ class Order
     public function setVoucher(int $voucher): self
     {
         $this->voucher = $voucher;
+
+        return $this;
+    }
+
+    public function getStatus(): array
+    {
+        return $this->status;
+    }
+
+    public function setStatus(array $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

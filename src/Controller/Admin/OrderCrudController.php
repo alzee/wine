@@ -9,6 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 
 class OrderCrudController extends AbstractCrudController
 {
@@ -28,6 +29,7 @@ class OrderCrudController extends AbstractCrudController
             IntegerField::new('price')->onlyOnIndex(),
             IntegerField::new('amount')->onlyOnIndex(),
             IntegerField::new('voucher')->onlyOnIndex(),
+            // ArrayField::new('status')->onlyOnIndex(),
         ];
     }
 }
