@@ -18,7 +18,7 @@ class OrderRestaurant
     private ?string $orderNo = null;
 
     #[ORM\Column]
-    private ?int $price = null;
+    private ?int $amount = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
@@ -56,14 +56,14 @@ class OrderRestaurant
         return $this;
     }
 
-    public function getPrice(): ?int
+    public function getAmount(): ?int
     {
-        return $this->price;
+        return $this->amount;
     }
 
-    public function setPrice(int $price): self
+    public function setAmount(int $amount): self
     {
-        $this->price = $price;
+        $this->amount = $amount;
 
         return $this;
     }

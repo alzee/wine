@@ -26,7 +26,7 @@ class OrderRestaurantCrudController extends AbstractCrudController
             IdField::new('id')->onlyOnIndex(),
             AssociationField::new('restaurant'),
             TextField::new('orderNo'),
-            IntegerField::new('price'),
+            IntegerField::new('amount'),
             IntegerField::new('voucher'),
             AssociationField::new('consumer'),
         ];
