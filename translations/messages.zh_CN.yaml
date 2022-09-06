@@ -32,6 +32,7 @@ Order No: 餐厅订单号
 District: 区域
 Status: 状态
 Pending: 待处理
+Cancelled: 已取消
 Success: 成功
 Orders: 订单
 Org: 机构
@@ -40,3 +41,5 @@ Consumer: 顾客
 Type: 类型
 Seller: 发货方
 Buyer: 请货方
+Head2Agency: 代理商订货
+Agency2Store: 门店订货
