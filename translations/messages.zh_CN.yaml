@@ -15,6 +15,7 @@ Voucher: 代金券
 User: 用户
 Quantity: 数量
 Price: 单价
+Amount: 金额
 Date: 日期
 Stock: 库存
 Name: 名称
@@ -28,3 +29,4 @@ Username: 用户名
 Password: 密码
 Roles: 角色
 Order No: 餐厅订单号
+District: 区域

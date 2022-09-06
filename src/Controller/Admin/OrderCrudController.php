@@ -4,6 +4,11 @@ namespace App\Controller\Admin;
 
 use App\Entity\Order;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 
 class OrderCrudController extends AbstractCrudController
 {
@@ -12,14 +17,16 @@ class OrderCrudController extends AbstractCrudController
         return Order::class;
     }
 
-    /*
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
+            IdField::new('id')->onlyOnIndex(),
+            // ChoiceField::new('product'),
+            AssociationField::new('agency'),
+            AssociationField::new('product'),
+            IntegerField::new('price'),
+            IntegerField::new('quantity'),
+            IntegerField::new('amount'),
         ];
     }
-    */
 }

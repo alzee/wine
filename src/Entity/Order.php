@@ -32,6 +32,17 @@ class Order
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
+    #[ORM\Column]
+    private ?int $amount = null;
+
+    #[ORM\Column]
+    private ?int $voucher = null;
+
+    public function __construct()
+    {
+        $this->date = new \DateTimeImmutable();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -93,6 +104,30 @@ class Order
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    public function getAmount(): ?int
+    {
+        return $this->amount;
+    }
+
+    public function setAmount(int $amount): self
+    {
+        $this->amount = $amount;
+
+        return $this;
+    }
+
+    public function getVoucher(): ?int
+    {
+        return $this->voucher;
+    }
+
+    public function setVoucher(int $voucher): self
+    {
+        $this->voucher = $voucher;
 
         return $this;
     }
