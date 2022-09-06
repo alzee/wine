@@ -1,4 +1,7 @@
-withdraw
+event for withdraw status 5
+returns:
+  - configure fields
+  - event for status 5
 
 role:
   - admin
