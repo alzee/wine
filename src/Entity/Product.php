@@ -43,6 +43,9 @@ class Product
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductRestaurant::class)]
     private Collection $productRestaurants;
 
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $voucher = null;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
@@ -232,6 +235,18 @@ class Product
                 $productRestaurant->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getVoucher(): ?int
+    {
+        return $this->voucher;
+    }
+
+    public function setVoucher(int $voucher): self
+    {
+        $this->voucher = $voucher;
 
         return $this;
     }
