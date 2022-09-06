@@ -1,7 +1,3 @@
-withdraw:
-  - event for withdraw status 5
-  - discount?
-
 returns:
   - configure fields
   - event for status 5

@@ -23,7 +23,7 @@ class OrdersUpdate
         $status = $order->getStatus();
 
         if (isset($changeSet['status'])) {
-            if ($status != 6) {
+            if ($status == 5) {
                 $seller_product = $order->getProduct();
                 $sn = $seller_product->getSn();
                 $seller = $order->getSeller();
