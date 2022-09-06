@@ -1,4 +1,6 @@
-门店不提现？
+questions:
+  - 门店不提现？
+  - 请货数量限制
 
 role:
   - admin
@@ -14,8 +16,6 @@ voucher_agency
 voucher_store
 voucher_restaurant
 
-
-请货数量限制
 voucher 以钱包的形式
 
 status:
