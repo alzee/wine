@@ -12,6 +12,7 @@ Agency: 代理商
 Store: 门店
 Restaurant: 餐厅
 Voucher: 代金券
+Voucher.detail: 代金券明细
 User: 用户
 Quantity: 数量
 Price: 单价
@@ -36,7 +37,7 @@ Cancelled: 已取消
 Success: 已完成
 Orders: 订单
 Org: 机构
-Returns: 退货
+Returns: 退货申请
 Consumer: 顾客
 Type: 类型
 Seller: 发货方
