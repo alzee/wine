@@ -49,6 +49,7 @@ class VoucherCrudController extends AbstractCrudController
             AssociationField::new('org'),
             MoneyField::new('voucher')->setCurrency('CNY'),
             ChoiceField::new('type')->setChoices($types),
+            TextField::new('note'),
             DateTimeField::new('date')->HideOnForm(),
         ];
     }
