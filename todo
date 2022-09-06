@@ -1,3 +1,5 @@
+withdraw
+
 role:
   - admin
   - agency
@@ -5,7 +7,6 @@ role:
 order/return:
   - 0 head_agency
   - 1 agency_store
-consumer
 
 finance
 
