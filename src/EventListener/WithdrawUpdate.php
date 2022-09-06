@@ -13,6 +13,7 @@ use App\Entity\Orders;
 use App\Entity\Product;
 use App\Entity\Org;
 use App\Entity\Withdraw;
+use App\Entity\Voucher;
 
 class WithdrawUpdate
 {
@@ -37,8 +38,27 @@ class WithdrawUpdate
                     // $agency = '';
                     // $agency->setVoucher($agency->getVoucher() - $amount);
                 }
+
+                // voucher record for applicant
+                $record = new Voucher();
+                $record ->setOrg($applicant);
+                $record->setVoucher(-$amount);
+                $type = match ($applicant->getType()) {
+                    1 => 14,
+                    2 => 15,
+                };
+                $record->setType($type);
+                $em->persist($record);
+
+                // voucher record for reviewer
+                // $record = new Voucher();
+                // $record ->setOrg($reviewer);
+                // $record->setVoucher($amount);
+                // $record->setType($type - 10);
+                // $em->persist($record);
+
+                $em->flush();
             }
-            $em->flush();
         }
 
     }
