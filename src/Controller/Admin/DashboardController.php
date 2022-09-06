@@ -23,6 +23,8 @@ use App\Entity\Restaurant;
 use App\Entity\User;
 use App\Entity\Org;
 use App\Entity\Orders;
+use App\Entity\Returns;
+use App\Entity\Consumer;
 
 class DashboardController extends AbstractDashboardController
 {
