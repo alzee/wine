@@ -13,6 +13,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 
 class ProductCrudController extends AbstractCrudController
 {
@@ -27,9 +28,9 @@ class ProductCrudController extends AbstractCrudController
             IdField::new('id')->onlyOnIndex(),
             TextField::new('name'),
             TextField::new('spec'),
-            IntegerField::new('price'),
+            MoneyField::new('price')->setCurrency('CNY'),
             IntegerField::new('stock'),
-            IntegerField::new('voucher'),
+            MoneyField::new('voucher')->setCurrency('CNY'),
             TextField::new('sn'),
             AssociationField::new('org'),
         ];

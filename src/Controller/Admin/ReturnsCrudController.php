@@ -12,6 +12,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 
 class ReturnsCrudController extends AbstractCrudController
 {
@@ -28,8 +29,8 @@ class ReturnsCrudController extends AbstractCrudController
             AssociationField::new('recipient'),
             AssociationField::new('product'),
             IntegerField::new('quantity'),
-            IntegerField::new('amount'),
-            IntegerField::new('voucher'),
+            MoneyField::new('amount')->setCurrency('CNY'),
+            MoneyField::new('voucher')->setCurrency('CNY'),
             ChoiceField::new('status')->setChoices(['Pending' => 0, 'Success' => 5]),
         ];
     }
