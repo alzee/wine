@@ -12,6 +12,7 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
 use App\Entity\Orders;
 use App\Entity\Product;
 use App\Entity\Org;
+use App\Entity\Voucher;
 
 class OrdersUpdate
 {
@@ -47,6 +48,27 @@ class OrdersUpdate
                 $buyer_product->setStock($buyer_product->getStock() + $quantity);
                 // buyer voucher + voucher
                 $buyer->setVoucher($buyer->getVoucher() + $voucher);
+
+
+                // voucher record for seller
+                $record = new Voucher();
+                $record ->setOrg($seller);
+                $record->setVoucher(-$voucher);
+                $type = match ($seller->getType()) {
+                    0 => 10,
+                    1 => 11,
+                    2 => 17,
+                };
+                $record->setType($type);
+                $em->persist($record);
+
+                // voucher record for buyer 
+                $record = new Voucher();
+                $record ->setOrg($buyer);
+                $record->setVoucher($voucher);
+                $record->setType($type - 10);
+                $em->persist($record);
+
                 $em->flush();
                 dump($seller_product);
                 dump($buyer_product);
