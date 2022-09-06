@@ -32,6 +32,9 @@ class OrdersUpdate
                 $voucher = $order->getVoucher();
                 // seller stock - quantity
                 $seller_product->setStock($seller_product->getStock() - $quantity);
+                // seller voucher + voucher
+                $seller->setVoucher($seller->getVoucher() - $voucher);
+                
                 // if not find this product in buyer org, create it
                 $buyer_product = $em->getRepository(Product::class)->findOneByOrgAndSN($buyer, $sn);
                 if (is_null($buyer_product)) {
