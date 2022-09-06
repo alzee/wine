@@ -29,6 +29,11 @@ class Consumer
         $this->orderRestaurants = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->openid;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
