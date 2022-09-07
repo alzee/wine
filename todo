@@ -1,11 +1,6 @@
 门店销售
 product name + org name when create new orders
 
-org:
-  - add type 'consumers'
-voucher:
-  - note
-
 questions:
   - 门店不提现？
   - 请货数量是否作限制？
