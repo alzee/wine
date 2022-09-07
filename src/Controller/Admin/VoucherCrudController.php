@@ -47,6 +47,7 @@ class VoucherCrudController extends AbstractCrudController
         return [
             IdField::new('id')->onlyOnIndex(),
             AssociationField::new('org'),
+            AssociationField::new('consumer'),
             MoneyField::new('voucher')->setCurrency('CNY'),
             ChoiceField::new('type')->setChoices($types),
             TextField::new('note'),

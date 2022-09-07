@@ -26,9 +26,13 @@ class Consumer
     #[ORM\OneToMany(mappedBy: 'consumer', targetEntity: OrderRestaurant::class)]
     private Collection $orderRestaurants;
 
+    #[ORM\OneToMany(mappedBy: 'consumer', targetEntity: Voucher::class)]
+    private Collection $vouchers;
+
     public function __construct()
     {
         $this->orderRestaurants = new ArrayCollection();
+        $this->vouchers = new ArrayCollection();
     }
 
     public function __toString()
@@ -89,6 +93,36 @@ class Consumer
             // set the owning side to null (unless already changed)
             if ($orderRestaurant->getConsumer() === $this) {
                 $orderRestaurant->setConsumer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Voucher>
+     */
+    public function getVouchers(): Collection
+    {
+        return $this->vouchers;
+    }
+
+    public function addVoucher(Voucher $voucher): self
+    {
+        if (!$this->vouchers->contains($voucher)) {
+            $this->vouchers->add($voucher);
+            $voucher->setConsumer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVoucher(Voucher $voucher): self
+    {
+        if ($this->vouchers->removeElement($voucher)) {
+            // set the owning side to null (unless already changed)
+            if ($voucher->getConsumer() === $this) {
+                $voucher->setConsumer(null);
             }
         }
 

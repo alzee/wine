@@ -31,6 +31,9 @@ class Voucher
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $note = null;
 
+    #[ORM\ManyToOne(inversedBy: 'vouchers')]
+    private ?Consumer $consumer = null;
+
     public function __construct()
     {
         $this->date = new \DateTime();
@@ -97,6 +100,18 @@ class Voucher
     public function setNote(?string $note): self
     {
         $this->note = $note;
+
+        return $this;
+    }
+
+    public function getConsumer(): ?Consumer
+    {
+        return $this->consumer;
+    }
+
+    public function setConsumer(?Consumer $consumer): self
+    {
+        $this->consumer = $consumer;
 
         return $this;
     }
