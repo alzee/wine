@@ -62,6 +62,9 @@ class Org
     #[ORM\OneToMany(mappedBy: 'org', targetEntity: Voucher::class)]
     private Collection $vouchers;
 
+    #[ORM\OneToMany(mappedBy: 'store', targetEntity: Retail::class)]
+    private Collection $retails;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
@@ -71,6 +74,7 @@ class Org
         $this->orderRestaurants = new ArrayCollection();
         $this->withdraws = new ArrayCollection();
         $this->vouchers = new ArrayCollection();
+        $this->retails = new ArrayCollection();
     }
 
     public function __toString()
@@ -341,6 +345,36 @@ class Org
             // set the owning side to null (unless already changed)
             if ($voucher->getOrg() === $this) {
                 $voucher->setOrg(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Retail>
+     */
+    public function getRetails(): Collection
+    {
+        return $this->retails;
+    }
+
+    public function addRetail(Retail $retail): self
+    {
+        if (!$this->retails->contains($retail)) {
+            $this->retails->add($retail);
+            $retail->setStore($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRetail(Retail $retail): self
+    {
+        if ($this->retails->removeElement($retail)) {
+            // set the owning side to null (unless already changed)
+            if ($retail->getStore() === $this) {
+                $retail->setStore(null);
             }
         }
 

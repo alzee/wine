@@ -26,6 +26,7 @@ use App\Entity\Orders;
 use App\Entity\Returns;
 use App\Entity\Consumer;
 use App\Entity\Withdraw;
+use App\Entity\Retail;
 
 class DashboardController extends AbstractDashboardController
 {
@@ -61,16 +62,17 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-chart-simple');
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
+        yield MenuItem::linkToCrud('Org', 'fas fa-building', Org::class);
         yield MenuItem::linkToCrud('Product', 'fas fa-wine-bottle', Product::class);
         //yield MenuItem::linkToCrud('ProductAgency', 'fas fa-list', ProductAgency::class);
         //yield MenuItem::linkToCrud('ProductStore', 'fas fa-list', ProductStore::class);
         //yield MenuItem::linkToCrud('ProductRestaurant', 'fas fa-list', ProductRestaurant::class);
         yield MenuItem::linkToCrud('Orders', 'fas fa-receipt', Orders::class);
+        yield MenuItem::linkToCrud('Retail', 'fas fa-receipt', Retail::class);
         //yield MenuItem::linkToCrud('OrderAgency', 'fas fa-list', OrderAgency::class);
         //yield MenuItem::linkToCrud('OrderStore', 'fas fa-list', OrderStore::class);
         //yield MenuItem::linkToCrud('Agency', 'fas fa-list', Agency::class);
         //yield MenuItem::linkToCrud('Store', 'fas fa-list', Store::class);
-        yield MenuItem::linkToCrud('Org', 'fas fa-building', Org::class);
         // yield MenuItem::linkToCrud('Restaurant', 'fas fa-utensils', Restaurant::class);
         yield MenuItem::linkToCrud('OrderRestaurant', 'fas fa-utensils', OrderRestaurant::class);
         yield MenuItem::linkToCrud('Withdraw', 'fas fa-money-bill', Withdraw::class);

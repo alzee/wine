@@ -55,6 +55,9 @@ class Product
     #[ORM\JoinColumn(nullable: false)]
     private ?Org $org = null;
 
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Retail::class)]
+    private Collection $retails;
+
     public function __construct()
     {
         $this->productAgencies = new ArrayCollection();
@@ -62,6 +65,7 @@ class Product
         $this->productRestaurants = new ArrayCollection();
         $this->orders = new ArrayCollection();
         $this->returns = new ArrayCollection();
+        $this->retails = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -304,6 +308,36 @@ class Product
     public function setOrg(?Org $org): self
     {
         $this->org = $org;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Retail>
+     */
+    public function getRetails(): Collection
+    {
+        return $this->retails;
+    }
+
+    public function addRetail(Retail $retail): self
+    {
+        if (!$this->retails->contains($retail)) {
+            $this->retails->add($retail);
+            $retail->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRetail(Retail $retail): self
+    {
+        if ($this->retails->removeElement($retail)) {
+            // set the owning side to null (unless already changed)
+            if ($retail->getProduct() === $this) {
+                $retail->setProduct(null);
+            }
+        }
 
         return $this;
     }
