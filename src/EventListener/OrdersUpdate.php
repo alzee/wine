@@ -51,7 +51,7 @@ class OrdersUpdate
 
                 // voucher record for seller
                 $record = new Voucher();
-                $record ->setOrg($seller);
+                $record->setOrg($seller);
                 $record->setVoucher(-$voucher);
                 $type = match ($seller->getType()) {
                     0 => 10,
@@ -63,14 +63,12 @@ class OrdersUpdate
 
                 // voucher record for buyer 
                 $record = new Voucher();
-                $record ->setOrg($buyer);
+                $record->setOrg($buyer);
                 $record->setVoucher($voucher);
                 $record->setType($type - 10);
                 $em->persist($record);
 
                 $em->flush();
-                dump($seller_product);
-                dump($buyer_product);
             }
         }
 

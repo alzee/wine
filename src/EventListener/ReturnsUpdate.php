@@ -44,7 +44,7 @@ class ReturnsUpdate
 
                 // voucher record for sender
                 $record = new Voucher();
-                $record ->setOrg($sender);
+                $record->setOrg($sender);
                 $record->setVoucher(-$voucher);
                 $type = match ($sender->getType()) {
                     1 => 12,
@@ -55,7 +55,7 @@ class ReturnsUpdate
 
                 // voucher record for recipient 
                 $record = new Voucher();
-                $record ->setOrg($recipient);
+                $record->setOrg($recipient);
                 $record->setVoucher($voucher);
                 $record->setType($type - 10);
                 $em->persist($record);

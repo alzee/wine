@@ -11,11 +11,14 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\OrderRestaurant;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
+use App\Entity\Voucher;
+use App\Entity\Org;
 
 class OrderRestaurantNew extends AbstractController
 {
     public function postPersist(OrderRestaurant $order, LifecycleEventArgs $event): void
     {
+        $em = $event->getEntityManager();
         // restaurant + voucher
         $resta = $order->getRestaurant();
         $voucher = $order->getVoucher();
@@ -25,7 +28,23 @@ class OrderRestaurantNew extends AbstractController
         $consumer = $order->getConsumer();
         $consumer->setVoucher($consumer->getVoucher() - $voucher);
 
-        $em = $event->getEntityManager();
+        // voucher record for consumer
+        $record = new Voucher();
+        $consumers = $em->getRepository(Org::class)->findOneByType(4);
+        $record->setOrg($consumers);
+        $record->setConsumer($consumer);
+        $record->setVoucher(-$voucher);
+        $type = 16;
+        $record->setType($type);
+        $em->persist($record);
+
+        // voucher record for restaurant
+        $record = new Voucher();
+        $record->setOrg($resta);
+        $record->setVoucher($voucher);
+        $record->setType($type - 10);
+        $em->persist($record);
+
         $em->flush();
     }
 }

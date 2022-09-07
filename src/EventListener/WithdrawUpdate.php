@@ -41,7 +41,7 @@ class WithdrawUpdate
 
                 // voucher record for applicant
                 $record = new Voucher();
-                $record ->setOrg($applicant);
+                $record->setOrg($applicant);
                 $record->setVoucher(-$amount);
                 $type = match ($applicant->getType()) {
                     1 => 14,
@@ -52,7 +52,7 @@ class WithdrawUpdate
 
                 // voucher record for reviewer
                 // $record = new Voucher();
-                // $record ->setOrg($reviewer);
+                // $record->setOrg($reviewer);
                 // $record->setVoucher($amount);
                 // $record->setType($type - 10);
                 // $em->persist($record);
