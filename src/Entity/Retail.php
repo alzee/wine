@@ -5,8 +5,10 @@ namespace App\Entity;
 use App\Repository\RetailRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 #[ORM\Entity(repositoryClass: RetailRepository::class)]
+#[ApiResource]
 class Retail
 {
     #[ORM\Id]
