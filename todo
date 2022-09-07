@@ -1,4 +1,7 @@
 product name + org name when create new orders
+门店进货后整件商品打散？
+
+orders/returns/retial multiple product?
 
 orders/returns/retail:
   - amount/voucher compute
