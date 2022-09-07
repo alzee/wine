@@ -32,6 +32,9 @@ class Withdraw
     #[ORM\Column]
     private ?float $discount = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $note = null;
+
     public function __construct()
     {
         $this->date = new \DateTime();
@@ -99,6 +102,18 @@ class Withdraw
     public function setDiscount(float $discount): self
     {
         $this->discount = $discount;
+
+        return $this;
+    }
+
+    public function getNote(): ?string
+    {
+        return $this->note;
+    }
+
+    public function setNote(?string $note): self
+    {
+        $this->note = $note;
 
         return $this;
     }

@@ -1,4 +1,5 @@
 门店销售
+product name + org name when create new orders
 
 org:
   - add type 'consumers'

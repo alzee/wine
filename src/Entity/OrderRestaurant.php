@@ -36,6 +36,9 @@ class OrderRestaurant
     #[ORM\JoinColumn(nullable: false)]
     private ?Org $restaurant = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $note = null;
+
     public function __construct()
     {
         $this->date = new \DateTime();
@@ -114,6 +117,18 @@ class OrderRestaurant
     public function setRestaurant(?Org $restaurant): self
     {
         $this->restaurant = $restaurant;
+
+        return $this;
+    }
+
+    public function getNote(): ?string
+    {
+        return $this->note;
+    }
+
+    public function setNote(?string $note): self
+    {
+        $this->note = $note;
 
         return $this;
     }
