@@ -58,3 +58,9 @@ services:
                 event: 'postPersist'
                 entity: 'App\Entity\Retail'
 
+    App\EventListener\UserNew:
+        tags:
+            -
+                name: 'doctrine.orm.entity_listener'
+                event: 'postPersist'
+                entity: 'App\Entity\User'

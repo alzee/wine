@@ -11,10 +11,6 @@ questions:
   - 请货数量是否作限制？
   - 门店是否和代理商有对应关系？是否可以跨区域请货？
 
-role:
-  - admin
-  - agency
-  - store
 order/return:
   - 0 head_agency
   - 1 agency_store
