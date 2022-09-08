@@ -1,3 +1,6 @@
+顾客 手机号 姓名
+
+订货/退货 谁发起？
 门店进货后整件商品打散？
 orders/returns/retial multiple product?
 
@@ -6,7 +9,6 @@ orders/returns/retail:
 
 questions:
   - 门店不提现？
-  - 请货数量是否作限制？
   - 门店是否和代理商有对应关系？是否可以跨区域请货？
 
 order/return:
