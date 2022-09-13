@@ -62,6 +62,16 @@ class OrgRepository extends ServiceEntityRepository
                 ;
     }
 
+    public function findOneById($value): ?Org
+    {
+        return $this->createQueryBuilder('o')
+                    ->andWhere('o.id = :id')
+                    ->setParameter('id', $value)
+                    ->getQuery()
+                    ->getOneOrNullResult()
+                ;
+    }
+
 //    /**
 //     * @return Org[] Returns an array of Org objects
 //     */
