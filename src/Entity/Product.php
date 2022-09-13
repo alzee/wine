@@ -42,7 +42,7 @@ class Product
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductRestaurant::class)]
     private Collection $productRestaurants;
 
-    #[ORM\Column(type: Types::SMALLINT)]
+    #[ORM\Column]
     private ?int $voucher = null;
 
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: Orders::class)]
