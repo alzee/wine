@@ -68,6 +68,9 @@ class Org
     #[ORM\OneToMany(mappedBy: 'org', targetEntity: User::class)]
     private Collection $users;
 
+    #[ORM\ManyToOne(targetEntity: self::class)]
+    private ?self $upstream = null;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
@@ -411,6 +414,18 @@ class Org
                 $user->setOrg(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUpstream(): ?self
+    {
+        return $this->upstream;
+    }
+
+    public function setUpstream(?self $upstream): self
+    {
+        $this->upstream = $upstream;
 
         return $this;
     }
