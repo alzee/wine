@@ -37,13 +37,6 @@ class Orders
     #[ORM\Column]
     private ?int $voucher = null;
 
-    /**
-     * 0 head_agency
-     * 1 agency_store
-     */
-    #[ORM\Column(type: Types::SMALLINT)]
-    private ?int $type = null;
-
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $status = null;
 
@@ -131,18 +124,6 @@ class Orders
     public function setVoucher(int $voucher): self
     {
         $this->voucher = $voucher;
-
-        return $this;
-    }
-
-    public function getType(): ?int
-    {
-        return $this->type;
-    }
-
-    public function setType(int $type): self
-    {
-        $this->type = $type;
 
         return $this;
     }
