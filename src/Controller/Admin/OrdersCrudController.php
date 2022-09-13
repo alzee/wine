@@ -25,14 +25,30 @@ class OrdersCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        $userOrgType = 0;
+        // $user = $this->getUser();
+        // $roles = $user->getRoles();
+        if ($this->isGranted('ROLE_HEAD')) {
+            $userOrgType = 0;
+            $upStreamOrgType = 0;
+            $downStreamOrgType = 1;
+        }
+        if ($this->isGranted('ROLE_AGENCY')) {
+            $userOrgType = 1;
+            $upStreamOrgType = 0;
+            $downStreamOrgType = 1;
+        }
+        if ($this->isGranted('ROLE_STORE')) {
+            $userOrgType = 2;
+            $upStreamOrgType = 1;
+            $downStreamOrgType = 2;
+        }
         return [
             IdField::new('id')->onlyOnIndex(),
             AssociationField::new('seller')->setQueryBuilder(
-                fn (QueryBuilder $qb) => $qb->andWhere('entity.type = :type')->setParameter('type', 0)
+                fn (QueryBuilder $qb) => $qb->andWhere('entity.type = :type')->setParameter('type', $upStreamOrgType)
             ),
             AssociationField::new('buyer')->setQueryBuilder(
-                fn (QueryBuilder $qb) => $qb->andWhere('entity.type = :type')->setParameter('type', 1)
+                fn (QueryBuilder $qb) => $qb->andWhere('entity.type = :type')->setParameter('type', $downStreamOrgType)
             ),
             AssociationField::new('product'),
             IntegerField::new('quantity'),
