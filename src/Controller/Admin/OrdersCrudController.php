@@ -25,22 +25,26 @@ class OrdersCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        // $user = $this->getUser();
-        // $roles = $user->getRoles();
+        $user = $this->getUser();
+        dump($user->getOrg());
+        $roles = $user->getRoles();
         if ($this->isGranted('ROLE_HEAD')) {
             $userOrgType = 0;
             $upStreamOrgType = 0;
             $downStreamOrgType = 1;
+            $seller = $user->getOrg();
         }
         if ($this->isGranted('ROLE_AGENCY')) {
             $userOrgType = 1;
             $upStreamOrgType = 0;
             $downStreamOrgType = 1;
+            $seller = 5;
         }
         if ($this->isGranted('ROLE_STORE')) {
             $userOrgType = 2;
             $upStreamOrgType = 1;
             $downStreamOrgType = 2;
+            $seller = 3;
         }
         return [
             IdField::new('id')->onlyOnIndex(),
@@ -48,9 +52,12 @@ class OrdersCrudController extends AbstractCrudController
                 fn (QueryBuilder $qb) => $qb->andWhere('entity.type = :type')->setParameter('type', $upStreamOrgType)
             ),
             AssociationField::new('buyer')->setQueryBuilder(
-                fn (QueryBuilder $qb) => $qb->andWhere('entity.type = :type')->setParameter('type', $downStreamOrgType)
+                // fn (QueryBuilder $qb) => $qb->andWhere('entity.type = :type')->setParameter('type', $downStreamOrgType)
+                fn (QueryBuilder $qb) => $qb->andWhere('entity.id = :id')->setParameter('id', $user->getOrg())
             ),
-            AssociationField::new('product'),
+            AssociationField::new('product')->setQueryBuilder(
+                fn (QueryBuilder $qb) => $qb->andWhere('entity.org = :org')->setParameter('org', $seller)
+            ),
             IntegerField::new('quantity'),
             MoneyField::new('amount')->setCurrency('CNY'),
             MoneyField::new('voucher')->setCurrency('CNY'),
