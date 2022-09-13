@@ -15,9 +15,19 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use Doctrine\ORM\QueryBuilder;
+use App\Entity\Org;
+use App\Entity\Product;
+use Doctrine\Persistence\ManagerRegistry;
 
 class OrdersCrudController extends AbstractCrudController
 {
+    private $doctrine;
+
+    public function __construct(ManagerRegistry $doctrine)
+    {
+        $this->doctrine = $doctrine;
+    }
+
     public static function getEntityFqcn(): string
     {
         return Orders::class;
@@ -25,31 +35,36 @@ class OrdersCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        $prod = $this->doctrine->getRepository(Product::class)->find(1);
+        $org = $this->doctrine->getRepository(Org::class)->find($prod->getOrg());
         $user = $this->getUser();
-        dump($user->getOrg());
+        $userOrg = $this->doctrine->getRepository(Org::class)->find($user->getOrg());
+        dump($prod);
+        dump($org);
+        dump($userOrg);
         $roles = $user->getRoles();
         if ($this->isGranted('ROLE_HEAD')) {
-            $userOrgType = 0;
             $upStreamOrgType = 0;
             $downStreamOrgType = 1;
-            $seller = $user->getOrg();
+            $seller = $this->doctrine->getRepository(Org::class)->findOneByType(0);
         }
         if ($this->isGranted('ROLE_AGENCY')) {
-            $userOrgType = 1;
             $upStreamOrgType = 0;
             $downStreamOrgType = 1;
-            $seller = 5;
+            $seller = $this->doctrine->getRepository(Org::class)->findOneByType(0);
         }
         if ($this->isGranted('ROLE_STORE')) {
-            $userOrgType = 2;
             $upStreamOrgType = 1;
             $downStreamOrgType = 2;
-            $seller = 3;
+            $userOrg = $this->doctrine->getRepository(Org::class)->find($user->getOrg());
+            // $seller = $this->doctrine->getRepository(Org::class)->find($userOrg->getUpstream());
+            $seller = $this->doctrine->getRepository(Org::class)->find($userOrg);
         }
         return [
             IdField::new('id')->onlyOnIndex(),
             AssociationField::new('seller')->setQueryBuilder(
-                fn (QueryBuilder $qb) => $qb->andWhere('entity.type = :type')->setParameter('type', $upStreamOrgType)
+                // fn (QueryBuilder $qb) => $qb->andWhere('entity.type = :type')->setParameter('type', $upStreamOrgType)
+                fn (QueryBuilder $qb) => $qb->andWhere('entity.id = :id')->setParameter('id', $seller)
             ),
             AssociationField::new('buyer')->setQueryBuilder(
                 // fn (QueryBuilder $qb) => $qb->andWhere('entity.type = :type')->setParameter('type', $downStreamOrgType)
