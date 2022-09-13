@@ -14,6 +14,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
+use Doctrine\ORM\QueryBuilder;
 
 class OrdersCrudController extends AbstractCrudController
 {
@@ -24,10 +25,15 @@ class OrdersCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        $userOrgType = 0;
         return [
             IdField::new('id')->onlyOnIndex(),
-            AssociationField::new('seller'),
-            AssociationField::new('buyer'),
+            AssociationField::new('seller')->setQueryBuilder(
+                fn (QueryBuilder $qb) => $qb->andWhere('entity.type = :type')->setParameter('type', 0)
+            ),
+            AssociationField::new('buyer')->setQueryBuilder(
+                fn (QueryBuilder $qb) => $qb->andWhere('entity.type = :type')->setParameter('type', 1)
+            ),
             AssociationField::new('product'),
             IntegerField::new('quantity'),
             MoneyField::new('amount')->setCurrency('CNY'),
