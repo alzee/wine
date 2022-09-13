@@ -1,3 +1,5 @@
+chart
+
 顾客 手机号 姓名
 
 订货/退货 谁发起？
@@ -10,12 +12,6 @@ orders/returns/retail:
 questions:
   - 门店不提现？
   - 门店是否和代理商有对应关系？是否可以跨区域请货？
-
-order/return:
-  - 0 head_agency
-  - 1 agency_store
-
-finance
 
 voucher 以钱包的形式
 
