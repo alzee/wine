@@ -54,7 +54,6 @@ class OrdersCrudController extends AbstractCrudController
             IntegerField::new('quantity'),
             MoneyField::new('amount')->setCurrency('CNY'),
             MoneyField::new('voucher')->setCurrency('CNY'),
-            ChoiceField::new('type')->setChoices(['Head2Agency' => 1, 'Agency2Store' => 2]),
             ChoiceField::new('status')->setChoices(['Pending' => 0, 'Cancelled' => 4, 'Success' => 5]),
             TextareaField::new('note'),
         ];
