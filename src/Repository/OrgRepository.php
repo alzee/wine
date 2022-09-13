@@ -39,6 +39,19 @@ class OrgRepository extends ServiceEntityRepository
         }
     }
 
+    public function findByType($type): array
+    {
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.type = :type')
+            ->setParameter('type', $type)
+            ->orderBy('o.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    // Mainly for consumers type
     public function findOneByType($value): ?Org
     {
         return $this->createQueryBuilder('o')
