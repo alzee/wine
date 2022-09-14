@@ -5,6 +5,8 @@ orders/returns/retail:
 
 get entity in configureFields?
 have to use setTimeout() in js?
+why repo->find(1) give uninitialized?
+
 订货/退货 谁发起？
 门店进货后整件商品打散？
 
