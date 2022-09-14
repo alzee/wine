@@ -18,10 +18,17 @@ use Doctrine\ORM\QueryBuilder;
 use App\Entity\Org;
 use App\Entity\Product;
 use Doctrine\Persistence\ManagerRegistry;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
+use EasyCorp\Bundle\EasyAdminBundle\Config\KeyValueStore;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class OrdersCrudController extends AbstractCrudController
 {
     private $doctrine;
+
+    private $statuses = ['Pending' => 0, 'Cancelled' => 4, 'Success' => 5];
 
     public function __construct(ManagerRegistry $doctrine)
     {
@@ -62,8 +69,19 @@ class OrdersCrudController extends AbstractCrudController
             IntegerField::new('quantity'),
             MoneyField::new('amount')->setCurrency('CNY'),
             MoneyField::new('voucher')->setCurrency('CNY'),
-            ChoiceField::new('status')->setChoices(['Pending' => 0, 'Cancelled' => 4, 'Success' => 5]),
+            ChoiceField::new('status')->setChoices($this->statuses),
             TextareaField::new('note'),
         ];
+    }
+
+    public function createEditForm(EntityDto $entityDto, KeyValueStore $formOptions, AdminContext $context): FormInterface
+    {
+        $b = $this->createEditFormBuilder($entityDto, $formOptions, $context);
+        $f = $b->getForm();
+        if ($f->get('status')->getData() > 3) {
+            $b->add('status', ChoiceType::class, ['choices' => $this->statuses, 'disabled' => 'disabled']);
+            $f = $b->getForm();
+        }
+        return $f;
     }
 }
