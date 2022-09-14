@@ -38,12 +38,12 @@ class OrgCrudController extends AbstractCrudController
             TelephoneField::new('phone'),
             TextField::new('address'),
             TextField::new('district'),
-            ChoiceField::new('type')->setChoices(['Head' => 0, 'Agency' => 1, 'Store' => 2, 'Restaurant' => 3, 'Consumer' => 4])->hideWhenCreating(),
+            ChoiceField::new('type')->setChoices(['Head' => 0, 'Agency' => 1, 'Store' => 2, 'Restaurant' => 3, 'Consumer' => 4])->hideWhenCreating()->setFormTypeOptions(['disabled' => 'disabled']),
             ChoiceField::new('type')->setChoices(['Agency' => 1, 'Store' => 2, 'Restaurant' => 3])->onlyWhenCreating(),
             AssociationField::new('upstream')->setQueryBuilder(
                 fn (QueryBuilder $qb) => $qb->andWhere('entity.type = :type')->setParameter('type', 1)
             )->onlyOnForms()->addCssClass("upstream $isHidden"),
-            MoneyField::new('voucher')->setCurrency('CNY'),
+            MoneyField::new('voucher')->setCurrency('CNY')->setFormTypeOptions(['disabled' => 'disabled']),
         ];
     }
 
