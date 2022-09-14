@@ -37,8 +37,8 @@ class DashboardController extends AbstractDashboardController
 
         // Option 1. You can make your dashboard redirect to some common page of your backend
         //
-        $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
-        return $this->redirect($adminUrlGenerator->setController(ProductCrudController::class)->generateUrl());
+        // $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
+        // return $this->redirect($adminUrlGenerator->setController(ProductCrudController::class)->generateUrl());
 
         // Option 2. You can make your dashboard redirect to different pages depending on the user
         //
@@ -50,6 +50,19 @@ class DashboardController extends AbstractDashboardController
         // (tip: it's easier if your template extends from @EasyAdmin/page/content.html.twig)
         //
         // return $this->render('some/path/my-dashboard.html.twig');
+        $data = [
+          'countTrainees' => 5,
+          'countCheckins' => 5,
+          'countShouldCome' => 5,
+          'countPartyMembers' => 5,
+          'countSoldiers' => 5,
+          'countTrainings' => 5,
+          'countFaces' => 5,
+          'areaPeople' => 5,
+          'ageGroup' => 5,
+          'degreeGroup' => 5,
+        ];
+        return $this->render('dashboard.html.twig', $data);
     }
 
     public function configureDashboard(): Dashboard

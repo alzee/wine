@@ -1,0 +1,41 @@
+{% extends '@!EasyAdmin/page/content.html.twig' %}
+
+{% block content %}
+<div class="content mt-4">
+  <div class="badge d-flex justify-content-between">
+    <div class="bg-success text-light p-3 px-5 h4 rounded">
+      <p>代理商</p>
+      <p class="m-0" id="countTrainees" data-count="{{countTrainees}}">{{countTrainees}}</p>
+    </div>
+    <div class="bg-primary text-light p-3 px-5 h4 rounded">
+      <p>门店</p>
+      <p class="m-0">{{countFaces}}</p>
+    </div>
+    <div class="bg-info text-light p-3 px-5 h4 rounded">
+      <p>合作餐厅</p>
+      <p class="m-0">{{countTrainings}}</p>
+    </div>
+    <div class="bg-danger text-light p-3 px-5 h4 rounded">
+      <p>顾客</p>
+      <p class="m-0" id="countCheckins">{{countCheckins}}</p>
+    </div>
+  </div>
+
+  <div class="chart-container" id="area">
+    <h3>订单统计</h3>
+    {% for k,v in areaPeople %}
+    <i class="areaPeople d-none" data-area="{{k}}" data-people="{{v}}"></i>
+    {% endfor %}
+    <canvas id="chart1"></canvas>
+  </div>
+
+  <div class="chart-container" id="area">
+    <h3>销售统计</h3>
+    {% for k,v in areaPeople %}
+    <i class="areaPeople d-none" data-area="{{k}}" data-people="{{v}}"></i>
+    {% endfor %}
+    <canvas id="chart1"></canvas>
+  </div>
+
+</div>
+{% endblock content %}
