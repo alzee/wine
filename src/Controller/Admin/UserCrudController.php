@@ -11,6 +11,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 
 class UserCrudController extends AbstractCrudController
 {
@@ -25,7 +27,15 @@ class UserCrudController extends AbstractCrudController
             IdField::new('id')->onlyOnIndex(),
             AssociationField::new('org'),
             TextField::new('username'),
-            TextField::new('password')->onlyOnForms(),
+            TextField::new('password')->onlyOnForms()
+                                      ->setFormTypeOptions([
+                                          'type' => PasswordType::class,
+                                          'first_options' => ['label' => 'Password'],
+                                          'second_options' => ['label' => 'Repeat password'],
+                                      ])
+                                      ->setFormType(RepeatedType::class)
+                                      ,
+
         ];
     }
 }
