@@ -14,6 +14,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use Doctrine\ORM\QueryBuilder;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 
 class OrgCrudController extends AbstractCrudController
 {
@@ -21,9 +23,14 @@ class OrgCrudController extends AbstractCrudController
     {
         return Org::class;
     }
-
     public function configureFields(string $pageName): iterable
     {
+        // If current editing entity's type == 2 (store)
+        if (1) {
+            $isHidden = '';
+        } else {
+            $isHidden = 'd-none';
+        }
         return [
             IdField::new('id')->onlyOnIndex(),
             TextField::new('name'),
@@ -34,8 +41,15 @@ class OrgCrudController extends AbstractCrudController
             ChoiceField::new('type')->setChoices(['Head' => 0, 'Agency' => 1, 'Store' => 2, 'Restaurant' => 3, 'Consumer' => 4]),
             AssociationField::new('upstream')->setQueryBuilder(
                 fn (QueryBuilder $qb) => $qb->andWhere('entity.type = :type')->setParameter('type', 1)
-            ),
+            )->onlyOnForms()->addCssClass("upstream $isHidden"),
             MoneyField::new('voucher')->setCurrency('CNY'),
         ];
+    }
+
+    public function configureAssets(Assets $assets): Assets
+    {
+        return $assets
+            ->addJsFile('js/z.js')
+        ;
     }
 }
