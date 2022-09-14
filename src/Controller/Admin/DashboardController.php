@@ -27,9 +27,18 @@ use App\Entity\Returns;
 use App\Entity\Consumer;
 use App\Entity\Withdraw;
 use App\Entity\Retail;
+use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
+use Symfony\UX\Chartjs\Model\Chart;
 
 class DashboardController extends AbstractDashboardController
 {
+    private $chartBuilder;
+
+    public function __construct(ChartBuilderInterface $chartBuilder)
+    {
+      $this->chartBuilder = $chartBuilder;
+    }
+
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
@@ -50,17 +59,36 @@ class DashboardController extends AbstractDashboardController
         // (tip: it's easier if your template extends from @EasyAdmin/page/content.html.twig)
         //
         // return $this->render('some/path/my-dashboard.html.twig');
+        
+        $chart = $this->chartBuilder->createChart(Chart::TYPE_LINE);
+
+        $chart->setData([
+            'labels' => ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            'datasets' => [
+                [
+                    'label' => 'My First dataset',
+                    'backgroundColor' => 'rgb(255, 99, 132)',
+                    'borderColor' => 'rgb(255, 99, 132)',
+                    'data' => [0, 10, 5, 2, 20, 30, 45],
+                ],
+            ],
+        ]);
+
+        $chart->setOptions([
+            'scales' => [
+                'y' => [
+                    'suggestedMin' => 0,
+                    'suggestedMax' => 100,
+                ],
+            ],
+        ]);
+
         $data = [
-          'countTrainees' => 5,
-          'countCheckins' => 5,
-          'countShouldCome' => 5,
-          'countPartyMembers' => 5,
-          'countSoldiers' => 5,
-          'countTrainings' => 5,
-          'countFaces' => 5,
-          'areaPeople' => 5,
-          'ageGroup' => 5,
-          'degreeGroup' => 5,
+          'countAgencies' => 5,
+          'countStroes' => 5,
+          'countRestaurants' => 5,
+          'countConsumers' => 5,
+          'chart' => $chart
         ];
         return $this->render('dashboard.html.twig', $data);
     }
