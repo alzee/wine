@@ -16,6 +16,19 @@ use App\Entity\Org;
 
 class UserNew extends AbstractController
 {
+    private $hasher;
+
+    public function __construct(UserPasswordHasherInterface $hasher)
+    {
+        $this->hasher = $hasher;
+    }
+
+    public function prePersist(User $user, LifecycleEventArgs $event): void
+    {
+        $user->setPassword($this->hasher->hashPassword($user, $user->getPlainPassword()));
+        $user->eraseCredentials();
+    }
+
     public function postPersist(User $user, LifecycleEventArgs $event): void
     {
         $em = $event->getEntityManager();
@@ -28,6 +41,7 @@ class UserNew extends AbstractController
         };
 
         $user->setRoles(['ROLE_' . $role]);
+
 
         $em->flush();
     }
