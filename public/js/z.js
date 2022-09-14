@@ -1,7 +1,23 @@
 console.log('hi, z');
 
-let type = document.querySelector('#Org_type-ts-control');
-if (type.firstChild.dataset.value == '2') {
+setTimeout(() => {
+    let item = document.querySelector('#Org_type-ts-control .item');
     let upstream = document.querySelector('.upstream');
-    upstream.classList.remove('d-none');
-}
+    if (item && item.dataset.value == '2') {
+        upstream.classList.remove('d-none');
+    }
+
+    const node = document.querySelector('#Org_type-ts-control');
+    const config = { attributes: true, childList: true, subtree: true };
+    const callback = function (){
+        item = document.querySelector('#Org_type-ts-control .item');
+        if (item && item.dataset.value == '2') {
+            upstream.classList.remove('d-none');
+        } else {
+            upstream.classList.add('d-none');
+        }
+    };
+    let observer = new MutationObserver(callback);
+    observer.observe(node, config);
+}, 0);
+

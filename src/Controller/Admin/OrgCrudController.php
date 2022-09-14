@@ -15,22 +15,29 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
+use EasyCorp\Bundle\EasyAdminBundle\Config\KeyValueStore;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class OrgCrudController extends AbstractCrudController
 {
+    private $isStore;
+    private $context;
+    private $entity;
+    // Cannot autowire service "App\Controller\Admin\OrgCrudController": argument "$context" of method "__construct()" references class "EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext" but no such service exists.
+    // public function __construct(AdminContext $context)
+    // {
+    // }
+
     public static function getEntityFqcn(): string
     {
         return Org::class;
     }
     public function configureFields(string $pageName): iterable
     {
-        // If current editing entity's type == 2 (store)
-        if (1) {
-            $isHidden = '';
-        } else {
-            $isHidden = 'd-none';
-        }
         return [
             IdField::new('id')->onlyOnIndex(),
             TextField::new('name'),
@@ -38,11 +45,11 @@ class OrgCrudController extends AbstractCrudController
             TelephoneField::new('phone'),
             TextField::new('address'),
             TextField::new('district'),
-            ChoiceField::new('type')->setChoices(['Head' => 0, 'Agency' => 1, 'Store' => 2, 'Restaurant' => 3, 'Consumer' => 4])->hideWhenCreating()->setFormTypeOptions(['disabled' => 'disabled']),
+            ChoiceField::new('type')->setChoices(['Head' => 0, 'Agency' => 1, 'Store' => 2, 'Restaurant' => 3, 'Consumer' => 4])->hideWhenCreating()->setFormTypeOptions(['disabled' => 'disabled'])->addCssClass('fuck'),
             ChoiceField::new('type')->setChoices(['Agency' => 1, 'Store' => 2, 'Restaurant' => 3])->onlyWhenCreating(),
             AssociationField::new('upstream')->setQueryBuilder(
                 fn (QueryBuilder $qb) => $qb->andWhere('entity.type = :type')->setParameter('type', 1)
-            )->onlyOnForms()->addCssClass("upstream $isHidden"),
+            )->onlyOnForms()->addCssClass("upstream d-none"),
             MoneyField::new('voucher')->setCurrency('CNY')->setFormTypeOptions(['disabled' => 'disabled']),
         ];
     }
@@ -50,7 +57,20 @@ class OrgCrudController extends AbstractCrudController
     public function configureAssets(Assets $assets): Assets
     {
         return $assets
-            ->addJsFile('js/z.js')
+            ->addJsFile(Asset::new('js/z.js')->onlyOnForms()->defer())
         ;
+    }
+
+    public function createEditForm(EntityDto $entityDto, KeyValueStore $formOptions, AdminContext $context): FormInterface
+    {
+        $b = $this->createEditFormBuilder($entityDto, $formOptions, $context);
+        $this->entity = $context->getEntity();
+        $f = $b->getForm();
+        if ($f->get('type')->getData() == 2) {
+            $this->isStore = true;
+            // $b->add('upstream');
+            $f = $b->getForm();
+        }
+        return $f;
     }
 }

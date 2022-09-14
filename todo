@@ -1,12 +1,12 @@
-upstream only show for type store
 chart
 orders/returns/retial multiple product?
-
-订货/退货 谁发起？
-门店进货后整件商品打散？
-
 orders/returns/retail:
   - amount/voucher compute
+
+get entity in configureFields?
+have to use setTimeout() in js?
+订货/退货 谁发起？
+门店进货后整件商品打散？
 
 questions:
   - 门店不提现？
