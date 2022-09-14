@@ -32,6 +32,12 @@ class Consumer
     #[ORM\OneToMany(mappedBy: 'consumer', targetEntity: Retail::class)]
     private Collection $retails;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $name = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $phone = null;
+
     public function __construct()
     {
         $this->orderRestaurants = new ArrayCollection();
@@ -159,6 +165,30 @@ class Consumer
                 $retail->setConsumer(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(?string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): self
+    {
+        $this->phone = $phone;
 
         return $this;
     }

@@ -27,6 +27,8 @@ class ConsumerCrudController extends AbstractCrudController
         return [
             IdField::new('id')->onlyOnIndex(),
             TextField::new('openid'),
+            TextField::new('name', 'Consumer.name'),
+            TextField::new('phone'),
             MoneyField::new('voucher')->setCurrency('CNY'),
         ];
     }
