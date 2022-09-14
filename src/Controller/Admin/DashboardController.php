@@ -27,6 +27,7 @@ use App\Entity\Returns;
 use App\Entity\Consumer;
 use App\Entity\Withdraw;
 use App\Entity\Retail;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
 use Symfony\UX\Chartjs\Model\Chart;
 
@@ -34,31 +35,22 @@ class DashboardController extends AbstractDashboardController
 {
     private $chartBuilder;
 
-    public function __construct(ChartBuilderInterface $chartBuilder)
+    private $doctrine;
+
+    public function __construct(ChartBuilderInterface $chartBuilder, ManagerRegistry $doctrine)
     {
       $this->chartBuilder = $chartBuilder;
+      $this->doctrine = $doctrine;
     }
 
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
-        // return parent::index();
-
-        // Option 1. You can make your dashboard redirect to some common page of your backend
-        //
-        // $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
-        // return $this->redirect($adminUrlGenerator->setController(ProductCrudController::class)->generateUrl());
-
-        // Option 2. You can make your dashboard redirect to different pages depending on the user
-        //
-        // if ('jane' === $this->getUser()->getUsername()) {
-        //     return $this->redirect('...');
-        // }
-
-        // Option 3. You can render some custom template to display a proper dashboard with widgets, etc.
-        // (tip: it's easier if your template extends from @EasyAdmin/page/content.html.twig)
-        //
-        // return $this->render('some/path/my-dashboard.html.twig');
+        $orgRepo = $this->doctrine->getRepository(Org::class);
+        $countAgencies = $orgRepo->count(['type' => 1]);
+        $countStroes = $orgRepo->count(['type' => 2]);
+        $countRestaurants = $orgRepo->count(['type' => 3]);
+        $countConsumers = $this->doctrine->getRepository(Consumer::class)->count([]);
         
         $chart = $this->chartBuilder->createChart(Chart::TYPE_LINE);
 
@@ -84,10 +76,10 @@ class DashboardController extends AbstractDashboardController
         ]);
 
         $data = [
-          'countAgencies' => 5,
-          'countStroes' => 5,
-          'countRestaurants' => 5,
-          'countConsumers' => 5,
+          'countAgencies' => $countAgencies,
+          'countStroes' => $countStroes,
+          'countRestaurants' => $countRestaurants,
+          'countConsumers' => $countConsumers,
           'chart' => $chart
         ];
         return $this->render('dashboard.html.twig', $data);
