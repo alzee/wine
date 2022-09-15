@@ -48,7 +48,7 @@ class Orders
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $note = null;
 
-    #[ORM\OneToMany(mappedBy: 'ord', targetEntity: OrderItems::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'ord', targetEntity: OrderItems::class, orphanRemoval: true, cascade: ["persist"])]
     private Collection $orderItems;
 
     public function __construct()
