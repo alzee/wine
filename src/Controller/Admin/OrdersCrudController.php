@@ -62,7 +62,8 @@ class OrdersCrudController extends AbstractCrudController
             AssociationField::new('product')->setQueryBuilder(
                 fn (QueryBuilder $qb) => $qb->andWhere('entity.org = :org')->setParameter('org', $user->getOrg())
             ),
-            // CollectionField::new('orderItems'),
+            CollectionField::new('orderItems')
+                ->useEntryCrudForm(OrderItemsCrudController::class),
             IntegerField::new('quantity'),
             MoneyField::new('amount')->setCurrency('CNY'),
             MoneyField::new('voucher')->setCurrency('CNY'),
