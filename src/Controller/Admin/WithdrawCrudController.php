@@ -84,7 +84,7 @@ class WithdrawCrudController extends AbstractCrudController
             ;
         } else {
             return $actions
-                ->disable(Action::DELETE, Action::EDIT)
+                ->disable(Action::DELETE)
             ;
         }
     }
@@ -96,7 +96,9 @@ class WithdrawCrudController extends AbstractCrudController
         if ($this->isGranted('ROLE_HEAD')) {
             $response->andWhere("entity.approver = $userOrg");
         } else {
-            $response->andWhere("entity.applicant = $userOrg");
+            $response
+                ->andWhere("entity.applicant = $userOrg")
+                ->orWhere("entity.approver = $userOrg");
         }
         return $response;
     }
