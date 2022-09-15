@@ -33,39 +33,15 @@ class Product
     #[ORM\Column(length: 255)]
     private ?string $sn = null;
 
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductAgency::class)]
-    private Collection $productAgencies;
-
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductStore::class)]
-    private Collection $productStores;
-
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductRestaurant::class)]
-    private Collection $productRestaurants;
-
     #[ORM\Column]
     private ?int $voucher = null;
-
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Orders::class)]
-    private Collection $orders;
-
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Returns::class)]
-    private Collection $returns;
 
     #[ORM\ManyToOne(inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Org $org = null;
 
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Retail::class)]
-    private Collection $retails;
-
     public function __construct()
     {
-        $this->productAgencies = new ArrayCollection();
-        $this->productStores = new ArrayCollection();
-        $this->productRestaurants = new ArrayCollection();
-        $this->orders = new ArrayCollection();
-        $this->returns = new ArrayCollection();
-        $this->retails = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -133,96 +109,6 @@ class Product
         return $this;
     }
 
-    /**
-     * @return Collection<int, ProductAgency>
-     */
-    public function getProductAgencies(): Collection
-    {
-        return $this->productAgencies;
-    }
-
-    public function addProductAgency(ProductAgency $productAgency): self
-    {
-        if (!$this->productAgencies->contains($productAgency)) {
-            $this->productAgencies->add($productAgency);
-            $productAgency->setProduct($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProductAgency(ProductAgency $productAgency): self
-    {
-        if ($this->productAgencies->removeElement($productAgency)) {
-            // set the owning side to null (unless already changed)
-            if ($productAgency->getProduct() === $this) {
-                $productAgency->setProduct(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, ProductStore>
-     */
-    public function getProductStores(): Collection
-    {
-        return $this->productStores;
-    }
-
-    public function addProductStore(ProductStore $productStore): self
-    {
-        if (!$this->productStores->contains($productStore)) {
-            $this->productStores->add($productStore);
-            $productStore->setProduct($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProductStore(ProductStore $productStore): self
-    {
-        if ($this->productStores->removeElement($productStore)) {
-            // set the owning side to null (unless already changed)
-            if ($productStore->getProduct() === $this) {
-                $productStore->setProduct(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, ProductRestaurant>
-     */
-    public function getProductRestaurants(): Collection
-    {
-        return $this->productRestaurants;
-    }
-
-    public function addProductRestaurant(ProductRestaurant $productRestaurant): self
-    {
-        if (!$this->productRestaurants->contains($productRestaurant)) {
-            $this->productRestaurants->add($productRestaurant);
-            $productRestaurant->setProduct($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProductRestaurant(ProductRestaurant $productRestaurant): self
-    {
-        if ($this->productRestaurants->removeElement($productRestaurant)) {
-            // set the owning side to null (unless already changed)
-            if ($productRestaurant->getProduct() === $this) {
-                $productRestaurant->setProduct(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getVoucher(): ?int
     {
         return $this->voucher;
@@ -240,66 +126,6 @@ class Product
         return $this->name . '(' . $this->org . ')';
     }
 
-    /**
-     * @return Collection<int, Orders>
-     */
-    public function getOrders(): Collection
-    {
-        return $this->orders;
-    }
-
-    public function addOrder(Orders $order): self
-    {
-        if (!$this->orders->contains($order)) {
-            $this->orders->add($order);
-            $order->setProduct($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOrder(Orders $order): self
-    {
-        if ($this->orders->removeElement($order)) {
-            // set the owning side to null (unless already changed)
-            if ($order->getProduct() === $this) {
-                $order->setProduct(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Returns>
-     */
-    public function getReturns(): Collection
-    {
-        return $this->returns;
-    }
-
-    public function addReturn(Returns $return): self
-    {
-        if (!$this->returns->contains($return)) {
-            $this->returns->add($return);
-            $return->setProduct($this);
-        }
-
-        return $this;
-    }
-
-    public function removeReturn(Returns $return): self
-    {
-        if ($this->returns->removeElement($return)) {
-            // set the owning side to null (unless already changed)
-            if ($return->getProduct() === $this) {
-                $return->setProduct(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getOrg(): ?Org
     {
         return $this->org;
@@ -308,36 +134,6 @@ class Product
     public function setOrg(?Org $org): self
     {
         $this->org = $org;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Retail>
-     */
-    public function getRetails(): Collection
-    {
-        return $this->retails;
-    }
-
-    public function addRetail(Retail $retail): self
-    {
-        if (!$this->retails->contains($retail)) {
-            $this->retails->add($retail);
-            $retail->setProduct($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRetail(Retail $retail): self
-    {
-        if ($this->retails->removeElement($retail)) {
-            // set the owning side to null (unless already changed)
-            if ($retail->getProduct() === $this) {
-                $retail->setProduct(null);
-            }
-        }
 
         return $this;
     }
