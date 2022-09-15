@@ -25,8 +25,10 @@ class UserCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->onlyOnIndex(),
-            AssociationField::new('org')->setFormTypeOptions(['disabled' => 'disabled']),
-            TextField::new('username')->setFormTypeOptions(['disabled' => 'disabled']),
+            AssociationField::new('org')->HideWhenUpdating(),
+            AssociationField::new('org')->OnlyWhenUpdating()->setFormTypeOptions(['disabled' => 'disabled']),
+            TextField::new('username')->HideWhenUpdating(),
+            TextField::new('username')->OnlyWhenUpdating()->setFormTypeOptions(['disabled' => 'disabled']),
             TextField::new('plainPassword')->onlyOnForms()
                                       ->setFormType(RepeatedType::class)
                                       ->setFormTypeOptions([
