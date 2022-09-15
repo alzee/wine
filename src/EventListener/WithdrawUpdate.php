@@ -28,7 +28,7 @@ class WithdrawUpdate
             if ($status == 5) {
                 $amount = $withdraw->getAmount();
                 // applicant's voucher - amount
-                $applicant = $withdraw->getOrg();
+                $applicant = $withdraw->getApplicant();
                 $applicant->setVoucher($applicant->getVoucher() - $amount);
 
                 // if applicant is a store

@@ -35,6 +35,14 @@ class Withdraw
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $note = null;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Org $applicant = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Org $approver = null;
+
     public function __construct()
     {
         $this->date = new \DateTime();
@@ -114,6 +122,30 @@ class Withdraw
     public function setNote(?string $note): self
     {
         $this->note = $note;
+
+        return $this;
+    }
+
+    public function getApplicant(): ?Org
+    {
+        return $this->applicant;
+    }
+
+    public function setApplicant(?Org $applicant): self
+    {
+        $this->applicant = $applicant;
+
+        return $this;
+    }
+
+    public function getApprover(): ?Org
+    {
+        return $this->approver;
+    }
+
+    public function setApprover(?Org $approver): self
+    {
+        $this->approver = $approver;
 
         return $this;
     }
