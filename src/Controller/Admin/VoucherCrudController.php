@@ -14,6 +14,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use Doctrine\ORM\QueryBuilder;
 
 class VoucherCrudController extends AbstractCrudController
 {
@@ -46,10 +47,14 @@ class VoucherCrudController extends AbstractCrudController
 
         return [
             IdField::new('id')->onlyOnIndex(),
-            AssociationField::new('org'),
-            AssociationField::new('consumer'),
+            AssociationField::new('org')->onlyOnIndex(),
+            AssociationField::new('org')->onlyOnForms()->setQueryBuilder (
+                fn (QueryBuilder $qb) => $qb->andWhere('entity.type <= 3')->andWhere('entity.type != 0')
+            ),
+            AssociationField::new('consumer')->onlyOnIndex(),
             MoneyField::new('voucher')->setCurrency('CNY'),
-            ChoiceField::new('type')->setChoices($types),
+            ChoiceField::new('type')->setChoices($types)->HideWhenCreating(),
+            ChoiceField::new('type')->setChoices(['内部调控' => 30])->onlyWhenCreating(),
             TextField::new('note'),
             DateTimeField::new('date')->HideOnForm(),
         ];
