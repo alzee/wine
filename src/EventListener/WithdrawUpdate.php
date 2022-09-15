@@ -31,14 +31,6 @@ class WithdrawUpdate
                 $applicant = $withdraw->getApplicant();
                 $applicant->setVoucher($applicant->getVoucher() - $amount);
 
-                // if applicant is a store
-                // if it's an agency, no need to add amount to headquarter
-                if ( $applicant->getType() == 2) {
-                    // reviewer's voucher + amount
-                    // $agency = '';
-                    // $agency->setVoucher($agency->getVoucher() - $amount);
-                }
-
                 // voucher record for applicant
                 $record = new Voucher();
                 $record->setOrg($applicant);
@@ -50,12 +42,20 @@ class WithdrawUpdate
                 $record->setType($type);
                 $em->persist($record);
 
-                // voucher record for reviewer
-                // $record = new Voucher();
-                // $record->setOrg($reviewer);
-                // $record->setVoucher($amount);
-                // $record->setType($type - 10);
-                // $em->persist($record);
+                // stores don't withdraw
+                // if it's an agency, no need to add amount to headquarter
+                // so just need to think about restaurant
+                if ( $applicant->getType() == 3) {
+                    $approver = $withdraw->getApprover();
+                    $approver->setVoucher($agency->getVoucher() + $amount);
+
+                    // voucher record for approver
+                    $record = new Voucher();
+                    $record->setOrg($approver);
+                    $record->setVoucher($amount);
+                    $record->setType($type - 10);
+                    $em->persist($record);
+                }
 
                 $em->flush();
             }
