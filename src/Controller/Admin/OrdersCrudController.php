@@ -45,27 +45,16 @@ class OrdersCrudController extends AbstractCrudController
     {
         $orgRepo = $this->doctrine->getRepository(Org::class);
         $user = $this->getUser();
-        $userOrg = $orgRepo->findOneBy(['id' => $user->getOrg()]);
-        $roles = $user->getRoles();
-        if ($this->isGranted('ROLE_HEAD')) {
-            $seller = $orgRepo->findOneByType(0);
-        }
-        if ($this->isGranted('ROLE_AGENCY')) {
-            $seller = $orgRepo->findOneByType(0);
-        }
-        if ($this->isGranted('ROLE_STORE')) {
-            $seller = $orgRepo->find($userOrg->getUpstream());
-        }
         return [
             IdField::new('id')->onlyOnIndex(),
             AssociationField::new('seller')->setQueryBuilder(
-                fn (QueryBuilder $qb) => $qb->andWhere('entity.id = :id')->setParameter('id', $seller)
-            ),
-            AssociationField::new('buyer')->setQueryBuilder(
                 fn (QueryBuilder $qb) => $qb->andWhere('entity.id = :id')->setParameter('id', $user->getOrg())
             ),
+            AssociationField::new('buyer')->setQueryBuilder(
+                fn (QueryBuilder $qb) => $qb->andWhere('entity.upstream = :userOrg')->setParameter('userOrg', $user->getOrg())
+            ),
             AssociationField::new('product')->setQueryBuilder(
-                fn (QueryBuilder $qb) => $qb->andWhere('entity.org = :org')->setParameter('org', $seller)
+                fn (QueryBuilder $qb) => $qb->andWhere('entity.org = :org')->setParameter('org', $user->getOrg())
             ),
             // CollectionField::new('orderItems'),
             IntegerField::new('quantity'),
