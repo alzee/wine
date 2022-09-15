@@ -62,11 +62,6 @@ class OrdersCrudController extends AbstractCrudController
                     ->andWhere('entity.type != 3')
                     ->setParameter('userOrg', $user->getOrg())
             ),
-            AssociationField::new('product')->setQueryBuilder(
-                fn (QueryBuilder $qb) => $qb
-                    ->andWhere('entity.org = :org')
-                    ->setParameter('org', $user->getOrg())
-            ),
             CollectionField::new('orderItems')
                 ->OnlyOnForms()
                 ->useEntryCrudForm(OrderItemsCrudController::class),

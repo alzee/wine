@@ -26,10 +26,6 @@ class Orders
     #[ORM\JoinColumn(nullable: false)]
     private ?Org $buyer = null;
 
-    #[ORM\ManyToOne(inversedBy: 'orders')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Product $product = null;
-
     #[ORM\Column]
     private ?int $amount = null;
 
@@ -79,18 +75,6 @@ class Orders
     public function setBuyer(?Org $buyer): self
     {
         $this->buyer = $buyer;
-
-        return $this;
-    }
-
-    public function getProduct(): ?Product
-    {
-        return $this->product;
-    }
-
-    public function setProduct(?Product $product): self
-    {
-        $this->product = $product;
 
         return $this;
     }
