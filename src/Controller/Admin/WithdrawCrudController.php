@@ -38,7 +38,7 @@ class WithdrawCrudController extends AbstractCrudController
             AssociationField::new('applicant')->HideWhenCreating(),
             AssociationField::new('applicant')
                 ->onlyWhenCreating()
-                ->setFormTypeOptions(['disabled' => 'disabled'])
+                // ->setFormTypeOptions(['disabled' => 'disabled'])
                 ->setQueryBuilder (
                     fn (QueryBuilder $qb) => $qb
                         ->andWhere('entity.id = :id')
@@ -47,7 +47,7 @@ class WithdrawCrudController extends AbstractCrudController
             ),
             AssociationField::new('approver')
                 ->onlyWhenCreating()
-                ->setFormTypeOptions(['disabled' => 'disabled'])
+                // ->setFormTypeOptions(['disabled' => 'disabled'])
                 ->setQueryBuilder (
                     fn (QueryBuilder $qb) => $qb
                         ->andWhere('entity.id = :id')
