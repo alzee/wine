@@ -26,7 +26,6 @@ class Withdraw
     private ?int $status = null;
 
     #[ORM\ManyToOne(inversedBy: 'withdraws')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?Org $org = null;
 
     #[ORM\Column]
