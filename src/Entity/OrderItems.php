@@ -27,10 +27,10 @@ class OrderItems
     #[ORM\JoinColumn(nullable: false)]
     private ?Orders $ord = null;
 
-    // public function __toString(): string
-    // {
-    //     return $this->quantity;
-    // }
+    public function __toString(): string
+    {
+        return $this->product;
+    }
 
     public function getId(): ?int
     {
