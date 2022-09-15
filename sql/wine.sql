@@ -365,7 +365,7 @@ CREATE TABLE `org` (
   PRIMARY KEY (`id`),
   KEY `IDX_7215BA80245F9855` (`upstream_id`),
   CONSTRAINT `FK_7215BA80245F9855` FOREIGN KEY (`upstream_id`) REFERENCES `org` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -374,7 +374,7 @@ CREATE TABLE `org` (
 
 LOCK TABLES `org` WRITE;
 /*!40000 ALTER TABLE `org` DISABLE KEYS */;
-INSERT INTO `org` VALUES (1,'代理商1号','王一代','131111111','代理商1号地址','代理商1号区域',1,2450,NULL),(2,'代理商2号','王二代','13111111111','代理商2号地址','代理商2号区域',1,5000,NULL),(3,'门店1号','王一店','13111111111','门店1号地址','门店1号区域',2,50000,NULL),(4,'门店2号','王二店','13111111111','门店2号地址','门店2号区域',2,0,2),(5,'总公司','王总','13111111111','总部地址','总部区域',0,-10000,NULL),(6,'餐厅1号','王一餐','13111111111','餐厅1号地址','餐厅1号区域',3,3500,NULL),(7,'顾客','王一代','+8613207262011','No. 10','代理商1号区域',4,0,NULL);
+INSERT INTO `org` VALUES (1,'代理商1号','王一代','131111111','代理商1号地址','代理商1号区域',1,2450,5),(2,'代理商2号','王二代','13111111111','代理商2号地址','代理商2号区域',1,5000,5),(3,'门店1号','王一店','13111111111','门店1号地址','门店1号区域',2,50000,2),(4,'门店2号','王二店','13111111111','门店2号地址','门店2号区域',2,0,2),(5,'总公司','王总','13111111111','总部地址','总部区域',0,-10000,NULL),(6,'餐厅1号','王一餐','13111111111','餐厅1号地址','餐厅1号区域',3,3500,NULL),(7,'顾客','王一代','+8613207262011','No. 10','代理商1号区域',4,0,NULL),(8,'代理商3号','王三代','13111111111','代理商3号地址','代理商3号区域',1,0,5);
 /*!40000 ALTER TABLE `org` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -645,7 +645,7 @@ CREATE TABLE `user` (
   UNIQUE KEY `UNIQ_8D93D649F85E0677` (`username`),
   KEY `IDX_8D93D649F4837C1B` (`org_id`),
   CONSTRAINT `FK_8D93D649F4837C1B` FOREIGN KEY (`org_id`) REFERENCES `org` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -654,7 +654,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'u1','[]','89jjj',1,NULL),(3,'u2','[\"ROLE_AGENCY\"]','asdfaf',1,NULL),(4,'u3','[\"ROLE_HEAD\"]','sadf',5,NULL),(6,'u4','[\"ROLE_RESTAURANT\"]','sdfg',6,NULL),(7,'u6','[\"ROLE_STORE\"]','sdafas',4,NULL),(8,'u7','[\"ROLE_AGENCY\"]','111',1,NULL),(9,'admin','[\"ROLE_STORE\", \"ROLE_ADMIN\"]','$2y$13$6eWONnmy7sz4qPKWu7.0Z.QGboS/uyCRS2n/sicq/R4ukBdiVIkxW',4,NULL);
+INSERT INTO `user` VALUES (1,'u1','[]','89jjj',1,NULL),(3,'u2','[\"ROLE_AGENCY\"]','asdfaf',1,NULL),(4,'u3','[\"ROLE_HEAD\"]','$2y$13$C01MzUIpMTa9t51F3I0fmuFhPSwleqME2mnJkJUX1GdKtg61JGIz.',5,NULL),(6,'u4','[\"ROLE_RESTAURANT\"]','sdfg',6,NULL),(7,'u6','[\"ROLE_STORE\"]','sdafas',4,NULL),(8,'u7','[\"ROLE_AGENCY\"]','111',1,NULL),(9,'admin','[\"ROLE_HEAD\", \"ROLE_ADMIN\"]','$2y$13$6eWONnmy7sz4qPKWu7.0Z.QGboS/uyCRS2n/sicq/R4ukBdiVIkxW',5,NULL),(10,'t5','[\"ROLE_AGENCY\"]','$2y$13$xHe1xKIVYpPqvUegZT1y1uRvj.Zp6eR.LHKQv7jkZAE6YKxwL/ewm',8,NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -731,4 +731,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-09-15  9:55:45
+-- Dump completed on 2022-09-15 10:37:00
