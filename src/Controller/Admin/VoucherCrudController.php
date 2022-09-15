@@ -65,8 +65,14 @@ class VoucherCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-        return $actions
-            ->disable(Action::DELETE, Action::EDIT)
-        ;
+        if ($this->isGranted('ROLE_HEAD')) {
+            return $actions
+                ->disable(Action::DELETE, Action::EDIT)
+            ;
+        } else {
+            return $actions
+                ->disable(Action::DELETE, Action::EDIT, Action::NEW)
+            ;
+        }
     }
 }
