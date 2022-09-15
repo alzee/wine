@@ -28,6 +28,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 
 class OrdersCrudController extends AbstractCrudController
 {
@@ -86,5 +88,18 @@ class OrdersCrudController extends AbstractCrudController
         $response = $this->container->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
         $response->andWhere("entity.seller = $userOrg")->orWhere("entity.buyer = $userOrg");
         return $response;
+    }
+
+    public function configureActions(Actions $actions): Actions
+    {
+        if ($this->isGranted('ROLE_STORE') || $this->isGranted('ROLE_RESTAURANT')) {
+            return $actions
+                ->disable(Action::DELETE, Action::NEW)
+            ;
+        } else {
+            return $actions
+                ->disable(Action::DELETE)
+            ;
+        }
     }
 }
