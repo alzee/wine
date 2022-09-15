@@ -35,10 +35,11 @@ class WithdrawCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->onlyOnIndex(),
-            AssociationField::new('applicant')->HideWhenCreating(),
+            AssociationField::new('applicant')
+                ->HideWhenCreating()
+                ->setFormTypeOptions(['disabled' => 'disabled']),
             AssociationField::new('applicant')
                 ->onlyWhenCreating()
-                // ->setFormTypeOptions(['disabled' => 'disabled'])
                 ->setQueryBuilder (
                     fn (QueryBuilder $qb) => $qb
                         ->andWhere('entity.id = :id')
@@ -46,8 +47,10 @@ class WithdrawCrudController extends AbstractCrudController
                         ->getOrg())
             ),
             AssociationField::new('approver')
+                ->HideWhenCreating()
+                ->setFormTypeOptions(['disabled' => 'disabled']),
+            AssociationField::new('approver')
                 ->onlyWhenCreating()
-                // ->setFormTypeOptions(['disabled' => 'disabled'])
                 ->setQueryBuilder (
                     fn (QueryBuilder $qb) => $qb
                         ->andWhere('entity.id = :id')
@@ -55,7 +58,13 @@ class WithdrawCrudController extends AbstractCrudController
                         ->getOrg()
                         ->getUpstream())
             ),
-            MoneyField::new('amount')->setCurrency('CNY'),
+            MoneyField::new('amount')
+                ->setCurrency('CNY')
+                ->HideWhenCreating()
+                ->setFormTypeOptions(['disabled' => 'disabled']),
+            MoneyField::new('amount')
+                ->setCurrency('CNY')
+                ->onlyWhenCreating(),
             PercentField::new('discount'),
             ChoiceField::new('status')
                 ->HideWhenCreating()
