@@ -20,6 +20,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 
 class ProductCrudController extends AbstractCrudController
 {
@@ -57,5 +59,16 @@ class ProductCrudController extends AbstractCrudController
         $response = $this->container->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
         $response->andWhere("entity.org = $userOrg");
         return $response;
+    }
+
+    public function configureActions(Actions $actions): Actions
+    {
+        if ($this->isGranted('ROLE_HEAD')) {
+            return $actions;
+        } else {
+            return $actions
+                ->disable(Action::DELETE, Action::NEW)
+            ;
+        }
     }
 }

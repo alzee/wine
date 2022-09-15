@@ -18,7 +18,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 
 class WithdrawCrudController extends AbstractCrudController
 {
