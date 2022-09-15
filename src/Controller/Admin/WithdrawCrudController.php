@@ -63,7 +63,11 @@ class WithdrawCrudController extends AbstractCrudController
     {
         $userOrg = $this->getUser()->getOrg()->getId();
         $response = $this->container->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
-        $response->andWhere("entity.org = $userOrg");
+        if ($this->isGranted('ROLE_HEAD')) {
+            // $response->andWhere("entity.org = $userOrg");
+        } else {
+            $response->andWhere("entity.org = $userOrg");
+        }
         return $response;
     }
 }
