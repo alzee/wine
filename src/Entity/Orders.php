@@ -30,9 +30,6 @@ class Orders
     #[ORM\JoinColumn(nullable: false)]
     private ?Product $product = null;
 
-    #[ORM\Column(type: Types::SMALLINT)]
-    private ?int $quantity = null;
-
     #[ORM\Column]
     private ?int $amount = null;
 
@@ -94,18 +91,6 @@ class Orders
     public function setProduct(?Product $product): self
     {
         $this->product = $product;
-
-        return $this;
-    }
-
-    public function getQuantity(): ?int
-    {
-        return $this->quantity;
-    }
-
-    public function setQuantity(int $quantity): self
-    {
-        $this->quantity = $quantity;
 
         return $this;
     }
