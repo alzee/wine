@@ -17,12 +17,15 @@ class Retail
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'retails')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Org $store = null;
 
     #[ORM\ManyToOne(inversedBy: 'retails')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Consumer $consumer = null;
 
     #[ORM\ManyToOne(inversedBy: 'retails')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Product $product = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
