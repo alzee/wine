@@ -93,12 +93,8 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        $user = $this->getUser();
-        // $userOrg = $user->getOrg();
-        $userOrg = $this->doctrine->getRepository(Org::class)->findOneBy(['id' => $user->getOrg()]);
-        $userOrgType = $userOrg->getType();
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
-        if ($userOrgType == 0) {
+        if ($this->isGranted('ROLE_HEAD')) {
             yield MenuItem::linkToDashboard('Dashboard', 'fa fa-chart-simple');
             yield MenuItem::linkToCrud('Org', 'fas fa-building', Org::class);
         }
@@ -107,7 +103,7 @@ class DashboardController extends AbstractDashboardController
         //yield MenuItem::linkToCrud('ProductStore', 'fas fa-list', ProductStore::class);
         //yield MenuItem::linkToCrud('ProductRestaurant', 'fas fa-list', ProductRestaurant::class);
         yield MenuItem::linkToCrud('Orders', 'fas fa-receipt', Orders::class);
-        if ($userOrgType == 2) {
+        if ($this->isGranted('ROLE_STORE')) {
             yield MenuItem::linkToCrud('Retail', 'fas fa-bag-shopping', Retail::class);
         }
         //yield MenuItem::linkToCrud('OrderAgency', 'fas fa-list', OrderAgency::class);
@@ -115,16 +111,16 @@ class DashboardController extends AbstractDashboardController
         //yield MenuItem::linkToCrud('Agency', 'fas fa-list', Agency::class);
         //yield MenuItem::linkToCrud('Store', 'fas fa-list', Store::class);
         // yield MenuItem::linkToCrud('Restaurant', 'fas fa-utensils', Restaurant::class);
-        if ($userOrgType == 3) {
+        if ($this->isGranted('ROLE_RESTAURANT')) {
             yield MenuItem::linkToCrud('OrderRestaurant', 'fas fa-utensils', OrderRestaurant::class);
         }
         yield MenuItem::linkToCrud('Withdraw', 'fas fa-money-bill', Withdraw::class);
         yield MenuItem::linkToCrud('Returns', 'fas fa-cart-arrow-down', Returns::class);
         yield MenuItem::linkToCrud('Voucher.detail', 'fas fa-ticket', Voucher::class);
-        if ($userOrgType == 0 || $userOrgType == 3) {
+        if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_RESTAURANT')) {
             yield MenuItem::linkToCrud('Consumer', 'fas fa-users', Consumer::class);
         }
-        if ($userOrgType == 0) {
+        if ($this->isGranted('ROLE_HEAD')) {
             yield MenuItem::linkToCrud('User', 'fas fa-user', User::class);
         }
     }
