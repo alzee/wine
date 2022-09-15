@@ -36,11 +36,24 @@ class WithdrawCrudController extends AbstractCrudController
         return [
             IdField::new('id')->onlyOnIndex(),
             AssociationField::new('applicant')->HideWhenCreating(),
-            AssociationField::new('applicant')->onlyWhenCreating()->setQueryBuilder (
-                fn (QueryBuilder $qb) => $qb->andWhere('entity.id = :id')->setParameter('id', $this->getUser()->getOrg())
+            AssociationField::new('applicant')
+                ->onlyWhenCreating()
+                ->setFormTypeOptions(['disabled' => 'disabled'])
+                ->setQueryBuilder (
+                    fn (QueryBuilder $qb) => $qb
+                        ->andWhere('entity.id = :id')
+                        ->setParameter('id', $this->getUser()
+                        ->getOrg())
             ),
-            AssociationField::new('approver')->onlyWhenCreating()->setQueryBuilder (
-                fn (QueryBuilder $qb) => $qb->andWhere('entity.id = :id')->setParameter('id', $this->getUser()->getOrg()->getUpstream())
+            AssociationField::new('approver')
+                ->onlyWhenCreating()
+                ->setFormTypeOptions(['disabled' => 'disabled'])
+                ->setQueryBuilder (
+                    fn (QueryBuilder $qb) => $qb
+                        ->andWhere('entity.id = :id')
+                        ->setParameter('id', $this->getUser()
+                        ->getOrg()
+                        ->getUpstream())
             ),
             MoneyField::new('amount')->setCurrency('CNY'),
             PercentField::new('discount'),
