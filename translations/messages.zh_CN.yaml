@@ -56,3 +56,5 @@ Upstream: 所属代理商
 Consumer.name: 姓名
 Openid: 微信ID
 Repeat password: 密码确认
+Applicant: 申请方
+Approver: 审核方
