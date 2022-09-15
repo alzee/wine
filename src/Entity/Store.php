@@ -27,15 +27,11 @@ class Store
     #[ORM\Column(length: 255)]
     private ?string $address = null;
 
-    #[ORM\OneToMany(mappedBy: 'store', targetEntity: OrderAgency::class)]
-    private Collection $orderAgencies;
-
     #[ORM\OneToMany(mappedBy: 'store', targetEntity: ProductStore::class)]
     private Collection $productStores;
 
     public function __construct()
     {
-        $this->orderAgencies = new ArrayCollection();
         $this->productStores = new ArrayCollection();
     }
 
@@ -88,36 +84,6 @@ class Store
     public function setAddress(string $address): self
     {
         $this->address = $address;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, OrderAgency>
-     */
-    public function getOrderAgencies(): Collection
-    {
-        return $this->orderAgencies;
-    }
-
-    public function addOrderAgency(OrderAgency $orderAgency): self
-    {
-        if (!$this->orderAgencies->contains($orderAgency)) {
-            $this->orderAgencies->add($orderAgency);
-            $orderAgency->setStore($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOrderAgency(OrderAgency $orderAgency): self
-    {
-        if ($this->orderAgencies->removeElement($orderAgency)) {
-            // set the owning side to null (unless already changed)
-            if ($orderAgency->getStore() === $this) {
-                $orderAgency->setStore(null);
-            }
-        }
 
         return $this;
     }

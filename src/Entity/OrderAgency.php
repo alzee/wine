@@ -14,7 +14,6 @@ class OrderAgency
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'orderAgencies')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Store $store = null;
 
