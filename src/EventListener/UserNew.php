@@ -27,13 +27,8 @@ class UserNew extends AbstractController
     {
         $user->setPassword($this->hasher->hashPassword($user, $user->getPlainPassword()));
         $user->eraseCredentials();
-    }
 
-    public function postPersist(User $user, LifecycleEventArgs $event): void
-    {
-        $em = $event->getEntityManager();
-        $org = $user->getOrg();
-        $role = match ($org->getType()) {
+        $role = match ($user->getOrg()->getType()) {
             0 => 'HEAD',
             1 => 'AGENCY',
             2 => 'STORE',
@@ -41,8 +36,11 @@ class UserNew extends AbstractController
         };
 
         $user->setRoles(['ROLE_' . $role]);
+    }
 
-
-        $em->flush();
+    public function postPersist(User $user, LifecycleEventArgs $event): void
+    {
+        // $em = $event->getEntityManager();
+        // $em->flush();
     }
 }
