@@ -57,7 +57,12 @@ class WithdrawCrudController extends AbstractCrudController
             ),
             MoneyField::new('amount')->setCurrency('CNY'),
             PercentField::new('discount'),
-            ChoiceField::new('status')->setChoices(['Pending' => 0, 'Rejected' => 4, 'Success' => 5]),
+            ChoiceField::new('status')
+                ->HideWhenCreating()
+                ->setChoices(['Pending' => 0, 'Rejected' => 4, 'Success' => 5]),
+            ChoiceField::new('status')
+                ->OnlyWhenCreating()
+                ->setChoices(['Pending' => 0]),
             TextareaField::new('note'),
         ];
     }
@@ -70,7 +75,7 @@ class WithdrawCrudController extends AbstractCrudController
             ;
         } else {
             return $actions
-                ->disable(Action::DELETE)
+                ->disable(Action::DELETE, Action::EDIT)
             ;
         }
     }
@@ -80,9 +85,9 @@ class WithdrawCrudController extends AbstractCrudController
         $userOrg = $this->getUser()->getOrg()->getId();
         $response = $this->container->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
         if ($this->isGranted('ROLE_HEAD')) {
-            // $response->andWhere("entity.org = $userOrg");
+            $response->andWhere("entity.approver = $userOrg");
         } else {
-            $response->andWhere("entity.org = $userOrg");
+            $response->andWhere("entity.applicant = $userOrg");
         }
         return $response;
     }
