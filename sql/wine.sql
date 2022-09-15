@@ -645,7 +645,7 @@ CREATE TABLE `user` (
   UNIQUE KEY `UNIQ_8D93D649F85E0677` (`username`),
   KEY `IDX_8D93D649F4837C1B` (`org_id`),
   CONSTRAINT `FK_8D93D649F4837C1B` FOREIGN KEY (`org_id`) REFERENCES `org` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -654,7 +654,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'u1','[]','89jjj',1,NULL),(3,'u2','[\"ROLE_AGENCY\"]','asdfaf',1,NULL),(4,'u3','[\"ROLE_HEAD\"]','$2y$13$C01MzUIpMTa9t51F3I0fmuFhPSwleqME2mnJkJUX1GdKtg61JGIz.',5,NULL),(6,'u4','[\"ROLE_RESTAURANT\"]','sdfg',6,NULL),(7,'u6','[\"ROLE_STORE\"]','sdafas',4,NULL),(8,'u7','[\"ROLE_AGENCY\"]','111',1,NULL),(9,'admin','[\"ROLE_HEAD\", \"ROLE_ADMIN\"]','$2y$13$6eWONnmy7sz4qPKWu7.0Z.QGboS/uyCRS2n/sicq/R4ukBdiVIkxW',5,NULL),(10,'t5','[\"ROLE_AGENCY\"]','$2y$13$xHe1xKIVYpPqvUegZT1y1uRvj.Zp6eR.LHKQv7jkZAE6YKxwL/ewm',8,NULL);
+INSERT INTO `user` VALUES (1,'u1','[\"ROLE_AGENCY\"]','$2y$13$HCjVxlipu1iotyJShWn1KusUblYC/vNv9qcbZcLGu..fQ5a4iH/3a',1,NULL),(3,'u2','[\"ROLE_AGENCY\"]','asdfaf',1,NULL),(4,'u3','[\"ROLE_AGENCY\"]','$2y$13$mLk.XtgzGzlvDDloS3G5UuEHKRIXIiBmzbIFHk0EW.uvxyroa37jS',8,NULL),(6,'u4','[\"ROLE_RESTAURANT\"]','sdfg',6,NULL),(7,'u6','[\"ROLE_STORE\"]','sdafas',4,NULL),(8,'u7','[\"ROLE_AGENCY\"]','111',1,NULL),(9,'admin','[\"ROLE_HEAD\", \"ROLE_ADMIN\"]','$2y$13$6eWONnmy7sz4qPKWu7.0Z.QGboS/uyCRS2n/sicq/R4ukBdiVIkxW',5,NULL),(10,'t5','[\"ROLE_AGENCY\"]','$2y$13$xHe1xKIVYpPqvUegZT1y1uRvj.Zp6eR.LHKQv7jkZAE6YKxwL/ewm',8,NULL),(11,'t6','[\"ROLE_AGENCY\"]','$2y$13$828fiOFIhlG9007qRrPhuuIfwG1wvHm.NAFNFgD2Ora3APx14982q',1,NULL),(12,'t7','[\"ROLE_HEAD\"]','$2y$13$AMHn9Oo74jCgfgYR2bk1tuSDDBMiw2E9bevXyoYiyWvXPtMDTf8JW',5,NULL),(13,'s1','[\"ROLE_STORE\"]','$2y$13$dbHC6AGEuX3IQVl/nCQ5auJrD444QSwFPFVlyZ2qDZh6wW4YdUq/i',3,NULL),(14,'r1','[\"ROLE_RESTAURANT\"]','$2y$13$76eI2qzqAwaxpgupQt/MYeelY2b6mbXgM2U/ptk3bN0HGauQh9R0a',6,NULL),(15,'h1','[\"ROLE_HEAD\"]','$2y$13$RWxYfcuFFxM5.wXVrniE5OI96dlx2NGMVaraJrl0akRc92y1kJojG',5,NULL),(16,'a1','[\"ROLE_AGENCY\"]','$2y$13$747oFd.PJKUjAZ/UUxqLx.fuC75XxSsrHH9c07FzXhTWVwh9oiOGa',1,NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -731,4 +731,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-09-15 10:37:00
+-- Dump completed on 2022-09-15 15:13:10
