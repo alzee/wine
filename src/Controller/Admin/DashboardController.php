@@ -94,8 +94,8 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
+        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-chart-simple');
         if ($this->isGranted('ROLE_HEAD')) {
-            yield MenuItem::linkToDashboard('Dashboard', 'fa fa-chart-simple');
             yield MenuItem::linkToCrud('Org', 'fas fa-building', Org::class);
         }
         if (!$this->isGranted('ROLE_RESTAURANT')) {
