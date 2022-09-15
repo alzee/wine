@@ -1,3 +1,13 @@
 controllers:
     resource: ../src/Controller/
     type: attribute
+index:
+  path: /
+  controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
+  defaults:
+    #route: 'easyadmin'
+    path: '/admin'
+    version: 'current'
+    permanent: true
+    keepQueryParams: true
+    keepRequestMethod: true
