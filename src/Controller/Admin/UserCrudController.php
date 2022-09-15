@@ -26,9 +26,11 @@ class UserCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->onlyOnIndex(),
-            AssociationField::new('org')->HideWhenUpdating()->setQueryBuilder(
-                fn (QueryBuilder $qb) => $qb->andWhere('entity.type != 4')
-            ),
+            AssociationField::new('org')
+                ->HideWhenUpdating()
+                ->setQueryBuilder(
+                    fn (QueryBuilder $qb) => $qb->andWhere('entity.type != 4')
+                ),
             AssociationField::new('org')->OnlyWhenUpdating()->setFormTypeOptions(['disabled' => 'disabled']),
             TextField::new('username')->HideWhenUpdating(),
             TextField::new('username')->OnlyWhenUpdating()->setFormTypeOptions(['disabled' => 'disabled']),
