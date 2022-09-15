@@ -374,7 +374,7 @@ CREATE TABLE `org` (
 
 LOCK TABLES `org` WRITE;
 /*!40000 ALTER TABLE `org` DISABLE KEYS */;
-INSERT INTO `org` VALUES (1,'代理商1号','王一代','131111111','代理商1号地址','代理商1号区域',1,2450,NULL),(2,'代理商2号','王二代','13111111111','代理商2号地址','代理商2号区域',1,5000,5),(3,'门店1号','王一店','13111111111','门店1号地址','门店1号区域',2,50000,2),(4,'门店2号','王二店','13111111111','门店2号地址','门店2号区域',2,0,2),(5,'总公司','王总','13111111111','总部地址','总部区域',0,-10000,NULL),(6,'餐厅1号','王一餐','13111111111','餐厅1号地址','餐厅1号区域',3,3500,NULL),(7,'顾客','王一代','+8613207262011','No. 10','代理商1号区域',4,0,NULL),(8,'代理商3号','王三代','13111111111','代理商3号地址','代理商3号区域',1,0,5);
+INSERT INTO `org` VALUES (1,'代理商1号','王一代','131111111','代理商1号地址','代理商1号区域',1,2450,NULL),(2,'代理商2号','王二代','13111111111','代理商2号地址','代理商2号区域',1,5000,5),(3,'门店1号','王一店','13111111111','门店1号地址','门店1号区域',2,50000,2),(4,'门店2号','王二店','13111111111','门店2号地址','门店2号区域',2,0,2),(5,'总公司','王总','13111111111','总部地址','总部区域',0,-10000,NULL),(6,'餐厅1号','王一餐','13111111111','餐厅1号地址','餐厅1号区域',3,3500,1),(7,'顾客','王一代','+8613207262011','No. 10','代理商1号区域',4,0,NULL),(8,'代理商3号','王三代','13111111111','代理商3号地址','代理商3号区域',1,0,5);
 /*!40000 ALTER TABLE `org` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -715,7 +715,7 @@ CREATE TABLE `withdraw` (
   CONSTRAINT `FK_B5DE5F9E97139001` FOREIGN KEY (`applicant_id`) REFERENCES `org` (`id`),
   CONSTRAINT `FK_B5DE5F9EBB23766C` FOREIGN KEY (`approver_id`) REFERENCES `org` (`id`),
   CONSTRAINT `FK_B5DE5F9EF4837C1B` FOREIGN KEY (`org_id`) REFERENCES `org` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -724,7 +724,7 @@ CREATE TABLE `withdraw` (
 
 LOCK TABLES `withdraw` WRITE;
 /*!40000 ALTER TABLE `withdraw` DISABLE KEYS */;
-INSERT INTO `withdraw` VALUES (1,'2022-09-15 08:03:17',5000,0,NULL,1,NULL,1,5),(2,'2022-09-15 08:04:45',7000,0,NULL,1,NULL,1,5);
+INSERT INTO `withdraw` VALUES (1,'2022-09-15 08:03:17',5000,0,NULL,1,NULL,1,5),(2,'2022-09-15 08:04:45',7000,0,NULL,1,NULL,1,5),(3,'2022-09-15 09:04:34',5000,0,NULL,1,NULL,6,1);
 /*!40000 ALTER TABLE `withdraw` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -737,4 +737,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-09-15 16:36:25
+-- Dump completed on 2022-09-15 17:26:24
