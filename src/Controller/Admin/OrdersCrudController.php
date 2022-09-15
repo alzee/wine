@@ -70,7 +70,6 @@ class OrdersCrudController extends AbstractCrudController
             CollectionField::new('orderItems')
                 ->OnlyOnForms()
                 ->useEntryCrudForm(OrderItemsCrudController::class),
-            IntegerField::new('quantity'),
             MoneyField::new('amount')->setCurrency('CNY'),
             MoneyField::new('voucher')->setCurrency('CNY'),
             ChoiceField::new('status')->setChoices($this->statuses),
