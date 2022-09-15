@@ -51,7 +51,7 @@ class VoucherCrudController extends AbstractCrudController
         return [
             IdField::new('id')->onlyOnIndex(),
             AssociationField::new('org')->onlyOnIndex(),
-            AssociationField::new('org')->onlyOnForms()->setQueryBuilder (
+            AssociationField::new('org')->onlyOnForms()->setFormTypeOptions(['required' => 'required'])->setQueryBuilder (
                 fn (QueryBuilder $qb) => $qb->andWhere('entity.type <= 3')->andWhere('entity.type != 0')
             ),
             AssociationField::new('consumer')->onlyOnIndex(),
