@@ -118,6 +118,9 @@ class OrdersCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         $help = '订单由<b>发货方</b>创建。<br/><b>发货方</b>为当前登录机构，<b>收货方</b>为本机构下级。<br/>订单创建后默认为<b>待处理</b>状态，请检查并审核。';
-        return $crud->setHelp('new', $help);
+        return $crud
+            ->setHelp('index', $help)
+            ->setHelp('new', $help)
+        ;
     }
 }
