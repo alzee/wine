@@ -22,6 +22,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 
 class ProductCrudController extends AbstractCrudController
 {
@@ -78,5 +79,11 @@ class ProductCrudController extends AbstractCrudController
                 ->disable(Action::DELETE, Action::NEW)
             ;
         }
+    }
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        $help = '<b>商品编号</b>为总公司内部常用商品编号<br/><b>请正确填写库存</b>，为保证流转正常，创建后不能修改库存<br/><b>代金券</b>为本件商品随增的代金券金额';
+        return $crud->setHelp('new', $help);
     }
 }
