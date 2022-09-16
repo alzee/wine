@@ -66,8 +66,12 @@ class OrdersCrudController extends AbstractCrudController
                 ->OnlyOnForms()
                 ->setFormTypeOptions(['required' => 'required'])
                 ->useEntryCrudForm(),
-            MoneyField::new('amount')->setCurrency('CNY'),
-            MoneyField::new('voucher')->setCurrency('CNY'),
+            MoneyField::new('amount')
+                ->setCurrency('CNY')
+                ->onlyOnIndex(),
+            MoneyField::new('voucher')
+                ->setCurrency('CNY')
+                ->onlyOnIndex(),
             ChoiceField::new('status')->setChoices($this->statuses),
             TextareaField::new('note'),
         ];
