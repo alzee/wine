@@ -42,15 +42,15 @@ class ProductCrudController extends AbstractCrudController
             MoneyField::new('voucher')->setCurrency('CNY'),
             TextField::new('sn')->HideWhenUpdating(),
             TextField::new('sn')->onlyWhenUpdating()->setFormTypeOptions(['disabled' => 'disabled']),
-            AssociationField::new('org')
-                ->HideWhenUpdating()
-                ->setQueryBuilder(
-                    fn (QueryBuilder $qb) => $qb->andWhere('entity.type < 3')
-                ),
-            AssociationField::new('org')
-                ->onlyWhenUpdating()
-                ->setFormTypeOptions(['disabled' => 'disabled'])
-            ,
+            // AssociationField::new('org')
+            //     ->HideWhenUpdating()
+            //     ->setQueryBuilder(
+            //         fn (QueryBuilder $qb) => $qb->andWhere('entity.type < 3')
+            //     ),
+            // AssociationField::new('org')
+            //     ->onlyWhenUpdating()
+            //     ->setFormTypeOptions(['disabled' => 'disabled'])
+            // ,
         ];
     }
 
