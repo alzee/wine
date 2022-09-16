@@ -58,7 +58,9 @@ class ReturnsCrudController extends AbstractCrudController
             MoneyField::new('voucher')
                 ->setCurrency('CNY')
                 ->onlyOnIndex(),
-            ChoiceField::new('status')->setChoices(['Pending' => 0, 'Success' => 5]),
+            ChoiceField::new('status')
+                ->setChoices(['Pending' => 0, 'Success' => 5])
+                ->hideWhenCreating(),
             DateTimeField::new('date')->HideOnForm(),
             TextareaField::new('note'),
         ];

@@ -33,7 +33,7 @@ class Returns
     private ?int $voucher = 0;
 
     #[ORM\Column(type: Types::SMALLINT)]
-    private ?int $status = null;
+    private ?int $status = 0;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
