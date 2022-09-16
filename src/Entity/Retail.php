@@ -37,6 +37,14 @@ class Retail
     #[ORM\Column]
     private ?int $voucher = null;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $date = null;
+
+    public function __construct()
+    {
+        $this->date = new \DateTime();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -110,6 +118,18 @@ class Retail
     public function setVoucher(int $voucher): self
     {
         $this->voucher = $voucher;
+
+        return $this;
+    }
+
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(\DateTimeInterface $date): self
+    {
+        $this->date = $date;
 
         return $this;
     }
