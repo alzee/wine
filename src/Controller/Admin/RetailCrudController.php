@@ -41,8 +41,8 @@ class RetailCrudController extends AbstractCrudController
                 fn (QueryBuilder $qb) => $qb->andWhere('entity.org = :org')->setParameter('org', $this->getUser()->getOrg())
             ),
             IntegerField::new('quantity'),
-            MoneyField::new('amount')->setCurrency('CNY'),
-            MoneyField::new('voucher')->setCurrency('CNY'),
+            MoneyField::new('amount')->setCurrency('CNY')->onlyOnIndex(),
+            MoneyField::new('voucher')->setCurrency('CNY')->onlyOnIndex(),
             DateTimeField::new('date')->HideOnForm(),
         ];
     }

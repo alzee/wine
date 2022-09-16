@@ -32,10 +32,10 @@ class Retail
     private ?int $quantity = null;
 
     #[ORM\Column]
-    private ?int $amount = null;
+    private ?int $amount = 0;
 
     #[ORM\Column]
-    private ?int $voucher = null;
+    private ?int $voucher = 0;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
