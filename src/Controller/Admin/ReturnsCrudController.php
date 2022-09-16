@@ -24,6 +24,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 
 class ReturnsCrudController extends AbstractCrudController
 {
@@ -85,5 +86,11 @@ class ReturnsCrudController extends AbstractCrudController
                 ->disable(Action::DELETE)
             ;
         }
+    }
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        $help = '退货由<b>接收方</b>创建。<br/><b>接收方</b>为当前登录机构，<b>退货方</b>为本机构下级。';
+        return $crud->setHelp('new', $help);
     }
 }
