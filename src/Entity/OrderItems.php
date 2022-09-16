@@ -14,9 +14,6 @@ class OrderItems
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?int $price = null;
-
-    #[ORM\Column]
     private ?int $quantity = null;
 
     #[ORM\ManyToOne]
@@ -35,18 +32,6 @@ class OrderItems
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getPrice(): ?int
-    {
-        return $this->price;
-    }
-
-    public function setPrice(int $price): self
-    {
-        $this->price = $price;
-
-        return $this;
     }
 
     public function getQuantity(): ?int

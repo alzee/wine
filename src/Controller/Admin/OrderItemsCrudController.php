@@ -25,7 +25,6 @@ class OrderItemsCrudController extends AbstractCrudController
                         ->setParameter('org', $this->getUser()->getOrg())
                 ),
             IntegerField::new('quantity'),
-            IntegerField::new('price'),
         ];
     }
 }
