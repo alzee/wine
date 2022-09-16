@@ -50,19 +50,20 @@ class OrdersCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        $orgRepo = $this->doctrine->getRepository(Org::class);
         $user = $this->getUser();
         return [
             IdField::new('id')->onlyOnIndex(),
-            AssociationField::new('seller')->setQueryBuilder(
-                fn (QueryBuilder $qb) => $qb->andWhere('entity.id = :id')->setParameter('id', $user->getOrg())
-            ),
-            AssociationField::new('buyer')->setQueryBuilder(
-                fn (QueryBuilder $qb) => $qb
-                    ->andWhere('entity.upstream = :userOrg')
-                    ->andWhere('entity.type != 3')
-                    ->setParameter('userOrg', $user->getOrg())
-            ),
+            AssociationField::new('seller')
+                ->setQueryBuilder(
+                    fn (QueryBuilder $qb) => $qb->andWhere('entity.id = :id')->setParameter('id', $user->getOrg())
+                ),
+            AssociationField::new('buyer')
+                ->setQueryBuilder(
+                    fn (QueryBuilder $qb) => $qb
+                        ->andWhere('entity.upstream = :userOrg')
+                        ->andWhere('entity.type != 3')
+                        ->setParameter('userOrg', $user->getOrg())
+                ),
             CollectionField::new('orderItems')
                 ->OnlyOnForms()
                 ->setFormTypeOptions(['required' => 'required'])

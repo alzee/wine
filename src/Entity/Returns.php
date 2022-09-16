@@ -41,7 +41,7 @@ class Returns
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $note = null;
 
-    #[ORM\OneToMany(mappedBy: 'ret', targetEntity: ReturnItems::class)]
+    #[ORM\OneToMany(mappedBy: 'ret', targetEntity: ReturnItems::class, cascade: ["persist"])]
     private Collection $returnItems;
 
     public function __construct()
