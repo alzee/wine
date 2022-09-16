@@ -107,6 +107,7 @@ class WithdrawCrudController extends AbstractCrudController
     {
         $help = '<b>申请方</b>为当前登录机构。<br/>只有<b>餐厅</b>和<b>代理商</b>可以发起申请。<br/><b>餐厅</b>提交申请由<b>代理商</b>审核。<br/><b>代理商</b>提交申请由<b>总公司</b>审核。';
         return $crud
+            ->setDefaultSort(['id' => 'DESC'])
             ->setHelp('index', $help)
             ->setHelp('new', $help)
         ;

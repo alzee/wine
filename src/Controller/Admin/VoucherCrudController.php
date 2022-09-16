@@ -62,7 +62,11 @@ class VoucherCrudController extends AbstractCrudController
             AssociationField::new('consumer')->onlyOnIndex(),
             MoneyField::new('voucher')->setCurrency('CNY'),
             ChoiceField::new('type')->setChoices($types)->HideWhenCreating(),
-            ChoiceField::new('type')->setChoices(['内部调控' => 30])->onlyWhenCreating(),
+            ChoiceField::new('type')
+                ->setChoices(['内部调控' => 30])
+                ->onlyWhenCreating()
+                ->setHelp('总公司<b>灵活发放</b>代金券时，类型为<b>内部调控</b>')
+            ,
             TextField::new('note'),
             DateTimeField::new('date')->HideOnForm(),
         ];
@@ -89,5 +93,16 @@ class VoucherCrudController extends AbstractCrudController
             $response->andWhere("entity.org = $userOrg");
         }
         return $response;
+    }
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        $helpIndex = '总公司可以通过<b>新增代金券</b>为下级机构<b>灵活发放</b>代金券';
+        $helpNew = '总公司<b>灵活发放</b>代金券时，类型为<b>内部调控</b>';
+        return $crud
+            ->setDefaultSort(['id' => 'DESC'])
+            ->setHelp('index', $helpIndex)
+            ->setHelp('new', $helpNew)
+        ;
     }
 }

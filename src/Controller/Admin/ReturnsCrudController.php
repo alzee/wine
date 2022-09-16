@@ -92,6 +92,7 @@ class ReturnsCrudController extends AbstractCrudController
     {
         $help = '退货由<b>接收方</b>创建。<br/><b>接收方</b>为当前登录机构，<b>退货方</b>为本机构下级。<br/>退货创建后默认为<b>待处理</b>状态，请检查并审核。';
         return $crud
+            ->setDefaultSort(['id' => 'DESC'])
             ->setHelp('index', $help)
             ->setHelp('new', $help)
         ;
