@@ -53,7 +53,11 @@ class OrgCrudController extends AbstractCrudController
             AssociationField::new('upstream')->setQueryBuilder(
                 fn (QueryBuilder $qb) => $qb->andWhere('entity.type <= 1')
             )->onlyOnForms()->addCssClass("upstream d-none"),
-            MoneyField::new('voucher')->setCurrency('CNY')->setFormTypeOptions(['disabled' => 'disabled']),
+            MoneyField::new('voucher')
+                ->setCurrency('CNY')
+                ->hideOnForm()
+                // ->setFormTypeOptions(['disabled' => 'disabled'])
+            ,
         ];
     }
 
