@@ -74,7 +74,9 @@ class OrdersCrudController extends AbstractCrudController
             MoneyField::new('voucher')
                 ->setCurrency('CNY')
                 ->onlyOnIndex(),
-            ChoiceField::new('status')->setChoices($this->statuses),
+            ChoiceField::new('status')
+                ->setChoices($this->statuses)
+                ->hideWhenCreating(),
             DateTimeField::new('date')->HideOnForm(),
             TextareaField::new('note'),
         ];
