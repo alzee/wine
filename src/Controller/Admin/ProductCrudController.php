@@ -82,7 +82,9 @@ class ProductCrudController extends AbstractCrudController
     public function configureActions(Actions $actions): Actions
     {
         if ($this->isGranted('ROLE_HEAD')) {
-            return $actions;
+            return $actions
+                // ->remove(Crud::PAGE_INDEX, Action::DELETE)
+                ;
         } else {
             return $actions
                 ->disable(Action::DELETE, Action::NEW)
@@ -93,6 +95,9 @@ class ProductCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         $help = '<b>商品编号</b>为总公司内部常用商品编号<br/><b>请正确填写库存</b>，为保证流转正常，创建后不能修改库存<br/><b>代金券</b>为本件商品随增的代金券金额';
-        return $crud->setHelp('new', $help);
+        return $crud
+            // ->showEntityActionsInlined()
+            ->setHelp('new', $help)
+        ;
     }
 }
