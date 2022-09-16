@@ -57,7 +57,7 @@ class OrdersUpdate
                 $order->setAmount($amount);
                 $order->setVoucher($voucher);
 
-                // seller voucher + voucher
+                // seller voucher - voucher
                 $seller->setVoucher($seller->getVoucher() - $voucher);
 
                 // buyer voucher + voucher

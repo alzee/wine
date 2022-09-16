@@ -25,20 +25,34 @@ class ReturnsUpdate
 
         if (isset($changeSet['status'])) {
             if ($status == 5) {
-                $sender_product = $return->getProduct();
-                $sn = $sender_product->getSn();
                 $sender = $return->getSender();
                 $recipient = $return->getRecipient();
-                $quantity = $return->getQuantity();
-                $voucher = $return->getVoucher();
-                // sender stock - quantity
-                $sender_product->setStock($sender_product->getStock() - $quantity);
-                // sender voucher + voucher
+                $amount = 0;
+                $voucher = 0;
+                foreach ($return->getReturnItems() as $i) {
+                    $product = $i->getProduct();
+                    $quantity = $i->getQuantity();
+                    $sn = $product->getSn();
+                    $price = $product->getPrice();
+                    $unitVoucher = $product->getVoucher();
+                    // recipient product stock + quantity
+                    $product->setStock($product->getStock() + $quantity);
+                    // accumulate voucher
+                    $amount += $price * $quantity;
+                    // accumulate amount
+                    $voucher += $unitVoucher * $quantity;
+
+                    // sender product stock - quantity
+                    $sender_product = $em->getRepository(Product::class)->findOneByOrgAndSN($sender, $sn);
+                    $sender_product->setStock($sender_product->getStock() - $quantity);
+                }
+
+                $return->setAmount($amount);
+                $return->setVoucher($voucher);
+
+                // sender voucher - voucher
                 $sender->setVoucher($sender->getVoucher() - $voucher);
 
-                $recipient_product = $em->getRepository(Product::class)->findOneByOrgAndSN($recipient, $sn);
-                // recipient stock + quantity
-                $recipient_product->setStock($recipient_product->getStock() + $quantity);
                 // recipient voucher + voucher
                 $recipient->setVoucher($recipient->getVoucher() + $voucher);
 
