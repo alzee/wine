@@ -15,6 +15,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use Doctrine\ORM\QueryBuilder;
 use App\Entity\Org;
 use App\Entity\Product;
@@ -73,6 +74,7 @@ class OrdersCrudController extends AbstractCrudController
                 ->setCurrency('CNY')
                 ->onlyOnIndex(),
             ChoiceField::new('status')->setChoices($this->statuses),
+            DateTimeField::new('date')->HideOnForm(),
             TextareaField::new('note'),
         ];
     }

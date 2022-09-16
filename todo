@@ -1,4 +1,3 @@
-orders/returns/withdraw/retail/orderRestaurant: date on index
 chart
 orders/returns/retail:
   - amount/voucher compute

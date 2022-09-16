@@ -15,6 +15,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\PercentField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -72,6 +73,7 @@ class WithdrawCrudController extends AbstractCrudController
             ChoiceField::new('status')
                 ->OnlyWhenCreating()
                 ->setChoices(['Pending' => 0]),
+            DateTimeField::new('date')->HideOnForm(),
             TextareaField::new('note'),
         ];
     }
