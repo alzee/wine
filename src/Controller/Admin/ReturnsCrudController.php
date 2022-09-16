@@ -22,6 +22,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 
 class ReturnsCrudController extends AbstractCrudController
 {
@@ -68,5 +70,18 @@ class ReturnsCrudController extends AbstractCrudController
         $response = $this->container->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
         $response->andWhere("entity.sender = $userOrg")->orWhere("entity.recipient = $userOrg");
         return $response;
+    }
+
+    public function configureActions(Actions $actions): Actions
+    {
+        if ($this->isGranted('ROLE_STORE') || $this->isGranted('ROLE_RESTAURANT')) {
+            return $actions
+                ->disable(Action::DELETE, Action::NEW)
+            ;
+        } else {
+            return $actions
+                ->disable(Action::DELETE)
+            ;
+        }
     }
 }
