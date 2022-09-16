@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ReturnsRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
@@ -39,9 +41,13 @@ class Returns
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $note = null;
 
+    #[ORM\OneToMany(mappedBy: 'ret', targetEntity: ReturnItems::class)]
+    private Collection $returnItems;
+
     public function __construct()
     {
         $this->date = new \DateTime();
+        $this->returnItems = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -129,6 +135,36 @@ class Returns
     public function setNote(?string $note): self
     {
         $this->note = $note;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ReturnItems>
+     */
+    public function getReturnItems(): Collection
+    {
+        return $this->returnItems;
+    }
+
+    public function addReturnItem(ReturnItems $returnItem): self
+    {
+        if (!$this->returnItems->contains($returnItem)) {
+            $this->returnItems->add($returnItem);
+            $returnItem->setRet($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReturnItem(ReturnItems $returnItem): self
+    {
+        if ($this->returnItems->removeElement($returnItem)) {
+            // set the owning side to null (unless already changed)
+            if ($returnItem->getRet() === $this) {
+                $returnItem->setRet(null);
+            }
+        }
 
         return $this;
     }
