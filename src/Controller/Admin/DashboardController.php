@@ -109,11 +109,11 @@ class DashboardController extends AbstractDashboardController
         if ($this->isGranted('ROLE_RESTAURANT')) {
             yield MenuItem::linkToCrud('OrderRestaurant', 'fas fa-utensils', OrderRestaurant::class);
         }
-        if (!$this->isGranted('ROLE_STORE')) {
-            yield MenuItem::linkToCrud('Withdraw', 'fas fa-money-bill', Withdraw::class);
-        }
         if (!$this->isGranted('ROLE_RESTAURANT')) {
             yield MenuItem::linkToCrud('Returns', 'fas fa-cart-arrow-down', Returns::class);
+        }
+        if (!$this->isGranted('ROLE_STORE')) {
+            yield MenuItem::linkToCrud('Withdraw', 'fas fa-money-bill', Withdraw::class);
         }
         yield MenuItem::linkToCrud('Voucher.detail', 'fas fa-ticket', Voucher::class);
         if ($this->isGranted('ROLE_HEAD')) {

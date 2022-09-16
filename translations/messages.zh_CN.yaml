@@ -37,11 +37,11 @@ Cancelled: 已取消
 Success: 已完成
 Orders: 订单
 Org: 机构
-Returns: 退货申请
+Returns: 退货
 Consumer: 顾客
 Type: 类型
 Seller: 发货方
-Buyer: 请货方
+Buyer: 收货方
 Head2Agency: 代理商订货
 Agency2Store: 门店订货
 Head: 总公司
