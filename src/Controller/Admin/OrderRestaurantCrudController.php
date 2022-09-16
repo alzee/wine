@@ -35,9 +35,17 @@ class OrderRestaurantCrudController extends AbstractCrudController
             AssociationField::new('restaurant')->onlyWhenCreating()->setQueryBuilder (
                 fn (QueryBuilder $qb) => $qb->andWhere('entity.id = :id')->setParameter('id', $this->getUser()->getOrg())
             ),
-            TextField::new('orderNo'),
-            MoneyField::new('amount')->setCurrency('CNY'),
-            MoneyField::new('voucher')->setCurrency('CNY'),
+            TextField::new('orderNo')
+                ->setHelp('顾客在餐厅消费的订单号')
+            ,
+            MoneyField::new('amount')
+                ->setCurrency('CNY')
+                ->setHelp('顾客在餐厅消费的订单金额')
+            ,
+            MoneyField::new('voucher')
+                ->setCurrency('CNY')
+                ->setHelp('顾客结账时抵用的代金券金额')
+            ,
             AssociationField::new('consumer'),
             DateTimeField::new('date')->HideOnForm(),
             TextareaField::new('note'),
@@ -48,6 +56,17 @@ class OrderRestaurantCrudController extends AbstractCrudController
     {
         return $actions
             ->disable(Action::DELETE, Action::EDIT)
+        ;
+    }
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        // $helpIndex = '';
+        $helpNew = '请填写<b>餐厅订单号</b>及<b>金额</b>以便于后期对账。';
+        return $crud
+            ->setDefaultSort(['id' => 'DESC'])
+            // ->setHelp('index', $helpIndex)
+            ->setHelp('new', $helpNew)
         ;
     }
 }
