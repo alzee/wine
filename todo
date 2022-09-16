@@ -1,27 +1,12 @@
+uniqe err
 chart
-orders/returns/retail:
-  - amount/voucher compute
 
 get entity in configureFields? So I can disable status field if is complete
 have to use setTimeout() in js?
 why repo->find(1) give uninitialized? $this->getUser()->getOrg() too
 
-订货/退货 谁发起？
 门店进货后整件商品打散？
 
-questions:
-  - 门店不提现？
-  - 门店是否和代理商有对应关系？是否可以跨区域请货？
-
 voucher 以钱包的形式
-
-status:
-  - 0 待处理
-  - 4 已取消
-  - 5 已完成
-return status:
-  - 0 待处理
-  - 5 已退货
-
 
 # vim:ft=yaml
