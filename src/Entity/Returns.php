@@ -24,18 +24,11 @@ class Returns
     #[ORM\JoinColumn(nullable: false)]
     private ?Org $recipient = null;
 
-    #[ORM\ManyToOne(inversedBy: 'returns')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Product $product = null;
-
-    #[ORM\Column(type: Types::SMALLINT)]
-    private ?int $quantity = null;
+    #[ORM\Column]
+    private ?int $amount = 0;
 
     #[ORM\Column]
-    private ?int $amount = null;
-
-    #[ORM\Column]
-    private ?int $voucher = null;
+    private ?int $voucher = 0;
 
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $status = null;
@@ -76,30 +69,6 @@ class Returns
     public function setRecipient(?Org $recipient): self
     {
         $this->recipient = $recipient;
-
-        return $this;
-    }
-
-    public function getProduct(): ?Product
-    {
-        return $this->product;
-    }
-
-    public function setProduct(?Product $product): self
-    {
-        $this->product = $product;
-
-        return $this;
-    }
-
-    public function getQuantity(): ?int
-    {
-        return $this->quantity;
-    }
-
-    public function setQuantity(int $quantity): self
-    {
-        $this->quantity = $quantity;
 
         return $this;
     }
