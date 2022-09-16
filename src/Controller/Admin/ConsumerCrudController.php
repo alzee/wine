@@ -29,7 +29,9 @@ class ConsumerCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->onlyOnIndex(),
-            TextField::new('openid'),
+            TextField::new('openid')
+            ->setHelp('微信openid')
+            ,
             TextField::new('name', 'Consumer.name'),
             TextField::new('phone'),
             MoneyField::new('voucher')->setCurrency('CNY'),
@@ -42,4 +44,15 @@ class ConsumerCrudController extends AbstractCrudController
             ->disable(Action::DELETE)
         ;
     }
+
+    // public function configureCrud(Crud $crud): Crud
+    // {
+    //     $helpIndex = '';
+    //     $helpNew = '';
+    //     return $crud
+    //         // ->setDefaultSort(['id' => 'DESC'])
+    //         ->setHelp('index', $helpIndex)
+    //         ->setHelp('new', $helpNew)
+    //     ;
+    // }
 }
