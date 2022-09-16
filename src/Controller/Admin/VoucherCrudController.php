@@ -97,8 +97,8 @@ class VoucherCrudController extends AbstractCrudController
 
     public function configureCrud(Crud $crud): Crud
     {
-        $helpIndex = '总公司可以通过<b>新增代金券</b>为下级机构<b>灵活发放</b>代金券';
-        $helpNew = '总公司<b>灵活发放</b>代金券时，类型为<b>内部调控</b>';
+        $helpIndex = '总公司可以通过<b>新增代金券</b>为下级机构<b>灵活发放</b>代金券<br/>如需修改顾客代金券，请在<b>顾客</b>管理中编辑';
+        $helpNew = '总公司<b>灵活发放</b>代金券时，类型为<b>内部调控</b><br/>如需修改顾客代金券，请在<b>顾客</b>管理中编辑';
         return $crud
             ->setDefaultSort(['id' => 'DESC'])
             ->setHelp('index', $helpIndex)
