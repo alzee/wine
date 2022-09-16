@@ -27,8 +27,6 @@ class OrdersUpdate
             if ($status == 5) {
                 $seller = $order->getSeller();
                 $buyer = $order->getBuyer();
-                $amount = 0;
-                $voucher = 0;
                 foreach ($order->getOrderItems() as $i) {
                     $product = $i->getProduct();
                     $sn = $product->getSn();
@@ -37,11 +35,6 @@ class OrdersUpdate
                     $unitVoucher = $product->getVoucher();
                     // product stock - quantity
                     $product->setStock($product->getStock() - $quantity);
-                    // accumulate voucher
-                    $amount += $price * $quantity;
-                    // accumulate amount
-                    $voucher += $unitVoucher * $quantity;
-
                     // if not find this product in buyer org, create it
                     $buyer_product = $em->getRepository(Product::class)->findOneByOrgAndSN($buyer, $sn);
                     if (is_null($buyer_product)) {
@@ -54,9 +47,7 @@ class OrdersUpdate
                     $buyer_product->setStock($buyer_product->getStock() + $quantity);
                 }
 
-                $order->setAmount($amount);
-                $order->setVoucher($voucher);
-
+                $voucher = $order->getVoucher();
                 // seller voucher - voucher
                 $seller->setVoucher($seller->getVoucher() - $voucher);
 

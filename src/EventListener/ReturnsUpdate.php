@@ -27,8 +27,6 @@ class ReturnsUpdate
             if ($status == 5) {
                 $sender = $return->getSender();
                 $recipient = $return->getRecipient();
-                $amount = 0;
-                $voucher = 0;
                 foreach ($return->getReturnItems() as $i) {
                     $product = $i->getProduct();
                     $quantity = $i->getQuantity();
@@ -37,19 +35,12 @@ class ReturnsUpdate
                     $unitVoucher = $product->getVoucher();
                     // recipient product stock + quantity
                     $product->setStock($product->getStock() + $quantity);
-                    // accumulate voucher
-                    $amount += $price * $quantity;
-                    // accumulate amount
-                    $voucher += $unitVoucher * $quantity;
-
                     // sender product stock - quantity
                     $sender_product = $em->getRepository(Product::class)->findOneByOrgAndSN($sender, $sn);
                     $sender_product->setStock($sender_product->getStock() - $quantity);
                 }
 
-                $return->setAmount($amount);
-                $return->setVoucher($voucher);
-
+                $voucher = $return->getVoucher()
                 // sender voucher - voucher
                 $sender->setVoucher($sender->getVoucher() - $voucher);
 
