@@ -28,7 +28,7 @@ class Product
     private ?int $price = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
-    private ?int $stock = null;
+    private ?int $stock = 0;
 
     #[ORM\Column(length: 255)]
     private ?string $sn = null;
