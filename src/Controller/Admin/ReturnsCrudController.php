@@ -35,8 +35,6 @@ class ReturnsCrudController extends AbstractCrudController
             IdField::new('id')->onlyOnIndex(),
             AssociationField::new('sender'),
             AssociationField::new('recipient'),
-            AssociationField::new('product'),
-            IntegerField::new('quantity'),
             MoneyField::new('amount')->setCurrency('CNY'),
             MoneyField::new('voucher')->setCurrency('CNY'),
             ChoiceField::new('status')->setChoices(['Pending' => 0, 'Success' => 5]),
