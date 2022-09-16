@@ -70,9 +70,6 @@ class WithdrawCrudController extends AbstractCrudController
             ChoiceField::new('status')
                 ->HideWhenCreating()
                 ->setChoices(['Pending' => 0, 'Rejected' => 4, 'Success' => 5]),
-            ChoiceField::new('status')
-                ->OnlyWhenCreating()
-                ->setChoices(['Pending' => 0]),
             DateTimeField::new('date')->HideOnForm(),
             TextareaField::new('note'),
         ];

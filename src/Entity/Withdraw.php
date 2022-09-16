@@ -23,7 +23,7 @@ class Withdraw
     private ?int $amount = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
-    private ?int $status = null;
+    private ?int $status = 0;
 
     #[ORM\ManyToOne(inversedBy: 'withdraws')]
     private ?Org $org = null;
