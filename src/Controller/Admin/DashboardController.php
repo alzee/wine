@@ -30,6 +30,7 @@ use App\Entity\Retail;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
 use Symfony\UX\Chartjs\Model\Chart;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 
 class DashboardController extends AbstractDashboardController
 {
@@ -122,5 +123,11 @@ class DashboardController extends AbstractDashboardController
         if ($this->isGranted('ROLE_HEAD')) {
             yield MenuItem::linkToCrud('User', 'fas fa-user', User::class);
         }
+    }
+
+    public function configureCrud(): Crud
+    {
+        return Crud::new()
+            ->setTimezone('Asia/Shanghai');
     }
 }
