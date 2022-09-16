@@ -40,7 +40,7 @@ class ReturnsUpdate
                     $sender_product->setStock($sender_product->getStock() - $quantity);
                 }
 
-                $voucher = $return->getVoucher()
+                $voucher = $return->getVoucher();
                 // sender voucher - voucher
                 $sender->setVoucher($sender->getVoucher() - $voucher);
 
