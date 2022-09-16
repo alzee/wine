@@ -49,14 +49,18 @@ class OrgCrudController extends AbstractCrudController
                 ->onlyWhenCreating()
                 ->setHelp('当<b>类型</b>选择<b>门店</b>或<b>餐厅</b>时，需要选择对应的上级代理商。')
             ,
+            AssociationField::new('upstream')
+                ->onlyOnForms()
+                ->addCssClass("upstream d-none")
+                ->setQueryBuilder(
+                    fn (QueryBuilder $qb) => $qb->andWhere('entity.type <= 1')
+                )
+            ,
             TextField::new('name'),
             TextField::new('contact'),
             TelephoneField::new('phone'),
             TextField::new('address'),
             TextField::new('district'),
-            AssociationField::new('upstream')->setQueryBuilder(
-                fn (QueryBuilder $qb) => $qb->andWhere('entity.type <= 1')
-            )->onlyOnForms()->addCssClass("upstream d-none"),
             MoneyField::new('voucher')
                 ->setCurrency('CNY')
                 ->hideOnForm()
