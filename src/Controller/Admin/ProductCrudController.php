@@ -40,7 +40,8 @@ class ProductCrudController extends AbstractCrudController
             IntegerField::new('stock')->HideWhenUpdating(),
             IntegerField::new('stock')->onlyWhenUpdating()->setFormTypeOptions(['disabled' => 'disabled']),
             MoneyField::new('voucher')->setCurrency('CNY'),
-            TextField::new('sn'),
+            TextField::new('sn')->HideWhenUpdating(),
+            TextField::new('sn')->onlyWhenUpdating()->setFormTypeOptions(['disabled' => 'disabled']),
             AssociationField::new('org')
                 ->HideWhenUpdating()
                 ->setQueryBuilder(
