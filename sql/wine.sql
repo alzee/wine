@@ -38,7 +38,7 @@ CREATE TABLE `consumer` (
 
 LOCK TABLES `consumer` WRITE;
 /*!40000 ALTER TABLE `consumer` DISABLE KEYS */;
-INSERT INTO `consumer` VALUES (1,'111',58000,'王一顾','13211111111');
+INSERT INTO `consumer` VALUES (1,'111',59000,'王一顾','13211111111');
 /*!40000 ALTER TABLE `consumer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -63,7 +63,7 @@ CREATE TABLE `doctrine_migration_versions` (
 
 LOCK TABLES `doctrine_migration_versions` WRITE;
 /*!40000 ALTER TABLE `doctrine_migration_versions` DISABLE KEYS */;
-INSERT INTO `doctrine_migration_versions` VALUES ('DoctrineMigrations\\Version20220905032624','2022-09-06 08:44:42',98),('DoctrineMigrations\\Version20220905034646','2022-09-06 08:44:42',22),('DoctrineMigrations\\Version20220905034844','2022-09-06 08:44:43',26),('DoctrineMigrations\\Version20220905035935','2022-09-06 08:44:43',144),('DoctrineMigrations\\Version20220905040247','2022-09-06 08:44:43',48),('DoctrineMigrations\\Version20220905040757','2022-09-06 08:44:43',24),('DoctrineMigrations\\Version20220905041124','2022-09-06 08:44:43',24),('DoctrineMigrations\\Version20220905041645','2022-09-06 08:44:43',92),('DoctrineMigrations\\Version20220905042134','2022-09-06 08:44:43',94),('DoctrineMigrations\\Version20220905042511','2022-09-06 08:44:43',20),('DoctrineMigrations\\Version20220905042659','2022-09-06 08:44:43',20),('DoctrineMigrations\\Version20220905043004','2022-09-06 08:44:43',11),('DoctrineMigrations\\Version20220905043638','2022-09-06 08:44:43',199),('DoctrineMigrations\\Version20220905043837','2022-09-06 08:44:43',177),('DoctrineMigrations\\Version20220905044029','2022-09-06 08:44:43',172),('DoctrineMigrations\\Version20220905044154','2022-09-06 08:44:44',9),('DoctrineMigrations\\Version20220906030233','2022-09-06 08:44:44',23),('DoctrineMigrations\\Version20220906030331','2022-09-06 08:44:44',9),('DoctrineMigrations\\Version20220906032412','2022-09-06 08:44:44',8),('DoctrineMigrations\\Version20220906034230','2022-09-06 08:44:44',13),('DoctrineMigrations\\Version20220906044555','2022-09-06 08:44:44',10),('DoctrineMigrations\\Version20220906052433','2022-09-06 08:44:44',70),('DoctrineMigrations\\Version20220906074723','2022-09-06 08:44:44',25),('DoctrineMigrations\\Version20220906080145','2022-09-06 08:44:44',20),('DoctrineMigrations\\Version20220906081528','2022-09-06 08:44:44',248),('DoctrineMigrations\\Version20220906082840','2022-09-06 08:44:44',247),('DoctrineMigrations\\Version20220906083319','2022-09-06 08:44:44',132),('DoctrineMigrations\\Version20220906111008','2022-09-06 11:10:12',58),('DoctrineMigrations\\Version20220906112856','2022-09-06 11:28:58',55),('DoctrineMigrations\\Version20220906113057','2022-09-06 11:30:58',157),('DoctrineMigrations\\Version20220906113840','2022-09-06 11:38:41',148),('DoctrineMigrations\\Version20220906114120','2022-09-06 11:41:21',57),('DoctrineMigrations\\Version20220906115333','2022-09-06 11:53:35',57),('DoctrineMigrations\\Version20220906120020','2022-09-06 12:00:21',141),('DoctrineMigrations\\Version20220906120335','2022-09-06 12:03:37',56),('DoctrineMigrations\\Version20220906120912','2022-09-06 12:09:13',73),('DoctrineMigrations\\Version20220906143539','2022-09-06 14:35:40',88),('DoctrineMigrations\\Version20220906143722','2022-09-06 14:37:23',157),('DoctrineMigrations\\Version20220906144624','2022-09-06 14:46:25',97),('DoctrineMigrations\\Version20220906145231','2022-09-06 14:52:32',161),('DoctrineMigrations\\Version20220906145806','2022-09-06 14:58:08',126),('DoctrineMigrations\\Version20220906153137','2022-09-06 15:31:39',73),('DoctrineMigrations\\Version20220906162721','2022-09-06 16:27:22',153),('DoctrineMigrations\\Version20220906182338','2022-09-06 18:23:39',57),('DoctrineMigrations\\Version20220907141027','2022-09-07 14:10:29',126),('DoctrineMigrations\\Version20220907141920','2022-09-07 14:19:21',189),('DoctrineMigrations\\Version20220907145621','2022-09-07 14:56:22',272),('DoctrineMigrations\\Version20220907152801','2022-09-07 15:28:02',206),('DoctrineMigrations\\Version20220913072842','2022-09-14 00:29:01',74),('DoctrineMigrations\\Version20220913094839','2022-09-14 00:29:01',4),('DoctrineMigrations\\Version20220913102501','2022-09-14 00:29:01',29),('DoctrineMigrations\\Version20220914005419','2022-09-14 00:54:21',55),('DoctrineMigrations\\Version20220914100935','2022-09-15 00:50:35',92),('DoctrineMigrations\\Version20220914103307','2022-09-15 00:50:35',30),('DoctrineMigrations\\Version20220914123056','2022-09-15 00:50:35',3),('DoctrineMigrations\\Version20220915013706','2022-09-15 01:37:25',68),('DoctrineMigrations\\Version20220915073043','2022-09-15 07:59:47',282),('DoctrineMigrations\\Version20220915080140','2022-09-15 08:01:45',106),('DoctrineMigrations\\Version20220915092811','2022-09-15 09:28:18',78),('DoctrineMigrations\\Version20220915093205','2022-09-15 09:32:07',101),('DoctrineMigrations\\Version20220915094641','2022-09-15 09:46:49',273),('DoctrineMigrations\\Version20220915161230','2022-09-15 16:12:39',56),('DoctrineMigrations\\Version20220915161635','2022-09-15 16:16:42',86);
+INSERT INTO `doctrine_migration_versions` VALUES ('DoctrineMigrations\\Version20220905032624','2022-09-06 08:44:42',98),('DoctrineMigrations\\Version20220905034646','2022-09-06 08:44:42',22),('DoctrineMigrations\\Version20220905034844','2022-09-06 08:44:43',26),('DoctrineMigrations\\Version20220905035935','2022-09-06 08:44:43',144),('DoctrineMigrations\\Version20220905040247','2022-09-06 08:44:43',48),('DoctrineMigrations\\Version20220905040757','2022-09-06 08:44:43',24),('DoctrineMigrations\\Version20220905041124','2022-09-06 08:44:43',24),('DoctrineMigrations\\Version20220905041645','2022-09-06 08:44:43',92),('DoctrineMigrations\\Version20220905042134','2022-09-06 08:44:43',94),('DoctrineMigrations\\Version20220905042511','2022-09-06 08:44:43',20),('DoctrineMigrations\\Version20220905042659','2022-09-06 08:44:43',20),('DoctrineMigrations\\Version20220905043004','2022-09-06 08:44:43',11),('DoctrineMigrations\\Version20220905043638','2022-09-06 08:44:43',199),('DoctrineMigrations\\Version20220905043837','2022-09-06 08:44:43',177),('DoctrineMigrations\\Version20220905044029','2022-09-06 08:44:43',172),('DoctrineMigrations\\Version20220905044154','2022-09-06 08:44:44',9),('DoctrineMigrations\\Version20220906030233','2022-09-06 08:44:44',23),('DoctrineMigrations\\Version20220906030331','2022-09-06 08:44:44',9),('DoctrineMigrations\\Version20220906032412','2022-09-06 08:44:44',8),('DoctrineMigrations\\Version20220906034230','2022-09-06 08:44:44',13),('DoctrineMigrations\\Version20220906044555','2022-09-06 08:44:44',10),('DoctrineMigrations\\Version20220906052433','2022-09-06 08:44:44',70),('DoctrineMigrations\\Version20220906074723','2022-09-06 08:44:44',25),('DoctrineMigrations\\Version20220906080145','2022-09-06 08:44:44',20),('DoctrineMigrations\\Version20220906081528','2022-09-06 08:44:44',248),('DoctrineMigrations\\Version20220906082840','2022-09-06 08:44:44',247),('DoctrineMigrations\\Version20220906083319','2022-09-06 08:44:44',132),('DoctrineMigrations\\Version20220906111008','2022-09-06 11:10:12',58),('DoctrineMigrations\\Version20220906112856','2022-09-06 11:28:58',55),('DoctrineMigrations\\Version20220906113057','2022-09-06 11:30:58',157),('DoctrineMigrations\\Version20220906113840','2022-09-06 11:38:41',148),('DoctrineMigrations\\Version20220906114120','2022-09-06 11:41:21',57),('DoctrineMigrations\\Version20220906115333','2022-09-06 11:53:35',57),('DoctrineMigrations\\Version20220906120020','2022-09-06 12:00:21',141),('DoctrineMigrations\\Version20220906120335','2022-09-06 12:03:37',56),('DoctrineMigrations\\Version20220906120912','2022-09-06 12:09:13',73),('DoctrineMigrations\\Version20220906143539','2022-09-06 14:35:40',88),('DoctrineMigrations\\Version20220906143722','2022-09-06 14:37:23',157),('DoctrineMigrations\\Version20220906144624','2022-09-06 14:46:25',97),('DoctrineMigrations\\Version20220906145231','2022-09-06 14:52:32',161),('DoctrineMigrations\\Version20220906145806','2022-09-06 14:58:08',126),('DoctrineMigrations\\Version20220906153137','2022-09-06 15:31:39',73),('DoctrineMigrations\\Version20220906162721','2022-09-06 16:27:22',153),('DoctrineMigrations\\Version20220906182338','2022-09-06 18:23:39',57),('DoctrineMigrations\\Version20220907141027','2022-09-07 14:10:29',126),('DoctrineMigrations\\Version20220907141920','2022-09-07 14:19:21',189),('DoctrineMigrations\\Version20220907145621','2022-09-07 14:56:22',272),('DoctrineMigrations\\Version20220907152801','2022-09-07 15:28:02',206),('DoctrineMigrations\\Version20220913072842','2022-09-14 00:29:01',74),('DoctrineMigrations\\Version20220913094839','2022-09-14 00:29:01',4),('DoctrineMigrations\\Version20220913102501','2022-09-14 00:29:01',29),('DoctrineMigrations\\Version20220914005419','2022-09-14 00:54:21',55),('DoctrineMigrations\\Version20220914100935','2022-09-15 00:50:35',92),('DoctrineMigrations\\Version20220914103307','2022-09-15 00:50:35',30),('DoctrineMigrations\\Version20220914123056','2022-09-15 00:50:35',3),('DoctrineMigrations\\Version20220915013706','2022-09-15 01:37:25',68),('DoctrineMigrations\\Version20220915073043','2022-09-15 07:59:47',282),('DoctrineMigrations\\Version20220915080140','2022-09-15 08:01:45',106),('DoctrineMigrations\\Version20220915092811','2022-09-15 09:28:18',78),('DoctrineMigrations\\Version20220915093205','2022-09-15 09:32:07',101),('DoctrineMigrations\\Version20220915094641','2022-09-15 09:46:49',273),('DoctrineMigrations\\Version20220915161230','2022-09-15 16:12:39',56),('DoctrineMigrations\\Version20220915161635','2022-09-15 16:16:42',86),('DoctrineMigrations\\Version20220916004730','2022-09-16 00:47:37',124),('DoctrineMigrations\\Version20220916015129','2022-09-16 01:51:36',64);
 /*!40000 ALTER TABLE `doctrine_migration_versions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -109,14 +109,13 @@ CREATE TABLE `order_items` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `ord_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
-  `price` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_62809DB04584665A` (`product_id`),
   KEY `IDX_62809DB0E636D3F5` (`ord_id`),
   CONSTRAINT `FK_62809DB04584665A` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
   CONSTRAINT `FK_62809DB0E636D3F5` FOREIGN KEY (`ord_id`) REFERENCES `orders` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -125,7 +124,7 @@ CREATE TABLE `order_items` (
 
 LOCK TABLES `order_items` WRITE;
 /*!40000 ALTER TABLE `order_items` DISABLE KEYS */;
-INSERT INTO `order_items` VALUES (1,7,1,111,555),(2,8,1,5,5),(3,9,2,5,5),(4,9,1,5,5),(5,9,2,5,5),(6,12,3,5,5),(7,12,3,5,5),(8,1,3,1,1);
+INSERT INTO `order_items` VALUES (1,7,1,555),(2,8,1,5),(3,9,2,5),(4,9,1,5),(5,9,2,5),(6,12,3,5),(7,12,3,5),(8,1,3,1),(9,3,1,2),(10,15,1,5),(11,15,2,5),(12,16,3,2),(13,16,8,2);
 /*!40000 ALTER TABLE `order_items` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -184,7 +183,7 @@ CREATE TABLE `orders` (
   KEY `IDX_E52FFDEE6C755722` (`buyer_id`),
   CONSTRAINT `FK_E52FFDEE6C755722` FOREIGN KEY (`buyer_id`) REFERENCES `org` (`id`),
   CONSTRAINT `FK_E52FFDEE8DE820D9` FOREIGN KEY (`seller_id`) REFERENCES `org` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -193,7 +192,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (1,1,3,10000,1000,5,'2022-09-06 09:17:17',NULL),(2,1,3,1000,500,5,'2022-09-06 11:05:35',NULL),(3,5,1,1000,500,5,'2022-09-06 11:13:16',NULL),(4,5,2,50000,5000,5,'2022-09-06 17:03:01',NULL),(5,5,2,50000,5000,5,'2022-09-06 17:04:48',NULL),(6,5,2,500000,50000,5,'2022-09-06 17:20:26',NULL),(7,5,2,100,100,0,'2022-09-15 15:30:49',NULL),(8,5,2,500,500,0,'2022-09-15 15:45:04',NULL),(9,5,2,600,600,0,'2022-09-15 15:45:40',NULL),(10,5,2,700,700,0,'2022-09-15 15:50:36',NULL),(11,1,3,500,500,0,'2022-09-15 16:16:55',NULL),(12,1,3,50000,50000,0,'2022-09-15 16:18:01',NULL),(13,1,3,600,600,0,'2022-09-15 16:22:37',NULL),(14,1,3,7700,7700,0,'2022-09-15 16:23:09',NULL);
+INSERT INTO `orders` VALUES (1,1,3,10000,1000,5,'2022-09-06 09:17:17',NULL),(2,1,3,1000,500,5,'2022-09-06 11:05:35',NULL),(3,5,1,1000,500,5,'2022-09-06 11:13:16','14ffsdfadf'),(4,5,2,50000,5000,5,'2022-09-06 17:03:01',NULL),(5,5,2,50000,5000,5,'2022-09-06 17:04:48',NULL),(6,5,2,500000,50000,5,'2022-09-06 17:20:26',NULL),(7,5,2,100,100,0,'2022-09-15 15:30:49',NULL),(8,5,2,500,500,0,'2022-09-15 15:45:04',NULL),(9,5,2,600,600,0,'2022-09-15 15:45:40',NULL),(10,5,2,700,700,0,'2022-09-15 15:50:36',NULL),(11,1,3,500,500,0,'2022-09-15 16:16:55',NULL),(12,1,3,50000,50000,0,'2022-09-15 16:18:01',NULL),(13,1,3,600,600,0,'2022-09-15 16:22:37',NULL),(14,1,3,7700,7700,0,'2022-09-15 16:23:09',NULL),(15,5,1,3000000,300000,5,'2022-09-16 01:29:27',NULL),(16,1,3,210000,21000,5,'2022-09-16 01:34:26',NULL);
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -226,7 +225,7 @@ CREATE TABLE `org` (
 
 LOCK TABLES `org` WRITE;
 /*!40000 ALTER TABLE `org` DISABLE KEYS */;
-INSERT INTO `org` VALUES (1,'代理商1号','王一代','131111111','代理商1号地址','代理商1号区域',1,2450,5),(2,'代理商2号','王二代','13111111111','代理商2号地址','代理商2号区域',1,5000,5),(3,'门店1号','王一店','13111111111','门店1号地址','门店1号区域',2,50000,1),(4,'门店2号','王二店','13111111111','门店2号地址','门店2号区域',2,0,2),(5,'总公司','王总','13111111111','总部地址','总部区域',0,-10000,NULL),(6,'餐厅1号','王一餐','13111111111','餐厅1号地址','餐厅1号区域',3,3500,1),(7,'顾客','王一代','+8613207262011','No. 10','代理商1号区域',4,0,NULL),(8,'代理商3号','王三代','13111111111','代理商3号地址','代理商3号区域',1,0,5);
+INSERT INTO `org` VALUES (1,'代理商1号','王一代','131111111','代理商1号地址','代理商1号区域',1,281450,5),(2,'代理商2号','王二代','13111111111','代理商2号地址','代理商2号区域',1,5000,5),(3,'门店1号','王一店','13111111111','门店1号地址','门店1号区域',2,70000,1),(4,'门店2号','王二店','13111111111','门店2号地址','门店2号区域',2,0,2),(5,'总公司','王总','13111111111','总部地址','总部区域',0,-310000,NULL),(6,'餐厅1号','王一餐','13111111111','餐厅1号地址','餐厅1号区域',3,3500,1),(7,'顾客','王一代','+8613207262011','No. 10','代理商1号区域',4,0,NULL),(8,'代理商3号','王三代','13111111111','代理商3号地址','代理商3号区域',1,0,5);
 /*!40000 ALTER TABLE `org` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -249,7 +248,7 @@ CREATE TABLE `product` (
   PRIMARY KEY (`id`),
   KEY `IDX_D34A04ADF4837C1B` (`org_id`),
   CONSTRAINT `FK_D34A04ADF4837C1B` FOREIGN KEY (`org_id`) REFERENCES `org` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -258,7 +257,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (1,'五粮液10年','500mlx6',5000,47,'11111',500,5),(2,'白云边12年','500mlx6',500,98,'11112',50,5),(3,'五粮液10年','500mlx6',5000,3,'11111',500,1),(4,'五粮液10年','500mlx6',5000,1,'11111',500,3),(5,'白云边12年','500mlx6',500,2,'11112',50,2),(6,'五粮液10年','500mlx6',5000,0,'11111',500,2),(7,'习酒500ml','500mlx6',500000,5,'454',50000,4);
+INSERT INTO `product` VALUES (1,'五粮液10年','500mlx6',500000,42,'11111',50000,5),(2,'白云边12年','500mlx6',100000,93,'11112',10000,5),(3,'五粮液10年','500mlx6',5000,6,'11111',500,1),(4,'五粮液10年','500mlx6',5000,1,'11111',500,3),(5,'白云边12年','500mlx6',500,2,'11112',50,2),(6,'五粮液10年','500mlx6',5000,0,'11111',500,2),(7,'习酒500ml','500mlx6',500000,5,'454',50000,4),(8,'白云边12年','500mlx6',100000,3,'11112',10000,1),(9,'白云边12年','500mlx6',100000,2,'11112',10000,3);
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -277,6 +276,7 @@ CREATE TABLE `retail` (
   `quantity` smallint(6) NOT NULL,
   `amount` int(11) NOT NULL,
   `voucher` int(11) NOT NULL,
+  `date` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_FB899E15B092A811` (`store_id`),
   KEY `IDX_FB899E1537FDBD6D` (`consumer_id`),
@@ -284,7 +284,7 @@ CREATE TABLE `retail` (
   CONSTRAINT `FK_FB899E1537FDBD6D` FOREIGN KEY (`consumer_id`) REFERENCES `consumer` (`id`),
   CONSTRAINT `FK_FB899E154584665A` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
   CONSTRAINT `FK_FB899E15B092A811` FOREIGN KEY (`store_id`) REFERENCES `org` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -293,7 +293,7 @@ CREATE TABLE `retail` (
 
 LOCK TABLES `retail` WRITE;
 /*!40000 ALTER TABLE `retail` DISABLE KEYS */;
-INSERT INTO `retail` VALUES (1,4,1,1,1,10000,5000),(3,3,1,4,1,500000,50000);
+INSERT INTO `retail` VALUES (2,3,1,4,2,10000,1000,'2022-09-16 02:03:51');
 /*!40000 ALTER TABLE `retail` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -386,7 +386,7 @@ CREATE TABLE `voucher` (
   KEY `IDX_1392A5D837FDBD6D` (`consumer_id`),
   CONSTRAINT `FK_1392A5D837FDBD6D` FOREIGN KEY (`consumer_id`) REFERENCES `consumer` (`id`),
   CONSTRAINT `FK_1392A5D8F4837C1B` FOREIGN KEY (`org_id`) REFERENCES `org` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -395,7 +395,7 @@ CREATE TABLE `voucher` (
 
 LOCK TABLES `voucher` WRITE;
 /*!40000 ALTER TABLE `voucher` DISABLE KEYS */;
-INSERT INTO `voucher` VALUES (1,1,6,5000,'2022-09-06 16:41:57',NULL,NULL),(2,10,5,-5000,'2022-09-06 17:03:50',NULL,NULL),(3,0,5,5000,'2022-09-06 17:03:50',NULL,NULL),(4,10,5,-5000,'2022-09-06 17:04:59',NULL,NULL),(5,0,2,5000,'2022-09-06 17:04:59',NULL,NULL),(6,10,5,-50000,'2022-09-06 17:20:56',NULL,NULL),(7,0,2,50000,'2022-09-06 17:20:56',NULL,NULL),(8,12,2,-50000,'2022-09-06 17:28:45',NULL,NULL),(9,2,5,50000,'2022-09-06 17:28:45',NULL,NULL),(10,14,2,-5000,'2022-09-06 17:39:16',NULL,NULL),(11,16,7,-1500,'2022-09-07 14:38:12',NULL,1),(12,6,1,1500,'2022-09-07 14:38:12',NULL,NULL),(13,16,7,-1500,'2022-09-07 14:41:41',NULL,1),(14,6,6,1500,'2022-09-07 14:41:41',NULL,NULL),(15,16,7,-2000,'2022-09-07 14:46:37',NULL,1),(16,6,6,2000,'2022-09-07 14:46:37',NULL,NULL),(17,17,3,-50000,'2022-09-07 15:19:01',NULL,NULL),(18,7,7,50000,'2022-09-07 15:19:01',NULL,1);
+INSERT INTO `voucher` VALUES (1,1,6,5000,'2022-09-06 16:41:57',NULL,NULL),(2,10,5,-5000,'2022-09-06 17:03:50',NULL,NULL),(3,0,5,5000,'2022-09-06 17:03:50',NULL,NULL),(4,10,5,-5000,'2022-09-06 17:04:59',NULL,NULL),(5,0,2,5000,'2022-09-06 17:04:59',NULL,NULL),(6,10,5,-50000,'2022-09-06 17:20:56',NULL,NULL),(7,0,2,50000,'2022-09-06 17:20:56',NULL,NULL),(8,12,2,-50000,'2022-09-06 17:28:45',NULL,NULL),(9,2,5,50000,'2022-09-06 17:28:45',NULL,NULL),(10,14,2,-5000,'2022-09-06 17:39:16',NULL,NULL),(11,16,7,-1500,'2022-09-07 14:38:12',NULL,1),(12,6,1,1500,'2022-09-07 14:38:12',NULL,NULL),(13,16,7,-1500,'2022-09-07 14:41:41',NULL,1),(14,6,6,1500,'2022-09-07 14:41:41',NULL,NULL),(15,16,7,-2000,'2022-09-07 14:46:37',NULL,1),(16,6,6,2000,'2022-09-07 14:46:37',NULL,NULL),(17,17,3,-50000,'2022-09-07 15:19:01',NULL,NULL),(18,7,7,50000,'2022-09-07 15:19:01',NULL,1),(19,10,5,-300000,'2022-09-16 01:31:58',NULL,NULL),(20,0,1,300000,'2022-09-16 01:31:58',NULL,NULL),(21,11,1,-21000,'2022-09-16 01:35:12',NULL,NULL),(22,1,3,21000,'2022-09-16 01:35:12',NULL,NULL),(23,17,3,-1000,'2022-09-16 02:03:51',NULL,NULL),(24,7,7,1000,'2022-09-16 02:03:51',NULL,1);
 /*!40000 ALTER TABLE `voucher` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -445,4 +445,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-09-16  0:42:19
+-- Dump completed on 2022-09-16 10:22:17
