@@ -20,15 +20,21 @@ class RetailNew extends AbstractController
     {
         $em = $event->getEntityManager();
 
-        // consumer + voucher
-        $consumer = $retail->getConsumer();
-        $voucher = $retail->getVoucher();
-        $consumer->setVoucher($consumer->getVoucher() + $voucher);
-
-        // store stock - quantity
         $product = $retail->getProduct();
         $quantity = $retail->getQuantity();
+        $amount = $quantity * $product->getPrice();
+        $voucher = $quantity * $product->getVoucher();
+
+        $retail->setAmount($amount);
+        $retail->setVoucher($voucher);
+
+        // store stock - quantity
         $product->setStock($product->getStock() - $quantity);
+
+        // consumer + voucher
+        $consumer = $retail->getConsumer();
+        $consumer->setVoucher($consumer->getVoucher() + $voucher);
+
         // store - voucher
         $store = $retail->getStore();
         $store->setVoucher($store->getVoucher() - $voucher);
