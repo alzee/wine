@@ -33,15 +33,15 @@ class ProductCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id')->onlyOnIndex(),
+            // IdField::new('id')->onlyOnIndex(),
+            TextField::new('sn')->HideWhenUpdating(),
+            TextField::new('sn')->onlyWhenUpdating()->setFormTypeOptions(['disabled' => 'disabled']),
             TextField::new('name'),
             TextField::new('spec'),
             MoneyField::new('price')->setCurrency('CNY'),
             IntegerField::new('stock')->HideWhenUpdating(),
             IntegerField::new('stock')->onlyWhenUpdating()->setFormTypeOptions(['disabled' => 'disabled']),
             MoneyField::new('voucher')->setCurrency('CNY'),
-            TextField::new('sn')->HideWhenUpdating(),
-            TextField::new('sn')->onlyWhenUpdating()->setFormTypeOptions(['disabled' => 'disabled']),
             // AssociationField::new('org')
             //     ->HideWhenUpdating()
             //     ->setQueryBuilder(
