@@ -28,6 +28,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 
 class ReturnsCrudController extends AbstractCrudController
 {
+    private $statuses = ['Pending' => 0, 'Cancelled' => 4, 'Success' => 5];
+
     public static function getEntityFqcn(): string
     {
         return Returns::class;
@@ -74,16 +76,21 @@ class ReturnsCrudController extends AbstractCrudController
         yield MoneyField::new('voucher')
             ->setCurrency('CNY')
             ->onlyOnIndex();
-        if (!is_null($instance) && $instance->getStatus() > 3) {
-            yield ChoiceField::new('status')
-                ->setChoices(['Pending' => 0, 'Success' => 5])
-                ->hideWhenCreating()
-                ->setFormTypeOptions(['disabled' => 'disabled']);
-        } else {
-            yield ChoiceField::new('status')
-                ->setChoices(['Pending' => 0, 'Success' => 5])
-                ->hideWhenCreating();
+        if (!is_null($instance)) {
+            if ($instance->getStatus() > 3 || $instance->getRecipient() != $user->getOrg()) {
+                yield ChoiceField::new('status')
+                    ->setChoices($this->statuses)
+                    ->hideWhenCreating()
+                    ->setFormTypeOptions(['disabled' => 'disabled']);
+            } else {
+                yield ChoiceField::new('status')
+                    ->setChoices($this->statuses)
+                    ->hideWhenCreating();
+            }
         }
+        yield ChoiceField::new('status')
+            ->setChoices($this->statuses)
+            ->onlyOnIndex();
         yield DateTimeField::new('date')->HideOnForm();
         yield TextareaField::new('note');
     }
