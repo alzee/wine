@@ -47,6 +47,15 @@ class DashboardController extends AbstractDashboardController
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
+        if ($this->isGranted('ROLE_STORE')) {
+            $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
+            return $this->redirect($adminUrlGenerator->setController(ProductCrudController::class)->generateUrl());
+        }
+        if ($this->isGranted('ROLE_RESTAURANT')) {
+            $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
+            return $this->redirect($adminUrlGenerator->setController(OrderRestaurantCrudController::class)->generateUrl());
+        }
+
         $orgRepo = $this->doctrine->getRepository(Org::class);
         $countAgencies = $orgRepo->count(['type' => 1]);
         $countStroes = $orgRepo->count(['type' => 2]);
@@ -94,7 +103,9 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-chart-simple');
+        if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_AGENCY')) {
+            yield MenuItem::linkToDashboard('Dashboard', 'fa fa-chart-simple');
+        }
         if ($this->isGranted('ROLE_HEAD')) {
             yield MenuItem::linkToCrud('Org', 'fas fa-building', Org::class);
         }
