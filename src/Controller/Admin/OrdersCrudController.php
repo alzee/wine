@@ -57,12 +57,13 @@ class OrdersCrudController extends AbstractCrudController
         yield AssociationField::new('seller')
             ->hideWhenUpdating()
             ->setQueryBuilder(
-                fn (QueryBuilder $qb) => $qb->andWhere('entity.id = :id')->setParameter('id', $user->getOrg())
+                fn (QueryBuilder $qb) => $qb
+                    ->andWhere('entity.id = :id')
+                    ->setParameter('id', $user->getOrg())
             );
         yield AssociationField::new('seller')
             ->onlyWhenUpdating()
-            ->setFormTypeOptions(['disabled' => 'disabled'])
-        ;
+            ->setFormTypeOptions(['disabled' => 'disabled']);
         yield AssociationField::new('buyer')
             ->hideWhenUpdating()
             ->setQueryBuilder(
@@ -73,9 +74,7 @@ class OrdersCrudController extends AbstractCrudController
             );
         yield AssociationField::new('buyer')
             ->onlyWhenUpdating()
-            ->setFormTypeOptions(['disabled' => 'disabled'])
-            ;
-
+            ->setFormTypeOptions(['disabled' => 'disabled']);
         yield CollectionField::new('orderItems')
             ->onlyWhenCreating()
             ->setFormTypeOptions(['required' => 'required'])
@@ -95,8 +94,7 @@ class OrdersCrudController extends AbstractCrudController
             yield ChoiceField::new('status')
                 ->setChoices($this->statuses)
                 ->hideWhenCreating()
-                ->setFormTypeOptions(['disabled' => 'disabled'])
-            ;
+                ->setFormTypeOptions(['disabled' => 'disabled']);
         } else {
             yield ChoiceField::new('status')
                 ->setChoices($this->statuses)
