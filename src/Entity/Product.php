@@ -30,7 +30,7 @@ class Product
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $stock = 0;
 
-    #[ORM\Column(length: 255, unique: true)]
+    #[ORM\Column(length: 255)]
     private ?string $sn = null;
 
     #[ORM\Column]
