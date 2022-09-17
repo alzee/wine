@@ -55,19 +55,35 @@ class OrdersCrudController extends AbstractCrudController
         $user = $this->getUser();
         yield IdField::new('id')->onlyOnIndex();
         yield AssociationField::new('seller')
+            ->hideWhenUpdating()
             ->setQueryBuilder(
                 fn (QueryBuilder $qb) => $qb->andWhere('entity.id = :id')->setParameter('id', $user->getOrg())
             );
+        yield AssociationField::new('seller')
+            ->onlyWhenUpdating()
+            ->setFormTypeOptions(['disabled' => 'disabled'])
+        ;
         yield AssociationField::new('buyer')
+            ->hideWhenUpdating()
             ->setQueryBuilder(
                 fn (QueryBuilder $qb) => $qb
                     ->andWhere('entity.upstream = :userOrg')
                     ->andWhere('entity.type != 3')
                     ->setParameter('userOrg', $user->getOrg())
             );
+        yield AssociationField::new('buyer')
+            ->onlyWhenUpdating()
+            ->setFormTypeOptions(['disabled' => 'disabled'])
+            ;
+
         yield CollectionField::new('orderItems')
-            ->OnlyOnForms()
+            ->onlyWhenCreating()
             ->setFormTypeOptions(['required' => 'required'])
+            ->useEntryCrudForm();
+        yield CollectionField::new('orderItems')
+            ->OnlyWhenUpdating()
+            ->allowAdd(false)
+            ->allowDelete(false)
             ->useEntryCrudForm();
         yield MoneyField::new('amount')
             ->setCurrency('CNY')
