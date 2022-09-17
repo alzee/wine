@@ -4,7 +4,7 @@ uniqe err
 chart
 
 have to use setTimeout() in js?
-why repo->find(1) give uninitialized? $this->getUser()->getOrg() too
+why repo->find(1) give uninitialized? $this->getUser()->getOrg() too. Thought ...getOrg()->getType() works.
 
 门店进货后整件商品打散？
 
