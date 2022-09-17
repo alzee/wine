@@ -25,9 +25,18 @@ use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\Org;
 
 class WithdrawCrudController extends AbstractCrudController
 {
+    private $doctrine;
+
+    public function __construct(ManagerRegistry $doctrine)
+    {
+        $this->doctrine = $doctrine;
+    }
+
     public static function getEntityFqcn(): string
     {
         return Withdraw::class;
@@ -35,6 +44,8 @@ class WithdrawCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        $org = $this->getUser()->getOrg();
+        $voucher = $org->getVoucher();
         return [
             IdField::new('id')->onlyOnIndex(),
             AssociationField::new('applicant')
@@ -60,13 +71,16 @@ class WithdrawCrudController extends AbstractCrudController
                         ->getOrg()
                         ->getUpstream())
             ),
-            MoneyField::new('amount')
+            MoneyField::new('amount', 'withdraw.amount')
                 ->setCurrency('CNY')
                 ->HideWhenCreating()
                 ->setFormTypeOptions(['disabled' => 'disabled']),
-            MoneyField::new('amount')
+            MoneyField::new('amount', 'withdraw.amount')
                 ->setCurrency('CNY')
-                ->onlyWhenCreating(),
+                ->onlyWhenCreating()
+                ->setHelp('可提现金额: ' . $voucher / 100)
+                // ->setFormTypeOptions(['option_name' => 'option_value'])
+            ,
             PercentField::new('discount'),
             ChoiceField::new('status')
                 ->HideWhenCreating()
