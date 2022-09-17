@@ -39,32 +39,46 @@ class ReturnsCrudController extends AbstractCrudController
         $user = $this->getUser();
         yield IdField::new('id')->onlyOnIndex();
         yield AssociationField::new('sender')
-                ->setQueryBuilder(
-                    fn (QueryBuilder $qb) => $qb
-                        ->andWhere('entity.upstream = :userOrg')
-                        ->andWhere('entity.type != 3')
-                        ->setParameter('userOrg', $user->getOrg())
-                );
+            ->hideWhenUpdating()
+            ->setQueryBuilder(
+                fn (QueryBuilder $qb) => $qb
+                    ->andWhere('entity.upstream = :userOrg')
+                    ->andWhere('entity.type != 3')
+                    ->setParameter('userOrg', $user->getOrg())
+            );
+        yield AssociationField::new('sender')
+            ->onlyWhenUpdating()
+            ->setFormTypeOptions(['disabled' => 'disabled']);
         yield AssociationField::new('recipient')
-                ->setQueryBuilder(
-                    fn (QueryBuilder $qb) => $qb->andWhere('entity.id = :id')->setParameter('id', $user->getOrg())
-                );
+            ->hideWhenUpdating()
+            ->setQueryBuilder(
+                fn (QueryBuilder $qb) => $qb
+                    ->andWhere('entity.id = :id')
+                    ->setParameter('id', $user->getOrg())
+            );
+        yield AssociationField::new('recipient')
+            ->onlyWhenUpdating()
+            ->setFormTypeOptions(['disabled' => 'disabled']);
         yield CollectionField::new('returnItems')
-                ->OnlyOnForms()
-                ->setFormTypeOptions(['required' => 'required'])
-                ->useEntryCrudForm();
+            ->onlyWhenCreating()
+            ->setFormTypeOptions(['required' => 'required'])
+            ->useEntryCrudForm();
+        yield CollectionField::new('returnItems')
+            ->OnlyWhenUpdating()
+            ->allowAdd(false)
+            ->allowDelete(false)
+            ->useEntryCrudForm();
         yield MoneyField::new('amount')
-                ->setCurrency('CNY')
-                ->onlyOnIndex();
+            ->setCurrency('CNY')
+            ->onlyOnIndex();
         yield MoneyField::new('voucher')
-                ->setCurrency('CNY')
-                ->onlyOnIndex();
+            ->setCurrency('CNY')
+            ->onlyOnIndex();
         if (!is_null($instance) && $instance->getStatus() > 3) {
             yield ChoiceField::new('status')
                 ->setChoices(['Pending' => 0, 'Success' => 5])
                 ->hideWhenCreating()
-                ->setFormTypeOptions(['disabled' => 'disabled'])
-            ;
+                ->setFormTypeOptions(['disabled' => 'disabled']);
         } else {
             yield ChoiceField::new('status')
                 ->setChoices(['Pending' => 0, 'Success' => 5])
