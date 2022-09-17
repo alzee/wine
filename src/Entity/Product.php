@@ -8,8 +8,10 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
+// use Doctrine\ORM\Mapping\UniqueConstraint;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
+// #[UniqueConstraint(name: "sn_org", columns: ["sn", "name"])]
 #[ApiResource]
 class Product
 {
