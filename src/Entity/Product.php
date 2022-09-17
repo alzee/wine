@@ -26,7 +26,7 @@ class Product
     #[ORM\Column(length: 255)]
     private ?string $spec = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["unsigned" => true])]
     private ?int $price = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
@@ -35,7 +35,7 @@ class Product
     #[ORM\Column(length: 255)]
     private ?string $sn = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["unsigned" => true])]
     private ?int $voucher = null;
 
     #[ORM\ManyToOne(inversedBy: 'products')]
