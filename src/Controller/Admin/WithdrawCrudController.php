@@ -32,6 +32,8 @@ class WithdrawCrudController extends AbstractCrudController
 {
     private $doctrine;
 
+    private $statuses = ['Pending' => 0, 'Rejected' => 4, 'Success' => 5];
+
     public function __construct(ManagerRegistry $doctrine)
     {
         $this->doctrine = $doctrine;
@@ -45,50 +47,61 @@ class WithdrawCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         $instance = $this->getContext()->getEntity()->getInstance();
+        $user = $this->getUser();
         $org = $this->getUser()->getOrg();
         $voucher = $org->getVoucher();
-        return [
-            IdField::new('id')->onlyOnIndex(),
-            AssociationField::new('applicant')
-                ->HideWhenCreating()
-                ->setFormTypeOptions(['disabled' => 'disabled']),
-            AssociationField::new('applicant')
-                ->onlyWhenCreating()
-                ->setQueryBuilder (
-                    fn (QueryBuilder $qb) => $qb
-                        ->andWhere('entity.id = :id')
-                        ->setParameter('id', $this->getUser()
-                        ->getOrg())
-            ),
-            AssociationField::new('approver')
-                ->HideWhenCreating()
-                ->setFormTypeOptions(['disabled' => 'disabled']),
-            AssociationField::new('approver')
-                ->onlyWhenCreating()
-                ->setQueryBuilder (
-                    fn (QueryBuilder $qb) => $qb
-                        ->andWhere('entity.id = :id')
-                        ->setParameter('id', $this->getUser()
-                        ->getOrg()
-                        ->getUpstream())
-            ),
-            MoneyField::new('amount', 'withdraw.amount')
-                ->setCurrency('CNY')
-                ->HideWhenCreating()
-                ->setFormTypeOptions(['disabled' => 'disabled']),
-            MoneyField::new('amount', 'withdraw.amount')
-                ->setCurrency('CNY')
-                ->onlyWhenCreating()
-                ->setHelp('可提现金额: ' . $voucher / 100)
-                // ->setFormTypeOptions(['option_name' => 'option_value'])
-            ,
-            PercentField::new('discount'),
-            ChoiceField::new('status')
-                ->HideWhenCreating()
-                ->setChoices(['Pending' => 0, 'Rejected' => 4, 'Success' => 5]),
-            DateTimeField::new('date')->HideOnForm(),
-            TextareaField::new('note'),
-        ];
+        yield IdField::new('id')->onlyOnIndex();
+        yield AssociationField::new('applicant')
+            ->HideWhenCreating()
+            ->setFormTypeOptions(['disabled' => 'disabled']);
+        yield AssociationField::new('applicant')
+            ->onlyWhenCreating()
+            ->setQueryBuilder (
+                fn (QueryBuilder $qb) => $qb
+                    ->andWhere('entity.id = :id')
+                    ->setParameter('id', $this->getUser()
+                    ->getOrg())
+            );
+        yield AssociationField::new('approver')
+            ->HideWhenCreating()
+            ->setFormTypeOptions(['disabled' => 'disabled']);
+        yield AssociationField::new('approver')
+            ->onlyWhenCreating()
+            ->setQueryBuilder (
+                fn (QueryBuilder $qb) => $qb
+                    ->andWhere('entity.id = :id')
+                    ->setParameter('id', $this->getUser()
+                    ->getOrg()
+                    ->getUpstream())
+            );
+        yield MoneyField::new('amount', 'withdraw.amount')
+            ->setCurrency('CNY')
+            ->HideWhenCreating()
+            ->setFormTypeOptions(['disabled' => 'disabled']);
+        yield MoneyField::new('amount', 'withdraw.amount')
+            ->setCurrency('CNY')
+            ->onlyWhenCreating()
+            ->setHelp('可提现金额: ' . $voucher / 100)
+        // ->setFormTypeOptions(['option_name' => 'option_value'])
+        ;
+        yield PercentField::new('discount');
+        if (!is_null($instance)) {
+            if ($instance->getStatus() > 3 || $instance->getApprover() != $user->getOrg()) {
+                yield ChoiceField::new('status')
+                    ->setChoices($this->statuses)
+                    ->hideWhenCreating()
+                    ->setFormTypeOptions(['disabled' => 'disabled']);
+            } else {
+                yield ChoiceField::new('status')
+                    ->setChoices($this->statuses)
+                    ->hideWhenCreating();
+            }
+        }
+        yield ChoiceField::new('status')
+            ->setChoices($this->statuses)
+            ->onlyOnIndex();
+        yield DateTimeField::new('date')->HideOnForm();
+        yield TextareaField::new('note');
     }
 
     public function configureActions(Actions $actions): Actions
