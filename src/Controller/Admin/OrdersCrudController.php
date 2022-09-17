@@ -51,48 +51,55 @@ class OrdersCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        $instance = $this->getContext()->getEntity()->getInstance();
         $user = $this->getUser();
-        return [
-            IdField::new('id')->onlyOnIndex(),
-            AssociationField::new('seller')
-                ->setQueryBuilder(
-                    fn (QueryBuilder $qb) => $qb->andWhere('entity.id = :id')->setParameter('id', $user->getOrg())
-                ),
-            AssociationField::new('buyer')
-                ->setQueryBuilder(
-                    fn (QueryBuilder $qb) => $qb
-                        ->andWhere('entity.upstream = :userOrg')
-                        ->andWhere('entity.type != 3')
-                        ->setParameter('userOrg', $user->getOrg())
-                ),
-            CollectionField::new('orderItems')
-                ->OnlyOnForms()
-                ->setFormTypeOptions(['required' => 'required'])
-                ->useEntryCrudForm(),
-            MoneyField::new('amount')
-                ->setCurrency('CNY')
-                ->onlyOnIndex(),
-            MoneyField::new('voucher')
-                ->setCurrency('CNY')
-                ->onlyOnIndex(),
-            ChoiceField::new('status')
+        yield IdField::new('id')->onlyOnIndex();
+        yield AssociationField::new('seller')
+            ->setQueryBuilder(
+                fn (QueryBuilder $qb) => $qb->andWhere('entity.id = :id')->setParameter('id', $user->getOrg())
+            );
+        yield AssociationField::new('buyer')
+            ->setQueryBuilder(
+                fn (QueryBuilder $qb) => $qb
+                    ->andWhere('entity.upstream = :userOrg')
+                    ->andWhere('entity.type != 3')
+                    ->setParameter('userOrg', $user->getOrg())
+            );
+        yield CollectionField::new('orderItems')
+            ->OnlyOnForms()
+            ->setFormTypeOptions(['required' => 'required'])
+            ->useEntryCrudForm();
+        yield MoneyField::new('amount')
+            ->setCurrency('CNY')
+            ->onlyOnIndex();
+        yield MoneyField::new('voucher')
+            ->setCurrency('CNY')
+            ->onlyOnIndex();
+        if (!is_null($instance) && $instance->getStatus() > 3) {
+            yield ChoiceField::new('status')
                 ->setChoices($this->statuses)
-                ->hideWhenCreating(),
-            DateTimeField::new('date')->HideOnForm(),
-            TextareaField::new('note'),
-        ];
+                ->hideWhenCreating()
+                ->setFormTypeOptions(['disabled' => 'disabled'])
+            ;
+        } else {
+            yield ChoiceField::new('status')
+                ->setChoices($this->statuses)
+                ->hideWhenCreating();
+        }
+        yield DateTimeField::new('date')->HideOnForm();
+        yield TextareaField::new('note');
     }
 
-    public function createEditForm(EntityDto $entityDto, KeyValueStore $formOptions, AdminContext $context): FormInterface
-    {
-        $b = $this->createEditFormBuilder($entityDto, $formOptions, $context);
-        $f = $b->getForm();
-        if ($f->get('status')->getData() > 3) {
-            $b->add('status', ChoiceType::class, ['choices' => $this->statuses, 'disabled' => 'disabled']);
-            $f = $b->getForm();
-        }
-        return $f;
-    }
+    // public function createEditForm(EntityDto $entityDto, KeyValueStore $formOptions, AdminContext $context): FormInterface
+    // {
+    //     $b = $this->createEditFormBuilder($entityDto, $formOptions, $context);
+    //     $f = $b->getForm();
+    //     if ($f->get('status')->getData() > 3) {
+    //         $b->add('status', ChoiceType::class, ['choices' => $this->statuses, 'disabled' => 'disabled']);
+    //         $f = $b->getForm();
+    //     }
+    //     return $f;
+    // }
 
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {

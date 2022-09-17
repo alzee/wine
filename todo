@@ -3,7 +3,6 @@ withdraw check voucher remain
 uniqe err
 chart
 
-get entity in configureFields? So I can disable status field if is complete
 have to use setTimeout() in js?
 why repo->find(1) give uninitialized? $this->getUser()->getOrg() too
 

@@ -44,6 +44,7 @@ class WithdrawCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        $instance = $this->getContext()->getEntity()->getInstance();
         $org = $this->getUser()->getOrg();
         $voucher = $org->getVoucher();
         return [

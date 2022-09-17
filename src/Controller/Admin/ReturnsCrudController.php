@@ -35,36 +35,43 @@ class ReturnsCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        $instance = $this->getContext()->getEntity()->getInstance();
         $user = $this->getUser();
-        return [
-            IdField::new('id')->onlyOnIndex(),
-            AssociationField::new('sender')
+        yield IdField::new('id')->onlyOnIndex();
+        yield AssociationField::new('sender')
                 ->setQueryBuilder(
                     fn (QueryBuilder $qb) => $qb
                         ->andWhere('entity.upstream = :userOrg')
                         ->andWhere('entity.type != 3')
                         ->setParameter('userOrg', $user->getOrg())
-                ),
-            AssociationField::new('recipient')
+                );
+        yield AssociationField::new('recipient')
                 ->setQueryBuilder(
                     fn (QueryBuilder $qb) => $qb->andWhere('entity.id = :id')->setParameter('id', $user->getOrg())
-                ),
-            CollectionField::new('returnItems')
+                );
+        yield CollectionField::new('returnItems')
                 ->OnlyOnForms()
                 ->setFormTypeOptions(['required' => 'required'])
-                ->useEntryCrudForm(),
-            MoneyField::new('amount')
+                ->useEntryCrudForm();
+        yield MoneyField::new('amount')
                 ->setCurrency('CNY')
-                ->onlyOnIndex(),
-            MoneyField::new('voucher')
+                ->onlyOnIndex();
+        yield MoneyField::new('voucher')
                 ->setCurrency('CNY')
-                ->onlyOnIndex(),
-            ChoiceField::new('status')
+                ->onlyOnIndex();
+        if (!is_null($instance) && $instance->getStatus() > 3) {
+            yield ChoiceField::new('status')
                 ->setChoices(['Pending' => 0, 'Success' => 5])
-                ->hideWhenCreating(),
-            DateTimeField::new('date')->HideOnForm(),
-            TextareaField::new('note'),
-        ];
+                ->hideWhenCreating()
+                ->setFormTypeOptions(['disabled' => 'disabled'])
+            ;
+        } else {
+            yield ChoiceField::new('status')
+                ->setChoices(['Pending' => 0, 'Success' => 5])
+                ->hideWhenCreating();
+        }
+        yield DateTimeField::new('date')->HideOnForm();
+        yield TextareaField::new('note');
     }
 
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
