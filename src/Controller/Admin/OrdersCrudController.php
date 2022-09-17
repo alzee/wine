@@ -90,16 +90,21 @@ class OrdersCrudController extends AbstractCrudController
         yield MoneyField::new('voucher')
             ->setCurrency('CNY')
             ->onlyOnIndex();
-        if (!is_null($instance) && $instance->getStatus() > 3) {
-            yield ChoiceField::new('status')
-                ->setChoices($this->statuses)
-                ->hideWhenCreating()
-                ->setFormTypeOptions(['disabled' => 'disabled']);
-        } else {
-            yield ChoiceField::new('status')
-                ->setChoices($this->statuses)
-                ->hideWhenCreating();
+        if (!is_null($instance)) {
+            if ($instance->getStatus() > 3 || $instance->getSeller() != $user->getOrg()) {
+                yield ChoiceField::new('status')
+                    ->setChoices($this->statuses)
+                    ->hideWhenCreating()
+                    ->setFormTypeOptions(['disabled' => 'disabled']);
+            } else {
+                yield ChoiceField::new('status')
+                    ->setChoices($this->statuses)
+                    ->hideWhenCreating();
+            }
         }
+        yield ChoiceField::new('status')
+            ->setChoices($this->statuses)
+            ->onlyOnIndex();
         yield DateTimeField::new('date')->HideOnForm();
         yield TextareaField::new('note');
     }
