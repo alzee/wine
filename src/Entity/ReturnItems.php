@@ -4,8 +4,10 @@ namespace App\Entity;
 
 use App\Repository\ReturnItemsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 #[ORM\Entity(repositoryClass: ReturnItemsRepository::class)]
+#[ApiResource]
 class ReturnItems
 {
     #[ORM\Id]

@@ -6,8 +6,10 @@ use App\Repository\NodeRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 #[ORM\Entity(repositoryClass: NodeRepository::class)]
+#[ApiResource]
 class Node
 {
     #[ORM\Id]
