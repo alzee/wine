@@ -31,7 +31,8 @@ class Consumer
     private ?string $openid = null;
 
     #[ORM\Column(options: ["unsigned" => true])]
-    private ?int $voucher = null;
+    #[Assert\PositiveOrZero]
+    private ?int $voucher = 0;
 
     #[ORM\OneToMany(mappedBy: 'consumer', targetEntity: OrderRestaurant::class)]
     private Collection $orderRestaurants;
