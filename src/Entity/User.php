@@ -20,6 +20,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Assert\Length(min: 3, max: 8)]
     #[Assert\Regex(
     pattern: '/^\d/',
         match: false,
