@@ -11,6 +11,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[UniqueEntity('username',
+    message: 'This username is already in use',
+)]
 #[ApiResource]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
