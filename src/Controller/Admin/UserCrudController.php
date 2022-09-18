@@ -25,15 +25,15 @@ class UserCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id')->onlyOnIndex(),
+            // IdField::new('id')->onlyOnIndex(),
+            TextField::new('username')->OnlyWhenUpdating()->setFormTypeOptions(['disabled' => 'disabled']),
+            TextField::new('username')->HideWhenUpdating(),
             AssociationField::new('org')
                 ->HideWhenUpdating()
                 ->setQueryBuilder(
                     fn (QueryBuilder $qb) => $qb->andWhere('entity.type != 4')
                 ),
             AssociationField::new('org')->OnlyWhenUpdating()->setFormTypeOptions(['disabled' => 'disabled']),
-            TextField::new('username')->HideWhenUpdating(),
-            TextField::new('username')->OnlyWhenUpdating()->setFormTypeOptions(['disabled' => 'disabled']),
             TextField::new('plainPassword')->onlyOnForms()
                                       ->setFormType(RepeatedType::class)
                                       ->setFormTypeOptions([
