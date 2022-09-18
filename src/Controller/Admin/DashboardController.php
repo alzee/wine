@@ -21,6 +21,7 @@ use App\Entity\Agency;
 use App\Entity\Store;
 use App\Entity\Restaurant;
 use App\Entity\User;
+use App\Entity\Node;
 use App\Entity\Org;
 use App\Entity\Orders;
 use App\Entity\Returns;
@@ -133,6 +134,7 @@ class DashboardController extends AbstractDashboardController
         }
         if ($this->isGranted('ROLE_HEAD')) {
             yield MenuItem::linkToCrud('User', 'fas fa-user', User::class);
+            yield MenuItem::linkToCrud('Node', 'fas fa-doc', Node::class);
         }
     }
 
