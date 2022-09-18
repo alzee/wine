@@ -134,7 +134,7 @@ class DashboardController extends AbstractDashboardController
         }
         if ($this->isGranted('ROLE_HEAD')) {
             yield MenuItem::linkToCrud('User', 'fas fa-user', User::class);
-            yield MenuItem::linkToCrud('Node', 'fas fa-doc', Node::class);
+            yield MenuItem::linkToCrud('Node', 'fas fa-file', Node::class);
         }
     }
 
