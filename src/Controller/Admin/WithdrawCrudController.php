@@ -20,18 +20,23 @@ use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
+use EasyCorp\Bundle\EasyAdminBundle\Config\KeyValueStore;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
+use Symfony\Component\Form\FormInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Org;
+use Symfony\Component\Validator\Constraints\LessThanOrEqual;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 
 class WithdrawCrudController extends AbstractCrudController
 {
     private $doctrine;
-
+    
     private $statuses = ['Pending' => 0, 'Rejected' => 4, 'Success' => 5];
 
     public function __construct(ManagerRegistry $doctrine)
@@ -140,5 +145,22 @@ class WithdrawCrudController extends AbstractCrudController
             ->setHelp('index', $helpIndex)
             ->setHelp('new', $helpNew)
         ;
+    }
+
+    public function createNewForm(EntityDto $entityDto, KeyValueStore $formOptions, AdminContext $context): FormInterface
+    {
+        $user = $this->getUser();
+        $org = $this->getUser()->getOrg();
+        $voucher = $org->getVoucher();
+        $b = $this->createNewFormBuilder($entityDto, $formOptions, $context);
+        $b->add('amount', MoneyType::class, [
+            'currency' => 'CNY',
+            'divisor' => 100,
+            'required' => true,
+            'constraints' => [new LessThanOrEqual(['value' => $voucher, 'message' => 'Exceeded'])],
+            'help' => '可提现金额: ' . $voucher / 100,
+        ]);
+        $f = $b->getForm();
+        return $f;
     }
 }

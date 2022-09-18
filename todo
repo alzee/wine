@@ -1,10 +1,4 @@
 validator in orderItems not work in orders form?
-input:
-  - withdraw max
-  - can't negative
-err:
-  - unique
-  - out of range
 
 chart
 
