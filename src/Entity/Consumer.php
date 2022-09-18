@@ -17,7 +17,7 @@ class Consumer
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $openid = null;
 
     #[ORM\Column(options: ["unsigned" => true])]
@@ -35,7 +35,7 @@ class Consumer
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255, nullable: true, unique: true)]
     private ?string $phone = null;
 
     public function __construct()
