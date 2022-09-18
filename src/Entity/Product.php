@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping\UniqueConstraint;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[UniqueConstraint(name: "sn_org", columns: ["sn", "org_id"])]
@@ -27,15 +28,18 @@ class Product
     private ?string $spec = null;
 
     #[ORM\Column(options: ["unsigned" => true])]
+    #[Assert\Positive]
     private ?int $price = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
+    #[Assert\Positive]
     private ?int $stock = 0;
 
     #[ORM\Column(length: 255)]
     private ?string $sn = null;
 
     #[ORM\Column(options: ["unsigned" => true])]
+    #[Assert\Positive]
     private ?int $voucher = null;
 
     #[ORM\ManyToOne(inversedBy: 'products')]
