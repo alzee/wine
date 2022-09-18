@@ -20,7 +20,7 @@ class Consumer
     #[ORM\Column(length: 255)]
     private ?string $openid = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["unsigned" => true])]
     private ?int $voucher = null;
 
     #[ORM\OneToMany(mappedBy: 'consumer', targetEntity: OrderRestaurant::class)]

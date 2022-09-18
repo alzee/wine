@@ -21,7 +21,7 @@ class ReturnItems
     #[ORM\JoinColumn(nullable: false)]
     private ?Product $product = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["unsigned" => true])]
     private ?int $quantity = null;
 
     public function __toString(): string

@@ -13,7 +13,7 @@ class OrderItems
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["unsigned" => true])]
     private ?int $quantity = null;
 
     #[ORM\ManyToOne]

@@ -26,10 +26,10 @@ class Orders
     #[ORM\JoinColumn(nullable: false)]
     private ?Org $buyer = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["unsigned" => true])]
     private ?int $amount = 0;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["unsigned" => true])]
     private ?int $voucher = 0;
 
     #[ORM\Column(type: Types::SMALLINT)]

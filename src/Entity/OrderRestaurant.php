@@ -19,13 +19,13 @@ class OrderRestaurant
     #[ORM\Column(length: 255)]
     private ?string $orderNo = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["unsigned" => true])]
     private ?int $amount = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["unsigned" => true])]
     private ?int $voucher = null;
 
     #[ORM\ManyToOne(inversedBy: 'orderRestaurants')]

@@ -19,7 +19,7 @@ class Withdraw
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["unsigned" => true])]
     private ?int $amount = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
