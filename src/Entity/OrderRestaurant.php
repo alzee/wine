@@ -6,6 +6,7 @@ use App\Repository\OrderRestaurantRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: OrderRestaurantRepository::class)]
 #[ApiResource]
@@ -20,12 +21,14 @@ class OrderRestaurant
     private ?string $orderNo = null;
 
     #[ORM\Column(options: ["unsigned" => true])]
+    #[Assert\Positive]
     private ?int $amount = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\Column(options: ["unsigned" => true])]
+    #[Assert\Positive]
     private ?int $voucher = null;
 
     #[ORM\ManyToOne(inversedBy: 'orderRestaurants')]
