@@ -6,6 +6,7 @@ use App\Repository\WithdrawRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: WithdrawRepository::class)]
 #[ApiResource]
@@ -20,6 +21,7 @@ class Withdraw
     private ?\DateTimeInterface $date = null;
 
     #[ORM\Column(options: ["unsigned" => true])]
+    #[Assert\Positive]
     private ?int $amount = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
