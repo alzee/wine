@@ -6,6 +6,7 @@ use App\Repository\RetailRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: RetailRepository::class)]
 #[ApiResource]
@@ -29,6 +30,7 @@ class Retail
     private ?Product $product = null;
 
     #[ORM\Column(type: Types::SMALLINT, options: ["unsigned" => true])]
+    #[Assert\Positive]
     private ?int $quantity = null;
 
     #[ORM\Column(options: ["unsigned" => true])]
