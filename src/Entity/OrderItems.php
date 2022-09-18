@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\OrderItemsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: OrderItemsRepository::class)]
 class OrderItems
@@ -14,6 +15,7 @@ class OrderItems
     private ?int $id = null;
 
     #[ORM\Column(options: ["unsigned" => true])]
+    #[Assert\Positive]
     private ?int $quantity = null;
 
     #[ORM\ManyToOne]
