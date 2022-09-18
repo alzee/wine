@@ -10,9 +10,15 @@ use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[UniqueConstraint(name: "sn_org", columns: ["sn", "org_id"])]
+#[UniqueEntity(
+    fields: ['sn', 'org'],
+    errorPath: 'sn',
+    message: 'SN is already in use',
+)]
 #[ApiResource]
 class Product
 {
