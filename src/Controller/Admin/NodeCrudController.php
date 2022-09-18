@@ -9,6 +9,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DatetimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+// use EasyCorp\Bundle\EasyAdminBundle\Form\Type\FileUploadType;
 
 class NodeCrudController extends AbstractCrudController
 {
@@ -24,6 +26,9 @@ class NodeCrudController extends AbstractCrudController
         yield IdField::new('id')
             ->onlyOnIndex();
         yield TextField::new('title');
+        yield ImageField::new('img')
+            ->setBasePath('uploads/')
+            ->setUploadDir('public/uploads/');
         yield ChoiceField::new('tag')
             ->setChoices($this->tags)
             // ->allowMultipleChoices()

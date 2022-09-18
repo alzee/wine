@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\NodeRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: NodeRepository::class)]
 class Node
@@ -25,6 +26,15 @@ class Node
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    // #[Assert\Image()]
+    // #[Assert\File(
+    //     maxSize: '1024k',
+    //     mimeTypes: ['application/pdf', 'application/x-pdf'],
+    //     mimeTypesMessage: 'Please upload a valid PDF',
+    // )]
+    private ?string $img = null;
 
     public function __toString(): string
     {
@@ -85,6 +95,18 @@ class Node
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    public function getImg(): ?string
+    {
+        return $this->img;
+    }
+
+    public function setImg(?string $img): self
+    {
+        $this->img = $img;
 
         return $this;
     }
