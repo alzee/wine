@@ -1,6 +1,10 @@
-withdraw input max
-withdraw check voucher remain
-uniqe err
+input:
+  - withdraw max
+  - can't negative
+err:
+  - unique
+  - out of range
+
 chart
 
 have to use setTimeout() in js?
