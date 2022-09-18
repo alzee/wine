@@ -28,7 +28,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Regex(
     pattern: '/^\d/',
         match: false,
-        message: 'Your name cannot start with number',
+        message: 'Username cannot start with number',
     )]
     private ?string $username = null;
 
