@@ -50,7 +50,7 @@ class Org
     #[ORM\OneToMany(mappedBy: 'org', targetEntity: Product::class)]
     private Collection $products;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["unsigned" => true])]
     private ?int $voucher = null;
 
     #[ORM\OneToMany(mappedBy: 'restaurant', targetEntity: OrderRestaurant::class)]
