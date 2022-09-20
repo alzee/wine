@@ -58,6 +58,13 @@ services:
                 event: 'postPersist'
                 entity: 'App\Entity\Retail'
 
+    App\EventListener\RetailReturnNew:
+        tags:
+            -
+                name: 'doctrine.orm.entity_listener'
+                event: 'postPersist'
+                entity: 'App\Entity\RetailReturn'
+
     App\EventListener\OrgNew:
         tags:
             -
