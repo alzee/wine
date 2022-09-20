@@ -89,7 +89,6 @@ class WithdrawCrudController extends AbstractCrudController
             ->setHelp('可提现金额: ' . $voucher / 100)
         // ->setFormTypeOptions(['option_name' => 'option_value'])
         ;
-        yield PercentField::new('discount');
         if (!is_null($instance)) {
             if ($instance->getStatus() > 3 || $instance->getApprover() != $user->getOrg()) {
                 yield ChoiceField::new('status')
@@ -154,6 +153,7 @@ class WithdrawCrudController extends AbstractCrudController
         $voucher = $org->getVoucher();
         $b = $this->createNewFormBuilder($entityDto, $formOptions, $context);
         $b->add('amount', MoneyType::class, [
+            'label' => 'withdraw.amount',
             'currency' => 'CNY',
             'divisor' => 100,
             'required' => true,

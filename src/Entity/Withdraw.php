@@ -30,9 +30,6 @@ class Withdraw
     #[ORM\ManyToOne(inversedBy: 'withdraws')]
     private ?Org $org = null;
 
-    #[ORM\Column]
-    private ?float $discount = null;
-
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $note = null;
 
@@ -47,7 +44,6 @@ class Withdraw
     public function __construct()
     {
         $this->date = new \DateTime();
-        $this->discount = 1;
     }
 
     public function getId(): ?int
@@ -99,18 +95,6 @@ class Withdraw
     public function setOrg(?Org $org): self
     {
         $this->org = $org;
-
-        return $this;
-    }
-
-    public function getDiscount(): ?float
-    {
-        return $this->discount;
-    }
-
-    public function setDiscount(float $discount): self
-    {
-        $this->discount = $discount;
 
         return $this;
     }
