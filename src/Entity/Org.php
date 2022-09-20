@@ -33,13 +33,8 @@ class Org
     #[ORM\Column(length: 255)]
     private ?string $district = null;
 
-    /**
-     * 0 head
-     * 1 agency
-     * 2 store
-     */
     #[ORM\Column(type: Types::SMALLINT)]
-    private ?int $type = null;
+    private ?int $type = 1;
 
     #[ORM\OneToMany(mappedBy: 'seller', targetEntity: Orders::class)]
     private Collection $orders;
