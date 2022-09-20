@@ -62,8 +62,9 @@ Approver: 审核方
 Order Items: 订单商品
 Return Items: 退货商品
 withdraw.amount: 提现金额
-Node: 文章
+Node: 推荐
 Title: 标题
 Body: 正文
 Tag: 标签
 Img: 特征图片
+Settings: 系统设置

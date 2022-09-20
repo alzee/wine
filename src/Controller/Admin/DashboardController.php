@@ -131,8 +131,10 @@ class DashboardController extends AbstractDashboardController
             yield MenuItem::linkToCrud('Consumer', 'fas fa-users', Consumer::class);
         }
         if ($this->isGranted('ROLE_HEAD')) {
-            yield MenuItem::linkToCrud('User', 'fas fa-user', User::class);
-            yield MenuItem::linkToCrud('Node', 'fas fa-file', Node::class);
+            yield MenuItem::subMenu('Settings', 'fa fa-gear')->setSubItems([
+                MenuItem::linkToCrud('User', 'fas fa-user', User::class),
+                MenuItem::linkToCrud('Node', 'fas fa-file', Node::class),
+            ]);
         }
     }
 
