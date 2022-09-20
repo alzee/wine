@@ -80,9 +80,15 @@ class OrgCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-        return $actions
-            ->disable(Action::DELETE)
-        ;
+        if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_AGENCY')) {
+            return $actions
+                ->disable(Action::DELETE)
+            ;
+        } else {
+            return $actions
+                ->disable(Action::DELETE, Action::EDIT, Action::NEW, Action::DETAIL, Action::INDEX)
+            ;
+        }
     }
 
     // public function configureCrud(Crud $crud): Crud
