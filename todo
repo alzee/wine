@@ -9,6 +9,11 @@ permission:
   - User
   - Node
 
+createIndexQueryBuilder:
+  - orderRestaurant
+  - retail
+  - retailReturn
+
 err:
   - out of range
   - permission
