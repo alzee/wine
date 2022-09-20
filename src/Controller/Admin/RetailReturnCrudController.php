@@ -19,6 +19,7 @@ use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 
 class RetailReturnCrudController extends AbstractCrudController
 {
@@ -45,5 +46,12 @@ class RetailReturnCrudController extends AbstractCrudController
             MoneyField::new('voucher')->setCurrency('CNY')->onlyOnIndex(),
             DateTimeField::new('date')->HideOnForm(),
         ];
+    }
+
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters
+            ->add('date')
+        ;
     }
 }

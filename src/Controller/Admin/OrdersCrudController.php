@@ -32,6 +32,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use App\Entity\Choice;
 
 class OrdersCrudController extends AbstractCrudController
@@ -136,6 +137,13 @@ class OrdersCrudController extends AbstractCrudController
             ->setDefaultSort(['id' => 'DESC'])
             ->setHelp('index', $helpIndex)
             ->setHelp('new', $helpNew)
+        ;
+    }
+
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters
+            ->add('date')
         ;
     }
 }

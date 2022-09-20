@@ -8,7 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\DatetimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 // use EasyCorp\Bundle\EasyAdminBundle\Form\Type\FileUploadType;
 
@@ -35,7 +35,7 @@ class NodeCrudController extends AbstractCrudController
         ;
         yield TextEditorField::new('body')
             ->hideOnIndex();
-        yield DatetimeField::new('date')
+        yield DateTimeField::new('date')
             ->onlyOnIndex();
     }
 }

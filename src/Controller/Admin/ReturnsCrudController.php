@@ -25,6 +25,7 @@ use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use App\Entity\Choice;
 
 class ReturnsCrudController extends AbstractCrudController
@@ -122,6 +123,13 @@ class ReturnsCrudController extends AbstractCrudController
             ->setDefaultSort(['id' => 'DESC'])
             ->setHelp('index', $helpIndex)
             ->setHelp('new', $helpNew)
+        ;
+    }
+
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters
+            ->add('date')
         ;
     }
 }

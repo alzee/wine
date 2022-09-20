@@ -19,6 +19,7 @@ use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 
 class RetailCrudController extends AbstractCrudController
 {
@@ -51,6 +52,13 @@ class RetailCrudController extends AbstractCrudController
     {
         return $actions
             ->disable(Action::DELETE, Action::EDIT)
+        ;
+    }
+
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters
+            ->add('date')
         ;
     }
 }

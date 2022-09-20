@@ -33,6 +33,7 @@ use App\Entity\Org;
 use Symfony\Component\Validator\Constraints\LessThanOrEqual;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use App\Entity\Choice;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 
 class WithdrawCrudController extends AbstractCrudController
 {
@@ -161,5 +162,12 @@ class WithdrawCrudController extends AbstractCrudController
         ]);
         $f = $b->getForm();
         return $f;
+    }
+
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters
+            ->add('date')
+        ;
     }
 }

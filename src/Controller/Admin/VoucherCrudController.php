@@ -24,6 +24,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 use App\Entity\Choice;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 
 class VoucherCrudController extends AbstractCrudController
 {
@@ -86,6 +87,13 @@ class VoucherCrudController extends AbstractCrudController
             ->setDefaultSort(['id' => 'DESC'])
             ->setHelp('index', $helpIndex)
             ->setHelp('new', $helpNew)
+        ;
+    }
+
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters
+            ->add('date')
         ;
     }
 }
