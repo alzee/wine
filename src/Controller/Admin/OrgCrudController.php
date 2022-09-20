@@ -46,6 +46,7 @@ class OrgCrudController extends AbstractCrudController
     }
     public function configureFields(string $pageName): iterable
     {
+        $user = $this->getUser();
         yield IdField::new('id')->onlyOnIndex();
         yield ChoiceField::new('type')->setChoices(['Head' => 0, 'Agency' => 1, 'Store' => 2, 'Restaurant' => 3, 'Consumer' => 4])->hideWhenCreating()->setFormTypeOptions(['disabled' => 'disabled']);
         yield ChoiceField::new('type')
@@ -77,7 +78,9 @@ class OrgCrudController extends AbstractCrudController
                 ->hideOnForm()
                 // ->setFormTypeOptions(['disabled' => 'disabled'])
             ;
-        yield PercentField::new('discount');
+        if ($this->isGranted('ROLE_AGENCY')) {
+            yield PercentField::new('discount');
+        }
     }
 
     public function configureAssets(Assets $assets): Assets

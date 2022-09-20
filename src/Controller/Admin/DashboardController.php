@@ -106,8 +106,6 @@ class DashboardController extends AbstractDashboardController
     {
         if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_AGENCY')) {
             yield MenuItem::linkToDashboard('Dashboard', 'fa fa-chart-simple');
-        }
-        if ($this->isGranted('ROLE_HEAD')) {
             yield MenuItem::linkToCrud('Org', 'fas fa-building', Org::class);
         }
         if (!$this->isGranted('ROLE_RESTAURANT')) {
