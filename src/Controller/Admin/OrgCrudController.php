@@ -71,12 +71,12 @@ class OrgCrudController extends AbstractCrudController
         }
     }
 
-    public function configureAssets(Assets $assets): Assets
-    {
-        return $assets
-            ->addJsFile(Asset::new('js/z.js')->onlyOnForms()->defer())
-        ;
-    }
+    // public function configureAssets(Assets $assets): Assets
+    // {
+    //     return $assets
+    //         ->addJsFile(Asset::new('js/z.js')->onlyOnForms()->defer())
+    //     ;
+    // }
 
     public function configureActions(Actions $actions): Actions
     {
