@@ -32,14 +32,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 
 class OrgCrudController extends AbstractCrudController
 {
-    private $isStore;
-    private $context;
-    private $entity;
-    // Cannot autowire service "App\Controller\Admin\OrgCrudController": argument "$context" of method "__construct()" references class "EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext" but no such service exists.
-    // public function __construct(AdminContext $context)
-    // {
-    // }
-
     public static function getEntityFqcn(): string
     {
         return Org::class;
@@ -56,9 +48,12 @@ class OrgCrudController extends AbstractCrudController
         }
         yield IdField::new('id')->onlyOnIndex();
         yield ChoiceField::new('type')
-            ->setChoices($orgChoices)
-            ->onlyWhenCreating();
-        yield ChoiceField::new('type')->setChoices(['Head' => 0, 'Agency' => 1, 'Store' => 2, 'Restaurant' => 3, 'Consumer' => 4])->hideWhenCreating()->setFormTypeOptions(['disabled' => 'disabled']);
+            ->onlyWhenCreating()
+            ->setChoices($orgChoices);
+        yield ChoiceField::new('type')
+            ->setChoices(['Head' => 0, 'Agency' => 1, 'Store' => 2, 'Restaurant' => 3, 'Consumer' => 4])
+            ->hideWhenCreating()
+            ->setFormTypeOptions(['disabled' => 'disabled']);
         yield TextField::new('name');
         yield TextField::new('contact');
         yield TelephoneField::new('phone');
@@ -79,18 +74,6 @@ class OrgCrudController extends AbstractCrudController
         return $assets
             ->addJsFile(Asset::new('js/z.js')->onlyOnForms()->defer())
         ;
-    }
-
-    public function createEditForm(EntityDto $entityDto, KeyValueStore $formOptions, AdminContext $context): FormInterface
-    {
-        $b = $this->createEditFormBuilder($entityDto, $formOptions, $context);
-        $this->entity = $context->getEntity();
-        $f = $b->getForm();
-        if ($f->get('type')->getData() == 2) {
-            $this->isStore = true;
-            $f = $b->getForm();
-        }
-        return $f;
     }
 
     public function configureActions(Actions $actions): Actions

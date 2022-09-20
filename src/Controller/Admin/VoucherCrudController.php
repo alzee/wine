@@ -53,23 +53,25 @@ class VoucherCrudController extends AbstractCrudController
             '内部调控' => 30,
         ];
 
-        return [
-            IdField::new('id')->onlyOnIndex(),
-            AssociationField::new('org')->onlyOnIndex(),
-            AssociationField::new('org')->onlyOnForms()->setFormTypeOptions(['required' => 'required'])->setQueryBuilder (
-                fn (QueryBuilder $qb) => $qb->andWhere('entity.type <= 3')->andWhere('entity.type != 0')
-            ),
-            AssociationField::new('consumer')->onlyOnIndex(),
-            MoneyField::new('voucher')->setCurrency('CNY'),
-            ChoiceField::new('type')->setChoices($types)->HideWhenCreating(),
-            ChoiceField::new('type')
-                ->setChoices(['内部调控' => 30])
-                ->onlyWhenCreating()
-                ->setHelp('总公司<b>灵活发放</b>代金券时，类型为<b>内部调控</b>')
-            ,
-            TextField::new('note'),
-            DateTimeField::new('date')->HideOnForm(),
-        ];
+        yield IdField::new('id')->onlyOnIndex();
+        yield AssociationField::new('org')->onlyOnIndex();
+        yield AssociationField::new('org')
+            ->onlyOnForms()
+            ->setFormTypeOptions(['required' => 'required'])
+            ->setQueryBuilder (
+                fn (QueryBuilder $qb) => $qb
+                    ->andWhere('entity.type <= 3')
+                    ->andWhere('entity.type != 0')
+            );
+        yield AssociationField::new('consumer')->onlyOnIndex();
+        yield MoneyField::new('voucher')->setCurrency('CNY');
+        yield ChoiceField::new('type')->setChoices($types)->HideWhenCreating();
+        yield ChoiceField::new('type')
+            ->setChoices(['内部调控' => 30])
+            ->onlyWhenCreating()
+            ->setHelp('总公司<b>灵活发放</b>代金券时，类型为<b>内部调控</b>');
+        yield TextField::new('note');
+        yield DateTimeField::new('date')->HideOnForm();
     }
 
     public function configureActions(Actions $actions): Actions
