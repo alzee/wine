@@ -23,6 +23,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
+use App\Entity\Choice;
 
 class VoucherCrudController extends AbstractCrudController
 {
@@ -33,26 +34,6 @@ class VoucherCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        $types = [
-            '代理商-请货' => 0,
-            '门店-请货' => 1,
-            '总公司-代理商退货' => 2,
-            '代理商-门店退货' => 3,
-            '总公司-代理商提现' => 4,
-            '代理商-门店提现' => 5,
-            '餐厅-顾客消费' => 6,
-            '顾客-门店购物' => 7,
-            '总公司-代理商请货' => 10,
-            '代理商-门店请货' => 11,
-            '代理商-退货' => 12,
-            '门店-退货' => 13,
-            '代理商-提现' => 14,
-            '门店-提现' => 15,
-            '顾客-餐厅消费' => 16,
-            '门店-销售' => 17,
-            '内部调控' => 30,
-        ];
-
         yield IdField::new('id')->onlyOnIndex();
         yield AssociationField::new('org')->onlyOnIndex();
         yield AssociationField::new('org')
@@ -65,7 +46,7 @@ class VoucherCrudController extends AbstractCrudController
             );
         yield AssociationField::new('consumer')->onlyOnIndex();
         yield MoneyField::new('voucher')->setCurrency('CNY');
-        yield ChoiceField::new('type')->setChoices($types)->HideWhenCreating();
+        yield ChoiceField::new('type')->setChoices(Choice::VOUCHER_TYPES)->HideWhenCreating();
         yield ChoiceField::new('type')
             ->setChoices(['内部调控' => 30])
             ->onlyWhenCreating()

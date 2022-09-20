@@ -29,6 +29,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use App\Entity\Choice;
 
 class OrgCrudController extends AbstractCrudController
 {
@@ -36,6 +37,7 @@ class OrgCrudController extends AbstractCrudController
     {
         return Org::class;
     }
+
     public function configureFields(string $pageName): iterable
     {
         $user = $this->getUser();
@@ -51,7 +53,7 @@ class OrgCrudController extends AbstractCrudController
             ->onlyWhenCreating()
             ->setChoices($orgChoices);
         yield ChoiceField::new('type')
-            ->setChoices(['Head' => 0, 'Agency' => 1, 'Store' => 2, 'Restaurant' => 3, 'Consumer' => 4])
+            ->setChoices(Choice::ORG_TYPES)
             ->hideWhenCreating()
             ->setFormTypeOptions(['disabled' => 'disabled']);
         yield TextField::new('name');
