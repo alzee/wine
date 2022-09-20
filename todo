@@ -2,6 +2,13 @@ default (choice) value for default roles?
 upload pic only
 validator in orderItems not work in orders form?
 
+permission:
+  - RetailReturn
+  - Withdraw
+  - Consumer
+  - User
+  - Node
+
 err:
   - out of range
   - permission
