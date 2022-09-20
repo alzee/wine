@@ -9,35 +9,35 @@ namespace App\EventListener;
 
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Entity\Retail;
+use App\Entity\RetailReturn;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use App\Entity\Voucher;
 use App\Entity\Org;
 use App\Entity\Choice;
 
-class RetailNew extends AbstractController
+class RetailReturnNew extends AbstractController
 {
-    public function postPersist(Retail $retail, LifecycleEventArgs $event): void
+    public function postPersist(RetailReturn $retailReturn, LifecycleEventArgs $event): void
     {
         $em = $event->getEntityManager();
 
-        $product = $retail->getProduct();
-        $quantity = $retail->getQuantity();
+        $product = $retailReturn->getProduct();
+        $quantity = $retailReturn->getQuantity();
         $amount = $quantity * $product->getPrice();
         $voucher = $quantity * $product->getVoucher();
 
-        $retail->setAmount($amount);
-        $retail->setVoucher($voucher);
+        $retailReturn->setAmount($amount);
+        $retailReturn->setVoucher($voucher);
 
         // store stock + quantity
         $product->setStock($product->getStock() + $quantity);
 
         // consumer - voucher
-        $consumer = $retail->getConsumer();
+        $consumer = $retailReturn->getConsumer();
         $consumer->setVoucher($consumer->getVoucher() - $voucher);
 
         // store + voucher
-        $store = $retail->getStore();
+        $store = $retailReturn->getStore();
         $store->setVoucher($store->getVoucher() + $voucher);
 
         // voucher record for store
