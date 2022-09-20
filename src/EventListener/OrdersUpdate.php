@@ -67,7 +67,7 @@ class OrdersUpdate
                 $record = new Voucher();
                 $record->setOrg($buyer);
                 $record->setVoucher($voucher);
-                $record->setType($type - 10);
+                $record->setType($type - 100);
                 $em->persist($record);
 
                 $em->flush();

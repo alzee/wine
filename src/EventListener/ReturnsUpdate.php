@@ -13,6 +13,7 @@ use App\Entity\Returns;
 use App\Entity\Product;
 use App\Entity\Org;
 use App\Entity\Voucher;
+use App\Entity\Choice;
 
 class ReturnsUpdate
 {
@@ -51,10 +52,7 @@ class ReturnsUpdate
                 $record = new Voucher();
                 $record->setOrg($sender);
                 $record->setVoucher(-$voucher);
-                $type = match ($sender->getType()) {
-                    1 => 12,
-                    2 => 13,
-                };
+                $type = Choice::VOUCHER_TYPES['退货发出'];
                 $record->setType($type);
                 $em->persist($record);
 
@@ -62,7 +60,7 @@ class ReturnsUpdate
                 $record = new Voucher();
                 $record->setOrg($recipient);
                 $record->setVoucher($voucher);
-                $record->setType($type - 10);
+                $record->setType($type - 100);
                 $em->persist($record);
 
                 $em->flush();

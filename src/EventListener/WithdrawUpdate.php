@@ -14,6 +14,7 @@ use App\Entity\Product;
 use App\Entity\Org;
 use App\Entity\Withdraw;
 use App\Entity\Voucher;
+use App\Entity\Choice;
 
 class WithdrawUpdate
 {
@@ -35,10 +36,7 @@ class WithdrawUpdate
                 $record = new Voucher();
                 $record->setOrg($applicant);
                 $record->setVoucher(-$amount);
-                $type = match ($applicant->getType()) {
-                    1 => 14,
-                    2 => 15,
-                };
+                $type = Choice::VOUCHER_TYPES['申请提现'];
                 $record->setType($type);
                 $em->persist($record);
 

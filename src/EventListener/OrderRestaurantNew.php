@@ -13,6 +13,7 @@ use App\Entity\OrderRestaurant;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use App\Entity\Voucher;
 use App\Entity\Org;
+use App\Entity\Choice;
 
 class OrderRestaurantNew extends AbstractController
 {
@@ -34,7 +35,7 @@ class OrderRestaurantNew extends AbstractController
         $record->setOrg($consumers);
         $record->setConsumer($consumer);
         $record->setVoucher(-$voucher);
-        $type = 16;
+        $type = Choice::VOUCHER_TYPES['餐饮消费'];
         $record->setType($type);
         $em->persist($record);
 
@@ -42,7 +43,7 @@ class OrderRestaurantNew extends AbstractController
         $record = new Voucher();
         $record->setOrg($resta);
         $record->setVoucher($voucher);
-        $record->setType($type - 10);
+        $record->setType($type - 100);
         $em->persist($record);
 
         $em->flush();
