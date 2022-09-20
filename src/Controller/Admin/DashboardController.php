@@ -28,6 +28,7 @@ use App\Entity\Returns;
 use App\Entity\Consumer;
 use App\Entity\Withdraw;
 use App\Entity\Retail;
+use App\Entity\RetailReturn;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
 use Symfony\UX\Chartjs\Model\Chart;
@@ -114,6 +115,7 @@ class DashboardController extends AbstractDashboardController
         }
         if ($this->isGranted('ROLE_STORE') || $this->isGranted('ROLE_RESTAURANT')) {
             yield MenuItem::linkToCrud('Retail', 'fas fa-bag-shopping', Retail::class);
+            yield MenuItem::linkToCrud('RetailReturn', 'fas fa-bag-shopping', RetailReturn::class);
         }
         if ($this->isGranted('ROLE_RESTAURANT')) {
             yield MenuItem::linkToCrud('OrderRestaurant', 'fas fa-utensils', OrderRestaurant::class);
