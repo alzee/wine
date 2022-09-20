@@ -34,7 +34,7 @@ class VoucherCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        yield IdField::new('id')->onlyOnIndex();
+        // yield IdField::new('id')->onlyOnIndex();
         yield AssociationField::new('org')->onlyOnIndex();
         yield AssociationField::new('org')
             ->onlyOnForms()
