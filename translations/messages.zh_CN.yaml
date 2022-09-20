@@ -7,7 +7,7 @@ ProductRestaurant: 餐厅产品
 Order: 订单
 OrderAgency: 代理商订单
 OrderStore: 门店订单
-OrderRestaurant: 餐厅消费
+OrderRestaurant: 餐饮消费
 Agency: 代理商
 Store: 门店
 Restaurant: 餐厅
