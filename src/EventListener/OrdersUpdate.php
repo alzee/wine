@@ -13,6 +13,7 @@ use App\Entity\Orders;
 use App\Entity\Product;
 use App\Entity\Org;
 use App\Entity\Voucher;
+use App\Entity\Choice;
 
 class OrdersUpdate
 {
@@ -58,11 +59,7 @@ class OrdersUpdate
                 $record = new Voucher();
                 $record->setOrg($seller);
                 $record->setVoucher(-$voucher);
-                $type = match ($seller->getType()) {
-                0 => 10,
-                    1 => 11,
-                    2 => 17,
-                };
+                $type = Choice::VOUCHER_TYPES['发货'];
                 $record->setType($type);
                 $em->persist($record);
 

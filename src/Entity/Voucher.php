@@ -17,7 +17,7 @@ class Voucher
     private ?int $id = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
-    private ?int $type = 30;
+    private ?int $type = 255;
 
     #[ORM\ManyToOne(inversedBy: 'vouchers')]
     private ?Org $org = null;
