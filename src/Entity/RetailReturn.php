@@ -5,8 +5,11 @@ namespace App\Entity;
 use App\Repository\RetailReturnRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: RetailReturnRepository::class)]
+#[ApiResource]
 class RetailReturn
 {
     #[ORM\Id]
@@ -26,17 +29,23 @@ class RetailReturn
     #[ORM\JoinColumn(nullable: false)]
     private ?Product $product = null;
 
-    #[ORM\Column(type: Types::SMALLINT)]
+    #[ORM\Column(type: Types::SMALLINT, options: ["unsigned" => true])]
+    #[Assert\Positive]
     private ?int $quantity = null;
 
-    #[ORM\Column]
-    private ?int $amount = null;
+    #[ORM\Column(options: ["unsigned" => true])]
+    private ?int $amount = 0;
 
-    #[ORM\Column]
-    private ?int $voucher = null;
+    #[ORM\Column(options: ["unsigned" => true])]
+    private ?int $voucher = 0;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
+
+    public function __construct()
+    {
+        $this->date = new \DateTime();
+    }
 
     public function getId(): ?int
     {
