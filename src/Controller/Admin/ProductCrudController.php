@@ -64,12 +64,11 @@ class ProductCrudController extends AbstractCrudController
         ];
     }
 
-    public function configureFilters(Filters $filters): Filters
-    {
-        return $filters
-            ->add('org')
-        ;
-    }
+    // public function configureFilters(Filters $filters): Filters
+    // {
+    //     return $filters
+    //     ;
+    // }
 
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {
