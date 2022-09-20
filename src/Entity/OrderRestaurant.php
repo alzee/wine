@@ -17,10 +17,10 @@ class OrderRestaurant
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $orderNo = null;
 
-    #[ORM\Column(options: ["unsigned" => true])]
+    #[ORM\Column(options: ["unsigned" => true], nullable: true)]
     #[Assert\Positive]
     private ?int $amount = null;
 

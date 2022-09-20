@@ -36,13 +36,13 @@ class OrderRestaurantCrudController extends AbstractCrudController
             AssociationField::new('restaurant')->onlyWhenCreating()->setQueryBuilder (
                 fn (QueryBuilder $qb) => $qb->andWhere('entity.id = :id')->setParameter('id', $this->getUser()->getOrg())
             ),
-            TextField::new('orderNo')
-                ->setHelp('顾客在餐厅消费的订单号')
-            ,
-            MoneyField::new('amount')
-                ->setCurrency('CNY')
-                ->setHelp('顾客在餐厅消费的订单金额')
-            ,
+            // TextField::new('orderNo')
+            //     ->setHelp('顾客在餐厅消费的订单号')
+            // ,
+            // MoneyField::new('amount')
+            //     ->setCurrency('CNY')
+            //     ->setHelp('顾客在餐厅消费的订单金额')
+            // ,
             MoneyField::new('voucher')
                 ->setCurrency('CNY')
                 ->setHelp('顾客结账时抵用的代金券金额')
@@ -67,7 +67,7 @@ class OrderRestaurantCrudController extends AbstractCrudController
         return $crud
             ->setDefaultSort(['id' => 'DESC'])
             // ->setHelp('index', $helpIndex)
-            ->setHelp('new', $helpNew)
+            // ->setHelp('new', $helpNew)
         ;
     }
 
