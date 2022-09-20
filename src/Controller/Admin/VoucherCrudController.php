@@ -49,8 +49,9 @@ class VoucherCrudController extends AbstractCrudController
         yield MoneyField::new('voucher')->setCurrency('CNY');
         yield ChoiceField::new('type')->setChoices(Choice::VOUCHER_TYPES)->HideWhenCreating();
         yield ChoiceField::new('type')
-            ->setChoices(['内部调控' => 30])
+            ->setChoices(Choice::VOUCHER_TYPES)
             ->onlyWhenCreating()
+            ->setFormTypeOptions(['disabled' => 'disabled'])
             ->setHelp('总公司<b>灵活发放</b>代金券时，类型为<b>内部调控</b>');
         yield TextField::new('note');
         yield DateTimeField::new('date')->HideOnForm();

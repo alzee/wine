@@ -52,15 +52,6 @@ class ProductCrudController extends AbstractCrudController
                 ->setCurrency('CNY')
                 ->setHelp('<b>代金券</b>为本件商品随增的代金券金额')
             ,
-            // AssociationField::new('org')
-            //     ->HideWhenUpdating()
-            //     ->setQueryBuilder(
-            //         fn (QueryBuilder $qb) => $qb->andWhere('entity.type < 3')
-            //     ),
-            // AssociationField::new('org')
-            //     ->onlyWhenUpdating()
-            //     ->setFormTypeOptions(['disabled' => 'disabled'])
-            // ,
         ];
     }
 
