@@ -18,10 +18,13 @@ class OrgNew extends AbstractController
 {
     public function prePersist(Org $org, LifecycleEventArgs $event): void
     {
-        $em = $event->getEntityManager();
-        $head = $em->getRepository(Org::class)->findOneBy(['type' => 0]);
         if ($org->getType() == 1) {
+            $em = $event->getEntityManager();
+            $head = $em->getRepository(Org::class)->findOneBy(['type' => 0]);
             $org->setUpstream($head);
+        }
+        if ($org->getType() == 2 || $org->getType() == 3) {
+            $org->setUpstream($this->getUser()->getOrg());
         }
     }
 }

@@ -59,20 +59,6 @@ class OrgCrudController extends AbstractCrudController
             ->setChoices($orgChoices)
             ->onlyWhenCreating();
         yield ChoiceField::new('type')->setChoices(['Head' => 0, 'Agency' => 1, 'Store' => 2, 'Restaurant' => 3, 'Consumer' => 4])->hideWhenCreating()->setFormTypeOptions(['disabled' => 'disabled']);
-        yield AssociationField::new('upstream')
-                ->onlyWhenCreating()
-                ->addCssClass("upstream d-none")
-                ->setQueryBuilder(
-                    fn (QueryBuilder $qb) => $qb->andWhere('entity.type = 1')
-                )
-            ;
-        yield AssociationField::new('upstream')
-                ->onlyWhenUpdating()
-                ->addCssClass("upstream d-none")
-                ->setQueryBuilder(
-                    fn (QueryBuilder $qb) => $qb->andWhere('entity.type < 1')
-                )
-            ;
         yield TextField::new('name');
         yield TextField::new('contact');
         yield TelephoneField::new('phone');
@@ -102,7 +88,6 @@ class OrgCrudController extends AbstractCrudController
         $f = $b->getForm();
         if ($f->get('type')->getData() == 2) {
             $this->isStore = true;
-            // $b->add('upstream');
             $f = $b->getForm();
         }
         return $f;
