@@ -13,6 +13,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\PercentField;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
@@ -45,39 +46,38 @@ class OrgCrudController extends AbstractCrudController
     }
     public function configureFields(string $pageName): iterable
     {
-        return [
-            IdField::new('id')->onlyOnIndex(),
-            ChoiceField::new('type')->setChoices(['Head' => 0, 'Agency' => 1, 'Store' => 2, 'Restaurant' => 3, 'Consumer' => 4])->hideWhenCreating()->setFormTypeOptions(['disabled' => 'disabled']),
-            ChoiceField::new('type')
+        yield IdField::new('id')->onlyOnIndex();
+        yield ChoiceField::new('type')->setChoices(['Head' => 0, 'Agency' => 1, 'Store' => 2, 'Restaurant' => 3, 'Consumer' => 4])->hideWhenCreating()->setFormTypeOptions(['disabled' => 'disabled']);
+        yield ChoiceField::new('type')
                 ->setChoices(['Agency' => 1, 'Store' => 2, 'Restaurant' => 3])
                 ->onlyWhenCreating()
                 ->setHelp('当<b>类型</b>选择<b>门店</b>或<b>餐厅</b>时，需要选择对应的上级代理商。')
-            ,
-            AssociationField::new('upstream')
+            ;
+        yield AssociationField::new('upstream')
                 ->onlyWhenCreating()
                 ->addCssClass("upstream d-none")
                 ->setQueryBuilder(
                     fn (QueryBuilder $qb) => $qb->andWhere('entity.type = 1')
                 )
-            ,
-            AssociationField::new('upstream')
+            ;
+        yield AssociationField::new('upstream')
                 ->onlyWhenUpdating()
                 ->addCssClass("upstream d-none")
                 ->setQueryBuilder(
                     fn (QueryBuilder $qb) => $qb->andWhere('entity.type < 1')
                 )
-            ,
-            TextField::new('name'),
-            TextField::new('contact'),
-            TelephoneField::new('phone'),
-            TextField::new('address'),
-            TextField::new('district'),
-            MoneyField::new('voucher')
+            ;
+        yield TextField::new('name');
+        yield TextField::new('contact');
+        yield TelephoneField::new('phone');
+        yield TextField::new('address');
+        yield TextField::new('district');
+        yield MoneyField::new('voucher')
                 ->setCurrency('CNY')
                 ->hideOnForm()
                 // ->setFormTypeOptions(['disabled' => 'disabled'])
-            ,
-        ];
+            ;
+        yield PercentField::new('discount');
     }
 
     public function configureAssets(Assets $assets): Assets

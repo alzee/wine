@@ -71,6 +71,9 @@ class Org
     #[ORM\ManyToOne(targetEntity: self::class)]
     private ?self $upstream = null;
 
+    #[ORM\Column]
+    private ?float $discount = 0.95;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
@@ -426,6 +429,18 @@ class Org
     public function setUpstream(?self $upstream): self
     {
         $this->upstream = $upstream;
+
+        return $this;
+    }
+
+    public function getDiscount(): ?float
+    {
+        return $this->discount;
+    }
+
+    public function setDiscount(float $discount): self
+    {
+        $this->discount = $discount;
 
         return $this;
     }
