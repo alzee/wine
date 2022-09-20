@@ -44,7 +44,6 @@ class ReturnsCrudController extends AbstractCrudController
             ->setQueryBuilder(
                 fn (QueryBuilder $qb) => $qb
                     ->andWhere('entity.upstream = :userOrg')
-                    ->andWhere('entity.type != 3')
                     ->setParameter('userOrg', $user->getOrg())
             );
         yield AssociationField::new('sender')
