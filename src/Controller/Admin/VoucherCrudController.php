@@ -86,6 +86,7 @@ class VoucherCrudController extends AbstractCrudController
         $helpNew = '总公司<b>灵活发放</b>代金券时，类型为<b>内部调控</b><br/>如需修改顾客代金券，请在<b>顾客</b>管理中编辑';
         return $crud
             ->setDefaultSort(['id' => 'DESC'])
+            ->setPageTitle('index', '%entity_label_plural%明细')
             ->setHelp('index', $helpIndex)
             ->setHelp('new', $helpNew)
         ;
