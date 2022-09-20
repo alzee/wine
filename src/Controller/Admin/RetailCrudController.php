@@ -50,9 +50,15 @@ class RetailCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-        return $actions
-            ->disable(Action::DELETE, Action::EDIT)
-        ;
+        if ($this->isGranted('ROLE_STORE') || $this->isGranted('ROLE_RESTAURANT')) {
+            return $actions
+                ->disable(Action::DELETE, Action::EDIT)
+            ;
+        } else {
+            return $actions
+                ->disable(Action::DELETE, Action::EDIT, Action::NEW, Action::DETAIL, Action::INDEX)
+            ;
+        }
     }
 
     public function configureFilters(Filters $filters): Filters
