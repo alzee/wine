@@ -32,13 +32,12 @@ use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Org;
 use Symfony\Component\Validator\Constraints\LessThanOrEqual;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use App\Entity\Choice;
 
 class WithdrawCrudController extends AbstractCrudController
 {
     private $doctrine;
     
-    private $statuses = ['Pending' => 0, 'Rejected' => 4, 'Success' => 5];
-
     public function __construct(ManagerRegistry $doctrine)
     {
         $this->doctrine = $doctrine;
@@ -93,17 +92,17 @@ class WithdrawCrudController extends AbstractCrudController
         if (!is_null($instance)) {
             if ($instance->getStatus() > 3 || $instance->getApprover() != $user->getOrg()) {
                 yield ChoiceField::new('status')
-                    ->setChoices($this->statuses)
+                    ->setChoices(Choice::WITHDRAW_STATUSES)
                     ->hideWhenCreating()
                     ->setFormTypeOptions(['disabled' => 'disabled']);
             } else {
                 yield ChoiceField::new('status')
-                    ->setChoices($this->statuses)
+                    ->setChoices(Choice::WITHDRAW_STATUSES)
                     ->hideWhenCreating();
             }
         }
         yield ChoiceField::new('status')
-            ->setChoices($this->statuses)
+            ->setChoices(Choice::WITHDRAW_STATUSES)
             ->onlyOnIndex();
         yield DateTimeField::new('date')->HideOnForm();
         yield TextareaField::new('note');

@@ -32,12 +32,11 @@ use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use App\Entity\Choice;
 
 class OrdersCrudController extends AbstractCrudController
 {
     private $doctrine;
-
-    private $statuses = ['Pending' => 0, 'Cancelled' => 4, 'Success' => 5];
 
     public function __construct(ManagerRegistry $doctrine)
     {
@@ -93,32 +92,21 @@ class OrdersCrudController extends AbstractCrudController
         if (!is_null($instance)) {
             if ($instance->getStatus() > 3 || $instance->getSeller() != $user->getOrg()) {
                 yield ChoiceField::new('status')
-                    ->setChoices($this->statuses)
+                    ->setChoices(Choice::ORDER_STATUSES)
                     ->hideWhenCreating()
                     ->setFormTypeOptions(['disabled' => 'disabled']);
             } else {
                 yield ChoiceField::new('status')
-                    ->setChoices($this->statuses)
+                    ->setChoices(Choice::ORDER_STATUSES)
                     ->hideWhenCreating();
             }
         }
         yield ChoiceField::new('status')
-            ->setChoices($this->statuses)
+            ->setChoices(Choice::ORDER_STATUSES)
             ->onlyOnIndex();
         yield DateTimeField::new('date')->HideOnForm();
         yield TextareaField::new('note');
     }
-
-    // public function createEditForm(EntityDto $entityDto, KeyValueStore $formOptions, AdminContext $context): FormInterface
-    // {
-    //     $b = $this->createEditFormBuilder($entityDto, $formOptions, $context);
-    //     $f = $b->getForm();
-    //     if ($f->get('status')->getData() > 3) {
-    //         $b->add('status', ChoiceType::class, ['choices' => $this->statuses, 'disabled' => 'disabled']);
-    //         $f = $b->getForm();
-    //     }
-    //     return $f;
-    // }
 
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {

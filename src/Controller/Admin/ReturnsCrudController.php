@@ -25,11 +25,10 @@ use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use App\Entity\Choice;
 
 class ReturnsCrudController extends AbstractCrudController
 {
-    private $statuses = ['Pending' => 0, 'Cancelled' => 4, 'Success' => 5];
-
     public static function getEntityFqcn(): string
     {
         return Returns::class;
@@ -79,17 +78,17 @@ class ReturnsCrudController extends AbstractCrudController
         if (!is_null($instance)) {
             if ($instance->getStatus() > 3 || $instance->getRecipient() != $user->getOrg()) {
                 yield ChoiceField::new('status')
-                    ->setChoices($this->statuses)
+                    ->setChoices(Choice::ORDER_STATUSES)
                     ->hideWhenCreating()
                     ->setFormTypeOptions(['disabled' => 'disabled']);
             } else {
                 yield ChoiceField::new('status')
-                    ->setChoices($this->statuses)
+                    ->setChoices(Choice::ORDER_STATUSES)
                     ->hideWhenCreating();
             }
         }
         yield ChoiceField::new('status')
-            ->setChoices($this->statuses)
+            ->setChoices(Choice::ORDER_STATUSES)
             ->onlyOnIndex();
         yield DateTimeField::new('date')->HideOnForm();
         yield TextareaField::new('note');
