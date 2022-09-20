@@ -1,15 +1,10 @@
 default (choice) value for default roles?
 upload pic only
 validator in orderItems not work in orders form?
-validator for sn not work?
 
 chart
 
 have to use setTimeout() in js?
 why repo->find(1) give uninitialized? $this->getUser()->getOrg() too. Thought ...getOrg()->getType() works.
-
-门店进货后整件商品打散？
-
-voucher 以钱包的形式
 
 # vim:ft=yaml
