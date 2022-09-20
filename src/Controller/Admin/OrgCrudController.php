@@ -47,13 +47,18 @@ class OrgCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         $user = $this->getUser();
+
+        if ($this->isGranted('ROLE_HEAD')) {
+            $orgChoices = ['Agency' => 1];
+        }
+        if ($this->isGranted('ROLE_AGENCY')) {
+            $orgChoices = ['Store' => 2, 'Restaurant' => 3];
+        }
         yield IdField::new('id')->onlyOnIndex();
-        yield ChoiceField::new('type')->setChoices(['Head' => 0, 'Agency' => 1, 'Store' => 2, 'Restaurant' => 3, 'Consumer' => 4])->hideWhenCreating()->setFormTypeOptions(['disabled' => 'disabled']);
         yield ChoiceField::new('type')
-                ->setChoices(['Agency' => 1, 'Store' => 2, 'Restaurant' => 3])
-                ->onlyWhenCreating()
-                ->setHelp('当<b>类型</b>选择<b>门店</b>或<b>餐厅</b>时，需要选择对应的上级代理商。')
-            ;
+            ->setChoices($orgChoices)
+            ->onlyWhenCreating();
+        yield ChoiceField::new('type')->setChoices(['Head' => 0, 'Agency' => 1, 'Store' => 2, 'Restaurant' => 3, 'Consumer' => 4])->hideWhenCreating()->setFormTypeOptions(['disabled' => 'disabled']);
         yield AssociationField::new('upstream')
                 ->onlyWhenCreating()
                 ->addCssClass("upstream d-none")
@@ -110,11 +115,11 @@ class OrgCrudController extends AbstractCrudController
         ;
     }
 
-    public function configureCrud(Crud $crud): Crud
-    {
-        $help = '当<b>类型</b>选择<b>门店</b>或<b>餐厅</b>时，需要选择对应的上级代理商。';
-        return $crud->setHelp('new', $help);
-    }
+    // public function configureCrud(Crud $crud): Crud
+    // {
+    //     $help = '当<b>类型</b>选择<b>门店</b>或<b>餐厅</b>时，需要选择对应的上级代理商。';
+    //     return $crud->setHelp('new', $help);
+    // }
 
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {
