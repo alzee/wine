@@ -109,6 +109,7 @@ class DashboardController extends AbstractDashboardController
             yield MenuItem::linkToDashboard('Dashboard', 'fa fa-chart-simple');
             yield MenuItem::linkToCrud('Org', 'fas fa-building', Org::class);
         }
+
         yield MenuItem::linkToCrud('Product', 'fas fa-wine-bottle', Product::class);
 
         if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_AGENCY')) {
@@ -120,7 +121,6 @@ class DashboardController extends AbstractDashboardController
                 ->setController(BuyCrudController::class);
         }
 
-        yield MenuItem::linkToCrud('Returns', 'fas fa-cart-arrow-down', Returns::class);
         if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_AGENCY')) {
             yield MenuItem::linkToCrud('ReturnToMe', 'fas fa-receipt', Returns::class)
                 ->setController(ReturnToMeCrudController::class);
@@ -134,13 +134,17 @@ class DashboardController extends AbstractDashboardController
             yield MenuItem::linkToCrud('Retail', 'fas fa-bag-shopping', Retail::class);
             yield MenuItem::linkToCrud('RetailReturn', 'fas fa-cart-shopping', RetailReturn::class);
         }
+
         if ($this->isGranted('ROLE_RESTAURANT')) {
             yield MenuItem::linkToCrud('OrderRestaurant', 'fas fa-utensils', OrderRestaurant::class);
         }
+
         if (!$this->isGranted('ROLE_STORE')) {
             yield MenuItem::linkToCrud('Withdraw', 'fas fa-money-bill', Withdraw::class);
         }
+
         yield MenuItem::linkToCrud('Voucher.detail', 'fas fa-ticket', Voucher::class);
+
         if ($this->isGranted('ROLE_HEAD')) {
             yield MenuItem::linkToCrud('Consumer', 'fas fa-users', Consumer::class);
         }
