@@ -170,7 +170,7 @@ class WithdrawCrudController extends AbstractCrudController
             'divisor' => 100,
             'required' => true,
             'constraints' => [new LessThanOrEqual(['value' => $voucher, 'message' => 'Exceeded'])],
-            'help' => '<i id="withdrawHelp">可提现金额: <span class="withdrawable">' . $voucher / 100 . '</span>, 折扣 <span class="discount">' . $org->getDiscount() * 100 . '%。</span> <span class="d-none discountHint">提现 <span class="amount">' .  $voucher / 100 . '</span> 实际到帐 <span class="actual">' . $voucher / 100 * $org->getDiscount() . '</span></span></i>',
+            'help' => '<i id="withdrawHelp">可提现金额: <span class="withdrawable text-danger">' . $voucher / 100 . '</span>, 折扣 <span class="discount text-danger">' . $org->getDiscount() * 100 . '</span>%。<span class="discountHint">提现 <span class="amount text-danger">' .  $voucher / 100 . '</span> 实际到帐 <span class="actual text-success">' . $voucher / 100 * $org->getDiscount() . '</span></span></i>',
         ]);
         $f = $b->getForm();
         return $f;
@@ -187,7 +187,6 @@ class WithdrawCrudController extends AbstractCrudController
     {
         return $assets
             ->addJsFile(Asset::new('js/withdraw.js')->onlyWhenCreating()->defer())
-            ->addCssFile(Asset::new('css/withdraw.css')->onlyWhenCreating())
         ;
     }
 
