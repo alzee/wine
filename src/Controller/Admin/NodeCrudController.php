@@ -11,6 +11,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 // use EasyCorp\Bundle\EasyAdminBundle\Form\Type\FileUploadType;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 
 class NodeCrudController extends AbstractCrudController
 {
@@ -37,5 +39,17 @@ class NodeCrudController extends AbstractCrudController
             ->hideOnIndex();
         yield DateTimeField::new('date')
             ->onlyOnIndex();
+    }
+
+    public function configureActions(Actions $actions): Actions
+    {
+        if ($this->isGranted('ROLE_HEAD')) {
+            return $actions
+                ;
+        } else {
+            return $actions
+                ->disable(Action::DELETE, Action::NEW, Action::EDIT, Action::DETAIL, Action::INDEX)
+            ;
+        }
     }
 }
