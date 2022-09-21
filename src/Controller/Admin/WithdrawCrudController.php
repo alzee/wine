@@ -86,6 +86,7 @@ class WithdrawCrudController extends AbstractCrudController
         if ($this->isGranted('ROLE_RESTAURANT')){
             yield MoneyField::new('actualAmount')
                 ->setCurrency('CNY')
+                ->hideWhenCreating()
                 ->setFormTypeOptions(['disabled' => 'disabled']);
         }
         yield MoneyField::new('amount', 'withdraw.amount')
@@ -167,7 +168,7 @@ class WithdrawCrudController extends AbstractCrudController
             'divisor' => 100,
             'required' => true,
             'constraints' => [new LessThanOrEqual(['value' => $voucher, 'message' => 'Exceeded'])],
-            'help' => '可提现金额: ' . $voucher / 100,
+            'help' => '<i id="withdrawHelp">可提现金额: <span class="withdrawable">' . $voucher / 100 . '</span>, 折扣 <span class="discount">' . $org->getDiscount() * 100 . '%。</span> <span class="discountHint">提现 <span class="amount">' .  $voucher / 100 . '</span> 实际到帐 <span class="actual">' . $voucher / 100 * $org->getDiscount() . '</span></span></i>',
         ]);
         $f = $b->getForm();
         return $f;
