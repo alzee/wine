@@ -25,6 +25,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 use App\Entity\Choice;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
+use EasyCorp\Bundle\EasyAdminBundle\Config\KeyValueStore;
 
 class VoucherCrudController extends AbstractCrudController
 {
@@ -89,6 +90,7 @@ class VoucherCrudController extends AbstractCrudController
             ->setPageTitle('index', '%entity_label_plural%明细')
             ->setHelp('index', $helpIndex)
             ->setHelp('new', $helpNew)
+            ->overrideTemplate('crud/index', 'voucher_index.twig')
         ;
     }
 
@@ -97,5 +99,16 @@ class VoucherCrudController extends AbstractCrudController
         return $filters
             ->add('date')
         ;
+    }
+
+    public function configureResponseParameters(KeyValueStore $responseParameters): KeyValueStore
+    {
+      if (!$this->isGranted('ROLE_HEAD')) {
+        if (Crud::PAGE_INDEX === $responseParameters->get('pageName')) {
+          $myVoucher = $this->getuser()->getOrg()->getVoucher() / 100;
+          $responseParameters->set('myVoucher', $myVoucher);
+        }
+      }
+      return $responseParameters;
     }
 }
