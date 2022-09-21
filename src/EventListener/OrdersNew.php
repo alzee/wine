@@ -35,6 +35,7 @@ class OrdersNew extends AbstractController
 
         $order->setAmount($amount);
         $order->setVoucher($voucher);
+        $order->setStatus(5);
     }
 
     public function postPersist(Orders $order, LifecycleEventArgs $event): void
