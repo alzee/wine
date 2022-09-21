@@ -54,4 +54,17 @@ class RetailReturnCrudController extends AbstractCrudController
             ->add('date')
         ;
     }
+
+    public function configureActions(Actions $actions): Actions
+    {
+        if ($this->isGranted('ROLE_STORE') || $this->isGranted('ROLE_RESTAURANT')) {
+            return $actions
+                ->disable(Action::DELETE, Action::EDIT)
+                ;
+        } else {
+            return $actions
+                ->disable(Action::DELETE, Action::NEW, Action::EDIT, Action::DETAIL, Action::INDEX)
+            ;
+        }
+    }
 }
