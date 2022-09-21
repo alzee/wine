@@ -83,6 +83,11 @@ class WithdrawCrudController extends AbstractCrudController
             ->setCurrency('CNY')
             ->HideWhenCreating()
             ->setFormTypeOptions(['disabled' => 'disabled']);
+        if ($this->isGranted('ROLE_RESTAURANT')){
+            yield MoneyField::new('actualAmount')
+                ->setCurrency('CNY')
+                ->setFormTypeOptions(['disabled' => 'disabled']);
+        }
         yield MoneyField::new('amount', 'withdraw.amount')
             ->setCurrency('CNY')
             ->onlyWhenCreating()
