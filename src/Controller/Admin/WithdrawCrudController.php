@@ -34,6 +34,8 @@ use Symfony\Component\Validator\Constraints\LessThanOrEqual;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use App\Entity\Choice;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
 
 class WithdrawCrudController extends AbstractCrudController
 {
@@ -168,7 +170,7 @@ class WithdrawCrudController extends AbstractCrudController
             'divisor' => 100,
             'required' => true,
             'constraints' => [new LessThanOrEqual(['value' => $voucher, 'message' => 'Exceeded'])],
-            'help' => '<i id="withdrawHelp">可提现金额: <span class="withdrawable">' . $voucher / 100 . '</span>, 折扣 <span class="discount">' . $org->getDiscount() * 100 . '%。</span> <span class="discountHint">提现 <span class="amount">' .  $voucher / 100 . '</span> 实际到帐 <span class="actual">' . $voucher / 100 * $org->getDiscount() . '</span></span></i>',
+            'help' => '<i id="withdrawHelp">可提现金额: <span class="withdrawable">' . $voucher / 100 . '</span>, 折扣 <span class="discount">' . $org->getDiscount() * 100 . '%。</span> <span class="d-none discountHint">提现 <span class="amount">' .  $voucher / 100 . '</span> 实际到帐 <span class="actual">' . $voucher / 100 * $org->getDiscount() . '</span></span></i>',
         ]);
         $f = $b->getForm();
         return $f;
@@ -180,4 +182,13 @@ class WithdrawCrudController extends AbstractCrudController
             ->add('date')
         ;
     }
+
+    public function configureAssets(Assets $assets): Assets
+    {
+        return $assets
+            ->addJsFile(Asset::new('js/withdraw.js')->onlyWhenCreating()->defer())
+            ->addCssFile(Asset::new('css/withdraw.css')->onlyWhenCreating())
+        ;
+    }
+
 }
