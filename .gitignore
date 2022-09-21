@@ -1,3 +1,4 @@
+*.swp
 admin
 ###> symfony/framework-bundle ###
 /.env.local
