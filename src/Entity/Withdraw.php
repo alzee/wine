@@ -41,6 +41,10 @@ class Withdraw
     #[ORM\JoinColumn(nullable: false)]
     private ?Org $approver = null;
 
+    #[ORM\Column(options: ["unsigned" => true])]
+    #[Assert\Positive]
+    private ?int $actualAmount = null;
+
     public function __construct()
     {
         $this->date = new \DateTime();
@@ -131,6 +135,18 @@ class Withdraw
     public function setApprover(?Org $approver): self
     {
         $this->approver = $approver;
+
+        return $this;
+    }
+
+    public function getActualAmount(): ?int
+    {
+        return $this->actualAmount;
+    }
+
+    public function setActualAmount(int $actualAmount): self
+    {
+        $this->actualAmount = $actualAmount;
 
         return $this;
     }
