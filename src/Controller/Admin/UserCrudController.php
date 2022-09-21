@@ -14,6 +14,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Doctrine\ORM\QueryBuilder;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 
 class UserCrudController extends AbstractCrudController
 {
@@ -45,5 +47,17 @@ class UserCrudController extends AbstractCrudController
                                       ,
 
         ];
+    }
+
+    public function configureActions(Actions $actions): Actions
+    {
+        if ($this->isGranted('ROLE_HEAD')) {
+            return $actions
+                ;
+        } else {
+            return $actions
+                ->disable(Action::DELETE, Action::NEW, Action::EDIT, Action::DETAIL, Action::INDEX)
+            ;
+        }
     }
 }
