@@ -126,3 +126,10 @@ services:
                 name: 'doctrine.orm.entity_listener'
                 event: 'prePersist'
                 entity: 'App\Entity\Voucher'
+
+    App\EventListener\WithdrawNew:
+        tags:
+            -
+                name: 'doctrine.orm.entity_listener'
+                event: 'prePersist'
+                entity: 'App\Entity\Withdraw'
