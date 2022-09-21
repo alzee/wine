@@ -73,6 +73,5 @@ class OrdersUpdate
                 $em->flush();
             }
         }
-
     }
 }
