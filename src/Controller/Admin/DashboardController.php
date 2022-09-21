@@ -107,10 +107,10 @@ class DashboardController extends AbstractDashboardController
     {
         if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_AGENCY')) {
             yield MenuItem::linkToDashboard('Dashboard', 'fa fa-chart-simple');
-            yield MenuItem::linkToCrud('Org', 'fas fa-building', Org::class);
+            yield MenuItem::linkToCrud('OrgManage', 'fas fa-building', Org::class);
         }
 
-        yield MenuItem::linkToCrud('Product', 'fas fa-wine-bottle', Product::class);
+        yield MenuItem::linkToCrud('MyProduct', 'fas fa-wine-bottle', Product::class);
 
         if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_AGENCY')) {
             yield MenuItem::linkToCrud('Sale', 'fas fa-receipt', Orders::class)
@@ -139,19 +139,26 @@ class DashboardController extends AbstractDashboardController
             yield MenuItem::linkToCrud('OrderRestaurant', 'fas fa-utensils', OrderRestaurant::class);
         }
 
-        if (!$this->isGranted('ROLE_STORE')) {
-            yield MenuItem::linkToCrud('Withdraw', 'fas fa-money-bill', Withdraw::class);
+        if ($this->isGranted('ROLE_RESTAURANT') || $this->isGranted('ROLE_AGENCY')) {
+            yield MenuItem::linkToCrud('MyWithdraw', 'fas fa-money-bill', Withdraw::class)
+                ->setController(MyWithdrawCrudController::class);
+                ;
+        }
+        if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_AGENCY')) {
+            yield MenuItem::linkToCrud('DownstreamWithdraw', 'fas fa-money-bill', Withdraw::class)
+                ->setController(DownstreamWithdrawCrudController::class);
+            ;
         }
 
         yield MenuItem::linkToCrud('Voucher.detail', 'fas fa-ticket', Voucher::class);
 
         if ($this->isGranted('ROLE_HEAD')) {
-            yield MenuItem::linkToCrud('Consumer', 'fas fa-users', Consumer::class);
+            yield MenuItem::linkToCrud('ConsumerManage', 'fas fa-users', Consumer::class);
         }
         if ($this->isGranted('ROLE_HEAD')) {
             yield MenuItem::subMenu('Settings', 'fa fa-gear')->setSubItems([
-                MenuItem::linkToCrud('User', 'fas fa-user', User::class),
-                MenuItem::linkToCrud('Node', 'fas fa-file', Node::class),
+                MenuItem::linkToCrud('UserManage', 'fas fa-user', User::class),
+                MenuItem::linkToCrud('NodeManage', 'fas fa-file', Node::class),
             ]);
         }
     }

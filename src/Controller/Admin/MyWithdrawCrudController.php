@@ -37,7 +37,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
 
-class WithdrawCrudController extends AbstractCrudController
+class MyWithdrawCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
@@ -134,8 +134,7 @@ class WithdrawCrudController extends AbstractCrudController
             $response->andWhere("entity.approver = $userOrg");
         } else {
             $response
-                ->andWhere("entity.applicant = $userOrg")
-                ->orWhere("entity.approver = $userOrg");
+                ->andWhere("entity.applicant = $userOrg");
         }
         return $response;
     }
@@ -148,6 +147,7 @@ class WithdrawCrudController extends AbstractCrudController
             ->setDefaultSort(['id' => 'DESC'])
             ->setHelp('index', $helpIndex)
             ->setHelp('new', $helpNew)
+            ->setPageTitle('index', 'MyWithdraw')
         ;
     }
 

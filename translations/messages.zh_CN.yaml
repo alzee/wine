@@ -1,6 +1,7 @@
 ID: 序号
 Dashboard: 数据统计
 Product: 产品
+MyProduct: 我的产品
 ProductAgency: 代理商产品
 ProductStore: 门店产品
 ProductRestaurant: 餐厅产品
@@ -14,6 +15,7 @@ Restaurant: 餐厅
 Voucher: 代金券
 Voucher.detail: 代金券明细
 User: 用户
+UserManage: 用户管理
 Quantity: 数量
 Price: 单价
 Amount: 金额
@@ -37,8 +39,10 @@ Cancelled: 已取消
 Success: 已完成
 Orders: 订单
 Org: 机构
+OrgManage: 机构管理
 Returns: 退货
 Consumer: 顾客
+ConsumerManage: 顾客管理
 Type: 类型
 Seller: 发货方
 Buyer: 收货方
@@ -63,6 +67,7 @@ Order Items: 订单商品
 Return Items: 退货商品
 withdraw.amount: 提现金额
 Node: 推荐
+NodeManage: 推荐管理
 Title: 标题
 Body: 正文
 Tag: 标签
@@ -73,3 +78,5 @@ Buy: 进货订单
 MyReturn: 我的退货
 ReturnToMe: 售后退货
 Actual Amount: 实际到帐
+MyWithdraw: 我的提现
+DownstreamWithdraw: 下级提现

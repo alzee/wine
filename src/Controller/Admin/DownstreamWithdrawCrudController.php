@@ -37,7 +37,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
 
-class WithdrawCrudController extends AbstractCrudController
+class DownstreamWithdrawCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
@@ -111,19 +111,9 @@ class WithdrawCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-        if ($this->isGranted('ROLE_HEAD')) {
-            return $actions
-                ->disable(Action::DELETE, Action::NEW)
-            ;
-        } else if ($this->isGranted('ROLE_STORE')){
-            return $actions
-                ->disable(Action::DELETE, Action::NEW, Action::EDIT, Action::DETAIL, Action::INDEX)
-            ;
-        } else {
-            return $actions
-                ->disable(Action::DELETE)
-            ;
-        }
+        return $actions
+            ->disable(Action::DELETE, Action::NEW)
+        ;
     }
 
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
@@ -134,8 +124,7 @@ class WithdrawCrudController extends AbstractCrudController
             $response->andWhere("entity.approver = $userOrg");
         } else {
             $response
-                ->andWhere("entity.applicant = $userOrg")
-                ->orWhere("entity.approver = $userOrg");
+                ->andWhere("entity.approver = $userOrg");
         }
         return $response;
     }
@@ -148,6 +137,7 @@ class WithdrawCrudController extends AbstractCrudController
             ->setDefaultSort(['id' => 'DESC'])
             ->setHelp('index', $helpIndex)
             ->setHelp('new', $helpNew)
+            ->setPageTitle('index', 'DownstreamWithdraw')
         ;
     }
 
