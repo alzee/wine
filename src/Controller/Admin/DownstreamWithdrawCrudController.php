@@ -78,7 +78,7 @@ class DownstreamWithdrawCrudController extends AbstractCrudController
             ->setCurrency('CNY')
             ->HideWhenCreating()
             ->setFormTypeOptions(['disabled' => 'disabled']);
-        if ($this->isGranted('ROLE_RESTAURANT')){
+        if ($this->isGranted('ROLE_RESTAURANT') || $this->isGranted('ROLE_AGENCY')){
             yield MoneyField::new('actualAmount')
                 ->setCurrency('CNY')
                 ->hideWhenCreating()
