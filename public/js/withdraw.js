@@ -1,5 +1,9 @@
 setTimeout(() => {
   let input = document.querySelector('#Withdraw_amount');
+  let more = document.querySelector('#withdrawHelp .more');
+  if (more) {
+    more.classList.remove('d-none');
+  }
   if (input) {
     input.addEventListener('input', function () {
       let discount = document.querySelector('#withdrawHelp .discount').innerText;
@@ -10,6 +14,5 @@ setTimeout(() => {
     });
 
   }
-
 }, 0);
 
