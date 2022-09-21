@@ -114,6 +114,10 @@ class WithdrawCrudController extends AbstractCrudController
             return $actions
                 ->disable(Action::DELETE, Action::NEW)
             ;
+        } else if ($this->isGranted('ROLE_STORE')){
+            return $actions
+                ->disable(Action::DELETE, Action::NEW, Action::EDIT, Action::DETAIL, Action::INDEX)
+            ;
         } else {
             return $actions
                 ->disable(Action::DELETE)
