@@ -40,9 +40,15 @@ class ConsumerCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-        return $actions
-            ->disable(Action::DELETE)
-        ;
+        if ($this->isGranted('ROLE_HEAD')) {
+            return $actions
+                ->disable(Action::DELETE)
+                ;
+        } else {
+            return $actions
+                ->disable(Action::DELETE, Action::NEW, Action::EDIT, Action::DETAIL, Action::INDEX)
+            ;
+        }
     }
 
     // public function configureCrud(Crud $crud): Crud
