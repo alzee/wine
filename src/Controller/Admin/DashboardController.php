@@ -111,7 +111,6 @@ class DashboardController extends AbstractDashboardController
         }
         yield MenuItem::linkToCrud('Product', 'fas fa-wine-bottle', Product::class);
 
-        yield MenuItem::linkToCrud('Orders', 'fas fa-receipt', Orders::class);
         if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_AGENCY')) {
             yield MenuItem::linkToCrud('Sale', 'fas fa-receipt', Orders::class)
                 ->setController(SaleCrudController::class);

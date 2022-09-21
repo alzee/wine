@@ -37,13 +37,6 @@ use App\Entity\Choice;
 
 class OrdersCrudController extends AbstractCrudController
 {
-    private $doctrine;
-
-    public function __construct(ManagerRegistry $doctrine)
-    {
-        $this->doctrine = $doctrine;
-    }
-
     public static function getEntityFqcn(): string
     {
         return Orders::class;
