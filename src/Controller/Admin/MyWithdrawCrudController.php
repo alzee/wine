@@ -155,15 +155,15 @@ class MyWithdrawCrudController extends AbstractCrudController
     {
         $user = $this->getUser();
         $org = $this->getUser()->getOrg();
-        $voucher = $org->getVoucher();
+        $withdrawable = $org->getWithdrawable();
         $b = $this->createNewFormBuilder($entityDto, $formOptions, $context);
         $b->add('amount', MoneyType::class, [
             'label' => 'withdraw.amount',
             'currency' => 'CNY',
             'divisor' => 100,
             'required' => true,
-            'constraints' => [new LessThanOrEqual(['value' => $voucher, 'message' => 'Exceeded'])],
-            'help' => '<i id="withdrawHelp">可提现金额: <span class="withdrawable text-danger">' . $voucher / 100 . '</span><span class="more d-none">, 折扣 <span class="discount text-danger">' . $org->getDiscount() * 100 . '</span>%。<span class="discountHint">提现 <span class="amount text-danger">' .  $voucher / 100 . '</span> 实际到帐 <span class="actual text-success">' . $voucher / 100 * $org->getDiscount() . '</span></span></span></i>',
+            'constraints' => [new LessThanOrEqual(['value' => $withdrawable, 'message' => 'Exceeded'])],
+            'help' => '<i id="withdrawHelp">可提现金额: <span class="withdrawable text-danger">' . $withdrawable / 100 . '</span><span class="more d-none">, 折扣 <span class="discount text-danger">' . $org->getDiscount() * 100 . '</span>%。<span class="discountHint">提现 <span class="amount text-danger">' .  $withdrawable / 100 . '</span> 实际到帐 <span class="actual text-success">' . $withdrawable / 100 * $org->getDiscount() . '</span></span></span></i>',
         ]);
         $f = $b->getForm();
         return $f;
