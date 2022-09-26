@@ -21,6 +21,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
+use App\Entity\Org;
 
 class UserCrudController extends AbstractCrudController
 {
@@ -67,14 +68,12 @@ class UserCrudController extends AbstractCrudController
 
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {
-        $userOrg = $this->getUser()->getOrg();
-        $userOrgId = $userOrg->getId();
-        $userOrgUpstream = $userOrg->getUpstream();
-        $userOrgUpstreamId = $userOrgUpstream->getId();
+        $userOrgId = $this->getUser()->getOrg()->getId();
         $response = $this->container->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
         $response
+            ->leftJoin('entity.org', 'org')
             ->andWhere("entity.org = $userOrgId")
-            ->orWhere("entity.org = $userOrgUpstreamId");
+            ->orWhere("org.upstream = $userOrgId");
         return $response;
     }
 }
