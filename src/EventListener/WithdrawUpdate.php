@@ -30,7 +30,7 @@ class WithdrawUpdate
                 $amount = $withdraw->getAmount();
                 // applicant's voucher - amount
                 $applicant = $withdraw->getApplicant();
-                $applicant->setVoucher($applicant->getVoucher() - $amount);
+                $applicant->setWithdrawable($applicant->getWithdrawable() - $amount);
 
                 // voucher record for applicant
                 $record = new Voucher();
@@ -45,7 +45,7 @@ class WithdrawUpdate
                 // so just need to think about restaurant
                 if ( $applicant->getType() == 3) {
                     $approver = $withdraw->getApprover();
-                    $approver->setVoucher($agency->getVoucher() + $amount);
+                    $approver->setWithdrawable($approver->getWithdrawable() + $amount);
 
                     // voucher record for approver
                     $record = new Voucher();
