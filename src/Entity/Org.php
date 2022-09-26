@@ -8,9 +8,14 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Doctrine\Orm\Filter\NumericFilter;
 
 #[ORM\Entity(repositoryClass: OrgRepository::class)]
 #[ApiResource]
+#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'type' => 'exact'])]
+#[ApiFilter(NumericFilter::class, properties: ['type'])]
 class Org
 {
     #[ORM\Id]
