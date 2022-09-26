@@ -86,6 +86,10 @@ class Org
     #[Groups(['read', 'write'])]
     private ?float $discount = 0.95;
 
+    #[ORM\Column(options: ["unsigned" => true])]
+    #[Groups(['read'])]
+    private ?int $withdrawable = 0;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
@@ -453,6 +457,18 @@ class Org
     public function setDiscount(float $discount): self
     {
         $this->discount = $discount;
+
+        return $this;
+    }
+
+    public function getWithdrawable(): ?int
+    {
+        return $this->withdrawable;
+    }
+
+    public function setWithdrawable(int $withdrawable): self
+    {
+        $this->withdrawable = $withdrawable;
 
         return $this;
     }
