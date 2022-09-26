@@ -74,8 +74,7 @@ class VoucherCrudController extends AbstractCrudController
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {
         $userOrg = $this->getUser()->getOrg()->getId();
-        $response = $this->container->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
-        if (!$this->isGranted('ROLE_HEAD')) {
+        $response = $this->container->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters); if (!$this->isGranted('ROLE_HEAD')) {
             $response->andWhere("entity.org = $userOrg");
         }
         return $response;
@@ -106,7 +105,10 @@ class VoucherCrudController extends AbstractCrudController
       if (!$this->isGranted('ROLE_HEAD')) {
         if (Crud::PAGE_INDEX === $responseParameters->get('pageName')) {
           $myVoucher = $this->getuser()->getOrg()->getVoucher() / 100;
+          $withdrawable = $this->getuser()->getOrg()->getWithdrawable() / 100;
           $responseParameters->set('myVoucher', $myVoucher);
+          $responseParameters->set('withdrawable', $withdrawable);
+          ;
         }
       }
       return $responseParameters;

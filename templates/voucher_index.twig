@@ -47,7 +47,8 @@
 {% set has_batch_actions = batch_actions|length > 0 %}
 {% block page_actions %}
     {% if myVoucher is defined %}
-    <div id="my-voucher" class="me-5"><strong>我的代金券: <span class="text-success">{{ myVoucher }}</span></strong></div>
+    <div id="my-voucher" class="me-5"><strong>我的代金券: <span class="text-danger">{{ myVoucher }}</span></strong></div>
+    <div id="withdrawable" class="me-5"><strong>可提现金额: <span class="text-success">{{ withdrawable }}</span></strong></div>
     {% endif %}
     {% if filters|length > 0 %}
         <div class="datagrid-filters">
