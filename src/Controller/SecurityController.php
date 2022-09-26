@@ -46,15 +46,15 @@ class SecurityController extends AbstractController
     #[Route(path: '/api/login', name: 'api_login', methods: ['POST'])]
     public function apiLogin()
     {
-        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')){
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
             $resp = [
                 "code" => 1
             ];
-        }
-        else {
+            dump($resp);
+        } else {
             $user = $this->getUser();
             $uid = $user->getId();
-            $role = $user->getRoles();
+            $role = $user->getOrg()->getType();
             $username = $user->getUsername();
             $org = $user->getOrg();
             $data = [
