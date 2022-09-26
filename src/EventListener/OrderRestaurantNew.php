@@ -23,7 +23,7 @@ class OrderRestaurantNew extends AbstractController
         // restaurant + voucher
         $resta = $order->getRestaurant();
         $voucher = $order->getVoucher();
-        $resta->setVoucher($resta->getVoucher() + $voucher);
+        $resta->setWithdrawable($resta->getWithdrawable() + $voucher);
 
         // consumer - voucher
         $consumer = $order->getConsumer();
