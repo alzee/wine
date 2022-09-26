@@ -155,11 +155,14 @@ class DashboardController extends AbstractDashboardController
         if ($this->isGranted('ROLE_HEAD')) {
             yield MenuItem::linkToCrud('ConsumerManage', 'fas fa-users', Consumer::class);
         }
-        if ($this->isGranted('ROLE_HEAD')) {
-            yield MenuItem::subMenu('Settings', 'fa fa-gear')->setSubItems([
+        if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_AGENCY')) {
+            $items = [
                 MenuItem::linkToCrud('UserManage', 'fas fa-user', User::class),
-                MenuItem::linkToCrud('NodeManage', 'fas fa-file', Node::class),
-            ]);
+            ];
+            if ($this->isGranted('ROLE_HEAD')) {
+                array_push($items, (MenuItem::linkToCrud('NodeManage', 'fas fa-file', Node::class)));
+            }
+            yield MenuItem::subMenu('Settings', 'fa fa-gear')->setSubItems($items);
         }
     }
 
