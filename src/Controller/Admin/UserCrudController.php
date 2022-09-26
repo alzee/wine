@@ -16,6 +16,11 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
+use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 
 class UserCrudController extends AbstractCrudController
 {
@@ -37,27 +42,39 @@ class UserCrudController extends AbstractCrudController
                 ),
             AssociationField::new('org')->OnlyWhenUpdating()->setFormTypeOptions(['disabled' => 'disabled']),
             TextField::new('plainPassword')->onlyOnForms()
-                                      ->setFormType(RepeatedType::class)
-                                      ->setFormTypeOptions([
-                                          'type' => PasswordType::class,
-                                          'first_options' => ['label' => 'Password'],
-                                          'second_options' => ['label' => 'Repeat password'],
-                                          'required' => 'required',
-                                      ])
-                                      ,
+                                           ->setFormType(RepeatedType::class)
+                                           ->setFormTypeOptions([
+                                               'type' => PasswordType::class,
+                                               'first_options' => ['label' => 'Password'],
+                                               'second_options' => ['label' => 'Repeat password'],
+                                               'required' => 'required',
+                                           ])
+                                           ,
 
         ];
     }
 
     public function configureActions(Actions $actions): Actions
     {
-        if ($this->isGranted('ROLE_HEAD')) {
-            return $actions
-                ;
+        if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_AGENCY')) {
+            return $actions;
         } else {
             return $actions
                 ->disable(Action::DELETE, Action::NEW, Action::EDIT, Action::DETAIL, Action::INDEX)
             ;
         }
+    }
+
+    public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
+    {
+        $userOrg = $this->getUser()->getOrg();
+        $userOrgId = $userOrg->getId();
+        $userOrgUpstream = $userOrg->getUpstream();
+        $userOrgUpstreamId = $userOrgUpstream->getId();
+        $response = $this->container->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
+        $response
+            ->andWhere("entity.org = $userOrgId")
+            ->orWhere("entity.org = $userOrgUpstreamId");
+        return $response;
     }
 }
