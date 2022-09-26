@@ -8,34 +8,45 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 
 #[ORM\Entity(repositoryClass: OrgRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    normalizationContext: ['groups' => ['read']],
+    denormalizationContext: ['groups' => ['write']],
+)]
 #[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'type' => 'exact'])]
 class Org
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['read', 'write'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['read', 'write'])]
     private ?string $contact = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['read', 'write'])]
     private ?string $phone = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['read', 'write'])]
     private ?string $address = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['read', 'write'])]
     private ?string $district = null;
 
+    #[Groups(['read', 'write'])]
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $type = 1;
 
@@ -49,6 +60,7 @@ class Org
     private Collection $products;
 
     #[ORM\Column(options: ["unsigned" => true])]
+    #[Groups(['read', 'write'])]
     private ?int $voucher = null;
 
     #[ORM\OneToMany(mappedBy: 'restaurant', targetEntity: OrderRestaurant::class)]
@@ -67,9 +79,11 @@ class Org
     private Collection $users;
 
     #[ORM\ManyToOne(targetEntity: self::class)]
+    #[Groups(['read', 'write'])]
     private ?self $upstream = null;
 
     #[ORM\Column]
+    #[Groups(['read', 'write'])]
     private ?float $discount = 0.95;
 
     public function __construct()

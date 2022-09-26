@@ -7,10 +7,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[UniqueConstraint(name: "sn_org", columns: ["sn", "org_id"])]
@@ -19,37 +22,49 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
     errorPath: 'sn',
     message: 'SN is already in use',
 )]
-#[ApiResource]
+#[ApiResource(
+    normalizationContext: ['groups' => ['read']],
+    denormalizationContext: ['groups' => ['write']],
+)]
+#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'sn' => 'exact', 'org' => 'exact'])]
 class Product
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['read'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['read'])]
     private ?string $spec = null;
 
     #[ORM\Column(options: ["unsigned" => true])]
     #[Assert\Positive]
+    #[Groups(['read'])]
     private ?int $price = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
     #[Assert\Positive]
+    #[Groups(['read'])]
     private ?int $stock = 0;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['read'])]
     private ?string $sn = null;
 
     #[ORM\Column(options: ["unsigned" => true])]
     #[Assert\Positive]
+    #[Groups(['read'])]
     private ?int $voucher = null;
 
     #[ORM\ManyToOne(inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['read'])]
     private ?Org $org = null;
 
     public function __construct()
