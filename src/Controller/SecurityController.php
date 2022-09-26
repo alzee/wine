@@ -29,4 +29,37 @@ class SecurityController extends AbstractController
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
+
+    #[Route(path: '/api/login', name: 'api_login', methods: ['POST'])]
+    public function apiLogin()
+    {
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')){
+            $resp = [
+                "code" => 1
+            ];
+        }
+        else {
+            $user = $this->getUser();
+            $uid = $user->getId();
+            $role = $user->getRoles();
+            $username = $user->getUsername();
+            $org = $user->getOrg();
+            $data = [
+                "uid" => $uid,
+                "role" => $role,
+                "username" => $username,
+                "org" => $org
+            ];
+            $resp = [
+                "code" => 0,
+                "data" => $data
+            ];
+        }
+        return $this->json($resp);
+    }
+
+    #[Route(path: '/api/consumer_login', name: 'api_consumer_login', methods: ['POST'])]
+    public function consumerLogin()
+    {
+    }
 }
