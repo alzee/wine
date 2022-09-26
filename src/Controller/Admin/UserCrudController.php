@@ -32,27 +32,30 @@ class UserCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        return [
-            // IdField::new('id')->onlyOnIndex(),
-            TextField::new('username')->OnlyWhenUpdating()->setFormTypeOptions(['disabled' => 'disabled']),
-            TextField::new('username')->HideWhenUpdating(),
-            AssociationField::new('org')
-                ->HideWhenUpdating()
-                ->setQueryBuilder(
-                    fn (QueryBuilder $qb) => $qb->andWhere('entity.type != 4')
-                ),
-            AssociationField::new('org')->OnlyWhenUpdating()->setFormTypeOptions(['disabled' => 'disabled']),
-            TextField::new('plainPassword')->onlyOnForms()
-                                           ->setFormType(RepeatedType::class)
-                                           ->setFormTypeOptions([
-                                               'type' => PasswordType::class,
-                                               'first_options' => ['label' => 'Password'],
-                                               'second_options' => ['label' => 'Repeat password'],
-                                               'required' => 'required',
-                                           ])
-                                           ,
-
-        ];
+        $userOrgId = $this->getUser()->getOrg()->getId();
+        // IdField::new('id')->onlyOnIndex(),
+        yield
+            TextField::new('username')->OnlyWhenUpdating()->setFormTypeOptions(['disabled' => 'disabled']);
+        yield TextField::new('username')->HideWhenUpdating();
+        yield AssociationField::new('org')
+            ->HideWhenUpdating()
+            ->setQueryBuilder(
+                fn (QueryBuilder $qb) => $qb
+                    ->andWhere("entity.id = $userOrgId")
+                    ->orWhere("entity.upstream = $userOrgId")
+            );
+        yield AssociationField::new('org')
+            ->OnlyWhenUpdating()
+            ->setFormTypeOptions(['disabled' => 'disabled']);
+        yield TextField::new('plainPassword')
+            ->onlyOnForms()
+            ->setFormType(RepeatedType::class)
+            ->setFormTypeOptions([
+                'type' => PasswordType::class,
+                'first_options' => ['label' => 'Password'],
+                'second_options' => ['label' => 'Repeat password'],
+                'required' => 'required',
+            ]);
     }
 
     public function configureActions(Actions $actions): Actions
