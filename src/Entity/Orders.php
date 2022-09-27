@@ -7,38 +7,53 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 
 #[ORM\Entity(repositoryClass: OrdersRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    normalizationContext: ['groups' => ['read']],
+    denormalizationContext: ['groups' => ['write']],
+)]
+#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'buyer' => 'exact', 'seller' => 'exact'])]
 class Orders
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['read'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'orders')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['read'])]
     private ?Org $seller = null;
 
     #[ORM\ManyToOne(inversedBy: 'orders')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['read'])]
     private ?Org $buyer = null;
 
     #[ORM\Column(options: ["unsigned" => true])]
+    #[Groups(['read'])]
     private ?int $amount = 0;
 
     #[ORM\Column(options: ["unsigned" => true])]
+    #[Groups(['read'])]
     private ?int $voucher = 0;
 
     #[ORM\Column(type: Types::SMALLINT)]
+    #[Groups(['read'])]
     private ?int $status = 0;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['read'])]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['read'])]
     private ?string $note = null;
 
     #[ORM\OneToMany(mappedBy: 'ord', targetEntity: OrderItems::class, orphanRemoval: true, cascade: ["persist"])]
