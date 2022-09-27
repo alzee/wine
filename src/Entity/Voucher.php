@@ -5,33 +5,47 @@ namespace App\Entity;
 use App\Repository\VoucherRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 
 #[ORM\Entity(repositoryClass: VoucherRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    normalizationContext: ['groups' => ['read']],
+    denormalizationContext: ['groups' => ['write']],
+)]
+#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'org' => 'exact', 'consumer' => 'exact', 'type' => 'exact'])]
 class Voucher
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['read'])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
+    #[Groups(['read'])]
     private ?int $type = 255;
 
     #[ORM\ManyToOne(inversedBy: 'vouchers')]
+    #[Groups(['read'])]
     private ?Org $org = null;
 
     #[ORM\Column]
+    #[Groups(['read'])]
     private ?int $voucher = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['read'])]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['read'])]
     private ?string $note = null;
 
     #[ORM\ManyToOne(inversedBy: 'vouchers')]
+    #[Groups(['read'])]
     private ?Consumer $consumer = null;
 
     public function __construct()
