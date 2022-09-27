@@ -17,7 +17,7 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
 )]
-#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'type' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'type' => 'exact', 'upstream' => 'exact'])]
 class Org
 {
     #[ORM\Id]
@@ -79,7 +79,7 @@ class Org
     private Collection $users;
 
     #[ORM\ManyToOne(targetEntity: self::class)]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read'])]
     private ?self $upstream = null;
 
     #[ORM\Column]
