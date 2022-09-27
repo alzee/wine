@@ -96,7 +96,7 @@ class SecurityController extends AbstractController
         }
 
         $resp = [
-            // "uid" => $consumer->getId(),
+            "cid" => $consumer->getId(),
             "role" => 4,
             "voucher" => $consumer->getVoucher()
         ];
