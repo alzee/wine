@@ -5,41 +5,56 @@ namespace App\Entity;
 use App\Repository\RetailRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 
 #[ORM\Entity(repositoryClass: RetailRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    normalizationContext: ['groups' => ['read']],
+    denormalizationContext: ['groups' => ['write']],
+)]
+#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'store' => 'exact', 'consumer' => 'exact'])]
 class Retail
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['read'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'retails')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['read'])]
     private ?Org $store = null;
 
     #[ORM\ManyToOne(inversedBy: 'retails')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['read'])]
     private ?Consumer $consumer = null;
 
     #[ORM\ManyToOne(inversedBy: 'retails')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['read'])]
     private ?Product $product = null;
 
     #[ORM\Column(type: Types::SMALLINT, options: ["unsigned" => true])]
     #[Assert\Positive]
+    #[Groups(['read'])]
     private ?int $quantity = null;
 
     #[ORM\Column(options: ["unsigned" => true])]
+    #[Groups(['read'])]
     private ?int $amount = 0;
 
     #[ORM\Column(options: ["unsigned" => true])]
+    #[Groups(['read'])]
     private ?int $voucher = 0;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['read'])]
     private ?\DateTimeInterface $date = null;
 
     public function __construct()
