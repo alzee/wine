@@ -5,44 +5,60 @@ namespace App\Entity;
 use App\Repository\WithdrawRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 
 #[ORM\Entity(repositoryClass: WithdrawRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    normalizationContext: ['groups' => ['read']],
+    denormalizationContext: ['groups' => ['write']],
+)]
+#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'applicant' => 'exact', 'approver' => 'exact'])]
 class Withdraw
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['read'])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['read'])]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\Column(options: ["unsigned" => true])]
     #[Assert\Positive]
+    #[Groups(['read'])]
     private ?int $amount = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
+    #[Groups(['read'])]
     private ?int $status = 0;
 
     #[ORM\ManyToOne(inversedBy: 'withdraws')]
+    #[Groups(['read'])]
     private ?Org $org = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['read'])]
     private ?string $note = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['read'])]
     private ?Org $applicant = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['read'])]
     private ?Org $approver = null;
 
     #[ORM\Column(options: ["unsigned" => true])]
     #[Assert\Positive]
+    #[Groups(['read'])]
     private ?int $actualAmount = null;
 
     public function __construct()
