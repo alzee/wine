@@ -4,26 +4,37 @@ namespace App\Entity;
 
 use App\Repository\ReturnItemsRepository;
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 
 #[ORM\Entity(repositoryClass: ReturnItemsRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    normalizationContext: ['groups' => ['read']],
+    denormalizationContext: ['groups' => ['write']],
+)]
+#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact'])]
 class ReturnItems
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['read'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'returnItems')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['read'])]
     private ?Returns $ret = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['read'])]
     private ?Product $product = null;
 
     #[ORM\Column(options: ["unsigned" => true])]
+    #[Groups(['read'])]
     private ?int $quantity = null;
 
     public function __toString(): string

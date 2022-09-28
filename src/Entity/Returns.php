@@ -57,6 +57,7 @@ class Returns
     private ?string $note = null;
 
     #[ORM\OneToMany(mappedBy: 'ret', targetEntity: ReturnItems::class, cascade: ["persist"])]
+    #[Groups(['read'])]
     private Collection $returnItems;
 
     public function __construct()
