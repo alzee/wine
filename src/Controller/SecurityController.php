@@ -91,6 +91,7 @@ class SecurityController extends AbstractController
             $em = $this->doctrine->getManager();
             $consumer = new Consumer();
             $consumer->setOpenid($openid);
+            $consumer->setName(substr($openid, 0, 8));
             $em->persist($consumer);
             $em->flush();
         }
