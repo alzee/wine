@@ -6,9 +6,12 @@ use App\Repository\ConsumerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 
 #[ORM\Entity(repositoryClass: ConsumerRepository::class)]
 #[UniqueEntity(
@@ -19,19 +22,26 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
     fields: 'phone',
     message: 'Phone is already in use',
 )]
-#[ApiResource]
+#[ApiResource(
+    normalizationContext: ['groups' => ['read']],
+    denormalizationContext: ['groups' => ['write']],
+)]
+#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'openid' => 'exact', 'phone' => 'exact'])]
 class Consumer
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, unique: true)]
+    #[Groups(['read'])]
     private ?string $openid = null;
 
     #[ORM\Column(options: ["unsigned" => true])]
     #[Assert\PositiveOrZero]
+    #[Groups(['read'])]
     private ?int $voucher = 0;
 
     #[ORM\OneToMany(mappedBy: 'consumer', targetEntity: OrderRestaurant::class)]
@@ -44,9 +54,11 @@ class Consumer
     private Collection $retails;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['read'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255, nullable: true, unique: true)]
+    #[Groups(['read'])]
     private ?string $phone = null;
 
     public function __construct()
