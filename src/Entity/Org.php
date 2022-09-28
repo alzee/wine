@@ -91,9 +91,11 @@ class Org
     private ?int $withdrawable = 0;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['read', 'write'])]
     private ?float $longitude = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['read', 'write'])]
     private ?float $latitude = null;
 
     public function __construct()
