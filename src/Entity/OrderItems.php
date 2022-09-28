@@ -4,28 +4,39 @@ namespace App\Entity;
 
 use App\Repository\OrderItemsRepository;
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 
 #[ORM\Entity(repositoryClass: OrderItemsRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    normalizationContext: ['groups' => ['read']],
+    denormalizationContext: ['groups' => ['write']],
+)]
+#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'ord' => 'exact'])]
 class OrderItems
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['read'])]
     private ?int $id = null;
 
     #[ORM\Column(options: ["unsigned" => true])]
     #[Assert\Positive]
+    #[Groups(['read'])]
     private ?int $quantity = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['read'])]
     private ?Product $product = null;
 
     #[ORM\ManyToOne(inversedBy: 'orderItems')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['read'])]
     private ?Orders $ord = null;
 
     public function __toString(): string
