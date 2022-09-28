@@ -57,6 +57,7 @@ class Orders
     private ?string $note = null;
 
     #[ORM\OneToMany(mappedBy: 'ord', targetEntity: OrderItems::class, orphanRemoval: true, cascade: ["persist"])]
+    #[Groups(['read'])]
     private Collection $orderItems;
 
     public function __construct()
