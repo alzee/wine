@@ -1,7 +1,4 @@
 collectionField default have one, least one
-pic:
-  - org
-  - product
 
 default (choice) value for default roles?
 upload pic only
