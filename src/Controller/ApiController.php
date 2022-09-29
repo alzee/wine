@@ -103,7 +103,7 @@ class ApiController extends AbstractController
     }
 
     #[Route('/dine/new', methods: ['POST'])]
-    public function retailNew(Request $request): JsonResponse
+    public function dineNew(Request $request): JsonResponse
     {
         return $this->json([
             'code' => 0,
