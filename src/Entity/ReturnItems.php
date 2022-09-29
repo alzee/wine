@@ -24,17 +24,17 @@ class ReturnItems
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'returnItems')]
-    #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['read'])]
+    #[ORM\JoinColumn]
+    #[Groups(['read', 'write'])]
     private ?Returns $ret = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['read'])]
+    #[Groups(['read', 'write'])]
     private ?Product $product = null;
 
     #[ORM\Column(options: ["unsigned" => true])]
-    #[Groups(['read'])]
+    #[Groups(['read', 'write'])]
     private ?int $quantity = null;
 
     public function __toString(): string
