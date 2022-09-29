@@ -31,22 +31,25 @@ class OrderController extends AbstractController
         $buyer = $this->doctrine->getRepository(Org::class)->find($params['buyerid']);
         $product = $this->doctrine->getRepository(Product::class)->find($params['product']);
         $quantity = $params['quantity'];
+
+        $item = new OrderItems();
+        $item->setProduct($product);
+        $item->setQuantity($quantity);
+        $em->persist($item);
+        $em->flush();
+
         $em = $this->doctrine->getManager();
         $order = new Orders();
         $order->setSeller($seller);
         $order->setBuyer($buyer);
         $order->setNote($params['note']);
+        $order->addOrderItem($item);
+        // $order->setAmount($product->getPrice() * $quantity);
+        // $order->setVoucher($product->getVoucher() * $quantity);
         $em->persist($order);
         $em->flush();
-
-        $items = new OrderItems();
-        $items->setProduct($product);
-        $items->setQuantity($quantity);
-        $items->setOrd($order);
-        $em->persist($items);
         
-        $order->setAmount($product->getPrice() * $quantity);
-        $order->setVoucher($product->getVoucher() * $quantity);
+        $item->setOrd($order);
 
         $em->flush();
 
@@ -71,11 +74,11 @@ class OrderController extends AbstractController
         $em->persist($ret);
         $em->flush();
 
-        $items = new ReturnItems();
-        $items->setProduct($product);
-        $items->setQuantity($quantity);
-        $items->setRet($ret);
-        $em->persist($items);
+        $item = new ReturnItems();
+        $item->setProduct($product);
+        $item->setQuantity($quantity);
+        $item->setRet($ret);
+        $em->persist($item);
         
         $ret->setAmount($product->getPrice() * $quantity);
         $ret->setVoucher($product->getVoucher() * $quantity);
