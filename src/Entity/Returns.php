@@ -11,6 +11,7 @@ use ApiPlatform\Metadata\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Doctrine\Orm\Filter\ExistsFilter;
 
 #[ORM\Entity(repositoryClass: ReturnsRepository::class)]
 #[ApiResource(
@@ -18,6 +19,7 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
     denormalizationContext: ['groups' => ['write']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'sender' => 'exact', 'recipient' => 'exact'])]
+#[ApiFilter(ExistsFilter::class, properties: ['returnItems'])]
 class Returns
 {
     #[ORM\Id]
