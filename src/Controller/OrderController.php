@@ -10,6 +10,8 @@ use App\Entity\Org;
 use App\Entity\Product;
 use App\Entity\Orders;
 use App\Entity\OrderItems;
+use App\Entity\Returns;
+use App\Entity\ReturnItems;
 use Doctrine\Persistence\ManagerRegistry;
 
 class OrderController extends AbstractController
@@ -57,25 +59,25 @@ class OrderController extends AbstractController
     public function returnNew(Request $request): JsonResponse
     {
         $params  = $request->toArray();
-        $seller = $this->doctrine->getRepository(Org::class)->find($params['sellerid']);
-        $buyer = $this->doctrine->getRepository(Org::class)->find($params['buyerid']);
+        $sender = $this->doctrine->getRepository(Org::class)->find($params['senderid']);
+        $recipient = $this->doctrine->getRepository(Org::class)->find($params['recipientid']);
         $product = $this->doctrine->getRepository(Product::class)->find($params['product']);
         $em = $this->doctrine->getManager();
-        $order = new Orders();
-        $order->setSeller($seller);
-        $order->setBuyer($buyer);
-        $order->setNote($params['note']);
-        $em->persist($order);
+        $ret = new Returns();
+        $ret->setSender($sender);
+        $ret->setRecipient($recipient);
+        $ret->setNote($params['note']);
+        $em->persist($ret);
         $em->flush();
 
-        $items = new OrderItems();
+        $items = new ReturnItems();
         $items->setProduct($product);
         $items->setQuantity($params['quantity']);
-        $items->setOrd($order);
+        $items->setOrd($ret);
         $em->persist($items);
         
-        $order->setAmount($product->getPrice() * $quantity);
-        $order->setVoucher($product->getVoucher() * $quantity);
+        $ret->setAmount($product->getPrice() * $quantity);
+        $ret->setVoucher($product->getVoucher() * $quantity);
 
         $em->flush();
 
