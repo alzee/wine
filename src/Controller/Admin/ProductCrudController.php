@@ -14,6 +14,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
@@ -52,6 +53,10 @@ class ProductCrudController extends AbstractCrudController
                 ->setCurrency('CNY')
                 ->setHelp('<b>代金券</b>为本件商品随增的代金券金额')
             ,
+            ImageField::new('img', 'Product Image')
+                ->hideOnIndex()
+                ->setBasePath('uploads/')
+                ->setUploadDir('public/uploads/')
         ];
     }
 
