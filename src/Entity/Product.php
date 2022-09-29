@@ -67,6 +67,9 @@ class Product
     #[Groups(['read'])]
     private ?Org $org = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $img = null;
+
     public function __construct()
     {
     }
@@ -161,6 +164,18 @@ class Product
     public function setOrg(?Org $org): self
     {
         $this->org = $org;
+
+        return $this;
+    }
+
+    public function getImg(): ?string
+    {
+        return $this->img;
+    }
+
+    public function setImg(?string $img): self
+    {
+        $this->img = $img;
 
         return $this;
     }

@@ -98,6 +98,9 @@ class Org
     #[Groups(['read', 'write'])]
     private ?float $latitude = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $img = null;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
@@ -501,6 +504,18 @@ class Org
     public function setLatitude(?float $latitude): self
     {
         $this->latitude = $latitude;
+
+        return $this;
+    }
+
+    public function getImg(): ?string
+    {
+        return $this->img;
+    }
+
+    public function setImg(?string $img): self
+    {
+        $this->img = $img;
 
         return $this;
     }
