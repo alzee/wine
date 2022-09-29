@@ -31,6 +31,7 @@ class OrderController extends AbstractController
         $buyer = $this->doctrine->getRepository(Org::class)->find($params['buyerid']);
         $product = $this->doctrine->getRepository(Product::class)->find($params['product']);
         $quantity = $params['quantity'];
+        $em = $this->doctrine->getManager();
 
         $item = new OrderItems();
         $item->setProduct($product);
@@ -38,7 +39,6 @@ class OrderController extends AbstractController
         $em->persist($item);
         $em->flush();
 
-        $em = $this->doctrine->getManager();
         $order = new Orders();
         $order->setSeller($seller);
         $order->setBuyer($buyer);
