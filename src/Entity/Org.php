@@ -99,6 +99,7 @@ class Org
     private ?float $latitude = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['read', 'write'])]
     private ?string $img = null;
 
     public function __construct()

@@ -62,6 +62,7 @@ class Consumer
     private ?string $phone = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['read', 'write'])]
     private ?string $avatar = null;
 
     public function __construct()

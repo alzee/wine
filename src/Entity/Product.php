@@ -68,6 +68,7 @@ class Product
     private ?Org $org = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['read', 'write'])]
     private ?string $img = null;
 
     public function __construct()
