@@ -36,35 +36,35 @@ class Product
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['read'])]
+    #[Groups(['read', 'write'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['read'])]
+    #[Groups(['read', 'write'])]
     private ?string $spec = null;
 
     #[ORM\Column(options: ["unsigned" => true])]
     #[Assert\Positive]
-    #[Groups(['read'])]
+    #[Groups(['read', 'write'])]
     private ?int $price = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
     #[Assert\Positive]
-    #[Groups(['read'])]
+    #[Groups(['read', 'write'])]
     private ?int $stock = 0;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['read'])]
+    #[Groups(['read', 'write'])]
     private ?string $sn = null;
 
     #[ORM\Column(options: ["unsigned" => true])]
     #[Assert\Positive]
-    #[Groups(['read'])]
+    #[Groups(['read', 'write'])]
     private ?int $voucher = null;
 
     #[ORM\ManyToOne(inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['read'])]
+    #[Groups(['read', 'write'])]
     private ?Org $org = null;
 
     #[ORM\Column(length: 255, nullable: true)]
