@@ -62,6 +62,7 @@ class OrderController extends AbstractController
         $sender = $this->doctrine->getRepository(Org::class)->find($params['senderid']);
         $recipient = $this->doctrine->getRepository(Org::class)->find($params['recipientid']);
         $product = $this->doctrine->getRepository(Product::class)->find($params['product']);
+        $quantity = $params['quantity'];
         $em = $this->doctrine->getManager();
         $ret = new Returns();
         $ret->setSender($sender);
@@ -72,7 +73,7 @@ class OrderController extends AbstractController
 
         $items = new ReturnItems();
         $items->setProduct($product);
-        $items->setQuantity($params['quantity']);
+        $items->setQuantity($quantity);
         $items->setRet($ret);
         $em->persist($items);
         
