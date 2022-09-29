@@ -12,9 +12,12 @@ use App\Entity\Orders;
 use App\Entity\OrderItems;
 use App\Entity\Returns;
 use App\Entity\ReturnItems;
+use App\Entity\Retail;
+use App\Entity\OrderRestaurant;
 use Doctrine\Persistence\ManagerRegistry;
 
-class OrderController extends AbstractController
+#[Route('/api')]
+class ApiController extends AbstractController
 {
     private $doctrine;
 
@@ -23,7 +26,7 @@ class OrderController extends AbstractController
         $this->doctrine = $doctrine;
     }
 
-    #[Route('/api/order/new', name: 'api_order_new')]
+    #[Route('/order/new', methods: ['POST'])]
     public function orderNew(Request $request): JsonResponse
     {
         $params  = $request->toArray();
@@ -57,7 +60,7 @@ class OrderController extends AbstractController
         ]);
     }
 
-    #[Route('/api/return/new', name: 'api_return_new')]
+    #[Route('/return/new', methods: ['POST'])]
     public function returnNew(Request $request): JsonResponse
     {
         $params  = $request->toArray();
@@ -86,6 +89,22 @@ class OrderController extends AbstractController
 
         $em->flush();
 
+        return $this->json([
+            'code' => 0,
+        ]);
+    }
+
+    #[Route('/retail/new', methods: ['POST'])]
+    public function retailNew(Request $request): JsonResponse
+    {
+        return $this->json([
+            'code' => 0,
+        ]);
+    }
+
+    #[Route('/dine/new', methods: ['POST'])]
+    public function retailNew(Request $request): JsonResponse
+    {
         return $this->json([
             'code' => 0,
         ]);
