@@ -44,8 +44,7 @@ class OrderController extends AbstractController
         $order->setBuyer($buyer);
         $order->setNote($params['note']);
         $order->addOrderItem($item);
-        // $order->setAmount($product->getPrice() * $quantity);
-        // $order->setVoucher($product->getVoucher() * $quantity);
+
         $em->persist($order);
         $em->flush();
         
@@ -67,21 +66,23 @@ class OrderController extends AbstractController
         $product = $this->doctrine->getRepository(Product::class)->find($params['product']);
         $quantity = $params['quantity'];
         $em = $this->doctrine->getManager();
-        $ret = new Returns();
-        $ret->setSender($sender);
-        $ret->setRecipient($recipient);
-        $ret->setNote($params['note']);
-        $em->persist($ret);
-        $em->flush();
 
         $item = new ReturnItems();
         $item->setProduct($product);
         $item->setQuantity($quantity);
-        $item->setRet($ret);
         $em->persist($item);
-        
-        $ret->setAmount($product->getPrice() * $quantity);
-        $ret->setVoucher($product->getVoucher() * $quantity);
+        $em->flush();
+
+        $ret = new Returns();
+        $ret->setSender($sender);
+        $ret->setRecipient($recipient);
+        $ret->setNote($params['note']);
+        $ret->addReturnItem($item);
+
+        $em->persist($ret);
+        $em->flush();
+
+        $item->setRet($ret);
 
         $em->flush();
 
