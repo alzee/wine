@@ -23,7 +23,7 @@ class OrgNew extends AbstractController
             $head = $em->getRepository(Org::class)->findOneBy(['type' => 0]);
             $org->setUpstream($head);
         }
-        if ($org->getType() == 2 || $org->getType() == 3) {
+        if (is_null($org->getUpstream()) && ($org->getType() == 2 || $org->getType() == 3)) {
             $org->setUpstream($this->getUser()->getOrg());
         }
     }

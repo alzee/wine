@@ -79,7 +79,7 @@ class Org
     private Collection $users;
 
     #[ORM\ManyToOne(targetEntity: self::class)]
-    #[Groups(['read'])]
+    #[Groups(['read', 'write'])]
     private ?self $upstream = null;
 
     #[ORM\Column]
