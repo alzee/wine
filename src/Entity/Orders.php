@@ -30,12 +30,12 @@ class Orders
 
     #[ORM\ManyToOne(inversedBy: 'orders')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['read'])]
+    #[Groups(['read', 'write'])]
     private ?Org $seller = null;
 
     #[ORM\ManyToOne(inversedBy: 'orders')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['read'])]
+    #[Groups(['read', 'write'])]
     private ?Org $buyer = null;
 
     #[ORM\Column(options: ["unsigned" => true])]
@@ -55,11 +55,11 @@ class Orders
     private ?\DateTimeInterface $date = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['read'])]
+    #[Groups(['read', 'write'])]
     private ?string $note = null;
 
     #[ORM\OneToMany(mappedBy: 'ord', targetEntity: OrderItems::class, orphanRemoval: true, cascade: ["persist"])]
-    #[Groups(['read'])]
+    #[Groups(['read', 'write'])]
     private Collection $orderItems;
 
     public function __construct()

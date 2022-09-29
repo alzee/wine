@@ -26,17 +26,17 @@ class OrderItems
 
     #[ORM\Column(options: ["unsigned" => true])]
     #[Assert\Positive]
-    #[Groups(['read'])]
+    #[Groups(['read', 'write'])]
     private ?int $quantity = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['read'])]
+    #[Groups(['read', 'write'])]
     private ?Product $product = null;
 
     #[ORM\ManyToOne(inversedBy: 'orderItems')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['read'])]
+    #[Groups(['read', 'write'])]
     private ?Orders $ord = null;
 
     public function __toString(): string
