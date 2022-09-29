@@ -73,7 +73,7 @@ class OrderController extends AbstractController
         $items = new ReturnItems();
         $items->setProduct($product);
         $items->setQuantity($params['quantity']);
-        $items->setOrd($ret);
+        $items->setRet($ret);
         $em->persist($items);
         
         $ret->setAmount($product->getPrice() * $quantity);
