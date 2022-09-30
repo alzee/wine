@@ -107,8 +107,6 @@ class ApiController extends AbstractController
         $quantity = $params['quantity'];
         $em = $this->doctrine->getManager();
 
-        dump();
-
         $retail = new Retail();
         $retail->setStore($store);
         $retail->setConsumer($consumer);
