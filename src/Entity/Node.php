@@ -10,6 +10,7 @@ use ApiPlatform\Metadata\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 
 #[ORM\Entity(repositoryClass: NodeRepository::class)]
 #[ApiResource(
@@ -17,6 +18,7 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
     denormalizationContext: ['groups' => ['write']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'tag' => 'exact'])]
+#[ApiFilter(OrderFilter::class, properties: ['id'])]
 class Node
 {
     #[ORM\Id]
