@@ -3,7 +3,7 @@ api_platform:
     item_operations: ['get']
     collection_operations: ['get']
     pagination_client_items_per_page: true
-    pagination_items_per_page: 15
+    pagination_items_per_page: 50
   collection:
     pagination:
       items_per_page_parameter_name: itemsPerPage
