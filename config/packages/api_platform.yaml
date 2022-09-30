@@ -7,6 +7,9 @@ api_platform:
   collection:
     pagination:
       items_per_page_parameter_name: itemsPerPage
+    order: 'DESC'
+    order_parameter_name: 'order'
+
   mapping:
     paths: ['%kernel.project_dir%/src/Entity']
   patch_formats:
