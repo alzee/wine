@@ -36,12 +36,12 @@ class Consumer
     private ?int $id = null;
 
     #[ORM\Column(length: 255, unique: true)]
-    #[Groups(['read'])]
+    #[Groups(['read', 'write'])]
     private ?string $openid = null;
 
     #[ORM\Column(options: ["unsigned" => true])]
     #[Assert\PositiveOrZero]
-    #[Groups(['read'])]
+    #[Groups(['read', 'write'])]
     private ?int $voucher = 0;
 
     #[ORM\OneToMany(mappedBy: 'consumer', targetEntity: OrderRestaurant::class)]
@@ -54,11 +54,11 @@ class Consumer
     private Collection $retails;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['read'])]
+    #[Groups(['read', 'write'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255, nullable: true, unique: true)]
-    #[Groups(['read'])]
+    #[Groups(['read', 'write'])]
     private ?string $phone = null;
 
     #[ORM\Column(length: 255, nullable: true)]
