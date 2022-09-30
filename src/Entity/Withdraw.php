@@ -31,34 +31,33 @@ class Withdraw
 
     #[ORM\Column(options: ["unsigned" => true])]
     #[Assert\Positive]
-    #[Groups(['read'])]
+    #[Groups(['read', 'write'])]
     private ?int $amount = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
-    #[Groups(['read'])]
+    #[Groups(['read', 'write'])]
     private ?int $status = 0;
 
     #[ORM\ManyToOne(inversedBy: 'withdraws')]
-    #[Groups(['read'])]
     private ?Org $org = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['read'])]
+    #[Groups(['read', 'write'])]
     private ?string $note = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['read'])]
+    #[Groups(['read', 'write'])]
     private ?Org $applicant = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['read'])]
+    #[Groups(['read', 'write'])]
     private ?Org $approver = null;
 
     #[ORM\Column(options: ["unsigned" => true])]
     #[Assert\Positive]
-    #[Groups(['read'])]
+    #[Groups(['read', 'write'])]
     private ?int $actualAmount = null;
 
     public function __construct()
