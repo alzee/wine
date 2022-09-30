@@ -17,6 +17,8 @@ class WithdrawNew extends AbstractController
 
     public function prePersist(Withdraw $withdraw, LifecycleEventArgs $event): void
     {
+        $withdraw->setApprover($withdraw->getApplicant()->getUpstream());
+
         if ($this->isGranted('ROLE_RESTAURANT')) {
             $withdraw->setActualAmount($withdraw->getAmount() * $withdraw->getApplicant()->getDiscount());
         } else {
