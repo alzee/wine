@@ -16,7 +16,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 
 class NodeCrudController extends AbstractCrudController
 {
-    private $tags = ['推荐1' => 0, '推荐2' => 1, '推荐3' => 2];
+    private $tags = ['轮播图' => 0, '推荐' => 1];
 
     public static function getEntityFqcn(): string
     {
