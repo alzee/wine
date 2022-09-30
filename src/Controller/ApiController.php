@@ -102,7 +102,7 @@ class ApiController extends AbstractController
         $params  = $request->toArray();
         $store = $this->doctrine->getRepository(Org::class)->find($params['oid']);
         $consumer = $this->doctrine->getRepository(Consumer::class)->find($params['cid']);
-        $product = $this->doctrine->getRepository(Org::class)->find($params['pid']);
+        $product = $this->doctrine->getRepository(Product::class)->find($params['pid']);
         $rand = $params['timestamp'];
         $quantity = $params['quantity'];
         $em = $this->doctrine->getManager();
