@@ -130,6 +130,27 @@ class ApiController extends AbstractController
     #[Route('/dine/new', methods: ['POST'])]
     public function dineNew(Request $request): JsonResponse
     {
+        $params  = $request->toArray();
+        $restaurant = $this->doctrine->getRepository(Org::class)->find($params['oid']);
+        $consumer = $this->doctrine->getRepository(Consumer::class)->find($params['cid']);
+        $rand = $params['timestamp'];
+        $voucher = $params['voucher'];
+        $em = $this->doctrine->getManager();
+
+        $dine = new OrderRestaurant();
+        $dine->setRestaurant($restaurant);
+        $dine->setConsumer($consumer);
+        $dine->setVoucher($voucher);
+        $em->persist($dine);
+
+        $scan = new Scan();
+        $scan->setConsumer($consumer);
+        $scan->setOrg($restaurant);
+        $scan->setRand($rand);
+        $em->persist($scan);
+
+        $em->flush();
+
         return $this->json([
             'code' => 0,
         ]);
