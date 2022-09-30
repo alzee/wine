@@ -97,6 +97,12 @@ class ApiController extends AbstractController
     #[Route('/retail/new', methods: ['POST'])]
     public function retailNew(Request $request): JsonResponse
     {
+        $params  = $request->toArray();
+        $consumer = $this->doctrine->getRepository(Consumer::class)->find($params['cid']);
+        $product = $this->doctrine->getRepository(Org::class)->find($params['pid']);
+        $timestamp = $params['timestamp'];
+        $quantity = $params['quantity'];
+
         return $this->json([
             'code' => 0,
         ]);
