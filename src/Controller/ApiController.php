@@ -100,12 +100,14 @@ class ApiController extends AbstractController
     public function retailNew(Request $request): JsonResponse
     {
         $params  = $request->toArray();
-        $store = $this->doctrine->getRepository(Consumer::class)->find($params['oid']);
+        $store = $this->doctrine->getRepository(Org::class)->find($params['oid']);
         $consumer = $this->doctrine->getRepository(Consumer::class)->find($params['cid']);
         $product = $this->doctrine->getRepository(Org::class)->find($params['pid']);
         $timestamp = $params['timestamp'];
         $quantity = $params['quantity'];
         $em = $this->doctrine->getManager();
+
+        dump();
 
         $retail = new Retail();
         $retail->setStore($store);
