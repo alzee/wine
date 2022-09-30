@@ -100,6 +100,7 @@ class SecurityController extends AbstractController
             "cid" => $consumer->getId(),
             "role" => 4,
             "name" => $consumer->getName(),
+            "phone" => $consumer->getPhone(),
             "voucher" => $consumer->getVoucher()
         ];
         return $this->json($resp);
