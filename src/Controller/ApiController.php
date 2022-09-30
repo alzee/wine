@@ -16,6 +16,7 @@ use App\Entity\Retail;
 use App\Entity\OrderRestaurant;
 use App\Entity\Scan;
 use App\Entity\Consumer;
+use App\Entity\RetailReturn;
 use Doctrine\Persistence\ManagerRegistry;
 
 #[Route('/api')]
@@ -146,6 +147,37 @@ class ApiController extends AbstractController
         $scan = new Scan();
         $scan->setConsumer($consumer);
         $scan->setOrg($restaurant);
+        $scan->setRand($rand);
+        $em->persist($scan);
+
+        $em->flush();
+
+        return $this->json([
+            'code' => 0,
+        ]);
+    }
+
+    #[Route('/retail_return/new', methods: ['POST'])]
+    public function retailReturnNew(Request $request): JsonResponse
+    {
+        $params  = $request->toArray();
+        $store = $this->doctrine->getRepository(Org::class)->find($params['oid']);
+        $consumer = $this->doctrine->getRepository(Consumer::class)->find($params['cid']);
+        $product = $this->doctrine->getRepository(Product::class)->find($params['pid']);
+        $rand = $params['timestamp'];
+        $quantity = $params['quantity'];
+        $em = $this->doctrine->getManager();
+
+        $ret = new RetailReturn();
+        $ret->setStore($store);
+        $ret->setConsumer($consumer);
+        $ret->setProduct($product);
+        $ret->setQuantity($quantity);
+        $em->persist($ret);
+
+        $scan = new Scan();
+        $scan->setConsumer($consumer);
+        $scan->setOrg($store);
         $scan->setRand($rand);
         $em->persist($scan);
 
