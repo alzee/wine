@@ -48,7 +48,10 @@ class ProductCrudController extends AbstractCrudController
                 ->HideWhenUpdating()
                 ->setHelp('<b>请正确填写库存</b>，为保证流转正常，创建后不能修改库存<br/>')
             ,
-            IntegerField::new('stock')->onlyWhenUpdating()->setFormTypeOptions(['disabled' => 'disabled']),
+            IntegerField::new('stock')
+                ->onlyWhenUpdating()
+                // ->setFormTypeOptions(['disabled' => 'disabled'])
+            ,
             MoneyField::new('voucher')
                 ->setCurrency('CNY')
                 ->setHelp('<b>代金券</b>为本件商品随增的代金券金额')
