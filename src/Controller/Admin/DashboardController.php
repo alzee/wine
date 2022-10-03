@@ -165,6 +165,7 @@ class DashboardController extends AbstractDashboardController
             yield MenuItem::subMenu('Settings', 'fa fa-gear')->setSubItems($items);
         }
         yield MenuItem::linkToCrud('chpwd', 'fas fa-cog', User::class)
+            ->setController(PasswordCrudController::class)
             ->setAction('edit')
             ->setEntityId($this->getUser()->getId());
     }
