@@ -24,7 +24,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 180, unique: true)]
     #[Assert\NotBlank]
-    #[Assert\Length(min: 3, max: 8)]
+    #[Assert\Length(min: 3, max: 30)]
     #[Assert\Regex(
     pattern: '/^\d/',
         match: false,
