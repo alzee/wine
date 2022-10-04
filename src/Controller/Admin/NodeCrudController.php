@@ -13,6 +13,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 // use EasyCorp\Bundle\EasyAdminBundle\Form\Type\FileUploadType;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class NodeCrudController extends AbstractCrudController
 {
@@ -29,8 +30,13 @@ class NodeCrudController extends AbstractCrudController
             ->onlyOnIndex();
         yield TextField::new('title');
         yield ImageField::new('img')
+            ->onlyOnIndex()
             ->setBasePath('uploads/')
             ->setUploadDir('public/uploads/');
+        yield TextField::new('imageFile')
+            ->hideOnIndex()
+            ->setFormType(VichImageType::class)
+            ;
         yield ChoiceField::new('tag')
             ->setChoices($this->tags)
             // ->allowMultipleChoices()
