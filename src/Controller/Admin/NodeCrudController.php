@@ -36,6 +36,7 @@ class NodeCrudController extends AbstractCrudController
         yield TextField::new('imageFile')
             ->hideOnIndex()
             ->setFormType(VichImageType::class)
+            ->setFormTypeOptions(['allow_delete' => false])
             ;
         yield ChoiceField::new('tag')
             ->setChoices($this->tags)

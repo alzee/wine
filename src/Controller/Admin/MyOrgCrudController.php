@@ -30,6 +30,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use App\Entity\Choice;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class MyOrgCrudController extends AbstractCrudController
 {
@@ -51,10 +52,14 @@ class MyOrgCrudController extends AbstractCrudController
         yield TextField::new('address');
         yield TextField::new('district');
         yield MoneyField::new('voucher')
-                ->setCurrency('CNY')
-                ->hideOnForm()
-                // ->setFormTypeOptions(['disabled' => 'disabled'])
+            ->setCurrency('CNY')
+            ->hideOnForm()
+        // ->setFormTypeOptions(['disabled' => 'disabled'])
             ;
+        yield TextField::new('imageFile')
+            ->setFormType(VichImageType::class)
+            ->setFormTypeOptions(['allow_delete' => false])
+        ;
     }
 
     public function configureActions(Actions $actions): Actions
