@@ -24,6 +24,7 @@ use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class ProductCrudController extends AbstractCrudController
 {
@@ -57,9 +58,14 @@ class ProductCrudController extends AbstractCrudController
                 ->setHelp('<b>代金券</b>为本件商品随增的代金券金额')
             ,
             ImageField::new('img', 'Product Image')
+                ->onlyOnIndex()
+                ->setBasePath('img/product/')
+                ->setUploadDir('public/img/product/')
+            ,
+            TextField::new('imageFile')
                 ->hideOnIndex()
-                ->setBasePath('uploads/')
-                ->setUploadDir('public/uploads/')
+                ->setFormType(VichImageType::class)
+                ->setFormTypeOptions(['allow_delete' => false])
         ];
     }
 
