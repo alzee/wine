@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\File\File;
 )]
 #[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'type' => 'exact', 'upstream' => 'exact'])]
 #[ApiFilter(OrderFilter::class, properties: ['id'], arguments: ['orderParameterName' => 'order'])]
-class Org
+class Org implements \Serializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -556,5 +556,19 @@ class Org
     public function getImageFile(): ?File
     {
         return $this->imageFile;
+    }
+
+    public function serialize()
+    {
+        return serialize([
+            $this->id,
+        ]);
+    }
+
+    public function unserialize($serialized)
+    {
+        list(
+            $this->id,
+        ) = unserialize($serialized);
     }
 }
