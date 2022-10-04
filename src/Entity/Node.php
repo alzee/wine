@@ -12,8 +12,9 @@ use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
 
-#[Vich\Uploadable]
+// #[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: NodeRepository::class)]
 #[ApiResource(
     normalizationContext: ['groups' => ['read']],
@@ -55,7 +56,8 @@ class Node
     #[Groups(['read'])]
     private ?string $img = null;
 
-    #[Vich\UploadableField(mapping: 'imgs', fileNameProperty: 'img')]
+    // #[Vich\UploadableField(mapping: 'imgs', fileNameProperty: 'img')]
+    #[Assert\Image()]
     private ?File $imageFile = null;
 
     #[ORM\Column(nullable: true)]

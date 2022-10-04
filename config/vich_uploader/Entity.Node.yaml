@@ -1,0 +1,8 @@
+App\Entity\Node:
+    imageFile:
+        mapping: imgs # required
+        filename_property: img # required
+          #size: imageSize
+          #mime_type: imageMimeType
+          #original_name: imageOriginalName
+          #dimensions: imageDimensions
