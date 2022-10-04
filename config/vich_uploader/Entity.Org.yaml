@@ -1,6 +1,6 @@
-App\Entity\Node:
+App\Entity\Org:
     imageFile:
-        mapping: nodes # required
+        mapping: orgs # required
         filename_property: img # required
           #size: imageSize
           #mime_type: imageMimeType
