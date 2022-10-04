@@ -155,6 +155,14 @@ class DashboardController extends AbstractDashboardController
         if ($this->isGranted('ROLE_HEAD')) {
             yield MenuItem::linkToCrud('ConsumerManage', 'fas fa-users', Consumer::class);
         }
+        yield MenuItem::linkToCrud('Chpwd', 'fas fa-cog', User::class)
+            ->setController(PasswordCrudController::class)
+            ->setAction('edit')
+            ->setEntityId($this->getUser()->getId());
+        yield MenuItem::linkToCrud('MyOrg', 'fas fa-cog', Org::class)
+            ->setController(MyOrgCrudController::class)
+            ->setAction('edit')
+            ->setEntityId($this->getUser()->getOrg()->getId());
         if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_AGENCY')) {
             $items = [
                 MenuItem::linkToCrud('UserManage', 'fas fa-user', User::class),
@@ -164,10 +172,6 @@ class DashboardController extends AbstractDashboardController
             }
             yield MenuItem::subMenu('Settings', 'fa fa-gear')->setSubItems($items);
         }
-        yield MenuItem::linkToCrud('chpwd', 'fas fa-cog', User::class)
-            ->setController(PasswordCrudController::class)
-            ->setAction('edit')
-            ->setEntityId($this->getUser()->getId());
     }
 
     public function configureCrud(): Crud

@@ -32,7 +32,7 @@ Username: 用户名
 Password: 密码
 Roles: 角色
 Order No: 餐厅订单号
-District: 区域
+District: 地区
 Status: 状态
 Pending: 待处理
 Cancelled: 已取消
@@ -81,4 +81,5 @@ Actual Amount: 实际到帐
 MyWithdraw: 我的提现
 DownstreamWithdraw: 下级提现
 Product Image: 产品图片
-chpwd: 修改密码
+Chpwd: 修改密码
+MyOrg: 我的信息

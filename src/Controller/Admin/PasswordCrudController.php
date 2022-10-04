@@ -47,9 +47,9 @@ class PasswordCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-            return $actions
-                ->disable(Action::DELETE, Action::NEW, Action::DETAIL, Action::INDEX, Action::SAVE_AND_RETURN)
-            ;
+        return $actions
+            ->disable(Action::DELETE, Action::NEW, Action::DETAIL, Action::INDEX, Action::SAVE_AND_RETURN)
+        ;
     }
 
     public function configureCrud(Crud $crud): Crud
