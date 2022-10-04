@@ -18,6 +18,7 @@ use App\Entity\Scan;
 use App\Entity\Consumer;
 use App\Entity\RetailReturn;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[Route('/api')]
 class ApiController extends AbstractController
@@ -185,6 +186,29 @@ class ApiController extends AbstractController
 
         return $this->json([
             'code' => 0,
+        ]);
+    }
+
+    #[Route('/chpwd', methods: ['POST'])]
+    public function chpwd(Request $request, UserPasswordHasherInterface $hasher): JsonResponse
+    {
+        $params  = $request->toArray();
+        $user = $this->doctrine->getRepository(Consumer::class)->find($params['uid']);
+        $oldPass = $params['oldPass'];
+        $plainPassword = $params['plainPassword'];
+        $em = $this->doctrine->getManager();
+
+        // if oldPass is right
+        if ($hasher->isPasswordValid($user, $oldPass)) {
+            $user->setPlainPassword($plainPassword);
+            $em->flush();
+            $code = 0;
+        } else {
+            $code = 1;
+        }
+
+        return $this->json([
+            'code' => $code,
         ]);
     }
 }
