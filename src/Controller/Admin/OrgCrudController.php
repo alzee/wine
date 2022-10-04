@@ -30,6 +30,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use App\Entity\Choice;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 
 class OrgCrudController extends AbstractCrudController
 {
@@ -49,6 +50,10 @@ class OrgCrudController extends AbstractCrudController
             $orgChoices = ['Store' => 2, 'Restaurant' => 3];
         }
         yield IdField::new('id')->onlyOnIndex();
+        yield ImageField::new('img')
+            ->onlyOnIndex()
+            ->setBasePath('img/org/')
+            ->setUploadDir('public/img/org/');
         yield ChoiceField::new('type')
             ->onlyWhenCreating()
             ->setChoices($orgChoices);
