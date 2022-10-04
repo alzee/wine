@@ -25,11 +25,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 180, unique: true)]
     #[Assert\NotBlank]
     #[Assert\Length(min: 3, max: 30)]
-    #[Assert\Regex(
-    pattern: '/^\d/',
-        match: false,
-        message: 'Username cannot start with number',
-    )]
+    //#[Assert\Regex(
+    //pattern: '/^\d/',
+    //    match: false,
+    //    message: 'Username cannot start with number',
+    //)]
     private ?string $username = null;
 
     #[ORM\Column]
