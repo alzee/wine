@@ -50,7 +50,7 @@ class OrgCrudController extends AbstractCrudController
             $orgChoices = ['Store' => 2, 'Restaurant' => 3];
         }
         yield IdField::new('id')->onlyOnIndex();
-        yield ImageField::new('img')
+        yield ImageField::new('img', 'org.img')
             ->onlyOnIndex()
             ->setBasePath('img/org/')
             ->setUploadDir('public/img/org/');
