@@ -16,6 +16,7 @@ use App\Entity\Retail;
 use App\Entity\OrderRestaurant;
 use App\Entity\Scan;
 use App\Entity\Consumer;
+use App\Entity\User;
 use App\Entity\RetailReturn;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -193,7 +194,7 @@ class ApiController extends AbstractController
     public function chpwd(Request $request, UserPasswordHasherInterface $hasher): JsonResponse
     {
         $params  = $request->toArray();
-        $user = $this->doctrine->getRepository(Consumer::class)->find($params['uid']);
+        $user = $this->doctrine->getRepository(User::class)->find($params['uid']);
         $oldPass = $params['oldPass'];
         $plainPassword = $params['plainPassword'];
         $em = $this->doctrine->getManager();
