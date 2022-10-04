@@ -16,7 +16,7 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
 )]
-#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'type' => 'exact', 'restaurant' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'consumer' => 'exact', 'restaurant' => 'exact'])]
 class OrderRestaurant
 {
     #[ORM\Id]
