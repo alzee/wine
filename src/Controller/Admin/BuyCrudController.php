@@ -114,7 +114,7 @@ class BuyCrudController extends AbstractCrudController
     public function configureActions(Actions $actions): Actions
     {
         return $actions
-            ->disable(Action::NEW, Action::DELETE)
+            ->disable(Action::NEW, Action::DELETE, Action::EDIT)
         ;
     }
 

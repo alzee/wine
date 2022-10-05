@@ -106,7 +106,7 @@ class MyReturnCrudController extends AbstractCrudController
     public function configureActions(Actions $actions): Actions
     {
         return $actions
-            ->disable(Action::DELETE, Action::NEW)
+            ->disable(Action::DELETE, Action::NEW, Action::EDIT)
         ;
     }
 
