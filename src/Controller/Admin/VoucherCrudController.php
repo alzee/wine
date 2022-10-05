@@ -106,8 +106,10 @@ class VoucherCrudController extends AbstractCrudController
         if (Crud::PAGE_INDEX === $responseParameters->get('pageName')) {
           $myVoucher = $this->getuser()->getOrg()->getVoucher() / 100;
           $withdrawable = $this->getuser()->getOrg()->getWithdrawable() / 100;
+          $withdrawing = $this->getuser()->getOrg()->getWithdrawing() / 100;
           $responseParameters->set('myVoucher', $myVoucher);
           $responseParameters->set('withdrawable', $withdrawable);
+          $responseParameters->set('withdrawing', $withdrawing);
           ;
         }
       }
