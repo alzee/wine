@@ -26,11 +26,13 @@ class WithdrawUpdate
         $status = $withdraw->getStatus();
 
         if (isset($changeSet['status'])) {
+            $amount = $withdraw->getAmount();
+            $applicant = $withdraw->getApplicant();
+
             if ($status == 5) {
-                $amount = $withdraw->getAmount();
-                // applicant's voucher - amount
-                $applicant = $withdraw->getApplicant();
-                $applicant->setWithdrawable($applicant->getWithdrawable() - $amount);
+                // $applicant->setWithdrawing($applicant->getWithdrawing() - $amount);
+                // or
+                $applicant->setWithdrawing(0);
 
                 // voucher record for applicant
                 $record = new Voucher();
@@ -54,9 +56,14 @@ class WithdrawUpdate
                     $record->setType($type - 10);
                     $em->persist($record);
                 }
-
-                $em->flush();
             }
+
+            if ($status == 4) {
+                $applicant->setWithdrawable($applicant->getWithdrawable() + $amount);
+                $applicant->setWithdrawing($applicant->getWithdrawing() - $amount);
+            }
+
+            $em->flush();
         }
 
     }
