@@ -37,7 +37,7 @@ class ReturnToMeCrudController extends AbstractCrudController
 
     public function __construct(ManagerRegistry $doctrine)
     {
-      $this->doctrine = $doctrine;
+        $this->doctrine = $doctrine;
     }
 
     public static function getEntityFqcn(): string
@@ -75,8 +75,6 @@ class ReturnToMeCrudController extends AbstractCrudController
             ->allowAdd(false)
             ->allowDelete(false)
             ->renderExpanded()
-            ->showEntryLabel()
-            // ->setEntryIsComplex()
             ->setFormTypeOptions(['required' => 'required'])
             ->useEntryCrudForm();
         yield CollectionField::new('returnItems')
@@ -123,11 +121,11 @@ class ReturnToMeCrudController extends AbstractCrudController
     {
         if ($this->isGranted('ROLE_STORE') || $this->isGranted('ROLE_RESTAURANT')) {
             return $actions
-                ->disable(Action::DELETE, Action::NEW)
+                ->disable(Action::DELETE, Action::NEW, Action::EDIT)
             ;
         } else {
             return $actions
-                ->disable(Action::DELETE)
+                ->disable(Action::DELETE, Action::EDIT)
             ;
         }
     }

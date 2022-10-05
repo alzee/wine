@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Orders;
+use App\Entity\OrderItems;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -37,6 +38,13 @@ use App\Entity\Choice;
 
 class SaleCrudController extends AbstractCrudController
 {
+    private $doctrine;
+
+    public function __construct(ManagerRegistry $doctrine)
+    {
+        $this->doctrine = $doctrine;
+    }
+
     public static function getEntityFqcn(): string
     {
         return Orders::class;
@@ -69,6 +77,9 @@ class SaleCrudController extends AbstractCrudController
             ->setFormTypeOptions(['disabled' => 'disabled']);
         yield CollectionField::new('orderItems')
             ->onlyWhenCreating()
+            ->allowAdd(false)
+            ->allowDelete(false)
+            ->renderExpanded()
             ->setFormTypeOptions(['required' => 'required'])
             ->useEntryCrudForm();
         yield CollectionField::new('orderItems')
@@ -115,11 +126,11 @@ class SaleCrudController extends AbstractCrudController
     {
         if ($this->isGranted('ROLE_STORE') || $this->isGranted('ROLE_RESTAURANT')) {
             return $actions
-                ->disable(Action::DELETE, Action::NEW)
+                ->disable(Action::DELETE, Action::NEW, Action::EDIT)
             ;
         } else {
             return $actions
-                ->disable(Action::DELETE)
+                ->disable(Action::DELETE, Action::EDIT)
             ;
         }
     }
@@ -141,5 +152,16 @@ class SaleCrudController extends AbstractCrudController
         return $filters
             ->add('date')
         ;
+    }
+
+    public function createEntity(string $entityFqcn)
+    {
+        $ord = new Orders();
+        $item = new OrderItems();
+        $p = $this->doctrine->getRepository(Product::class)->findOneBy(['org' => $this->getUser()->getOrg()]);
+        $item->setProduct($p);
+        $ord->addOrderItem($item);
+
+        return $ord;
     }
 }
