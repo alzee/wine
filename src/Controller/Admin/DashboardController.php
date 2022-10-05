@@ -177,8 +177,9 @@ class DashboardController extends AbstractDashboardController
     public function configureCrud(): Crud
     {
         return Crud::new()
+            ->showEntityActionsInlined()
             ->setTimezone('Asia/Shanghai')
-            ->setDateTimeFormat('yyyy/MM/dd HH:mm');
+            ->setDateTimeFormat('yyyy/MM/dd HH:mm')
         ;
     }
 }

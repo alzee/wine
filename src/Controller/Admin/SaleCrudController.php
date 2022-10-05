@@ -149,7 +149,6 @@ class SaleCrudController extends AbstractCrudController
             ->setHelp('index', $helpIndex)
             ->setHelp('new', $helpNew)
             ->setPageTitle('index', 'Sale')
-            ->showEntityActionsInlined()
         ;
     }
 
