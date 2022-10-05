@@ -111,6 +111,10 @@ class Org implements \Serializable
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
+    #[ORM\Column(nullable: true)]
+    #[Groups(['read'])]
+    private ?int $withdrawing = 0;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
@@ -570,5 +574,17 @@ class Org implements \Serializable
         list(
             $this->id,
         ) = unserialize($serialized);
+    }
+
+    public function getWithdrawing(): ?int
+    {
+        return $this->withdrawing;
+    }
+
+    public function setWithdrawing(?int $withdrawing): self
+    {
+        $this->withdrawing = $withdrawing;
+
+        return $this;
     }
 }
