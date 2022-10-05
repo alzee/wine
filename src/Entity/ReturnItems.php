@@ -8,6 +8,7 @@ use ApiPlatform\Metadata\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ReturnItemsRepository::class)]
 #[ApiResource(
@@ -35,6 +36,7 @@ class ReturnItems
 
     #[ORM\Column(options: ["unsigned" => true])]
     #[Groups(['read', 'write'])]
+    #[Assert\Positive]
     private ?int $quantity = null;
 
     public function __toString(): string
