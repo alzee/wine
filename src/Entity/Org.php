@@ -53,12 +53,6 @@ class Org implements \Serializable
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $type = 1;
 
-    #[ORM\OneToMany(mappedBy: 'seller', targetEntity: Orders::class)]
-    private Collection $orders;
-
-    #[ORM\OneToMany(mappedBy: 'sender', targetEntity: Returns::class)]
-    private Collection $returns;
-
     #[ORM\OneToMany(mappedBy: 'org', targetEntity: Product::class)]
     private Collection $products;
 
@@ -117,8 +111,6 @@ class Org implements \Serializable
 
     public function __construct()
     {
-        $this->orders = new ArrayCollection();
-        $this->returns = new ArrayCollection();
         $this->products = new ArrayCollection();
         $this->voucher = 0;
         $this->orderRestaurants = new ArrayCollection();
@@ -206,66 +198,6 @@ class Org implements \Serializable
     public function setType(int $type): self
     {
         $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Orders>
-     */
-    public function getOrders(): Collection
-    {
-        return $this->orders;
-    }
-
-    public function addOrder(Orders $order): self
-    {
-        if (!$this->orders->contains($order)) {
-            $this->orders->add($order);
-            $order->setSeller($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOrder(Orders $order): self
-    {
-        if ($this->orders->removeElement($order)) {
-            // set the owning side to null (unless already changed)
-            if ($order->getSeller() === $this) {
-                $order->setSeller(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Returns>
-     */
-    public function getReturns(): Collection
-    {
-        return $this->returns;
-    }
-
-    public function addReturn(Returns $return): self
-    {
-        if (!$this->returns->contains($return)) {
-            $this->returns->add($return);
-            $return->setSender($this);
-        }
-
-        return $this;
-    }
-
-    public function removeReturn(Returns $return): self
-    {
-        if ($this->returns->removeElement($return)) {
-            // set the owning side to null (unless already changed)
-            if ($return->getSender() === $this) {
-                $return->setSender(null);
-            }
-        }
 
         return $this;
     }

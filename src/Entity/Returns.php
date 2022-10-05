@@ -28,12 +28,12 @@ class Returns
     #[Groups(['read'])]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'returns')]
+    #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['read'])]
     private ?Org $sender = null;
 
-    #[ORM\ManyToOne(inversedBy: 'returns')]
+    #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['read'])]
     private ?Org $recipient = null;
