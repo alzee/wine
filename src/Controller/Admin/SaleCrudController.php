@@ -127,12 +127,12 @@ class SaleCrudController extends AbstractCrudController
         if ($this->isGranted('ROLE_STORE') || $this->isGranted('ROLE_RESTAURANT')) {
             return $actions
                 ->disable(Action::DELETE, Action::NEW, Action::EDIT)
-                ->add('index', Action::DETAIL)
+                // ->add('index', Action::DETAIL)
             ;
         } else {
             return $actions
                 ->disable(Action::DELETE, Action::EDIT)
-                ->add('index', Action::DETAIL)
+                // ->add('index', Action::DETAIL)
             ;
         }
     }
