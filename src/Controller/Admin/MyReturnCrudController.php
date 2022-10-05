@@ -77,21 +77,21 @@ class MyReturnCrudController extends AbstractCrudController
         yield MoneyField::new('voucher')
             ->setCurrency('CNY')
             ->onlyOnIndex();
-        if (!is_null($instance)) {
-            if ($instance->getStatus() > 3 || $instance->getRecipient() != $user->getOrg()) {
-                yield ChoiceField::new('status')
-                    ->setChoices(Choice::ORDER_STATUSES)
-                    ->hideWhenCreating()
-                    ->setFormTypeOptions(['disabled' => 'disabled']);
-            } else {
-                yield ChoiceField::new('status')
-                    ->setChoices(Choice::ORDER_STATUSES)
-                    ->hideWhenCreating();
-            }
-        }
-        yield ChoiceField::new('status')
-            ->setChoices(Choice::ORDER_STATUSES)
-            ->onlyOnIndex();
+        // if (!is_null($instance)) {
+        //     if ($instance->getStatus() > 3 || $instance->getRecipient() != $user->getOrg()) {
+        //         yield ChoiceField::new('status')
+        //             ->setChoices(Choice::ORDER_STATUSES)
+        //             ->hideWhenCreating()
+        //             ->setFormTypeOptions(['disabled' => 'disabled']);
+        //     } else {
+        //         yield ChoiceField::new('status')
+        //             ->setChoices(Choice::ORDER_STATUSES)
+        //             ->hideWhenCreating();
+        //     }
+        // }
+        // yield ChoiceField::new('status')
+        //     ->setChoices(Choice::ORDER_STATUSES)
+        //     ->onlyOnIndex();
         yield DateTimeField::new('date')->HideOnForm();
         yield TextareaField::new('note');
     }
