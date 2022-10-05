@@ -76,6 +76,9 @@ class SaleCrudController extends AbstractCrudController
             ->onlyWhenUpdating()
             ->setFormTypeOptions(['disabled' => 'disabled']);
         yield CollectionField::new('orderItems')
+            ->onlyOnIndex()
+            ;
+        yield CollectionField::new('orderItems')
             ->onlyWhenCreating()
             ->allowAdd(false)
             ->allowDelete(false)
