@@ -111,17 +111,13 @@ class MyWithdrawCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-        if ($this->isGranted('ROLE_HEAD')) {
-            return $actions
-                ->disable(Action::DELETE, Action::NEW)
-            ;
-        } else if ($this->isGranted('ROLE_STORE')){
+        if ($this->isGranted('ROLE_STORE')){
             return $actions
                 ->disable(Action::DELETE, Action::NEW, Action::EDIT, Action::DETAIL, Action::INDEX)
             ;
         } else {
             return $actions
-                ->disable(Action::DELETE)
+                ->disable(Action::DELETE, Action::NEW, Action::EDIT)
             ;
         }
     }
