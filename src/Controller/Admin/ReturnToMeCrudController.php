@@ -71,6 +71,8 @@ class ReturnToMeCrudController extends AbstractCrudController
             ->onlyWhenUpdating()
             ->setFormTypeOptions(['disabled' => 'disabled']);
         yield CollectionField::new('returnItems')
+            ->onlyOnIndex();
+        yield CollectionField::new('returnItems')
             ->onlyWhenCreating()
             ->allowAdd(false)
             ->allowDelete(false)

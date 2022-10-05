@@ -68,6 +68,8 @@ class BuyCrudController extends AbstractCrudController
             ->onlyWhenUpdating()
             ->setFormTypeOptions(['disabled' => 'disabled']);
         yield CollectionField::new('orderItems')
+            ->onlyOnIndex();
+        yield CollectionField::new('orderItems')
             ->onlyWhenCreating()
             ->setFormTypeOptions(['required' => 'required'])
             ->useEntryCrudForm();
