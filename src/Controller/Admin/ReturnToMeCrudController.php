@@ -3,6 +3,9 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Returns;
+use App\Entity\ReturnItems;
+use App\Entity\Product;
+use Doctrine\Persistence\ManagerRegistry;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -30,6 +33,13 @@ use App\Entity\Choice;
 
 class ReturnToMeCrudController extends AbstractCrudController
 {
+    private $doctrine;
+
+    public function __construct(ManagerRegistry $doctrine)
+    {
+      $this->doctrine = $doctrine;
+    }
+
     public static function getEntityFqcn(): string
     {
         return Returns::class;
@@ -62,12 +72,18 @@ class ReturnToMeCrudController extends AbstractCrudController
             ->setFormTypeOptions(['disabled' => 'disabled']);
         yield CollectionField::new('returnItems')
             ->onlyWhenCreating()
+            ->allowAdd(false)
+            ->allowDelete(false)
+            ->renderExpanded()
+            ->showEntryLabel()
+            // ->setEntryIsComplex()
             ->setFormTypeOptions(['required' => 'required'])
             ->useEntryCrudForm();
         yield CollectionField::new('returnItems')
             ->OnlyWhenUpdating()
             ->allowAdd(false)
             ->allowDelete(false)
+            ->renderExpanded()
             ->useEntryCrudForm();
         yield MoneyField::new('amount')
             ->setCurrency('CNY')
@@ -134,5 +150,16 @@ class ReturnToMeCrudController extends AbstractCrudController
         return $filters
             ->add('date')
         ;
+    }
+
+    public function createEntity(string $entityFqcn)
+    {
+        $ret = new Returns();
+        $item = new ReturnItems();
+        $p = $this->doctrine->getRepository(Product::class)->findOneBy(['org' => $this->getUser()->getOrg()]);
+        $item->setProduct($p);
+        $ret->addReturnItem($item);
+
+        return $ret;
     }
 }
