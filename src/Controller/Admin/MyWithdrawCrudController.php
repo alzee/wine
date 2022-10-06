@@ -117,7 +117,7 @@ class MyWithdrawCrudController extends AbstractCrudController
             ;
         } else {
             return $actions
-                ->disable(Action::DELETE, Action::NEW, Action::EDIT)
+                ->disable(Action::DELETE, Action::EDIT)
             ;
         }
     }
