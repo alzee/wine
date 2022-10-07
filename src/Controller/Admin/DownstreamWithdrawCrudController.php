@@ -16,6 +16,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\PercentField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -36,6 +37,7 @@ use App\Entity\Choice;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class DownstreamWithdrawCrudController extends AbstractCrudController
 {
@@ -106,7 +108,16 @@ class DownstreamWithdrawCrudController extends AbstractCrudController
             ->setChoices(Choice::WITHDRAW_STATUSES)
             ->onlyOnIndex();
         yield DateTimeField::new('date')->HideOnForm();
+        yield ImageField::new('img', 'withdraw.img')
+            ->onlyOnIndex()
+            ->setBasePath('img/withdraw/')
+            ->setUploadDir('public/img/withdraw/');
         yield TextareaField::new('note');
+        yield TextField::new('imageFile', 'withdraw.img')
+            ->onlyWhenUpdating()
+            ->setFormType(VichImageType::class)
+            ->setFormTypeOptions(['allow_delete' => false])
+        ;
     }
 
     public function configureActions(Actions $actions): Actions

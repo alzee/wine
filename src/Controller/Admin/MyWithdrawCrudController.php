@@ -16,6 +16,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\PercentField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -106,6 +107,10 @@ class MyWithdrawCrudController extends AbstractCrudController
             ->setChoices(Choice::WITHDRAW_STATUSES)
             ->onlyOnIndex();
         yield DateTimeField::new('date')->HideOnForm();
+        yield ImageField::new('img', 'withdraw.img')
+            ->onlyOnIndex()
+            ->setBasePath('img/withdraw/')
+            ->setUploadDir('public/img/withdraw/');
         yield TextareaField::new('note');
     }
 

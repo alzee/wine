@@ -1,0 +1,8 @@
+App\Entity\Withdraw:
+    imageFile:
+        mapping: withdraws # required
+        filename_property: img # required
+          #size: imageSize
+          #mime_type: imageMimeType
+          #original_name: imageOriginalName
+          #dimensions: imageDimensions
