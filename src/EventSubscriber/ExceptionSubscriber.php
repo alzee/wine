@@ -13,7 +13,6 @@ class ExceptionSubscriber implements EventSubscriberInterface
     {
         // ...
         $exception = $event->getThrowable();
-        dump($exception);
         $message = sprintf(
             '代金券不足！错误代码: %s',
             // $exception->getMessage(),
