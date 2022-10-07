@@ -80,7 +80,7 @@ class Consumer
 
     public function __toString()
     {
-        return $this->openid;
+        return $this->name;
     }
 
     public function getId(): ?int
