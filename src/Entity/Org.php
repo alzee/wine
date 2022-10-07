@@ -22,7 +22,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 )]
 #[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'type' => 'exact', 'upstream' => 'exact'])]
 #[ApiFilter(OrderFilter::class, properties: ['id'], arguments: ['orderParameterName' => 'order'])]
-class Org implements \Serializable
+class Org
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -495,18 +495,16 @@ class Org implements \Serializable
         return $this->imageFile;
     }
 
-    public function serialize()
+    public function __serialize(): array
     {
-        return serialize([
-            $this->id,
-        ]);
+        return [
+            'id' => $this->id,
+        ];
     }
 
-    public function unserialize($serialized)
+    public function __unserialize(array $serialized): void
     {
-        list(
-            $this->id,
-        ) = unserialize($serialized);
+        $this->id = $serialized['id'];
     }
 
     public function getWithdrawing(): ?int
