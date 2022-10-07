@@ -14,10 +14,9 @@ class ExceptionSubscriber implements EventSubscriberInterface
 {
     public function onKernelException(ExceptionEvent $event): void
     {
-        // ...
-        // dd($event);
         $exception = $event->getThrowable();
-        dump($exception);
+        // dd($event);
+        // dump($exception);
 
         // Customize your response object to display the exception details
         if ($exception instanceof NotFoundHttpException) {
