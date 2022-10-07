@@ -26,7 +26,19 @@ class ExceptionSubscriber implements EventSubscriberInterface
         }
         if ($exception instanceof DriverException){
             $message = sprintf(
-                '代金券不足！错误代码: %s',
+                '库存不足！错误代码: %s',
+                // $exception->getMessage(),
+                $exception->getCode()
+            );
+            // sends the modified response object to the event
+            $response = new Response();
+            $response->setContent($message);
+
+            $event->setResponse($response);
+        }
+        if ($exception->getCode() == 44) {
+            $message = sprintf(
+                '退货方库存不足！错误代码: %s',
                 // $exception->getMessage(),
                 $exception->getCode()
             );

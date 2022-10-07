@@ -14,6 +14,7 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
 use App\Entity\Product;
 use App\Entity\Voucher;
 use App\Entity\Choice;
+use Doctrine\DBAL\Exception\DriverException;
 
 class ReturnsNew extends AbstractController
 {
@@ -54,6 +55,9 @@ class ReturnsNew extends AbstractController
             $product->setStock($product->getStock() + $quantity);
             // sender product stock - quantity
             $sender_product = $em->getRepository(Product::class)->findOneByOrgAndSN($sender, $sn);
+            if (is_null($sender_product)) {
+                throw new \Exception('Something went wrong!', 44);
+            }
             $sender_product->setStock($sender_product->getStock() - $quantity);
         }
 
