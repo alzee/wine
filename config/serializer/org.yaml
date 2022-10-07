@@ -1,0 +1,4 @@
+App\Entity\Org:
+    attributes:
+        imageFile:
+            ignore: true

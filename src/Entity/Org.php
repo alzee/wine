@@ -14,6 +14,7 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 #[ORM\Entity(repositoryClass: OrgRepository::class)]
 #[ApiResource(
@@ -100,6 +101,7 @@ class Org
     #[Groups(['read', 'write'])]
     private ?string $img = null;
 
+    #[Ignore]
     #[Assert\Image()]
     private ?File $imageFile = null;
 
