@@ -106,7 +106,11 @@ class OrgCrudController extends AbstractCrudController
     {
         $userOrg = $this->getUser()->getOrg()->getId();
         $response = $this->container->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
-        $response->andWhere("entity.upstream = $userOrg");
+        if ($this->isGranted('ROLE_HEAD')) {
+            $response->andWhere("entity.id > 10");
+        } else {
+            $response->andWhere("entity.upstream = $userOrg");
+        }
         return $response;
     }
 }
