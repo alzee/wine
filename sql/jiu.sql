@@ -1,8 +1,8 @@
--- MariaDB dump 10.19  Distrib 10.5.16-MariaDB, for Linux (x86_64)
+-- MariaDB dump 10.19  Distrib 10.6.10-MariaDB, for debian-linux-gnu (x86_64)
 --
--- Host: localhost    Database: wine
+-- Host: localhost    Database: jiu
 -- ------------------------------------------------------
--- Server version	10.5.16-MariaDB
+-- Server version	10.6.10-MariaDB-1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -54,11 +54,11 @@ DROP TABLE IF EXISTS `doctrine_migration_versions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `doctrine_migration_versions` (
-  `version` varchar(191) COLLATE utf8_unicode_ci NOT NULL,
+  `version` varchar(191) COLLATE utf8mb3_unicode_ci NOT NULL,
   `executed_at` datetime DEFAULT NULL,
   `execution_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`version`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -118,7 +118,7 @@ CREATE TABLE `node` (
   `img` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL COMMENT '(DC2Type:datetime_immutable)',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -127,7 +127,7 @@ CREATE TABLE `node` (
 
 LOCK TABLES `node` WRITE;
 /*!40000 ALTER TABLE `node` DISABLE KEYS */;
-INSERT INTO `node` VALUES (1,'剑南老窖窖龄酒(30)','<div>剑南老窖窖龄酒(30)<br><br></div><div>剑南系列美酒是精品白酒中的性价比代表，卓尔不群的产品品质，独特协调的风味，窖香浓郁，尾净悠长，味觉层次丰富，彰显中档白酒的高雅气度，是白酒产品中的珍品。</div><div><br></div><div>原料： 水、高粱、大米、糯米、小麦、玉米&nbsp; &nbsp;&nbsp;</div><div>产品标准号：Q/JNC0003S（一级）</div><div>净含量：500ml</div><div>酒精度：52%(vol)、46%(vol)、42%(vol)、38%(vol)&nbsp;</div>',0,'2022-09-18 06:50:46','22.jpg',NULL),(2,'剑南老窖窖龄酒(60)','<div>剑南老窖窖龄酒(60)<br><br></div><div>剑南系列美酒是精品白酒中的性价比代表，卓尔不群的产品品质，独特协调的风味，窖香浓郁，尾净悠长，味觉层次丰富，彰显中档白酒的高雅气度，是白酒产品中的珍品。</div><div><br></div><div>原料： 水、高粱、大米、糯米、小麦、玉米&nbsp; &nbsp;&nbsp;</div><div>产品标准号：Q/JNC0003S（优级）</div><div>净含量：500ml</div><div>酒精度：52%(vol)、46%(vol)、42%(vol)、38%(vol)&nbsp;</div><div><br><br></div>',0,'2022-09-18 07:07:14','11.jpg',NULL),(3,'剑南老窖窖龄酒(收藏版)','<div>剑南老窖窖龄酒(收藏版)<br><br></div><div>剑南系列美酒是精品白酒中的性价比代表，卓尔不群的产品品质，独特协调的风味，窖香浓郁，尾净悠长，味觉层次丰富，彰显中档白酒的高雅气度，是白酒产品中的珍品。</div><div><br></div><div>原料： 水、高粱、大米、糯米、小麦、玉米&nbsp; &nbsp;&nbsp;</div><div>产品标准号：Q/JNC0003S（优级）</div><div>净含量：500ml</div><div>酒精度：52%(vol)、46%(vol)、42%(vol)、38%(vol)&nbsp;</div><div><br><br></div>',0,'2022-09-18 09:38:23','33.jpg',NULL),(4,'你买酒 我请客','<div>你买酒 我请客<br>购42°剑南老窖窖龄60 一件 送价值500元餐券。</div>',1,'2022-09-18 09:39:13','111.png',NULL),(5,'剑南老窖','<div>购 42度剑南老窖窖龄30年一件&nbsp; 送专柜价2980元依波手表1支<br><br></div>',1,'2022-09-18 09:39:23','222.jpg',NULL);
+INSERT INTO `node` VALUES (1,'剑南老窖窖龄酒(30)','<div>剑南老窖窖龄酒(30)<br><br></div><div>剑南系列美酒是精品白酒中的性价比代表，卓尔不群的产品品质，独特协调的风味，窖香浓郁，尾净悠长，味觉层次丰富，彰显中档白酒的高雅气度，是白酒产品中的珍品。</div><div><br></div><div>原料： 水、高粱、大米、糯米、小麦、玉米&nbsp; &nbsp;&nbsp;</div><div>产品标准号：Q/JNC0003S（一级）</div><div>净含量：500ml</div><div>酒精度：52%(vol)、46%(vol)、42%(vol)、38%(vol)&nbsp;</div>',0,'2022-09-18 06:50:46','22.jpg',NULL),(2,'剑南老窖窖龄酒(60)','<div>剑南老窖窖龄酒(60)<br><br></div><div>剑南系列美酒是精品白酒中的性价比代表，卓尔不群的产品品质，独特协调的风味，窖香浓郁，尾净悠长，味觉层次丰富，彰显中档白酒的高雅气度，是白酒产品中的珍品。</div><div><br></div><div>原料： 水、高粱、大米、糯米、小麦、玉米&nbsp; &nbsp;&nbsp;</div><div>产品标准号：Q/JNC0003S（优级）</div><div>净含量：500ml</div><div>酒精度：52%(vol)、46%(vol)、42%(vol)、38%(vol)&nbsp;</div><div><br><br></div>',0,'2022-09-18 07:07:14','11.jpg',NULL),(3,'剑南老窖窖龄酒(收藏版)','<div>剑南老窖窖龄酒(收藏版)<br><br></div><div>剑南系列美酒是精品白酒中的性价比代表，卓尔不群的产品品质，独特协调的风味，窖香浓郁，尾净悠长，味觉层次丰富，彰显中档白酒的高雅气度，是白酒产品中的珍品。</div><div><br></div><div>原料： 水、高粱、大米、糯米、小麦、玉米&nbsp; &nbsp;&nbsp;</div><div>产品标准号：Q/JNC0003S（优级）</div><div>净含量：500ml</div><div>酒精度：52%(vol)、46%(vol)、42%(vol)、38%(vol)&nbsp;</div><div><br><br></div>',0,'2022-09-18 09:38:23','33.jpg',NULL),(4,'你买酒 我请客','<div>你买酒 我请客<br>购42°剑南老窖窖龄60 一件 送价值500元餐券。</div>',1,'2022-09-18 09:39:13','111.png',NULL),(5,'剑南老窖','<div>购 42度剑南老窖窖龄30年一件&nbsp; 送专柜价2980元依波手表1支<br><br></div>',1,'2022-09-18 09:39:23','222.jpg',NULL),(13,'企业简介','<div>湖北老酒库贸易有限公司，是一家专注于酒类运营的贸易公司。<br>公司与多家知名酒厂合作，目前是剑南老窖、湖北省运营平台商；同时也是中粮长城天赋、中粮长城桑干的优秀代理商。<br>公司创始人汪桂芬女士，从事酒水行业20多年，获得英国WEST品酒师资格，服务客户超过十几万人次，由最初的小型商超名烟名酒店，到现在的中国名酒运营平台商。<br>公司秉承着诚信经营、从小做大跨越发展，逐步精进、绽放、担当、忠诚、感恩的核心价值观服务客户。企业以弘扬中国酒文化，支持企业发展，促进中国梦为使命；立足十堰，服务湖北。<br>在中国名酒销售的历史长河中，到中流击水浪遏飞舟。</div><div><br>我作为公司创始人，从事酒水行业20多年，获得英国WEST品酒师资格，服务客户超过几十万人次，由最初的小型商超名烟名酒店，<br>到现在的中国名酒运营平台商，一路走来，不忘初心，牢记使命。让我们携手并进、同舟共济，在名酒销售的历史长河中奋勇前进、共创辉煌。</div>',NULL,'2022-10-08 13:13:23',NULL,NULL);
 /*!40000 ALTER TABLE `node` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -571,4 +571,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-08 13:11:15
+-- Dump completed on 2022-10-08 13:13:52
