@@ -46,7 +46,9 @@ class MyOrgCrudController extends AbstractCrudController
             ->setChoices(Choice::ORG_TYPES)
             ->onlyWhenUpdating()
             ->setFormTypeOptions(['disabled' => 'disabled']);
-        yield TextField::new('name');
+        yield TextField::new('name')
+            ->setFormTypeOptions(['disabled' => 'disabled'])
+            ;
         yield TextField::new('contact');
         yield TelephoneField::new('phone');
         yield TextField::new('address');
