@@ -91,11 +91,11 @@ class Org
 
     #[ORM\Column(nullable: true)]
     #[Groups(['read', 'write'])]
-    private ?float $longitude = 32.625821126302;
+    private ?float $longitude = 110.80163384332;
 
     #[ORM\Column(nullable: true)]
     #[Groups(['read', 'write'])]
-    private ?float $latitude = 110.80163384332;
+    private ?float $latitude = 32.625821126302;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['read', 'write'])]
