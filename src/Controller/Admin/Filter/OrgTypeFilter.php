@@ -25,9 +25,9 @@ class OrgTypeFilter implements FilterInterface
 
     public function apply(QueryBuilder $queryBuilder, FilterDataDto $filterDataDto, ?FieldDto $fieldDto, EntityDto $entityDto): void
     {
-        dump($filterDataDto->getValue());
-        dump($filterDataDto->getEntityAlias());
-        dump($filterDataDto->getProperty());
+        // dump($filterDataDto->getValue());
+        // dump($filterDataDto->getEntityAlias());
+        // dump($filterDataDto->getProperty());
         $queryBuilder
             ->andWhere('entity.type = :type')
             ->setParameter('type', $filterDataDto->getValue())
