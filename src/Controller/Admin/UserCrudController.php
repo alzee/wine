@@ -75,6 +75,7 @@ class UserCrudController extends AbstractCrudController
         $response = $this->container->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
         $response
             ->leftJoin('entity.org', 'org')
+            ->andWhere("entity.id > 100")
             ->andWhere("entity.org = $userOrgId")
             ->orWhere("org.upstream = $userOrgId");
         return $response;
