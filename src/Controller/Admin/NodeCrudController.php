@@ -17,7 +17,7 @@ use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class NodeCrudController extends AbstractCrudController
 {
-    private $tags = ['轮播图' => 0, '推荐' => 1];
+    private $tags = ['轮播图' => 0, '推荐' => 1, '企业简介' => 2];
 
     public static function getEntityFqcn(): string
     {
