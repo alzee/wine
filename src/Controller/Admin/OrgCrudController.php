@@ -31,6 +31,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use App\Entity\Choice;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
+use App\Controller\Admin\Filter\OrgTypeFilter;
 
 class OrgCrudController extends AbstractCrudController
 {
@@ -112,5 +114,12 @@ class OrgCrudController extends AbstractCrudController
             $response->andWhere("entity.upstream = $userOrg");
         }
         return $response;
+    }
+
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters
+            ->add(OrgTypeFilter::new('type'))
+        ;
     }
 }
