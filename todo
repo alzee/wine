@@ -1,5 +1,4 @@
 trix editor upload img
-upload namer?
 
 vichuploader attribute cause apiplatform error: 'Attribute class "ApiPlatform\Core\Annotation\ApiResource" not found'
 

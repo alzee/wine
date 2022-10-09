@@ -10,12 +10,16 @@ vich_uploader:
         products:
             uri_prefix: /img/product
             upload_destination: '%kernel.project_dir%/public/img/product'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
         orgs:
             uri_prefix: /img/org
             upload_destination: '%kernel.project_dir%/public/img/org'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
         nodes:
             uri_prefix: /img/node
             upload_destination: '%kernel.project_dir%/public/img/node'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
         withdraws:
             uri_prefix: /img/withdraw
             upload_destination: '%kernel.project_dir%/public/img/withdraw'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
