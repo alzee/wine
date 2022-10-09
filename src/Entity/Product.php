@@ -72,7 +72,7 @@ class Product
     #[Groups(['read', 'write'])]
     private ?string $img = null;
 
-    #[Assert\Image()]
+    #[Assert\Image(maxSize: '1024k')]
     private ?File $imageFile = null;
 
     #[ORM\Column(nullable: true)]

@@ -57,7 +57,7 @@ class Node
     private ?string $img = null;
 
     // #[Vich\UploadableField(mapping: 'imgs', fileNameProperty: 'img')]
-    #[Assert\Image()]
+    #[Assert\Image(maxSize: '1024k')]
     private ?File $imageFile = null;
 
     #[ORM\Column(nullable: true)]
