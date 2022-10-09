@@ -43,7 +43,27 @@ class NodeCrudController extends AbstractCrudController
             // ->allowMultipleChoices()
         ;
         yield TextEditorField::new('body')
-            ->hideOnIndex();
+            ->hideOnIndex()
+            ->setTrixEditorConfig([
+                'attachments' => [
+                    'preview' => [
+                        'presentation' => "gallery",
+                        'caption' => [
+                            'name' => true,
+                            'size' => true,
+                        ]
+                    ],
+                    'file' => [
+                        'caption' => [
+                            'size' => true,
+                        ]
+                    ],
+                ],
+                'css' => [
+                    'attachment' => 'admin_file_field_attachment',
+                ],
+            ])
+        ;
         yield DateTimeField::new('date')
             ->onlyOnIndex();
     }
