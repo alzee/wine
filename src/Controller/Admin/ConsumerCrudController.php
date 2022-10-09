@@ -35,7 +35,9 @@ class ConsumerCrudController extends AbstractCrudController
             ,
             TextField::new('name', 'Consumer.name'),
             TextField::new('phone'),
-            MoneyField::new('voucher')->setCurrency('CNY'),
+            MoneyField::new('voucher')
+                ->setFormTypeOptions(['disabled' => 'disabled'])
+                ->setCurrency('CNY'),
         ];
     }
 
