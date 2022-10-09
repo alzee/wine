@@ -30,17 +30,18 @@ class WithdrawUpdate
             $applicant = $withdraw->getApplicant();
 
             if ($status == 5) {
-                // $applicant->setWithdrawing($applicant->getWithdrawing() - $amount);
+                // in case have more than one withdraw application at same time
+                $applicant->setWithdrawing($applicant->getWithdrawing() - $amount);
                 // or
-                $applicant->setWithdrawing(0);
+                // $applicant->setWithdrawing(0);
 
                 // voucher record for applicant
-                $record = new Voucher();
-                $record->setOrg($applicant);
-                $record->setVoucher(-$amount);
-                $type = Choice::VOUCHER_TYPES['申请提现'];
-                $record->setType($type);
-                $em->persist($record);
+                // $record = new Voucher();
+                // $record->setOrg($applicant);
+                // $record->setVoucher(-$amount);
+                // $type = Choice::VOUCHER_TYPES['申请提现'];
+                // $record->setType($type);
+                // $em->persist($record);
 
                 // stores don't withdraw
                 // if it's an agency, no need to add amount to headquarter
@@ -50,11 +51,11 @@ class WithdrawUpdate
                     $approver->setWithdrawable($approver->getWithdrawable() + $amount);
 
                     // voucher record for approver
-                    $record = new Voucher();
-                    $record->setOrg($approver);
-                    $record->setVoucher($amount);
-                    $record->setType($type - 10);
-                    $em->persist($record);
+                    // $record = new Voucher();
+                    // $record->setOrg($approver);
+                    // $record->setVoucher($amount);
+                    // $record->setType($type - 10);
+                    // $em->persist($record);
                 }
             }
 
