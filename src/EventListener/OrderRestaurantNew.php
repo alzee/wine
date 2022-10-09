@@ -20,7 +20,7 @@ class OrderRestaurantNew extends AbstractController
     public function postPersist(OrderRestaurant $order, LifecycleEventArgs $event): void
     {
         $em = $event->getEntityManager();
-        // restaurant + voucher
+        // restaurant + withdrawable
         $resta = $order->getRestaurant();
         $voucher = $order->getVoucher();
         $resta->setWithdrawable($resta->getWithdrawable() + $voucher);
@@ -40,11 +40,11 @@ class OrderRestaurantNew extends AbstractController
         $em->persist($record);
 
         // voucher record for restaurant
-        $record = new Voucher();
-        $record->setOrg($resta);
-        $record->setVoucher($voucher);
-        $record->setType($type - 100);
-        $em->persist($record);
+        // $record = new Voucher();
+        // $record->setOrg($resta);
+        // $record->setVoucher($voucher);
+        // $record->setType($type - 100);
+        // $em->persist($record);
 
         $em->flush();
     }
