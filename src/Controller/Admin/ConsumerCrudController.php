@@ -30,7 +30,8 @@ class ConsumerCrudController extends AbstractCrudController
         return [
             IdField::new('id')->onlyOnIndex(),
             TextField::new('openid')
-            ->setHelp('微信openid')
+                ->setFormTypeOptions(['disabled' => 'disabled'])
+                ->setHelp('微信openid')
             ,
             TextField::new('name', 'Consumer.name'),
             TextField::new('phone'),
