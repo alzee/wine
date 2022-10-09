@@ -43,7 +43,7 @@ class ConsumerCrudController extends AbstractCrudController
     {
         if ($this->isGranted('ROLE_HEAD')) {
             return $actions
-                ->disable(Action::DELETE)
+                ->disable(Action::DELETE, Action::NEW)
                 ;
         } else {
             return $actions
