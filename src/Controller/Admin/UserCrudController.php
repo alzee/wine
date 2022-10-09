@@ -72,9 +72,11 @@ class UserCrudController extends AbstractCrudController
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {
         $userOrgId = $this->getUser()->getOrg()->getId();
+        $uid = $this->getUser()->getId();
         $response = $this->container->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
         $response
             ->leftJoin('entity.org', 'org')
+            ->andWhere("entity.id != $uid")
             ->andWhere("entity.id > 100")
             ->andWhere("entity.org = $userOrgId")
             ->orWhere("org.upstream = $userOrgId");
