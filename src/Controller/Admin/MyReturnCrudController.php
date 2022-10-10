@@ -27,6 +27,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use App\Entity\Choice;
+use EasyCorp\Bundle\EasyAdminBundle\Filter\DateTimeFilter;
 
 class MyReturnCrudController extends AbstractCrudController
 {
@@ -128,7 +129,7 @@ class MyReturnCrudController extends AbstractCrudController
     public function configureFilters(Filters $filters): Filters
     {
         return $filters
-            ->add('date')
+            ->add(DateTimeFilter::new('date'))
         ;
     }
 }

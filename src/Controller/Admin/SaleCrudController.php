@@ -36,6 +36,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use App\Entity\Choice;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\DateTimeFilter;
+use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
 
 class SaleCrudController extends AbstractCrudController
 {
@@ -156,8 +157,8 @@ class SaleCrudController extends AbstractCrudController
     public function configureFilters(Filters $filters): Filters
     {
         return $filters
-            // ->add('date')
             ->add(DateTimeFilter::new('date'))
+            ->add(EntityFilter::new('buyer'))
         ;
     }
 

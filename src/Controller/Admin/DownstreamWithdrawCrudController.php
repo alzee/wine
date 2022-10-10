@@ -38,6 +38,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
 use Vich\UploaderBundle\Form\Type\VichImageType;
+use EasyCorp\Bundle\EasyAdminBundle\Filter\DateTimeFilter;
+use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
 
 class DownstreamWithdrawCrudController extends AbstractCrudController
 {
@@ -173,7 +175,8 @@ class DownstreamWithdrawCrudController extends AbstractCrudController
     public function configureFilters(Filters $filters): Filters
     {
         return $filters
-            ->add('date')
+            ->add(DateTimeFilter::new('date'))
+            ->add(EntityFilter::new('applicant'))
         ;
     }
 

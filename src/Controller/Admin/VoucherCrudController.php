@@ -26,6 +26,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 use App\Entity\Choice;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Config\KeyValueStore;
+use EasyCorp\Bundle\EasyAdminBundle\Filter\DateTimeFilter;
+use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
 
 class VoucherCrudController extends AbstractCrudController
 {
@@ -96,7 +98,9 @@ class VoucherCrudController extends AbstractCrudController
     public function configureFilters(Filters $filters): Filters
     {
         return $filters
-            ->add('date')
+            ->add(DateTimeFilter::new('date'))
+            ->add(EntityFilter::new('org'))
+            ->add(EntityFilter::new('consumer'))
         ;
     }
 
