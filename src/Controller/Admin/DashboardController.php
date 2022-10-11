@@ -30,19 +30,16 @@ use App\Entity\Withdraw;
 use App\Entity\Retail;
 use App\Entity\RetailReturn;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
 use Symfony\UX\Chartjs\Model\Chart;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 
 class DashboardController extends AbstractDashboardController
 {
-    private $chartBuilder;
 
     private $doctrine;
 
-    public function __construct(ChartBuilderInterface $chartBuilder, ManagerRegistry $doctrine)
+    public function __construct(ManagerRegistry $doctrine)
     {
-      $this->chartBuilder = $chartBuilder;
       $this->doctrine = $doctrine;
     }
 
@@ -63,36 +60,12 @@ class DashboardController extends AbstractDashboardController
         $countStroes = $orgRepo->count(['type' => 2]);
         $countRestaurants = $orgRepo->count(['type' => 3]);
         $countConsumers = $this->doctrine->getRepository(Consumer::class)->count([]);
-        
-        $chart = $this->chartBuilder->createChart(Chart::TYPE_LINE);
-
-        $chart->setData([
-            'labels' => ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-            'datasets' => [
-                [
-                    'label' => 'My First dataset',
-                    'backgroundColor' => 'rgb(255, 99, 132)',
-                    'borderColor' => 'rgb(255, 99, 132)',
-                    'data' => [0, 10, 5, 2, 20, 30, 45],
-                ],
-            ],
-        ]);
-
-        $chart->setOptions([
-            'scales' => [
-                'y' => [
-                    'suggestedMin' => 0,
-                    'suggestedMax' => 100,
-                ],
-            ],
-        ]);
 
         $data = [
           'countAgencies' => $countAgencies,
           'countStroes' => $countStroes,
           'countRestaurants' => $countRestaurants,
           'countConsumers' => $countConsumers,
-          'chart' => $chart
         ];
         return $this->render('dashboard.html.twig', $data);
     }
