@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Doctrine\DBAL\Exception\DriverException;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class ExceptionSubscriber implements EventSubscriberInterface
 {
@@ -31,6 +32,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
             );
             // sends the modified response object to the event
             $response = new Response();
+            // $response = new RedirectResponse('/admin');
             $response->setContent($message);
 
             $event->setResponse($response);
