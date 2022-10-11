@@ -11,8 +11,6 @@ err:
   - out of range
   - permission
 
-chart
-
 have to use setTimeout() in js?
 why repo->find(1) give uninitialized? $this->getUser()->getOrg() too. Thought ...getOrg()->getType() works.
 
