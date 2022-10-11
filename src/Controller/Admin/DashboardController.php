@@ -32,6 +32,8 @@ use App\Entity\RetailReturn;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\UX\Chartjs\Model\Chart;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
 
 class DashboardController extends AbstractDashboardController
 {
@@ -155,4 +157,11 @@ class DashboardController extends AbstractDashboardController
             ->setDateTimeFormat('yyyy/MM/dd HH:mm')
         ;
     }
+
+    // public function configureAssets(): Assets
+    // {
+    //     return Assets::new()
+    //         ->addJsFile(Asset::new('js/initChart.js')->defer())
+    //     ;
+    // }
 }
