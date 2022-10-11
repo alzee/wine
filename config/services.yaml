@@ -138,4 +138,9 @@ services:
     admin.org:
         class: App\Admin\OrgAdmin
         tags:
-            - { name: sonata.admin, model_class: App\Entity\Org, controller: App\Controller\OrgAdminController, manager_type: orm, group: admin, label: Org }
+            - { name: sonata.admin, model_class: App\Entity\Org, controller: ~, manager_type: orm, group: admin, label: Org }
+
+    admin.node:
+        class: App\Admin\NodeAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Node, controller: ~, manager_type: orm, group: admin, label: Node }
