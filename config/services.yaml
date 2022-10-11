@@ -134,3 +134,8 @@ services:
                 name: 'doctrine.orm.entity_listener'
                 event: 'prePersist'
                 entity: 'App\Entity\Withdraw'
+
+    admin.org:
+        class: App\Admin\OrgAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Org, controller: App\Controller\OrgAdminController, manager_type: orm, group: admin, label: Org }
