@@ -21,11 +21,6 @@
     </div>
   </div>
 
-  <div class="my-4">
-    <h3>订单统计</h3>
-    <canvas id="orderChart" width="400" height="400"></canvas>
-  </div>
-
   <div>
     <h3>销售统计</h3>
     <canvas id="saleChart" width="400" height="400"></canvas>
@@ -34,6 +29,6 @@
 </div>
 {% endblock content %}
 {% block body_javascript %}
-<script src='js/initChart.js'>
-</script>
+<script src='js/chart.min.js'></script>
+<script src='js/initChart.js'></script> 
 {% endblock body_javascript %}
