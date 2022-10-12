@@ -12,6 +12,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Doctrine\Orm\Filter\ExistsFilter;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ReturnsRepository::class)]
 #[ApiResource(
@@ -60,6 +61,7 @@ class Returns
 
     #[ORM\OneToMany(mappedBy: 'ret', targetEntity: ReturnItems::class, cascade: ["persist"])]
     #[Groups(['read'])]
+    #[Assert\Valid]
     private Collection $returnItems;
 
     public function __construct()

@@ -2,11 +2,6 @@ trix editor upload img
 
 vichuploader attribute cause apiplatform error: 'Attribute class "ApiPlatform\Core\Annotation\ApiResource" not found'
 
-collectionField default have one, least one
-
-default (choice) value for default roles?
-validator in orderItems not work in orders form?
-
 err:
   - out of range
   - permission
