@@ -77,7 +77,10 @@ class SaleCrudController extends AbstractCrudController
         yield AssociationField::new('buyer')
             ->onlyWhenUpdating()
             ->setFormTypeOptions(['disabled' => 'disabled']);
-        yield CollectionField::new('orderItems')
+        yield TextField::new('FirstProduct')
+            ->onlyOnIndex()
+            ;
+        yield IntegerField::new('FirstProductQuantity')
             ->onlyOnIndex()
             ;
         yield CollectionField::new('orderItems')

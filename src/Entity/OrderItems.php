@@ -41,7 +41,7 @@ class OrderItems
 
     public function __toString(): string
     {
-        return $this->product . ' x ' . $this->quantity;
+        return $this->product;
     }
 
     public function getId(): ?int
