@@ -8,3 +8,6 @@ fos_ck_editor:
     configs:
         my_config:
             toolbar: full
+            #filebrowserUploadRoute: _api_/media_objects.{_format}_post
+            filebrowserImageUploadUrl: /api/media_objects
+            #filebrowserBrowseUrl: /media
