@@ -14,6 +14,14 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use Vich\UploaderBundle\Form\Type\VichImageType;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
+use App\Admin\Field\CKEditorField;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
+use EasyCorp\Bundle\EasyAdminBundle\Config\KeyValueStore;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
+use Symfony\Component\Form\FormInterface;
 
 class NodeCrudController extends AbstractCrudController
 {
@@ -42,28 +50,32 @@ class NodeCrudController extends AbstractCrudController
             ->setChoices($this->tags)
             // ->allowMultipleChoices()
         ;
-        yield TextEditorField::new('body')
+        yield CKEditorField::new('body')
             ->hideOnIndex()
-            ->setTrixEditorConfig([
-                'attachments' => [
-                    'preview' => [
-                        'presentation' => "gallery",
-                        'caption' => [
-                            'name' => true,
-                            'size' => true,
-                        ]
-                    ],
-                    'file' => [
-                        'caption' => [
-                            'size' => true,
-                        ]
-                    ],
-                ],
-                'css' => [
-                    'attachment' => 'admin_file_field_attachment',
-                ],
-            ])
-        ;
+            // ->setFormType(CKEditorType::class)
+          ;
+        // yield TextEditorField::new('body')
+        //     ->hideOnIndex()
+        //     ->setTrixEditorConfig([
+        //         'attachments' => [
+        //             'preview' => [
+        //                 'presentation' => "gallery",
+        //                 'caption' => [
+        //                     'name' => true,
+        //                     'size' => true,
+        //                 ]
+        //             ],
+        //             'file' => [
+        //                 'caption' => [
+        //                     'size' => true,
+        //                 ]
+        //             ],
+        //         ],
+        //         'css' => [
+        //             'attachment' => 'admin_file_field_attachment',
+        //         ],
+        //     ])
+        // ;
         yield DateTimeField::new('date')
             ->onlyOnIndex();
     }
@@ -78,5 +90,13 @@ class NodeCrudController extends AbstractCrudController
                 ->disable(Action::DELETE, Action::NEW, Action::EDIT, Action::DETAIL, Action::INDEX)
             ;
         }
+    }
+
+    public function createNewForm(EntityDto $entityDto, KeyValueStore $formOptions, AdminContext $context): FormInterface
+    {
+        $b = $this->createNewFormBuilder($entityDto, $formOptions, $context);
+        // $b->add('body', CKEditorType::class);
+        $f = $b->getForm();
+        return $f;
     }
 }
