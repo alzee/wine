@@ -13,7 +13,6 @@ use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Doctrine\Orm\Filter\ExistsFilter;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Entity\Product;
 
 #[ORM\Entity(repositoryClass: OrdersRepository::class)]
 #[ApiResource(

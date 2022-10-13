@@ -188,4 +188,14 @@ class Returns
 
         return $this;
     }
+
+    public function getFirstProduct()
+    {
+        return $this->getReturnItems()[0]->getProduct();
+    }
+
+    public function getFirstProductQuantity()
+    {
+        return $this->getReturnItems()[0]->getQuantity();
+    }
 }

@@ -72,8 +72,12 @@ class ReturnToMeCrudController extends AbstractCrudController
         yield AssociationField::new('recipient')
             ->onlyWhenUpdating()
             ->setFormTypeOptions(['disabled' => 'disabled']);
-        yield CollectionField::new('returnItems')
-            ->onlyOnIndex();
+        yield TextField::new('FirstProduct')
+            ->onlyOnIndex()
+            ;
+        yield IntegerField::new('FirstProductQuantity')
+            ->onlyOnIndex()
+            ;
         yield CollectionField::new('returnItems')
             ->onlyWhenCreating()
             ->allowAdd(false)
