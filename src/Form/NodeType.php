@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class NodeType extends AbstractType
 {
@@ -15,10 +16,11 @@ class NodeType extends AbstractType
         $builder
             ->add('title')
             ->add('body', CKEditorType::class)
-            ->add('tag')
-            ->add('date')
-            ->add('img')
-            ->add('updatedAt')
+            ->add('submit', SubmitType::class)
+            // ->add('tag')
+            // ->add('date')
+            // ->add('img')
+            // ->add('updatedAt')
         ;
     }
 
