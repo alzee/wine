@@ -65,8 +65,12 @@ class MyReturnCrudController extends AbstractCrudController
             ->onlyWhenCreating()
             ->setFormTypeOptions(['required' => 'required'])
             ->useEntryCrudForm();
-        yield CollectionField::new('returnItems')
-            ->onlyOnIndex();
+        yield TextField::new('FirstProduct')
+            ->onlyOnIndex()
+            ;
+        yield IntegerField::new('FirstProductQuantity')
+            ->onlyOnIndex()
+            ;
         yield CollectionField::new('returnItems')
             ->OnlyWhenUpdating()
             ->allowAdd(false)
