@@ -25,6 +25,7 @@ admin
 /public/build/
 /public/uploads/
 /public/img/
+/public/media/
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
