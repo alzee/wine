@@ -52,7 +52,7 @@ class MediaObject
 
     #[ApiProperty(types: ['https://schema.org/contentUrl'])]
     #[Groups(['media_object:read'])]
-    public ?string $contentUrl = null;
+    public ?string $url = null;
 
     #[Vich\UploadableField(mapping: "media_object", fileNameProperty: "filePath")]
     #[Assert\NotNull(groups: ['media_object_create'])]
