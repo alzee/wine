@@ -34,7 +34,7 @@ class Node
     #[Groups(['read'])]
     private ?string $title = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     #[Groups(['read'])]
     private ?string $body = null;
 
@@ -95,7 +95,7 @@ class Node
         return $this->body;
     }
 
-    public function setBody(string $body): self
+    public function setBody(?string $body): self
     {
         $this->body = $body;
 

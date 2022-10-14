@@ -47,7 +47,6 @@ class NodeCrudController extends AbstractCrudController
         ;
         yield TextareaField::new('body')
             ->onlyOnForms()
-            ->setFormTypeOptions(['required' => false])
             // ->addCssClass('test')
             ;
         yield DateTimeField::new('date')
