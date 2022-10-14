@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/alzee/wine#readme",
   "dependencies": {
-    "chart.js": "^3.9.1"
+    "chart.js": "^3.9.1",
+    "marked": "^4.1.1"
   }
 }
