@@ -9,8 +9,20 @@ ClassicEditor
       // headers: {
       //   'X-CSRF-TOKEN': 'CSRF-Token',
       //   Authorization: 'Bearer <JSON Web Token>'
-      }
-    } )
+      },
+    mediaEmbed: {
+      extraProviders: [
+        {
+          name: 'bilibili',
+          // A URL regexp or an array of URL regexps:
+          url: /^www\.bilibili\.com\/(\w+)/,
+
+          // To be defined only if the media are previewable:
+          // html: match => '...'
+        },
+      ]
+    }
+  } )
   .catch( error => {
     console.error( error );
   } );
