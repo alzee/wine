@@ -47,7 +47,8 @@ class NodeCrudController extends AbstractCrudController
         ;
         yield TextareaField::new('body')
             ->onlyOnForms()
-            ->addCssClass('test')
+            ->setFormTypeOptions(['required' => false])
+            // ->addCssClass('test')
             ;
         yield DateTimeField::new('date')
             ->onlyOnIndex();
@@ -77,7 +78,6 @@ class NodeCrudController extends AbstractCrudController
                     ->defer()
                     ->onlyOnForms()
             )
-            // ->addCssFile()
         ;
     }
 }
