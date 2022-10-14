@@ -70,7 +70,7 @@ class NodeCrudController extends AbstractCrudController
     {
         return $assets
             ->addJsFile(
-                Asset::new('https://cdn.ckeditor.com/ckeditor5/35.2.1/classic/ckeditor.js')
+                Asset::new('/js/ckeditor.js')
                     ->onlyOnForms()
             )
             ->addJsFile(
