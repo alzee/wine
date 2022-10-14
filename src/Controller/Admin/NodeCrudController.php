@@ -6,6 +6,7 @@ use App\Entity\Node;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
@@ -14,6 +15,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use Vich\UploaderBundle\Form\Type\VichImageType;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
 
 class NodeCrudController extends AbstractCrudController
 {
@@ -42,28 +45,10 @@ class NodeCrudController extends AbstractCrudController
             ->setChoices($this->tags)
             // ->allowMultipleChoices()
         ;
-        yield TextEditorField::new('body')
-            ->hideOnIndex()
-            ->setTrixEditorConfig([
-                'attachments' => [
-                    'preview' => [
-                        'presentation' => "gallery",
-                        'caption' => [
-                            'name' => true,
-                            'size' => true,
-                        ]
-                    ],
-                    'file' => [
-                        'caption' => [
-                            'size' => true,
-                        ]
-                    ],
-                ],
-                'css' => [
-                    'attachment' => 'admin_file_field_attachment',
-                ],
-            ])
-        ;
+        yield TextareaField::new('body')
+            ->onlyOnForms()
+            ->addCssClass('test')
+            ;
         yield DateTimeField::new('date')
             ->onlyOnIndex();
     }
@@ -78,5 +63,21 @@ class NodeCrudController extends AbstractCrudController
                 ->disable(Action::DELETE, Action::NEW, Action::EDIT, Action::DETAIL, Action::INDEX)
             ;
         }
+    }
+
+    public function configureAssets(Assets $assets): Assets
+    {
+        return $assets
+            ->addJsFile(
+                Asset::new('https://cdn.ckeditor.com/ckeditor5/35.2.1/classic/ckeditor.js')
+                    ->onlyOnForms()
+            )
+            ->addJsFile(
+                Asset::new('/js/initCKEditor.js')
+                    ->defer()
+                    ->onlyOnForms()
+            )
+            // ->addCssFile()
+        ;
     }
 }
