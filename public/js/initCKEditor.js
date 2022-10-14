@@ -1,5 +1,5 @@
 ClassicEditor
-  .create( document.querySelector( '.field-textarea #Node_body' ) )
+  .create( document.querySelector( '#Node_body' ) )
   .catch( error => {
     console.error( error );
   } );
