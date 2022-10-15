@@ -149,6 +149,7 @@ class MyWithdrawCrudController extends AbstractCrudController
             ->setHelp('index', $helpIndex)
             ->setHelp('new', $helpNew)
             ->setPageTitle('index', 'MyWithdraw')
+            ->setSearchFields(null)
         ;
     }
 
