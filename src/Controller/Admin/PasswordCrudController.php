@@ -56,7 +56,8 @@ class PasswordCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setPageTitle('edit', '修改密码');
-
+            ->setPageTitle('edit', '修改密码')
+            ->setSearchFields(null)
+        ;
     }
 }

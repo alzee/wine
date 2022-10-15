@@ -71,9 +71,13 @@ class MyOrgCrudController extends AbstractCrudController
         ;
     }
 
-    // public function configureCrud(Crud $crud): Crud
-    // {
-    //     $help = '当<b>类型</b>选择<b>门店</b>或<b>餐厅</b>时，需要选择对应的上级代理商。';
-    //     return $crud->setHelp('new', $help);
-    // }
+    public function configureCrud(Crud $crud): Crud
+    {
+        // $help = '当<b>类型</b>选择<b>门店</b>或<b>餐厅</b>时，需要选择对应的上级代理商。';
+        // return $crud->setHelp('new', $help);
+        
+        return $crud
+            ->setSearchFields(null)
+        ;
+    }
 }
