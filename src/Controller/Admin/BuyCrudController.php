@@ -135,6 +135,7 @@ class BuyCrudController extends AbstractCrudController
             ->setHelp('index', $helpIndex)
             ->setHelp('new', $helpNew)
             ->setPageTitle('index', 'Buy')
+            ->setSearchFields(['seller.name', 'orderItems.product.name'])
         ;
     }
 

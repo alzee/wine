@@ -148,6 +148,7 @@ class ReturnToMeCrudController extends AbstractCrudController
             ->setHelp('index', $helpIndex)
             ->setHelp('new', $helpNew)
             ->setPageTitle('index', 'ReturnToMe')
+            ->setSearchFields(['sender.name', 'returnItems.product.name'])
         ;
     }
 

@@ -154,6 +154,7 @@ class SaleCrudController extends AbstractCrudController
             ->setHelp('index', $helpIndex)
             ->setHelp('new', $helpNew)
             ->setPageTitle('index', 'Sale')
+            ->setSearchFields(['buyer.name', 'orderItems.product.name'])
         ;
     }
 

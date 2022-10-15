@@ -127,6 +127,7 @@ class MyReturnCrudController extends AbstractCrudController
             ->setHelp('index', $helpIndex)
             ->setHelp('new', $helpNew)
             ->setPageTitle('index', 'MyReturn')
+            ->setSearchFields(['recipient.name', 'returnItems.product.name'])
         ;
     }
 
