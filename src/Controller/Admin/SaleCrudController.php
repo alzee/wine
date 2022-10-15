@@ -88,7 +88,7 @@ class SaleCrudController extends AbstractCrudController
             ->allowAdd(false)
             ->allowDelete(false)
             ->renderExpanded()
-            ->setFormTypeOptions(['required' => 'required'])
+            ->setRequired(true)
             ->useEntryCrudForm();
         yield CollectionField::new('orderItems')
             ->OnlyWhenUpdating()

@@ -63,7 +63,8 @@ class OrgCrudController extends AbstractCrudController
         yield ChoiceField::new('type')
             ->setChoices(Choice::ORG_TYPES)
             ->hideWhenCreating()
-            ->setFormTypeOptions(['disabled' => 'disabled']);
+            ->setDisabled()
+        ;
         yield TextField::new('name');
         yield TextField::new('contact');
         yield TelephoneField::new('phone');

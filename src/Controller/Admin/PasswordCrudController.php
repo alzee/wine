@@ -37,11 +37,12 @@ class PasswordCrudController extends AbstractCrudController
         yield TextField::new('plainPassword')
             ->onlyOnForms()
             ->setFormType(RepeatedType::class)
+            ->setRequired(true)
             ->setFormTypeOptions([
                 'type' => PasswordType::class,
                 'first_options' => ['label' => 'Password'],
                 'second_options' => ['label' => 'Repeat password'],
-                'required' => 'required',
+                // 'required' => 'required',
             ]);
     }
 
