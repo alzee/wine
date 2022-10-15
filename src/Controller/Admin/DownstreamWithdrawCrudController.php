@@ -151,6 +151,7 @@ class DownstreamWithdrawCrudController extends AbstractCrudController
             ->setHelp('index', $helpIndex)
             ->setHelp('new', $helpNew)
             ->setPageTitle('index', 'DownstreamWithdraw')
+            ->setSearchFields(['applicant.name'])
         ;
     }
 
