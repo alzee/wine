@@ -2,5 +2,5 @@
 #
 # vim:ft=sh
 
-find src/ -type f -exec echo // {} >> code \; -exec cat {} >> code  \; -exec echo >> code \;
-mv code public/
+find src/ -type f -exec echo // {} >> code.txt \; -exec cat {} >> code.txt  \; -exec echo >> code.txt \;
+mv code.txt public/
