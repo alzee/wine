@@ -36,7 +36,7 @@ class NodeCrudController extends AbstractCrudController
             ->onlyOnIndex()
             ->setBasePath('img/node/')
             ->setUploadDir('public/img/node/');
-        yield VichImageField::new('imageFile')
+        yield VichImageField::new('imageFile', 'Img')
             ->hideOnIndex()
             ->setFormTypeOptions(['allow_delete' => false])
             ->addJsFiles(Asset::fromEasyAdminAssetPackage('field-image.js'))

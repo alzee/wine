@@ -63,7 +63,7 @@ class ProductCrudController extends AbstractCrudController
                 ->setBasePath('img/product/')
                 ->setUploadDir('public/img/product/')
             ,
-            VichImageField::new('imageFile')
+            VichImageField::new('imageFile', 'Product Image')
             ->hideOnIndex()
             ->setFormTypeOptions(['allow_delete' => false])
             ->addJsFiles(Asset::fromEasyAdminAssetPackage('field-image.js'))
