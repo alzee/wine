@@ -34,6 +34,8 @@ use Symfony\UX\Chartjs\Model\Chart;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 
 class DashboardController extends AbstractDashboardController
 {
@@ -156,6 +158,26 @@ class DashboardController extends AbstractDashboardController
             ->setTimezone('Asia/Shanghai')
             ->setDateTimeFormat('yyyy/MM/dd HH:mm')
         ;
+    }
+
+    public function configureActions(): Actions
+    {
+        return Actions::new()
+            // ->addBatchAction(Action::BATCH_DELETE)
+            ->add(Crud::PAGE_INDEX, Action::NEW)
+            ->add(Crud::PAGE_INDEX, Action::EDIT)
+            ->add(Crud::PAGE_INDEX, Action::DELETE)
+
+            ->add(Crud::PAGE_DETAIL, Action::EDIT)
+            ->add(Crud::PAGE_DETAIL, Action::INDEX)
+            ->add(Crud::PAGE_DETAIL, Action::DELETE)
+
+            ->add(Crud::PAGE_EDIT, Action::SAVE_AND_RETURN)
+            ->add(Crud::PAGE_EDIT, Action::SAVE_AND_CONTINUE)
+
+            ->add(Crud::PAGE_NEW, Action::SAVE_AND_RETURN)
+            ->add(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER)
+            ;
     }
 
     // public function configureAssets(): Assets
