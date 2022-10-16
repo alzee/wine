@@ -15,7 +15,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
@@ -25,7 +24,8 @@ use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
-use Vich\UploaderBundle\Form\Type\VichImageType;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
+use App\Admin\Field\VichImageField;
 
 class ProductCrudController extends AbstractCrudController
 {
@@ -63,10 +63,10 @@ class ProductCrudController extends AbstractCrudController
                 ->setBasePath('img/product/')
                 ->setUploadDir('public/img/product/')
             ,
-            Field::new('imageFile')
-                ->hideOnIndex()
-                ->setFormType(VichImageType::class)
-                ->setFormTypeOptions(['allow_delete' => false])
+            VichImageField::new('imageFile')
+            ->hideOnIndex()
+            ->setFormTypeOptions(['allow_delete' => false])
+            ->addJsFiles(Asset::fromEasyAdminAssetPackage('field-image.js'))
         ];
     }
 

@@ -31,7 +31,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use App\Entity\Choice;
-use Vich\UploaderBundle\Form\Type\VichImageType;
+use App\Admin\Field\VichImageField;
 
 class MyOrgCrudController extends AbstractCrudController
 {
@@ -59,10 +59,11 @@ class MyOrgCrudController extends AbstractCrudController
             ->hideOnForm()
         // ->setFormTypeOptions(['disabled' => 'disabled'])
             ;
-        yield Field::new('imageFile')
-            ->setFormType(VichImageType::class)
+        yield VichImageField::new('imageFile')
+            ->hideOnIndex()
             ->setFormTypeOptions(['allow_delete' => false])
-        ;
+            ->addJsFiles(Asset::fromEasyAdminAssetPackage('field-image.js'))
+            ;
     }
 
     public function configureActions(Actions $actions): Actions

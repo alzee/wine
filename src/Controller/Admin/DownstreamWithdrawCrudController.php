@@ -38,10 +38,10 @@ use App\Entity\Choice;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
-use Vich\UploaderBundle\Form\Type\VichImageType;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\DateTimeFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
 use Doctrine\ORM\EntityRepository as ER;
+use App\Admin\Field\VichImageField;
 
 class DownstreamWithdrawCrudController extends AbstractCrudController
 {
@@ -117,11 +117,11 @@ class DownstreamWithdrawCrudController extends AbstractCrudController
             ->setBasePath('img/withdraw/')
             ->setUploadDir('public/img/withdraw/');
         yield TextareaField::new('note');
-        yield Field::new('imageFile', 'withdraw.img')
-            ->onlyWhenUpdating()
-            ->setFormType(VichImageType::class)
+        yield VichImageField::new('imageFile')
+            ->hideOnIndex()
             ->setFormTypeOptions(['allow_delete' => false])
-        ;
+            ->addJsFiles(Asset::fromEasyAdminAssetPackage('field-image.js'))
+            ;
     }
 
     public function configureActions(Actions $actions): Actions
