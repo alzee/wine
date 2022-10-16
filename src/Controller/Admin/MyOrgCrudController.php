@@ -61,8 +61,6 @@ class MyOrgCrudController extends AbstractCrudController
             ;
         yield VichImageField::new('imageFile')
             ->hideOnIndex()
-            ->setFormTypeOptions(['allow_delete' => false])
-            ->addJsFiles(Asset::fromEasyAdminAssetPackage('field-image.js'))
             ;
     }
 

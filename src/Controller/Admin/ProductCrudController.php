@@ -65,8 +65,6 @@ class ProductCrudController extends AbstractCrudController
             ,
             VichImageField::new('imageFile', 'Product Image')
             ->hideOnIndex()
-            ->setFormTypeOptions(['allow_delete' => false])
-            ->addJsFiles(Asset::fromEasyAdminAssetPackage('field-image.js'))
         ];
     }
 

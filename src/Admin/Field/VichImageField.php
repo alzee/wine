@@ -7,6 +7,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\FieldTrait;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
 
 final class VichImageField implements FieldInterface
 {
@@ -21,6 +22,8 @@ final class VichImageField implements FieldInterface
             ->setProperty($propertyName)
             ->setLabel($label)
             ->setFormType(VichImageType::class)
+            ->setFormTypeOptions(['allow_delete' => false])
+            ->addJsFiles(Asset::fromEasyAdminAssetPackage('field-image.js'))
         ;
     }
 }

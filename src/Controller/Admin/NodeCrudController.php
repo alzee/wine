@@ -38,8 +38,6 @@ class NodeCrudController extends AbstractCrudController
             ->setUploadDir('public/img/node/');
         yield VichImageField::new('imageFile', 'Img')
             ->hideOnIndex()
-            ->setFormTypeOptions(['allow_delete' => false])
-            ->addJsFiles(Asset::fromEasyAdminAssetPackage('field-image.js'))
             ;
         yield ChoiceField::new('tag')
             ->setChoices($this->tags)

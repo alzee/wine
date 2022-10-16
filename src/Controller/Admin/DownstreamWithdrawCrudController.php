@@ -119,8 +119,6 @@ class DownstreamWithdrawCrudController extends AbstractCrudController
         yield TextareaField::new('note');
         yield VichImageField::new('imageFile', 'withdraw.img')
             ->hideOnIndex()
-            ->setFormTypeOptions(['allow_delete' => false])
-            ->addJsFiles(Asset::fromEasyAdminAssetPackage('field-image.js'))
             ;
     }
 
