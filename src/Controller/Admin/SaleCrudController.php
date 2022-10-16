@@ -30,6 +30,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
+use Doctrine\ORM\EntityRepository as ER;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -160,9 +161,20 @@ class SaleCrudController extends AbstractCrudController
 
     public function configureFilters(Filters $filters): Filters
     {
+        $user = $this->getUser();
         return $filters
             ->add(DateTimeFilter::new('date'))
-            ->add(EntityFilter::new('buyer'))
+            ->add(
+                EntityFilter::new('buyer')
+                    ->setFormTypeOption(
+                        'value_type_options.query_builder',
+                        static fn(ER $rep) => $rep
+                            ->createQueryBuilder('o')
+                            ->andWhere('o.upstream = :userOrg')
+                            ->setParameter('userOrg', $user->getOrg())
+                    )
+                    // ->setFormTypeOption('value_type_options.multiple', true)
+            )
         ;
     }
 
