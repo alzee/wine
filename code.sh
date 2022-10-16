@@ -2,5 +2,12 @@
 #
 # vim:ft=sh
 
-find src/ ~/w/taro.wine/src/ -type f ! -name *.png -exec echo // {} >> code.txt \; -exec cat {} >> code.txt  \; -exec echo >> code.txt \;
-[ -d public/ ] && mv code.txt public/
+file=code.txt
+
+echo -e // 后端\\n > $file
+find src/ -type f -exec echo // {} >> $file \; -exec cat {} >> $file  \; -exec echo >> $file \;
+
+echo -e // 前端\\n >> $file
+find ~/w/taro.wine/src/ -type f ! -name *.png -exec echo // {} >> $file \; -exec cat {} >> $file  \; -exec echo >> $file \;
+
+[ -d public/ ] && mv $file public/
