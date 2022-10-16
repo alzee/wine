@@ -32,8 +32,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use App\Entity\Choice;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
-use App\Controller\Admin\Filter\OrgTypeFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\ChoiceFilter;
+use EasyCorp\Bundle\EasyAdminBundle\Filter\TextFilter;
+use App\Form\OrgTypeFilterType;
 
 class OrgCrudController extends AbstractCrudController
 {
@@ -121,8 +122,9 @@ class OrgCrudController extends AbstractCrudController
     public function configureFilters(Filters $filters): Filters
     {
         return $filters
-            ->add(OrgTypeFilter::new('type'))
+            // ->add(OrgTypeFilter::new('type'))
             // ->add(ChoiceFilter::new('type')->setChoices(['fuck' => 0, 'suck' => 1]))
+            ->add(TextFilter::new('type')->setFormType(OrgTypeFilterType::class))
         ;
     }
 }
