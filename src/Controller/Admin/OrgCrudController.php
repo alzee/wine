@@ -122,8 +122,6 @@ class OrgCrudController extends AbstractCrudController
     public function configureFilters(Filters $filters): Filters
     {
         return $filters
-            // ->add(OrgTypeFilter::new('type'))
-            // ->add(ChoiceFilter::new('type')->setChoices(['fuck' => 0, 'suck' => 1]))
             ->add(TextFilter::new('type')->setFormType(OrgTypeFilterType::class))
         ;
     }
