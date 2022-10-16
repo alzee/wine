@@ -40,6 +40,7 @@ class NodeCrudController extends AbstractCrudController
         yield VichImageField::new('imageFile')
             ->hideOnIndex()
             ->setFormTypeOptions(['allow_delete' => false])
+            ->addJsFiles(Asset::fromEasyAdminAssetPackage('field-image.js'))
             ;
         yield ChoiceField::new('tag')
             ->setChoices($this->tags)
