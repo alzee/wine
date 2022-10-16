@@ -32,6 +32,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use App\Entity\Choice;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\DateTimeFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
+use Doctrine\ORM\EntityRepository as ER;
 
 class ReturnToMeCrudController extends AbstractCrudController
 {
@@ -154,9 +155,19 @@ class ReturnToMeCrudController extends AbstractCrudController
 
     public function configureFilters(Filters $filters): Filters
     {
+        $user = $this->getUser();
         return $filters
             ->add(DateTimeFilter::new('date'))
-            ->add(EntityFilter::new('sender'))
+            ->add(
+                EntityFilter::new('sender')
+                    ->setFormTypeOption(
+                        'value_type_options.query_builder',
+                        static fn(ER $rep) => $rep
+                            ->createQueryBuilder('o')
+                            ->andWhere('o.upstream = :userOrg')
+                            ->setParameter('userOrg', $user->getOrg())
+                    )
+            )
         ;
     }
 

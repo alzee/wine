@@ -40,6 +40,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\DateTimeFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
+use Doctrine\ORM\EntityRepository as ER;
 
 class DownstreamWithdrawCrudController extends AbstractCrudController
 {
@@ -175,9 +176,19 @@ class DownstreamWithdrawCrudController extends AbstractCrudController
 
     public function configureFilters(Filters $filters): Filters
     {
+        $user = $this->getUser();
         return $filters
             ->add(DateTimeFilter::new('date'))
-            ->add(EntityFilter::new('applicant'))
+            ->add(
+                EntityFilter::new('applicant')
+                    ->setFormTypeOption(
+                        'value_type_options.query_builder',
+                        static fn(ER $rep) => $rep
+                            ->createQueryBuilder('o')
+                            ->andWhere('o.upstream = :userOrg')
+                            ->setParameter('userOrg', $user->getOrg())
+                    )
+            )
         ;
     }
 
