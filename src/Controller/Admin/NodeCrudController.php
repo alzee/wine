@@ -11,6 +11,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 // use EasyCorp\Bundle\EasyAdminBundle\Form\Type\FileUploadType;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -36,7 +37,7 @@ class NodeCrudController extends AbstractCrudController
             ->onlyOnIndex()
             ->setBasePath('img/node/')
             ->setUploadDir('public/img/node/');
-        yield TextField::new('imageFile')
+        yield Field::new('imageFile')
             ->hideOnIndex()
             ->setFormType(VichImageType::class)
             ->setFormTypeOptions(['allow_delete' => false])

@@ -17,6 +17,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -116,7 +117,7 @@ class DownstreamWithdrawCrudController extends AbstractCrudController
             ->setBasePath('img/withdraw/')
             ->setUploadDir('public/img/withdraw/');
         yield TextareaField::new('note');
-        yield TextField::new('imageFile', 'withdraw.img')
+        yield Field::new('imageFile', 'withdraw.img')
             ->onlyWhenUpdating()
             ->setFormType(VichImageType::class)
             ->setFormTypeOptions(['allow_delete' => false])

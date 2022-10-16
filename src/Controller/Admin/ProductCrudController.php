@@ -15,6 +15,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
@@ -62,7 +63,7 @@ class ProductCrudController extends AbstractCrudController
                 ->setBasePath('img/product/')
                 ->setUploadDir('public/img/product/')
             ,
-            TextField::new('imageFile')
+            Field::new('imageFile')
                 ->hideOnIndex()
                 ->setFormType(VichImageType::class)
                 ->setFormTypeOptions(['allow_delete' => false])

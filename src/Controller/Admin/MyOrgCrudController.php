@@ -14,6 +14,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\PercentField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
@@ -58,7 +59,7 @@ class MyOrgCrudController extends AbstractCrudController
             ->hideOnForm()
         // ->setFormTypeOptions(['disabled' => 'disabled'])
             ;
-        yield TextField::new('imageFile')
+        yield Field::new('imageFile')
             ->setFormType(VichImageType::class)
             ->setFormTypeOptions(['allow_delete' => false])
         ;
