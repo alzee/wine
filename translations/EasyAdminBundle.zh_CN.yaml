@@ -6,3 +6,6 @@ label.true: 是
 label.false: 否
 label.null: 空
 action.detail: 查看
+batch_action_modal.title: 确定%action_name%这 %num_items% 项？
+batch_action_modal.content: 该操作不能恢复！
+batch_action_modal.action: 确定
