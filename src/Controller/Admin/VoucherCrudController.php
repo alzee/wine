@@ -92,6 +92,7 @@ class VoucherCrudController extends AbstractCrudController
             ->setHelp('index', $helpIndex)
             ->setHelp('new', $helpNew)
             ->overrideTemplate('crud/index', 'voucher_index.twig')
+            ->setSearchFields(['org.name', 'consumer.name'])
         ;
     }
 
@@ -99,7 +100,7 @@ class VoucherCrudController extends AbstractCrudController
     {
         return $filters
             ->add(DateTimeFilter::new('date'))
-            ->add(EntityFilter::new('org'))
+            // ->add(EntityFilter::new('org'))
             ->add(EntityFilter::new('consumer'))
         ;
     }
