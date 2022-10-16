@@ -11,13 +11,13 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 // use EasyCorp\Bundle\EasyAdminBundle\Form\Type\FileUploadType;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
+use App\Admin\Field\VichImageField;
 
 class NodeCrudController extends AbstractCrudController
 {
@@ -37,9 +37,8 @@ class NodeCrudController extends AbstractCrudController
             ->onlyOnIndex()
             ->setBasePath('img/node/')
             ->setUploadDir('public/img/node/');
-        yield Field::new('imageFile')
+        yield VichImageField::new('imageFile')
             ->hideOnIndex()
-            ->setFormType(VichImageType::class)
             ->setFormTypeOptions(['allow_delete' => false])
             ;
         yield ChoiceField::new('tag')
