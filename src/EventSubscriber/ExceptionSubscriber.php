@@ -10,6 +10,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Doctrine\DBAL\Exception\DriverException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ExceptionSubscriber implements EventSubscriberInterface
 {
@@ -18,6 +19,13 @@ class ExceptionSubscriber implements EventSubscriberInterface
         $exception = $event->getThrowable();
         // dd($event);
         // dump($exception);
+
+        // https://symfony.com/doc/current/security.html#customizing-logout
+        // $response = new RedirectResponse(
+        //     $this->urlGenerator->generate('homepage'),
+        //     RedirectResponse::HTTP_SEE_OTHER
+        // );
+        $response = new Response();
 
         // Customize your response object to display the exception details
         if ($exception instanceof NotFoundHttpException) {
@@ -31,10 +39,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
                 $exception->getCode()
             );
             // sends the modified response object to the event
-            $response = new Response();
-            // $response = new RedirectResponse('/admin');
             $response->setContent($message);
-
             $event->setResponse($response);
         }
         if ($exception->getCode() == 44) {
@@ -44,11 +49,10 @@ class ExceptionSubscriber implements EventSubscriberInterface
                 $exception->getCode()
             );
             // sends the modified response object to the event
-            $response = new Response();
             $response->setContent($message);
-
             $event->setResponse($response);
         }
+
     }
 
     public static function getSubscribedEvents(): array
