@@ -112,6 +112,18 @@ class Org
     #[Groups(['read'])]
     private ?int $withdrawing = 0;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $payee = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $bank = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $bank_account = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $bank_addr = null;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
@@ -517,6 +529,54 @@ class Org
     public function setWithdrawing(?int $withdrawing): self
     {
         $this->withdrawing = $withdrawing;
+
+        return $this;
+    }
+
+    public function getPayee(): ?string
+    {
+        return $this->payee;
+    }
+
+    public function setPayee(?string $payee): self
+    {
+        $this->payee = $payee;
+
+        return $this;
+    }
+
+    public function getBank(): ?string
+    {
+        return $this->bank;
+    }
+
+    public function setBank(?string $bank): self
+    {
+        $this->bank = $bank;
+
+        return $this;
+    }
+
+    public function getBankAccount(): ?string
+    {
+        return $this->bank_account;
+    }
+
+    public function setBankAccount(?string $bank_account): self
+    {
+        $this->bank_account = $bank_account;
+
+        return $this;
+    }
+
+    public function getBankAddr(): ?string
+    {
+        return $this->bank_addr;
+    }
+
+    public function setBankAddr(?string $bank_addr): self
+    {
+        $this->bank_addr = $bank_addr;
 
         return $this;
     }
