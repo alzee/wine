@@ -70,6 +70,18 @@ class OrgCrudController extends AbstractCrudController
         yield TextField::new('contact');
         yield TelephoneField::new('phone');
         yield TextField::new('address');
+        yield TextField::new('payee')
+            ->setDisabled()
+        ;
+        yield TextField::new('bank')
+            ->setDisabled()
+        ;
+        yield TextField::new('bank_account')
+            ->setDisabled()
+        ;
+        yield TextField::new('bank_addr')
+            ->setDisabled()
+        ;
         yield TextField::new('district');
         yield MoneyField::new('voucher')
                 ->setCurrency('CNY')
