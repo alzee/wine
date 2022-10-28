@@ -53,6 +53,10 @@ class MyOrgCrudController extends AbstractCrudController
         yield TextField::new('contact');
         yield TelephoneField::new('phone');
         yield TextField::new('address');
+        yield TextField::new('payee');
+        yield TextField::new('bank');
+        yield TextField::new('bank_account');
+        yield TextField::new('bank_addr');
         yield TextField::new('district');
         yield MoneyField::new('voucher')
             ->setCurrency('CNY')

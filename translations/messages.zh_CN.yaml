@@ -88,3 +88,7 @@ org.img: 图片
 withdraw.img: 打款截图
 First Product: 商品
 First Product Quantity: 数量
+Payee: 收款人
+Bank Account: 收款账号
+Bank: 开户行
+Bank Addr: 开户行地址
