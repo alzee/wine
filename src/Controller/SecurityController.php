@@ -10,8 +10,9 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use App\Entity\Consumer;
 use Doctrine\Persistence\ManagerRegistry;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
-class SecurityController extends AbstractController
+class SecurityController extends AbstractDashboardController
 {
     private $doctrine;
     private $client;
