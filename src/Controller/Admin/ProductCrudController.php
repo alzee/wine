@@ -33,6 +33,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ProductCrudController extends AbstractCrudController
 {
@@ -125,16 +126,26 @@ class ProductCrudController extends AbstractCrudController
         }
     }
 
-    public function export(AdminContext $context)
+    public function export(AdminContext $context, TranslatorInterface $translator)
     {
         $fields = FieldCollection::new($this->configureFields(Crud::PAGE_INDEX));
         $filters = $this->container->get(FilterFactory::class)->create($context->getCrud()->getFiltersConfig(), $fields, $context->getEntity());
         $queryBuilder = $this->createIndexQueryBuilder($context->getSearch(), $context->getEntity(), $fields, $filters);
-        dump($queryBuilder->getQuery()->getArrayResult());
+        $entities = $queryBuilder->getQuery()->getArrayResult();
+        $title = [];
+        foreach ($entities[0] as $key => $v) {
+            array_push($title, $translator->trans(ucwords($key)));
+        }
+        foreach ($entities as &$entity) {
+            $entity['price'] /= 100;
+            $entity['voucher'] /= 100;
+        }
+        array_unshift($entities, $title);
 
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
-        $sheet->setCellValue('A1', 'Hello World !');
+
+        $sheet->fromArray($entities, null);
 
         $writer = new Xlsx($spreadsheet);
 
@@ -144,7 +155,7 @@ class ProductCrudController extends AbstractCrudController
             }
         );
         $response->headers->set('Content-Type', 'application/vnd.ms-excel');
-        $response->headers->set('Content-Disposition', 'attachment;filename="ExportScan.xls"');
+        $response->headers->set('Content-Disposition', 'attachment;filename="产品列表.xlsx"');
         $response->headers->set('Cache-Control','max-age=0');
         return $response;
     }
