@@ -84,17 +84,27 @@ class ProductCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
+        $export = Action::new('export', 'export')
+            ->createAsGlobalAction()
+            ->linkToCrudAction('export')
+            ;
         if ($this->isGranted('ROLE_HEAD')) {
             return $actions
                 ->disable(Action::DELETE)
+                ->add('index', $export)
                 // ->remove(Crud::PAGE_INDEX, Action::DELETE)
                 ;
         } else {
             return $actions
                 ->disable(Action::DELETE, Action::NEW, Action::EDIT)
                 ->add('index', Action::DETAIL)
+                ->add('index', $export)
             ;
         }
+    }
+
+    public function export()
+    {
     }
 
     public function configureCrud(Crud $crud): Crud
