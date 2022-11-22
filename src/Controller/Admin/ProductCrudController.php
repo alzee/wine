@@ -26,9 +26,22 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
 use App\Admin\Field\VichImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
+use EasyCorp\Bundle\EasyAdminBundle\Factory\FilterFactory;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class ProductCrudController extends AbstractCrudController
 {
+    private AdminUrlGenerator $adminUrlGenerator;
+    private RequestStack $requestStack;
+
+    public function __construct(AdminUrlGenerator $adminUrlGenerator, RequestStack $requestStack)
+    {
+        $this->adminUrlGenerator = $adminUrlGenerator;
+        $this->requestStack = $requestStack;
+    }
+
     public static function getEntityFqcn(): string
     {
         return Product::class;
@@ -86,7 +99,13 @@ class ProductCrudController extends AbstractCrudController
     {
         $export = Action::new('export', 'export')
             ->createAsGlobalAction()
-            ->linkToCrudAction('export')
+            // ->linkToCrudAction('export')
+            ->linkToUrl(function () {
+                $request = $this->requestStack->getCurrentRequest();
+                return $this->adminUrlGenerator->setAll($request->query->all())
+                    ->setAction('export')
+                    ->generateUrl();
+            })
             ;
         if ($this->isGranted('ROLE_HEAD')) {
             return $actions
@@ -103,8 +122,12 @@ class ProductCrudController extends AbstractCrudController
         }
     }
 
-    public function export()
+    public function export(AdminContext $context)
     {
+        $fields = FieldCollection::new($this->configureFields(Crud::PAGE_INDEX));
+        $filters = $this->container->get(FilterFactory::class)->create($context->getCrud()->getFiltersConfig(), $fields, $context->getEntity());
+        $queryBuilder = $this->createIndexQueryBuilder($context->getSearch(), $context->getEntity(), $fields, $filters);
+        dump($queryBuilder->getQuery()->getArrayResult());
     }
 
     public function configureCrud(Crud $crud): Crud
