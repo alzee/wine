@@ -20,6 +20,7 @@ use Symfony\Component\Serializer\Annotation\Ignore;
 #[ApiResource(
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
+    paginationEnabled: false,
 )]
 #[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'type' => 'exact', 'upstream' => 'exact'])]
 #[ApiFilter(OrderFilter::class, properties: ['id'], arguments: ['orderParameterName' => 'order'])]
