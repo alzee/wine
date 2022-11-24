@@ -125,6 +125,12 @@ class Org
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $bank_addr = null;
 
+    #[ORM\ManyToOne]
+    private ?City $city = null;
+
+    #[ORM\ManyToOne]
+    private ?Industry $industry = null;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
@@ -578,6 +584,30 @@ class Org
     public function setBankAddr(?string $bank_addr): self
     {
         $this->bank_addr = $bank_addr;
+
+        return $this;
+    }
+
+    public function getCity(): ?City
+    {
+        return $this->city;
+    }
+
+    public function setCity(?City $city): self
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function getIndustry(): ?Industry
+    {
+        return $this->industry;
+    }
+
+    public function setIndustry(?Industry $industry): self
+    {
+        $this->industry = $industry;
 
         return $this;
     }
