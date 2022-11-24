@@ -29,6 +29,8 @@ use App\Entity\Consumer;
 use App\Entity\Withdraw;
 use App\Entity\Retail;
 use App\Entity\RetailReturn;
+use App\Entity\City;
+use App\Entity\Industry;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\UX\Chartjs\Model\Chart;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -146,6 +148,8 @@ class DashboardController extends AbstractDashboardController
             ];
             if ($this->isGranted('ROLE_HEAD')) {
                 array_push($items, (MenuItem::linkToCrud('NodeManage', 'fas fa-file', Node::class)));
+                array_push($items, (MenuItem::linkToCrud('CityManage', 'fas fa-file', City::class)));
+                array_push($items, (MenuItem::linkToCrud('IndustryManage', 'fas fa-file', Industry::class)));
             }
             yield MenuItem::subMenu('Settings', 'fa fa-gear')->setSubItems($items);
         }
