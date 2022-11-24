@@ -47,6 +47,7 @@ class UserCrudController extends AbstractCrudController
         yield AssociationField::new('org')
             ->OnlyWhenUpdating()
             ->setFormTypeOptions(['disabled' => 'disabled']);
+        yield TextField::new('phone');
         yield TextField::new('plainPassword')
             ->onlyOnForms()
             ->setFormType(RepeatedType::class)
