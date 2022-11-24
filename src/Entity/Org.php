@@ -22,7 +22,7 @@ use Symfony\Component\Serializer\Annotation\Ignore;
     denormalizationContext: ['groups' => ['write']],
     paginationEnabled: false,
 )]
-#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'type' => 'exact', 'upstream' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'city' => 'exact', 'industry' => 'exact', 'type' => 'exact', 'upstream' => 'exact'])]
 #[ApiFilter(OrderFilter::class, properties: ['id'], arguments: ['orderParameterName' => 'order'])]
 class Org
 {
@@ -126,9 +126,11 @@ class Org
     private ?string $bank_addr = null;
 
     #[ORM\ManyToOne]
+    #[Groups(['read'])]
     private ?City $city = null;
 
     #[ORM\ManyToOne]
+    #[Groups(['read'])]
     private ?Industry $industry = null;
 
     public function __construct()
