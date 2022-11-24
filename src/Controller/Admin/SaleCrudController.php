@@ -207,7 +207,7 @@ class SaleCrudController extends AbstractCrudController
             }
         );
         $response->headers->set('Content-Type', 'application/vnd.ms-excel');
-        $response->headers->set('Content-Disposition', 'attachment;filename="产品列表.xlsx"');
+        $response->headers->set('Content-Disposition', 'attachment;filename="销售订单.xlsx"');
         $response->headers->set('Cache-Control','max-age=0');
         return $response;
     }
