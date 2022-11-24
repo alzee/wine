@@ -114,7 +114,7 @@ class ProductCrudController extends AbstractCrudController
         if ($this->isGranted('ROLE_HEAD')) {
             return $actions
                 ->disable(Action::DELETE)
-                // ->add('index', $export)
+                ->add('index', $export)
                 // ->remove(Crud::PAGE_INDEX, Action::DELETE)
                 ;
         } else {
