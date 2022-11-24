@@ -93,3 +93,7 @@ Bank Account: 收款账号
 Bank: 开户行
 Bank Addr: 开户行地址
 export: 导出
+City: 城市
+Industry: 行业
+CityManage: 城市管理
+IndustryManage: 行业管理
