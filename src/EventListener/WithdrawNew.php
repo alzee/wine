@@ -25,7 +25,7 @@ class WithdrawNew extends AbstractController
 
         $withdraw->setApprover($applicant->getUpstream());
 
-        if ($this->isGranted('ROLE_RESTAURANT')) {
+        if ($applicant->getType() == 3) {
             $withdraw->setActualAmount($withdraw->getAmount() * $applicant->getDiscount());
         } else {
             $withdraw->setActualAmount($withdraw->getAmount());

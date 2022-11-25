@@ -46,7 +46,7 @@ class WithdrawUpdate
                 // stores don't withdraw
                 // if it's an agency, no need to add amount to headquarter
                 // so just need to think about restaurant
-                if ( $applicant->getType() == 3) {
+                if ($applicant->getType() == 3) {
                     $approver = $withdraw->getApprover();
                     $approver->setWithdrawable($approver->getWithdrawable() + $amount);
 
