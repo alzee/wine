@@ -7,7 +7,7 @@ use App\Repository\IndustryRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: IndustryRepository::class)]
-#[ApiResource]
+#[ApiResource(order: ['id' => 'ASC'])]
 class Industry
 {
     #[ORM\Id]
