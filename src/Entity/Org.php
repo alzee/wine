@@ -22,7 +22,7 @@ use Symfony\Component\Serializer\Annotation\Ignore;
     denormalizationContext: ['groups' => ['write']],
     paginationEnabled: false,
 )]
-#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'city' => 'exact', 'industry' => 'exact', 'type' => 'exact', 'upstream' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'city' => 'exact', 'industry' => 'exact', 'type' => 'exact', 'upstream.display' => 'exact'])]
 #[ApiFilter(OrderFilter::class, properties: ['id'], arguments: ['orderParameterName' => 'order'])]
 class Org
 {
@@ -132,6 +132,9 @@ class Org
     #[ORM\ManyToOne]
     #[Groups(['read'])]
     private ?Industry $industry = null;
+
+    #[ORM\Column]
+    private ?bool $display = null;
 
     public function __construct()
     {
@@ -610,6 +613,18 @@ class Org
     public function setIndustry(?Industry $industry): self
     {
         $this->industry = $industry;
+
+        return $this;
+    }
+
+    public function isDisplay(): ?bool
+    {
+        return $this->display;
+    }
+
+    public function setDisplay(bool $display): self
+    {
+        $this->display = $display;
 
         return $this;
     }
