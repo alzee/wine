@@ -23,7 +23,7 @@ use Symfony\Component\Serializer\Annotation\Ignore;
     denormalizationContext: ['groups' => ['write']],
     paginationEnabled: false,
 )]
-#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'city' => 'exact', 'industry' => 'exact', 'type' => 'exact')]
+#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'city' => 'exact', 'industry' => 'exact', 'type' => 'exact'])]
 #[ApiFilter(BooleanFilter::class, properties: ['upstream.display'])]
 #[ApiFilter(OrderFilter::class, properties: ['id'], arguments: ['orderParameterName' => 'order'])]
 class Org
