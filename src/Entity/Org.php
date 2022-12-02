@@ -134,7 +134,8 @@ class Org
     private ?Industry $industry = null;
 
     #[ORM\Column]
-    private ?bool $display = null;
+    #[Groups(['read'])]
+    private ?bool $display = true;
 
     public function __construct()
     {
