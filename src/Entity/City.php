@@ -7,7 +7,7 @@ use App\Repository\CityRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CityRepository::class)]
-#[ApiResource]
+#[ApiResource(order: ['id' => 'ASC'])]
 class City
 {
     #[ORM\Id]
