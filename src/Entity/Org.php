@@ -12,6 +12,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Ignore;
@@ -22,7 +23,8 @@ use Symfony\Component\Serializer\Annotation\Ignore;
     denormalizationContext: ['groups' => ['write']],
     paginationEnabled: false,
 )]
-#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'city' => 'exact', 'industry' => 'exact', 'type' => 'exact', 'upstream.display' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'city' => 'exact', 'industry' => 'exact', 'type' => 'exact')]
+#[ApiFilter(BooleanFilter::class, properties: ['upstream.display'])]
 #[ApiFilter(OrderFilter::class, properties: ['id'], arguments: ['orderParameterName' => 'order'])]
 class Org
 {
