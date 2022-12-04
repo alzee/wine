@@ -20,7 +20,7 @@ use App\Admin\Field\VichImageField;
 
 class NodeCrudController extends AbstractCrudController
 {
-    private $tags = ['轮播图' => 0, '推荐' => 1, '企业简介' => 2];
+    private $tags = ['轮播图' => 0, '推荐' => 1, '企业简介' => 2, '用户协议' => 3];
 
     public static function getEntityFqcn(): string
     {
