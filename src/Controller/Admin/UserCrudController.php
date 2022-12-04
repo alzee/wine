@@ -47,6 +47,26 @@ class UserCrudController extends AbstractCrudController
         yield AssociationField::new('org')
             ->OnlyWhenUpdating()
             ->setFormTypeOptions(['disabled' => 'disabled']);
+        yield ChoiceField::new('roles')
+            ->setChoices([
+                'Staff' => 'ROLE_STAFF',
+                'Admin' => 'ROLE_ADMIN',
+                'Head' => 'ROLE_HEAD',
+                'Agency' => 'ROLE_AGENCY',
+                'Store' => 'ROLE_STORE',
+                'Restaurant' => 'ROLE_RESTAURANT',
+            ])
+            ->allowMultipleChoices()
+            ->onlyOnIndex()
+        ;
+        yield ChoiceField::new('roles')
+            ->setChoices([
+                'Staff' => 'ROLE_STAFF',
+            ])
+            ->allowMultipleChoices()
+            ->onlyWhenCreating()
+            ->setRequired(false)
+        ;
         yield TextField::new('phone');
         yield TextField::new('plainPassword')
             ->onlyOnForms()
