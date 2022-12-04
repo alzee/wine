@@ -78,6 +78,11 @@ class Product
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
+    #[ORM\Column(options: ["unsigned" => true])]
+    #[Assert\Positive]
+    #[Groups(['read'])]
+    private ?int $refReward = 0;
+
     public function __construct()
     {
     }
@@ -214,5 +219,17 @@ class Product
     public function getImageFile(): ?File
     {
         return $this->imageFile;
+    }
+
+    public function getRefReward(): ?int
+    {
+        return $this->refReward;
+    }
+
+    public function setRefReward(int $refReward): self
+    {
+        $this->refReward = $refReward;
+
+        return $this;
     }
 }
