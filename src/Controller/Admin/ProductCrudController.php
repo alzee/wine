@@ -75,6 +75,9 @@ class ProductCrudController extends AbstractCrudController
                 ->setCurrency('CNY')
                 ->setHelp('<b>代金券</b>为本件商品随增的代金券金额')
             ,
+            MoneyField::new('refReward')
+                ->setCurrency('CNY')
+            ,
             ImageField::new('img', 'Product Image')
                 ->onlyOnIndex()
                 ->setBasePath('img/product/')
