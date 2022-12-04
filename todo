@@ -1,5 +1,12 @@
 - consumer as 合作业务员(介绍人)/合作区域合伙人
 - cron: command to reward referrer
+- reward:
+  - from retail:
+    - refReward
+    - Off Industry Store Reward
+    - Off Industry Agency Reward
+    - Partner Reward
+  - Org Ref Reward
 
 vichuploader attribute cause apiplatform error: 'Attribute class "ApiPlatform\Core\Annotation\ApiResource" not found'
 
