@@ -135,11 +135,11 @@ class DashboardController extends AbstractDashboardController
         if ($this->isGranted('ROLE_HEAD')) {
             yield MenuItem::linkToCrud('ConsumerManage', 'fas fa-users', Consumer::class);
         }
-        yield MenuItem::linkToCrud('Chpwd', 'fas fa-cog', User::class)
+        yield MenuItem::linkToCrud('Chpwd', 'fas fa-key', User::class)
             ->setController(PasswordCrudController::class)
             ->setAction('edit')
             ->setEntityId($this->getUser()->getId());
-        yield MenuItem::linkToCrud('MyOrg', 'fas fa-cog', Org::class)
+        yield MenuItem::linkToCrud('MyOrg', 'fas fa-shop', Org::class)
             ->setController(MyOrgCrudController::class)
             ->setAction('edit')
             ->setEntityId($this->getUser()->getOrg()->getId());
@@ -149,8 +149,8 @@ class DashboardController extends AbstractDashboardController
             ];
             if ($this->isGranted('ROLE_HEAD')) {
                 array_push($items, (MenuItem::linkToCrud('NodeManage', 'fas fa-file', Node::class)));
-                array_push($items, (MenuItem::linkToCrud('CityManage', 'fas fa-file', City::class)));
-                array_push($items, (MenuItem::linkToCrud('IndustryManage', 'fas fa-file', Industry::class)));
+                array_push($items, (MenuItem::linkToCrud('CityManage', 'fas fa-city', City::class)));
+                array_push($items, (MenuItem::linkToCrud('IndustryManage', 'fas fa-industry', Industry::class)));
                 array_push($items, (MenuItem::linkToCrud('Conf', 'fas fa-cog', Conf::class)->setAction('detail')->setEntityId(1)));
             }
             yield MenuItem::subMenu('Settings', 'fa fa-gear')->setSubItems($items);
