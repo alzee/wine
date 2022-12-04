@@ -1,5 +1,5 @@
+- consumer as 合作业务员(介绍人)/合作区域合伙人
 vichuploader attribute cause apiplatform error: 'Attribute class "ApiPlatform\Core\Annotation\ApiResource" not found'
-- export xlsx
 
 err:
   - out of range
