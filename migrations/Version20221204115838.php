@@ -21,6 +21,7 @@ final class Version20221204115838 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE conf (id INT AUTO_INCREMENT NOT NULL, ref_reward INT UNSIGNED NOT NULL, partner_reward INT UNSIGNED NOT NULL, off_industry_store_reward INT UNSIGNED NOT NULL, off_industry_agency_reward INT UNSIGNED NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('INSERT INTO `conf` VALUES (1,1000,4000,20000,27000)');
     }
 
     public function down(Schema $schema): void
