@@ -151,7 +151,7 @@ class DashboardController extends AbstractDashboardController
                 array_push($items, (MenuItem::linkToCrud('NodeManage', 'fas fa-file', Node::class)));
                 array_push($items, (MenuItem::linkToCrud('CityManage', 'fas fa-file', City::class)));
                 array_push($items, (MenuItem::linkToCrud('IndustryManage', 'fas fa-file', Industry::class)));
-                array_push($items, (MenuItem::linkToCrud('conf', 'fas fa-cog', Conf::class)->setAction('detail')->setEntityId(1)));
+                array_push($items, (MenuItem::linkToCrud('Conf', 'fas fa-cog', Conf::class)->setAction('detail')->setEntityId(1)));
             }
             yield MenuItem::subMenu('Settings', 'fa fa-gear')->setSubItems($items);
         }
