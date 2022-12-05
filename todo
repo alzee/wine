@@ -1,11 +1,8 @@
 - consumer as 合作业务员(介绍人)/合作区域合伙人
 - cron: command to reward referrer
-- entity:
-  - retail:
-    - returned
-    - rewardBit
-  - orders:
-    - returned
+- returned in orders/retail status
+- retail:
+  - rewardBit
 - reward:
   - from retail:
     - refReward: 1
