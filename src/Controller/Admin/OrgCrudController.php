@@ -96,7 +96,13 @@ class OrgCrudController extends AbstractCrudController
             ;
         if ($this->isGranted('ROLE_AGENCY')) {
             yield PercentField::new('discount');
-            yield AssociationField::new('manager');
+            yield AssociationField::new('manager')
+            //->setQueryBuilder(
+            //    fn (QueryBuilder $qb) => $qb
+            //        ->andWhere('entity.roles = :roles')
+            //        ->setParameter('roles', $user->getOrg())
+            //)
+            ;
         }
     }
 
