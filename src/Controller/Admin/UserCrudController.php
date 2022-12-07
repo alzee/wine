@@ -49,7 +49,7 @@ class UserCrudController extends AbstractCrudController
             ->setFormTypeOptions(['disabled' => 'disabled']);
         yield ChoiceField::new('roles')
             ->setChoices([
-                'Staff' => 'ROLE_STAFF',
+                'Manager' => 'ROLE_MANAGER',
                 'Admin' => 'ROLE_ADMIN',
                 'Head' => 'ROLE_HEAD',
                 'Agency' => 'ROLE_AGENCY',
@@ -61,7 +61,7 @@ class UserCrudController extends AbstractCrudController
         ;
         yield ChoiceField::new('roles')
             ->setChoices([
-                'Staff' => 'ROLE_STAFF',
+                'Manager' => 'ROLE_MANAGER',
             ])
             ->allowMultipleChoices()
             ->onlyWhenCreating()

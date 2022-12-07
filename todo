@@ -1,3 +1,4 @@
+- only show ROLE_MANAGER user in org manager field
 - consumer as 合作业务员(介绍人)/合作区域合伙人
 - cron: command to reward referrer
 - returned in orders/retail status
