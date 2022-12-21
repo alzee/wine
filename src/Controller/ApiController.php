@@ -20,6 +20,9 @@ use App\Entity\User;
 use App\Entity\RetailReturn;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use App\Service\Sms;
+use Symfony\Component\Cache\Adapter\RedisAdapter;
+use Symfony\Contracts\Cache\ItemInterface;
 
 #[Route('/api')]
 class ApiController extends AbstractController
@@ -208,6 +211,38 @@ class ApiController extends AbstractController
             $code = 1;
         }
 
+        return $this->json([
+            'code' => $code,
+        ]);
+    }
+
+    #[Route('/sms', methods: ['GET'])]
+    public function sms(Sms $sms, Request $request): JsonResponse
+    {
+        $params  = $request->toArray();
+        $phone = $params['phone'];
+        $sms->send($phone);
+        return $this->json([
+            'code' => 0,
+        ]);
+    }
+
+    #[Route('/chkotp', methods: ['GET'])]
+    public function chkotp(Request $request): JsonResponse
+    {
+        $params  = $request->toArray();
+        $phone = $params['phone'];
+        $otp = $params['otp'];
+        $cache = new RedisAdapter(RedisAdapter::createConnection('redis://localhost'));
+        $otp0 = $cache->get($phone, function (ItemInterface $item){
+            return 0;
+        });
+
+        if ($otp == $otp0) {
+            $code = 0;
+        } else {
+            $code = 1;
+        }
         return $this->json([
             'code' => $code,
         ]);
