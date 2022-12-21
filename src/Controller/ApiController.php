@@ -216,7 +216,7 @@ class ApiController extends AbstractController
         ]);
     }
 
-    #[Route('/sms', methods: ['GET'])]
+    #[Route('/sms', methods: ['POST'])]
     public function sms(Sms $sms, Request $request): JsonResponse
     {
         $params  = $request->toArray();
@@ -227,7 +227,7 @@ class ApiController extends AbstractController
         ]);
     }
 
-    #[Route('/chkotp', methods: ['GET'])]
+    #[Route('/chkotp', methods: ['POST'])]
     public function chkotp(Request $request): JsonResponse
     {
         $params  = $request->toArray();
