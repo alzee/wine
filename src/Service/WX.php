@@ -24,8 +24,8 @@ class WX
 
     public function getAccessToken()
     {
-        // $cache = new RedisAdapter(RedisAdapter::createConnection('redis://localhost'));
-        $cache = new FilesystemAdapter();
+        $cache = new RedisAdapter(RedisAdapter::createConnection('redis://localhost'));
+        // $cache = new FilesystemAdapter();
 
         return $cache->get('WX_ACCESS_TOKEN', function (ItemInterface $item) {
             $item->expiresAfter(7200);
