@@ -27,7 +27,7 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
 )]
-#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'openid' => 'exact', 'phone' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'openid' => 'exact', 'phone' => 'exact', 'referrer' => 'exact'])]
 class Consumer
 {
     #[ORM\Id]
