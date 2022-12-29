@@ -271,9 +271,7 @@ class ApiController extends AbstractController
     {
         $params  = $request->toArray();
         $phone = $params['phone'];
-        dump($phone);
-        $user = $this->doctrine->getRepository(User::class)->findBy(['phone' => $phone]);
-        dump($user);
+        $user = $this->doctrine->getRepository(User::class)->findOneBy(['phone' => $phone]);
         if ($user) {
             $code = 0;
         } else {
