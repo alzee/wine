@@ -15,7 +15,7 @@ use App\Entity\Consumer;
 use App\Service\WX;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class Consumer extends AbstractController
+class ConsumerNew extends AbstractController
 {
     private $httpClient;
     private $wx;
