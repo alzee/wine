@@ -51,6 +51,18 @@ class RetailRepository extends ServiceEntityRepository
                 ;
     }
 
+    public function findByMyRefs($value): array
+    {
+        return $this->createQueryBuilder('r')
+                    ->andWhere('r.consumer IN :val')
+                    ->setParameter('val', $value)
+                    ->orderBy('r.id', 'ASC')
+                    // ->setMaxResults(10)
+                    ->getQuery()
+                    ->getResult()
+                ;
+    }
+
 //    /**
 //     * @return Retail[] Returns an array of Retail objects
 //     */
