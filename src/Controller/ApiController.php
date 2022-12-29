@@ -265,4 +265,20 @@ class ApiController extends AbstractController
         // dump($refRetails);
         return $this->json($refRetails);
     }
+
+    #[Route('/chkphone', methods: ['POST'])]
+    public function chkPhone(Request $request): JsonResponse
+    {
+        $params  = $request->toArray();
+        $phone = $params['phone'];
+        $user = $this->doctrine->getRepository(User::class)->findBy(['phone' => $phone]);
+        if ($user) {
+            $code = 0;
+        } else {
+            $code = 1;
+        }
+        return $this->json([
+            'code' => $code,
+        ]);
+    }
 }
