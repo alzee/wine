@@ -217,6 +217,22 @@ class ApiController extends AbstractController
         ]);
     }
 
+    #[Route('/resetpwd', methods: ['POST'])]
+    public function resetPWD(Request $request, UserPasswordHasherInterface $hasher): JsonResponse
+    {
+        $params  = $request->toArray();
+        $user = $this->doctrine->getRepository(User::class)->findOneBy(['phone' => $params['phone']]);
+        $pwd = $params['pwd1'];
+        $em = $this->doctrine->getManager();
+        $user->setPlainPassword($pwd);
+        $em->flush();
+        $code = 0;
+
+        return $this->json([
+            'code' => $code,
+        ]);
+    }
+
     #[Route('/sms', methods: ['POST'])]
     public function sms(Sms $sms, Request $request): JsonResponse
     {
