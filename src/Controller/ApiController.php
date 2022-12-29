@@ -252,18 +252,19 @@ class ApiController extends AbstractController
         ]);
     }
 
-    #[Route('/wxqr', methods: ['GET'])]
-    public function getUnlimitedQRCode(WX $wx, Request $request): JsonResponse
+    #[Route('/wxqr/{cid}', methods: ['GET'])]
+    public function getUnlimitedQRCode(int $cid, WX $wx, Request $request): JsonResponse
     {
         $access_token = $wx->getAccessToken();
         // dump($access_token);
         $url = "https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=${access_token}";
         $data = [
             'page' => 'pages/index/index',
-            'scene' => 'user=1',
+            'scene' => "cid=${cid}",
+            'env_version' => 'trial'
         ];
         $response = $this->httpClient->request('POST', $url, ['json' => $data]);
-        $fileHandler = fopen('img/poster/1.jpg', 'w');
+        $fileHandler = fopen("img/poster/${cid}.jpg", 'w');
         foreach ($this->httpClient->stream($response) as $chunk) {
             fwrite($fileHandler, $chunk->getContent());
         }
