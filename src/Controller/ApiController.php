@@ -263,8 +263,6 @@ class ApiController extends AbstractController
             $refRetails = array_merge($refRetails, $retails);
         }
         // dump($refRetails);
-        return $this->json([
-            'refRetails' => $refRetails,
-        ]);
+        return $this->json($refRetails);
     }
 }
