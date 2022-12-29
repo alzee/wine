@@ -21,7 +21,6 @@ use App\Entity\RetailReturn;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Service\Sms;
-use App\Service\WX;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -30,12 +29,10 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 class ApiController extends AbstractController
 {
     private $doctrine;
-    private $httpClient;
 
-    public function __construct(ManagerRegistry $doctrine, HttpClientInterface $client)
+    public function __construct(ManagerRegistry $doctrine)
     {
         $this->doctrine = $doctrine;
-        $this->httpClient = $client;
     }
 
     #[Route('/order/new', methods: ['POST'])]
@@ -249,27 +246,6 @@ class ApiController extends AbstractController
         }
         return $this->json([
             'code' => $code,
-        ]);
-    }
-
-    #[Route('/wxqr/{cid}',requirements: ['cid' => '\d+'], methods: ['GET'])]
-    public function getUnlimitedQRCode(int $cid, WX $wx): JsonResponse
-    {
-        $access_token = $wx->getAccessToken();
-        $url = "https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=${access_token}";
-        $data = [
-            'page' => 'pages/index/index',
-            'scene' => $cid,
-            'env_version' => 'trial'
-        ];
-        $response = $this->httpClient->request('POST', $url, ['json' => $data]);
-        $file = "img/poster/${cid}.jpg";
-        $fileHandler = fopen($file, 'w');
-        foreach ($this->httpClient->stream($response) as $chunk) {
-            fwrite($fileHandler, $chunk->getContent());
-        }
-        return $this->json([
-            'poster' => $file
         ]);
     }
 }
