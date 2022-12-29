@@ -248,4 +248,23 @@ class ApiController extends AbstractController
             'code' => $code,
         ]);
     }
+
+    #[Route('/refretail/{cid}', requirements: ['cid' => '\d+'],  methods: ['GET'])]
+    public function refRetail(int $cid): JsonResponse
+    {
+        $myRefs = $this->doctrine->getRepository(Consumer::class)->findBy(['referrer' => $cid]);
+        // dump($myRefs);
+        // $refRetails = $this->doctrine->getRepository(Retail::class)->findByMyRefs($myRefs);
+        $refRetails = [];
+        foreach ($myRefs as $v) {
+            // dump($v);
+            $retails = $this->doctrine->getRepository(Retail::class)->findBy(['consumer' => $v]);
+            // dump($retails);
+            $refRetails = array_merge($refRetails, $retails);
+        }
+        // dump($refRetails);
+        return $this->json([
+            'refRetails' => $refRetails,
+        ]);
+    }
 }
