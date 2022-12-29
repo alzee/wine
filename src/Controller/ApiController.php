@@ -24,15 +24,18 @@ use App\Service\Sms;
 use App\Service\WX;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 use Symfony\Contracts\Cache\ItemInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 #[Route('/api')]
 class ApiController extends AbstractController
 {
     private $doctrine;
+    private $httpClient;
 
-    public function __construct(ManagerRegistry $doctrine)
+    public function __construct(ManagerRegistry $doctrine, HttpClientInterface $client)
     {
         $this->doctrine = $doctrine;
+        $this->httpClient = $client;
     }
 
     #[Route('/order/new', methods: ['POST'])]
@@ -254,6 +257,16 @@ class ApiController extends AbstractController
     {
         $access_token = $wx->getAccessToken();
         // dump($access_token);
+        $url = "https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=${access_token}";
+        $data = [
+            'page' => 'pages/index/index',
+            'scene' => 'user=1',
+        ];
+        $response = $this->httpClient->request('POST', $url, ['json' => $data]);
+        $fileHandler = fopen('img/poster/1.jpg', 'w');
+        foreach ($this->httpClient->stream($response) as $chunk) {
+            fwrite($fileHandler, $chunk->getContent());
+        }
         return $this->json([
             'token' => $access_token
         ]);
