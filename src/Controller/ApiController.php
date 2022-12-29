@@ -253,7 +253,7 @@ class ApiController extends AbstractController
     }
 
     #[Route('/wxqr/{cid}',requirements: ['cid' => '\d+'], methods: ['GET'])]
-    public function getUnlimitedQRCode(int $cid, WX $wx, Request $request): JsonResponse
+    public function getUnlimitedQRCode(int $cid, WX $wx): JsonResponse
     {
         $access_token = $wx->getAccessToken();
         $url = "https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=${access_token}";
