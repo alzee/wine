@@ -21,6 +21,7 @@ use App\Entity\RetailReturn;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Service\Sms;
+use App\Service\WX;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 use Symfony\Contracts\Cache\ItemInterface;
 
@@ -245,6 +246,16 @@ class ApiController extends AbstractController
         }
         return $this->json([
             'code' => $code,
+        ]);
+    }
+
+    #[Route('/wxqr', methods: ['GET'])]
+    public function getUnlimitedQRCode(WX $wx, Request $request): JsonResponse
+    {
+        $access_token = $wx->getAccessToken();
+        // dump($access_token);
+        return $this->json([
+            'token' => $access_token
         ]);
     }
 }

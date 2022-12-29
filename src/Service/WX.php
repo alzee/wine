@@ -11,6 +11,7 @@ namespace App\Service;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 
 class WX
 {
@@ -23,15 +24,16 @@ class WX
 
     public function getAccessToken()
     {
-        $cache = new RedisAdapter(RedisAdapter::createConnection('redis://localhost'));
+        // $cache = new RedisAdapter(RedisAdapter::createConnection('redis://localhost'));
+        $cache = new FilesystemAdapter();
 
-        $cache->get('WX_ACCESS_TOKEN', function (ItemInterface $item) {
+        return $cache->get('WX_ACCESS_TOKEN', function (ItemInterface $item) {
             $item->expiresAfter(7200);
             $appid = $_ENV['WX_APP_ID'];
             $secret = $_ENV['WX_APP_SECRET'];
             $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${appid}&secret=${secret}";
             $content = $this->httpClient->request('GET', $url)->toArray();
-            dump($content);
+            // dump($content);
             return $content['access_token'];
         });
     }
