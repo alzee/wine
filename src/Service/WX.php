@@ -34,6 +34,5 @@ class WX
             dump($content);
             return $content['access_token'];
         });
-
     }
 }
