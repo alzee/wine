@@ -50,7 +50,7 @@ class WxqrCommand extends Command
         $url = "https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=${access_token}";
         $data = [
             'page' => 'pages/index/index',
-            'scene' => "cid=${cid}",
+            'scene' => $cid,
             'env_version' => 'trial'
         ];
         $response = $this->httpClient->request('POST', $url, ['json' => $data]);
