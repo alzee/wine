@@ -139,3 +139,8 @@ services:
                 name: 'doctrine.orm.entity_listener'
                 event: 'postPersist'
                 entity: 'App\Entity\Consumer'
+    App\EventListener\Upload:
+        tags:
+            -
+                name: 'kernel.event_listener'
+                event: 'vich_uploader.post_upload'
