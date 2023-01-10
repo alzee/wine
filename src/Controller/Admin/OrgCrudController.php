@@ -56,8 +56,9 @@ class OrgCrudController extends AbstractCrudController
         yield IdField::new('id')->onlyOnIndex();
         yield ImageField::new('img', 'org.img')
             ->onlyOnIndex()
-            ->setBasePath('img/org/')
-            ->setUploadDir('public/img/org/');
+            ->setBasePath('img/org/thumbnail/')
+            // ->setUploadDir('public/img/org/')
+        ;
         yield ChoiceField::new('type')
             ->onlyWhenCreating()
             ->setChoices($orgChoices);
