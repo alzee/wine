@@ -17,10 +17,15 @@ class Upload extends AbstractController
     public function onVichUploaderPostUpload(Event $event): void
     {
         $object = $event->getObject();
-        $mapping = $event->getMapping();
+        // $mapping = $event->getMapping();
         $file = $object->getImageFile();
-        dump($object);
-        dump($mapping);
-        dump($file);
+        $file_path = $file->getPathname();
+        $new_file = match (getimagesize($file_path)['mime']) {
+        'image/jpeg' => imagecreatefromjpeg($file_path),
+        'image/png' => imagecreatefrompng($file_path),
+        'image/gif' => imagecreatefromgif($file_path),
+        };
+        imagejpeg(imagescale($new_file, 200), $file->getPath() . '/thumbnail/' . $file->getFilename(), 60);
+        imagejpeg(imagescale($new_file, 400), $file_path, 75);
     }
 }
