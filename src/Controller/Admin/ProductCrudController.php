@@ -80,8 +80,8 @@ class ProductCrudController extends AbstractCrudController
             ,
             ImageField::new('img', 'Product Image')
                 ->onlyOnIndex()
-                ->setBasePath('img/product/')
-                ->setUploadDir('public/img/product/')
+                ->setBasePath('img/product/thumbnail/')
+                // ->setUploadDir('public/img/product/')
             ,
             VichImageField::new('imageFile', 'Product Image')
             ->hideOnIndex()
