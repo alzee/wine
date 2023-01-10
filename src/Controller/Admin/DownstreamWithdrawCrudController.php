@@ -133,11 +133,8 @@ class DownstreamWithdrawCrudController extends AbstractCrudController
     {
         $userOrg = $this->getUser()->getOrg()->getId();
         $response = $this->container->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
-        if ($this->isGranted('ROLE_HEAD')) {
+        if (! $this->isGranted('ROLE_HEAD')) {
             $response->andWhere("entity.approver = $userOrg");
-        } else {
-            $response
-                ->andWhere("entity.approver = $userOrg");
         }
         return $response;
     }
