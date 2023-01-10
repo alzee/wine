@@ -7,12 +7,9 @@
 
 namespace App\EventListener;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Entity\User;
-use App\Entity\Org;
 use Vich\UploaderBundle\Event\Event;
 
-class Upload extends AbstractController
+class Upload
 {
     public function onVichUploaderPostUpload(Event $event): void
     {
@@ -20,12 +17,21 @@ class Upload extends AbstractController
         // $mapping = $event->getMapping();
         $file = $object->getImageFile();
         $file_path = $file->getPathname();
-        $new_file = match (getimagesize($file_path)['mime']) {
+        $info = getimagesize($file_path);
+        $new_file = match ($info['mime']) {
         'image/jpeg' => imagecreatefromjpeg($file_path),
         'image/png' => imagecreatefrompng($file_path),
         'image/gif' => imagecreatefromgif($file_path),
         };
+
         imagejpeg(imagescale($new_file, 200), $file->getPath() . '/thumbnail/' . preg_replace('/.png/i', '.jpg', $file->getFilename()), 60);
         imagejpeg(imagescale($new_file, 400), preg_replace('/.png/i', '.jpg', $file_path), 75);
+
+        if ($info['mime'] != 'image/jpeg') {
+            unlink($file_path);
+            $object->setImg(preg_replace('/.png/i', '.jpg', $object->getImg()));
+        }
+        
+
     }
 }
