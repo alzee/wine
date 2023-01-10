@@ -18,7 +18,9 @@ class Upload extends AbstractController
     {
         $object = $event->getObject();
         $mapping = $event->getMapping();
+        $file = $object->getImageFile();
         dump($object);
         dump($mapping);
+        dump($file);
     }
 }
