@@ -25,7 +25,7 @@ class Upload extends AbstractController
         'image/png' => imagecreatefrompng($file_path),
         'image/gif' => imagecreatefromgif($file_path),
         };
-        imagejpeg(imagescale($new_file, 200), $file->getPath() . '/thumbnail/' . $file->getFilename(), 60);
-        imagejpeg(imagescale($new_file, 400), $file_path, 75);
+        imagejpeg(imagescale($new_file, 200), $file->getPath() . '/thumbnail/' . preg_replace('/.png/i', '.jpg', $file->getFilename()), 60);
+        imagejpeg(imagescale($new_file, 400), preg_replace('/.png/i', '.jpg', $file_path), 75);
     }
 }
