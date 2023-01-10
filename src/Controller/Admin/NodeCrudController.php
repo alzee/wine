@@ -34,8 +34,8 @@ class NodeCrudController extends AbstractCrudController
         yield TextField::new('title');
         yield ImageField::new('img')
             ->onlyOnIndex()
-            ->setBasePath('img/node/')
-            ->setUploadDir('public/img/node/');
+            ->setBasePath('img/node/thumbnail/')
+            // ->setUploadDir('public/img/node/');
         yield VichImageField::new('imageFile', 'Img')
             ->hideOnIndex()
             ;
