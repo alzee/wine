@@ -24,7 +24,7 @@ class Upload
         'image/gif' => imagecreatefromgif($file_path),
         };
 
-        imagejpeg(imagescale($new_file, 200), $file->getPath() . '/thumbnail/' . preg_replace('/.png/i', '.jpg', $file->getFilename()), 60);
+        imagejpeg(imagescale($new_file, 100), $file->getPath() . '/thumbnail/' . preg_replace('/.png/i', '.jpg', $file->getFilename()), 60);
         imagejpeg(imagescale($new_file, 400), preg_replace('/.png/i', '.jpg', $file_path), 75);
 
         if ($info['mime'] != 'image/jpeg') {
