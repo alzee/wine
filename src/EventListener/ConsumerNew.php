@@ -43,10 +43,10 @@ class ConsumerNew extends AbstractController
             fwrite($fileHandler, $chunk->getContent());
         }
 
-        $poster = new Imagick('public/img/poster/poster.jpg');
-        $qr = new Imagick($file);
-        $qr->resizeimage(200, 200, Imagick::FILTER_UNDEFINED, 1);
-        $poster->compositeImage($qr, Imagick::COMPOSITE_ATOP, 137, 319);
+        $poster = new \Imagick('public/img/poster/poster.jpg');
+        $qr = new \Imagick($file);
+        $qr->resizeimage(200, 200, \Imagick::FILTER_UNDEFINED, 1);
+        $poster->compositeImage($qr, \Imagick::COMPOSITE_ATOP, 137, 319);
         $poster->writeImage($file);
     }
 }
