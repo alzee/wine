@@ -15,6 +15,7 @@ do
     pushd $dir
     mogrify -format jpg -path thumbnail -thumbnail 100 -quality 60 *.{jpg,png}
     mogrify -format jpg -resize 400 -quality 75 *.{jpg,png}
+    rm *.png
     popd
 done
 
