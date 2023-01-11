@@ -10,7 +10,7 @@
 
 pushd public/img/
 
-for dir in {node,org,poster,product,withdraw}
+for dir in {node,org,product,withdraw}
 do
     pushd $dir
     mogrify -format jpg -path thumbnail -thumbnail 100 -quality 60 *.{jpg,png}
