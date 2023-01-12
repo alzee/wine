@@ -58,6 +58,12 @@ class MyOrgCrudController extends AbstractCrudController
         yield TextField::new('bank_account');
         yield TextField::new('bank_addr');
         yield TextField::new('district');
+        yield AssociationField::new('city')
+            ->setFormTypeOptions(['disabled' => 'disabled'])
+            ;
+        yield AssociationField::new('industry')
+            ->setFormTypeOptions(['disabled' => 'disabled'])
+            ;
         yield VichImageField::new('imageFile')
             ->hideOnIndex()
         ;
