@@ -67,7 +67,7 @@ class Product
     #[Groups(['read', 'write'])]
     private ?string $img = null;
 
-    #[Assert\Image(maxSize: '1024k')]
+    #[Assert\Image(maxSize: '1024k', mimeTypes: ['image/jpeg', 'image/png'], mimeTypesMessage: 'Only jpg and png')]
     private ?File $imageFile = null;
 
     #[ORM\Column(nullable: true)]

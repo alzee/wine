@@ -105,7 +105,7 @@ class Org
     private ?string $img = null;
 
     #[Ignore]
-    #[Assert\Image(maxSize: '1024k')]
+    #[Assert\Image(maxSize: '1024k', mimeTypes: ['image/jpeg', 'image/png'], mimeTypesMessage: 'Only jpg and png')]
     private ?File $imageFile = null;
 
     #[ORM\Column(nullable: true)]
