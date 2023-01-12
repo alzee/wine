@@ -4,6 +4,12 @@ namespace App\Controller\Admin;
 
 use App\Entity\Reg;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use App\Entity\Choice;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 
 class RegCrudController extends AbstractCrudController
 {
@@ -12,14 +18,28 @@ class RegCrudController extends AbstractCrudController
         return Reg::class;
     }
 
-    /*
+    public function configureActions(Actions $actions): Actions
+    {
+        return $actions
+            ->disable(Action::DELETE, Action::EDIT, Action::NEW, Action::DETAIL)
+        ;
+    }
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            // ->setDefaultSort(['id' => 'DESC'])
+            ->setPageTitle('index', 'RegList')
+            // ->setSearchFields(['seller.name', 'orderItems.product.name'])
+        ;
+    }
+
     public function configureFields(string $pageName): iterable
     {
-        return [
-            IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
-        ];
+        yield ChoiceField::new('type')
+            ->setChoices(Choice::REG_TYPES)
+        ;
+        yield TextField::new('name', 'Person Name');
+        yield TextField::new('phone');
     }
-    */
 }

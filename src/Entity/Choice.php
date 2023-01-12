@@ -13,6 +13,10 @@ class Choice
         'Restaurant' => 3,
         'Consumer' => 4
     ];
+    public const REG_TYPES = [
+        'Partner' => 0,
+        'Agency' => 1,
+    ];
     public const VOUCHER_TYPES = [
         // increase
         '进货' => 0,
