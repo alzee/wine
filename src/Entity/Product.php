@@ -49,11 +49,6 @@ class Product
     #[Groups(['read', 'write'])]
     private ?int $price = null;
 
-    #[ORM\Column(type: Types::SMALLINT)]
-    #[Assert\Positive]
-    #[Groups(['read', 'write'])]
-    private ?int $stock = 0;
-
     #[ORM\Column(length: 255)]
     #[Groups(['read', 'write'])]
     private ?string $sn = null;
@@ -140,18 +135,6 @@ class Product
     public function setPrice(int $price): self
     {
         $this->price = $price;
-
-        return $this;
-    }
-
-    public function getStock(): ?int
-    {
-        return $this->stock;
-    }
-
-    public function setStock(int $stock): self
-    {
-        $this->stock = $stock;
 
         return $this;
     }
