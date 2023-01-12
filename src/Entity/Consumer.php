@@ -72,9 +72,6 @@ class Consumer
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $refcode = null;
-
     #[ORM\ManyToOne(targetEntity: self::class)]
     private ?self $referrer = null;
 
@@ -273,18 +270,6 @@ class Consumer
     public function setCreatedAtValue(): void
     {
         $this->createdAt = new \DateTimeImmutable();
-    }
-
-    public function getRefcode(): ?string
-    {
-        return $this->refcode;
-    }
-
-    public function setRefcode(?string $refcode): self
-    {
-        $this->refcode = $refcode;
-
-        return $this;
     }
 
     public function getReferrer(): ?self
