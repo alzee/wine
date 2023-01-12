@@ -14,6 +14,7 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
 use App\Entity\Voucher;
 use App\Entity\Org;
 use App\Entity\Choice;
+use App\Entity\Stock;
 
 class RetailReturnNew extends AbstractController
 {
