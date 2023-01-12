@@ -14,6 +14,7 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
 use App\Entity\Product;
 use App\Entity\Voucher;
 use App\Entity\Choice;
+use App\Entity\Stock;
 use Doctrine\DBAL\Exception\DriverException;
 
 class ReturnsNew extends AbstractController
@@ -51,14 +52,16 @@ class ReturnsNew extends AbstractController
             $sn = $product->getSn();
             $price = $product->getPrice();
             $unitVoucher = $product->getVoucher();
-            // recipient product stock + quantity
-            $product->setStock($product->getStock() + $quantity);
-            // sender product stock - quantity
-            $sender_product = $em->getRepository(Product::class)->findOneByOrgAndSN($sender, $sn);
-            if (is_null($sender_product)) {
-                throw new \Exception('Something went wrong!', 44);
+
+            // sender stock - quantity,
+            $stockRecordOfSender= $em->getRepository(Stock::class)->findOneBy(['org' => $sender, 'product' => $product]);
+            $stockRecordOfSender->setStock($stockRecordOfSender->getStock() - $quantity);
+
+            // recipient stock + quantity, only if recipient is not head
+            if ($recipient->getType() != 0) {
+                $stockRecordOfRecipient = $em->getRepository(Stock::class)->findOneBy(['org' => $recipient, 'product' => $product]);
+                $stockRecordOfRecipient->setStock($stockRecordOfRecipient->getStock() + $quantity);
             }
-            $sender_product->setStock($sender_product->getStock() - $quantity);
         }
 
         $voucher = $return->getVoucher();
