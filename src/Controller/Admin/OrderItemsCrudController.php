@@ -19,11 +19,12 @@ class OrderItemsCrudController extends AbstractCrudController
     {
         yield AssociationField::new('product')
             ->onlyWhenCreating()
-            ->setQueryBuilder(
-                fn (QueryBuilder $qb) => $qb
-                    ->andWhere('entity.org = :org')
-                    ->setParameter('org', $this->getUser()->getOrg())
-            );
+            //->setQueryBuilder(
+            //    fn (QueryBuilder $qb) => $qb
+            //        ->andWhere('entity.org = :org')
+            //        ->setParameter('org', $this->getUser()->getOrg())
+            //)
+        ;
         yield AssociationField::new('product')
             ->HideWhenCreating()
             ->setFormTypeOptions(['disabled' => 'disabled'])
@@ -31,7 +32,8 @@ class OrderItemsCrudController extends AbstractCrudController
                 fn (QueryBuilder $qb) => $qb
                     ->andWhere('entity.org = :org')
                     ->setParameter('org', $this->getUser()->getOrg())
-            );
+            )
+            ;
         yield IntegerField::new('quantity')
             ->onlyWhenCreating()
             ;
