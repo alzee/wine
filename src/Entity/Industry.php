@@ -22,6 +22,9 @@ class Industry
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $weight = 0;
 
+    #[ORM\Column]
+    private ?bool $isOff = false;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +55,18 @@ class Industry
     public function setWeight(int $weight): self
     {
         $this->weight = $weight;
+
+        return $this;
+    }
+
+    public function isIsOff(): ?bool
+    {
+        return $this->isOff;
+    }
+
+    public function setIsOff(bool $isOff): self
+    {
+        $this->isOff = $isOff;
 
         return $this;
     }
