@@ -142,6 +142,12 @@ class Org
     #[ORM\ManyToOne]
     private ?User $manager = null;
 
+    #[ORM\Column]
+    private ?int $reward = null;
+
+    #[ORM\Column]
+    private ?int $rewardWithdrawable = null;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
@@ -643,6 +649,30 @@ class Org
     public function setManager(?User $manager): self
     {
         $this->manager = $manager;
+
+        return $this;
+    }
+
+    public function getReward(): ?int
+    {
+        return $this->reward;
+    }
+
+    public function setReward(int $reward): self
+    {
+        $this->reward = $reward;
+
+        return $this;
+    }
+
+    public function getRewardWithdrawable(): ?int
+    {
+        return $this->rewardWithdrawable;
+    }
+
+    public function setRewardWithdrawable(int $rewardWithdrawable): self
+    {
+        $this->rewardWithdrawable = $rewardWithdrawable;
 
         return $this;
     }
