@@ -29,9 +29,9 @@ class RegCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            // ->setDefaultSort(['id' => 'DESC'])
+            ->setDefaultSort(['id' => 'DESC'])
             ->setPageTitle('index', 'RegList')
-            // ->setSearchFields(['seller.name', 'orderItems.product.name'])
+            ->setSearchFields(['name', 'phone', 'submitter.name'])
         ;
     }
 
