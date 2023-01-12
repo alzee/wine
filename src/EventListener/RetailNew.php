@@ -59,6 +59,25 @@ class RetailNew extends AbstractController
         $record->setType($type - 100);
         $em->persist($record);
 
+        // refReward
+        $referrer = $consumer->getReferrer();
+        if (! is_null($referrer)) {
+            $reward = $product->getRefReward();
+            $referrer->setReward($referrer->getReward() + $reward);
+        }
+
+        // orgRefReward
+        $reward = $product->getOrgRefReward();
+
+        // partnerReward
+        $reward = $product->getPartnerReward();
+
+        // offIndustryStoreReward
+        $reward = $product->getOffIndustryStoreReward();
+
+        // offIndustryAgencyReward
+        $reward = $product->getOffIndustryAgencyReward();
+
         $em->flush();
     }
 }
