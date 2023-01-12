@@ -165,7 +165,7 @@ class Product
 
     public function __toString(): string
     {
-        return $this->name . '(' . $this->org . ')';
+        return $this->name;
     }
 
     public function getOrg(): ?Org
