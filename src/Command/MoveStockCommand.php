@@ -12,6 +12,10 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Product;
 use App\Entity\Stock;
+use App\Entity\OrderItems;
+use App\Entity\ReturnItems;
+use App\Entity\Retail;
+use App\Entity\RetailReturn;
 use App\Entity\Org;
 
 #[AsCommand(
@@ -51,6 +55,40 @@ class MoveStockCommand extends Command
         }
 
         $head = $this->em->getRepository(Org::class)->findOneBy(['type' => 0]);
+
+        // orderItems
+        $orderItems = $this->em->getRepository(OrderItems::class)->findAll();
+        foreach ($orderItems as $item) {
+            $sn = $item->getProduct()->getSn();
+            $product = $this->em->getRepository(Product::class)->findOneBy(['sn' => $sn , 'org' => $head]);
+            $item->setProduct($product);
+        }
+
+        // returnItems
+        $returnItems = $this->em->getRepository(ReturnItems::class)->findAll();
+        foreach ($returnItems as $item) {
+            $sn = $item->getProduct()->getSn();
+            $product = $this->em->getRepository(Product::class)->findOneBy(['sn' => $sn , 'org' => $head]);
+            $item->setProduct($product);
+        }
+
+        // retail
+        $retails = $this->em->getRepository(Retail::class)->findAll();
+        foreach ($retails as $item) {
+            $sn = $item->getProduct()->getSn();
+            $product = $this->em->getRepository(Product::class)->findOneBy(['sn' => $sn , 'org' => $head]);
+            $item->setProduct($product);
+        }
+
+        // retailReturn
+        $retailReturn = $this->em->getRepository(RetailReturn::class)->findAll();
+        foreach ($retailReturn as $item) {
+            $sn = $item->getProduct()->getSn();
+            $product = $this->em->getRepository(Product::class)->findOneBy(['sn' => $sn , 'org' => $head]);
+            $item->setProduct($product);
+        }
+
+        // product
         $products = $this->em->getRepository(Product::class)->findNotOrg($head);
         foreach ($products as $p) {
             $product = $this->em->getRepository(Product::class)->findOneBy(['sn' => $p->getSn() , 'org' => $head]);
@@ -63,11 +101,12 @@ class MoveStockCommand extends Command
                 $this->em->persist($stockRecord);
             }
             $stockRecord->setStock($p->getStock() + $stockRecord->getStock());
-            // $this->em->remove($p);
+
+            $this->em->remove($p);
         }
         $this->em->flush();
 
-        $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
+        $io->success('Done.');
 
         return Command::SUCCESS;
     }
