@@ -53,16 +53,17 @@ class MoveStockCommand extends Command
         $head = $this->em->getRepository(Org::class)->findOneBy(['type' => 0]);
         $products = $this->em->getRepository(Product::class)->findNotOrg($head);
         foreach ($products as $p) {
-            $stockRecord = $em->getRepository(Stock::class)->findOneBy(['org' => $p->getOrg(), 'product' => $p]);
+            $product = $this->em->getRepository(Product::class)->findOneBy(['sn' => $p->getSn() , 'org' => $head]);
+            $stockRecord = $this->em->getRepository(Stock::class)->findOneBy(['org' => $p->getOrg(), 'product' => $product]);
             if (is_null($stockRecord)) {
                 $stockRecord = new Stock();
                 $stockRecord->setStock(0);
                 $stockRecord->setOrg($p->getOrg());
-                $stockRecord->setProduct($p);
-                $em->persist($stockRecord);
+                $stockRecord->setProduct($product);
+                $this->em->persist($stockRecord);
             }
             $stockRecord->setStock($p->getStock() + $stockRecord->getStock());
-            $this->em->remove($p);
+            // $this->em->remove($p);
         }
         $this->em->flush();
 
