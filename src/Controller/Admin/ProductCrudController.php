@@ -78,6 +78,18 @@ class ProductCrudController extends AbstractCrudController
             MoneyField::new('refReward')
                 ->setCurrency('CNY')
             ,
+            MoneyField::new('orgRefReward')
+                ->setCurrency('CNY')
+            ,
+            MoneyField::new('partnerReward')
+                ->setCurrency('CNY')
+            ,
+            MoneyField::new('offIndustryStoreReward')
+                ->setCurrency('CNY')
+            ,
+            MoneyField::new('offIndustryAgencyReward')
+                ->setCurrency('CNY')
+            ,
             ImageField::new('img', 'Product Image')
                 ->onlyOnIndex()
                 ->setBasePath('img/product/thumbnail/')
