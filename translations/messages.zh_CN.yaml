@@ -2,6 +2,8 @@ ID: 序号
 Dashboard: 数据统计
 Product: 产品
 MyProduct: 我的产品
+ProductManage: 产品管理
+MyStock: 我的库存
 ProductAgency: 代理商产品
 ProductStore: 门店产品
 ProductRestaurant: 餐厅产品
