@@ -84,9 +84,9 @@ class DashboardController extends AbstractDashboardController
             yield MenuItem::linkToCrud('OrgManage', 'fas fa-building', Org::class);
         }
 
-        yield MenuItem::linkToCrud('ProductManage', 'fas fa-wine-bottle', Product::class);
-
-        if (!$this->isGranted('ROLE_HEAD')) {
+        if ($this->isGranted('ROLE_HEAD')) {
+            yield MenuItem::linkToCrud('ProductManage', 'fas fa-wine-bottle', Product::class);
+        } else {
             yield MenuItem::linkToCrud('MyStock', 'fas fa-warehouse', Stock::class);
         }
 
