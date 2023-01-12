@@ -124,8 +124,7 @@ class ProductCrudController extends AbstractCrudController
                 ;
         } else {
             return $actions
-                ->disable(Action::DELETE, Action::NEW, Action::EDIT)
-                ->add('index', Action::DETAIL)
+                ->disable(Action::DELETE, Action::EDIT, Action::NEW, Action::DETAIL, Action::INDEX)
             ;
         }
     }
