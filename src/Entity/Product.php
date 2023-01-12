@@ -83,6 +83,18 @@ class Product
     #[Groups(['read'])]
     private ?int $refReward = 0;
 
+    #[ORM\Column]
+    private ?int $orgRefReward = null;
+
+    #[ORM\Column]
+    private ?int $partnerReward = null;
+
+    #[ORM\Column]
+    private ?int $offIndustryStoreReward = null;
+
+    #[ORM\Column]
+    private ?int $offIndustryAgencyReward = null;
+
     public function __construct()
     {
     }
@@ -229,6 +241,54 @@ class Product
     public function setRefReward(int $refReward): self
     {
         $this->refReward = $refReward;
+
+        return $this;
+    }
+
+    public function getOrgRefReward(): ?int
+    {
+        return $this->orgRefReward;
+    }
+
+    public function setOrgRefReward(int $orgRefReward): self
+    {
+        $this->orgRefReward = $orgRefReward;
+
+        return $this;
+    }
+
+    public function getPartnerReward(): ?int
+    {
+        return $this->partnerReward;
+    }
+
+    public function setPartnerReward(int $partnerReward): self
+    {
+        $this->partnerReward = $partnerReward;
+
+        return $this;
+    }
+
+    public function getOffIndustryStoreReward(): ?int
+    {
+        return $this->offIndustryStoreReward;
+    }
+
+    public function setOffIndustryStoreReward(int $offIndustryStoreReward): self
+    {
+        $this->offIndustryStoreReward = $offIndustryStoreReward;
+
+        return $this;
+    }
+
+    public function getOffIndustryAgencyReward(): ?int
+    {
+        return $this->offIndustryAgencyReward;
+    }
+
+    public function setOffIndustryAgencyReward(int $offIndustryAgencyReward): self
+    {
+        $this->offIndustryAgencyReward = $offIndustryAgencyReward;
 
         return $this;
     }
