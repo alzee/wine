@@ -20,6 +20,7 @@ use App\Entity\Org;
 use App\Entity\Orders;
 use App\Entity\Returns;
 use App\Entity\Consumer;
+use App\Entity\Reg;
 use App\Entity\Withdraw;
 use App\Entity\Retail;
 use App\Entity\RetailReturn;
@@ -132,6 +133,7 @@ class DashboardController extends AbstractDashboardController
 
         if ($this->isGranted('ROLE_HEAD')) {
             yield MenuItem::linkToCrud('ConsumerManage', 'fas fa-users', Consumer::class);
+            yield MenuItem::linkToCrud('RegList', 'fas fa-users', Reg::class);
         }
         yield MenuItem::linkToCrud('Chpwd', 'fas fa-key', User::class)
             ->setController(PasswordCrudController::class)
