@@ -23,17 +23,12 @@ class ProductNew extends AbstractController
         if (is_null($product->getOrg())) {
             $product->setOrg($head);
         }
-    }
 
-    public function postPersist(Product $product, LifecycleEventArgs $event): void
-    {
-        $em = $event->getEntityManager();
-        $head = $em->getRepository(Org::class)->findOneBy(['type' => 0]);
         $stockRecord = new Stock;
         $stockRecord->setStock(0);
         $stockRecord->setOrg($head);
         $stockRecord->setProduct($product);
+
         $em->persist($stockRecord);
-        $em->flush();
     }
 }
