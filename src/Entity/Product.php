@@ -83,17 +83,21 @@ class Product
     #[Groups(['read'])]
     private ?int $refReward = 0;
 
-    #[ORM\Column]
-    private ?int $orgRefReward = null;
+    #[ORM\Column(options: ["unsigned" => true])]
+    #[Assert\Positive]
+    private ?int $orgRefReward = 0;
 
-    #[ORM\Column]
-    private ?int $partnerReward = null;
+    #[ORM\Column(options: ["unsigned" => true])]
+    #[Assert\Positive]
+    private ?int $partnerReward = 0;
 
-    #[ORM\Column]
-    private ?int $offIndustryStoreReward = null;
+    #[ORM\Column(options: ["unsigned" => true])]
+    #[Assert\Positive]
+    private ?int $offIndustryStoreReward = 0;
 
-    #[ORM\Column]
-    private ?int $offIndustryAgencyReward = null;
+    #[ORM\Column(options: ["unsigned" => true])]
+    #[Assert\Positive]
+    private ?int $offIndustryAgencyReward = 0;
 
     public function __construct()
     {
