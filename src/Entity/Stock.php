@@ -5,24 +5,37 @@ namespace App\Entity;
 use App\Repository\StockRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiFilter;
 
 #[ORM\Entity(repositoryClass: StockRepository::class)]
+#[ApiResource(
+    normalizationContext: ['groups' => ['read']],
+    denormalizationContext: ['groups' => ['write']],
+)]
 class Stock
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['read'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['read'])]
     private ?Product $product = null;
 
-    #[ORM\Column(type: Types::SMALLINT)]
-    private ?int $stock = null;
+    #[ORM\Column(type: Types::SMALLINT, options: ["unsigned" => true])]
+    #[Assert\Positive]
+    #[Groups(['read'])]
+    private ?int $stock = 0;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['read'])]
     private ?Org $org = null;
 
     public function getId(): ?int
