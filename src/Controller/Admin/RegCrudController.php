@@ -10,6 +10,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use App\Entity\Choice;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 
 class RegCrudController extends AbstractCrudController
 {
@@ -41,5 +42,6 @@ class RegCrudController extends AbstractCrudController
         ;
         yield TextField::new('name', 'Person Name');
         yield TextField::new('phone');
+        yield AssociationField::new('submitter');
     }
 }

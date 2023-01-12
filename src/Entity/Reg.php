@@ -23,6 +23,10 @@ class Reg
     #[ORM\Column(length: 255)]
     private ?string $phone = null;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Consumer $submitter = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -60,6 +64,18 @@ class Reg
     public function setPhone(string $phone): self
     {
         $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getSubmitter(): ?Consumer
+    {
+        return $this->submitter;
+    }
+
+    public function setSubmitter(?Consumer $submitter): self
+    {
+        $this->submitter = $submitter;
 
         return $this;
     }
