@@ -24,7 +24,7 @@ use Symfony\Component\Serializer\Annotation\Ignore;
     paginationEnabled: false,
 )]
 #[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'city' => 'exact', 'industry' => 'exact', 'type' => 'exact', 'name' => 'partial'])]
-#[ApiFilter(BooleanFilter::class, properties: ['upstream.display'])]
+#[ApiFilter(BooleanFilter::class, properties: ['display'])]
 #[ApiFilter(OrderFilter::class, properties: ['id'], arguments: ['orderParameterName' => 'order'])]
 class Org
 {
