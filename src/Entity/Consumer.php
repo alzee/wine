@@ -76,10 +76,10 @@ class Consumer
     private ?self $referrer = null;
 
     #[ORM\Column]
-    private ?int $reward = null;
+    private ?int $reward = 0;
 
     #[ORM\Column]
-    private ?int $rewardWithdrawable = null;
+    private ?int $rewardWithdrawable = 0;
 
     public function __construct()
     {
