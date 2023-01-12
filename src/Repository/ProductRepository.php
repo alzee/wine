@@ -51,6 +51,16 @@ class ProductRepository extends ServiceEntityRepository
                 ;
     }
 
+    public function findNotOrg($org): array
+    {
+        return $this->createQueryBuilder('p')
+                    ->andWhere('p.org != :org')
+                    ->setParameter('org', $org)
+                    ->getQuery()
+                    ->getResult()
+                ;
+    }
+
 //    /**
 //     * @return Product[] Returns an array of Product objects
 //     */
