@@ -9,16 +9,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use App\Entity\Product;
-use App\Entity\ProductAgency;
-use App\Entity\ProductStore;
-use App\Entity\ProductRestaurant;
 use App\Entity\Order;
-use App\Entity\OrderAgency;
-use App\Entity\OrderStore;
 use App\Entity\OrderRestaurant;
 use App\Entity\Voucher;
-use App\Entity\Agency;
-use App\Entity\Store;
+use App\Entity\Stock;
 use App\Entity\Restaurant;
 use App\Entity\User;
 use App\Entity\Node;
@@ -91,6 +85,10 @@ class DashboardController extends AbstractDashboardController
         }
 
         yield MenuItem::linkToCrud('ProductManage', 'fas fa-wine-bottle', Product::class);
+
+        if (!$this->isGranted('ROLE_HEAD')) {
+            yield MenuItem::linkToCrud('MyStock', 'fas fa-warehouse', Stock::class);
+        }
 
         if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_AGENCY')) {
             yield MenuItem::linkToCrud('Sale', 'fas fa-file-export', Orders::class)
