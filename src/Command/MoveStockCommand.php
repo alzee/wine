@@ -9,6 +9,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Product;
+use App\Entity\Stock;
+use App\Entity\Org;
 
 #[AsCommand(
     name: 'moveStock',
@@ -16,6 +20,15 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class MoveStockCommand extends Command
 {
+    private $em;
+
+    public function __construct(EntityManagerInterface $em)
+    {
+        $this->em = $em;
+
+        parent::__construct();
+    }
+
     protected function configure(): void
     {
         $this
@@ -36,6 +49,22 @@ class MoveStockCommand extends Command
         if ($input->getOption('option1')) {
             // ...
         }
+
+        $head = $this->em->getRepository(Org::class)->findOneBy(['type' => 0]);
+        $products = $this->em->getRepository(Product::class)->findBy();
+        foreach ($products as $p) {
+            $stockRecord = $em->getRepository(Stock::class)->findOneBy(['org' => $p->getOrg(), 'product' => $p]);
+            if (is_null($stockRecord)) {
+                $stockRecord = new Stock();
+                $stockRecord->setStock(0);
+                $stockRecord->setOrg($p->getOrg());
+                $stockRecord->setProduct($p);
+                $em->persist($stockRecord);
+            }
+            $stockRecord->setStock($p->getStock() + $stockRecord->getStock());
+            $this->em->remove($p);
+        }
+        $this->em->flush();
 
         $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
 
