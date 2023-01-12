@@ -72,11 +72,16 @@ class RetailNew extends AbstractController
         // partnerReward
         $reward = $product->getPartnerReward();
 
-        // offIndustryStoreReward
-        $reward = $product->getOffIndustryStoreReward();
+        if ($store->getIndustry()->isIsOff()) {
+            // offIndustryStoreReward
+            $reward = $product->getOffIndustryStoreReward();
+            $store->setReward($store->getReward() + $reward);
 
-        // offIndustryAgencyReward
-        $reward = $product->getOffIndustryAgencyReward();
+            // offIndustryAgencyReward
+            $agency = $store->getUpstream();
+            $reward = $product->getOffIndustryAgencyReward();
+            $agency->setReward($agency->getReward() + $reward);
+        }
 
         $em->flush();
     }
