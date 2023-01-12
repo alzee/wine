@@ -37,12 +37,12 @@ class RetailCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->onlyOnIndex(),
-            AssociationField::new('store')->HideWhenCreating(),
+            TextareaField::new('store')->HideWhenCreating(),
             AssociationField::new('store')->onlyWhenCreating()->setQueryBuilder (
                 fn (QueryBuilder $qb) => $qb->andWhere('entity.id = :id')->setParameter('id', $this->getUser()->getOrg())
             ),
-            AssociationField::new('consumer'),
-            AssociationField::new('product')->HideWhenCreating(),
+            TextareaField::new('consumer'),
+            TextareaField::new('product')->HideWhenCreating(),
             AssociationField::new('product')
                 ->onlyWhenCreating()
                 //->setQueryBuilder (
