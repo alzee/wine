@@ -75,6 +75,12 @@ class Consumer
     #[ORM\ManyToOne(targetEntity: self::class)]
     private ?self $referrer = null;
 
+    #[ORM\Column]
+    private ?int $reward = null;
+
+    #[ORM\Column]
+    private ?int $rewardWithdrawable = null;
+
     public function __construct()
     {
         $this->orderRestaurants = new ArrayCollection();
@@ -280,6 +286,30 @@ class Consumer
     public function setReferrer(?self $referrer): self
     {
         $this->referrer = $referrer;
+
+        return $this;
+    }
+
+    public function getReward(): ?int
+    {
+        return $this->reward;
+    }
+
+    public function setReward(int $reward): self
+    {
+        $this->reward = $reward;
+
+        return $this;
+    }
+
+    public function getRewardWithdrawable(): ?int
+    {
+        return $this->rewardWithdrawable;
+    }
+
+    public function setRewardWithdrawable(int $rewardWithdrawable): self
+    {
+        $this->rewardWithdrawable = $rewardWithdrawable;
 
         return $this;
     }
