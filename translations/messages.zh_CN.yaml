@@ -101,7 +101,7 @@ CityManage: 城市管理
 IndustryManage: 行业管理
 Approved: 已审核
 Paid: 已打款
-Display: 显示下级机构
+Display: 在前端显示
 Admin: 管理员
 Ref Reward: 分销佣金
 Conf: 系统设置

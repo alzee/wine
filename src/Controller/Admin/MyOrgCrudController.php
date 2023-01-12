@@ -58,17 +58,9 @@ class MyOrgCrudController extends AbstractCrudController
         yield TextField::new('bank_account');
         yield TextField::new('bank_addr');
         yield TextField::new('district');
-        if ($this->isGranted('ROLE_AGENCY')) {
-            yield BooleanField::new('display');
-        }
-        yield MoneyField::new('voucher')
-            ->setCurrency('CNY')
-            ->hideOnForm()
-        // ->setFormTypeOptions(['disabled' => 'disabled'])
-            ;
         yield VichImageField::new('imageFile')
             ->hideOnIndex()
-            ;
+        ;
     }
 
     public function configureActions(Actions $actions): Actions

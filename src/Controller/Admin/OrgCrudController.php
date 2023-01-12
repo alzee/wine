@@ -104,6 +104,7 @@ class OrgCrudController extends AbstractCrudController
                     ->setParameter('roles', '%ROLE_MANAGER%')
             )
             ;
+            yield BooleanField::new('display');
         }
     }
 
