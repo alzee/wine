@@ -53,7 +53,7 @@ class OrdersNew extends AbstractController
             $unitVoucher = $product->getVoucher();
             // seller stock - quantity, only if seller is not head
             if ($seller->getType() != 0) {
-                $stockRecordOfSeller = $em->getRepository(Stock::class)->findOneBy(['org' => $buyer, 'product' => $product]);
+                $stockRecordOfSeller = $em->getRepository(Stock::class)->findOneBy(['org' => $seller, 'product' => $product]);
                 $stockRecordOfSeller->setStock($stockRecordOfSeller->getStock() - $quantity);
             }
 
