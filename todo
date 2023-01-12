@@ -1,4 +1,4 @@
-- command moveStock MUST do before migrations/Version20230112102505.php. moveStock will not work after this migration because stock field dropped and stock data lost
+- command moveStock MUST do before commit 0fe966b and migrations/Version20230112102505.php. moveStock will not work after this migration because stock field dropped and stock data lost
 - doctrine querybuilder parameter in array
 - consumer as 合作业务员(介绍人)/合作区域合伙人
 - cron: command to reward referrer
