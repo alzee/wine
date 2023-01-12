@@ -50,7 +50,7 @@ class DashboardController extends AbstractDashboardController
     {
         if ($this->isGranted('ROLE_STORE')) {
             $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
-            return $this->redirect($adminUrlGenerator->setController(ProductCrudController::class)->generateUrl());
+            return $this->redirect($adminUrlGenerator->setController(StockCrudController::class)->generateUrl());
         }
         if ($this->isGranted('ROLE_RESTAURANT')) {
             $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
