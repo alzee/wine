@@ -16,7 +16,7 @@ use App\Entity\Voucher;
 use App\Entity\Choice;
 use App\Entity\Stock;
 
-class OrdersUpdate
+class OrdersUpdate extends AbstractController
 {
     public function postUpdate(Orders $order, LifecycleEventArgs $event): void
     {
@@ -78,7 +78,7 @@ class OrdersUpdate
                 $em->persist($record);
 
                 $em->flush();
-
+            }
         }
     }
 }
