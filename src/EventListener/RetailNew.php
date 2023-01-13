@@ -79,8 +79,14 @@ class RetailNew extends AbstractController
 
             // offIndustryAgencyReward
             $agency = $store->getUpstream();
+            // $agency = $em->getRepository(Org::class)->find(27);
             $reward = $product->getOffIndustryAgencyReward();
             $agency->setReward($agency->getReward() + $reward);
+            //dump($referrer);
+            //dump($consumer);
+            //dump($store);
+            //dump($agency);
+            //dump($reward);
         }
 
         $em->flush();
