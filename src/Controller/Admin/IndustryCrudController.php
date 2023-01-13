@@ -19,7 +19,7 @@ class IndustryCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        yield IdField::new('id');
+        yield IdField::new('id')->onlyOnIndex();
         yield IntegerField::new('weight');
         yield TextField::new('name');
         yield BooleanField::new('isOff');
