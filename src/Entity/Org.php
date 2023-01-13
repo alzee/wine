@@ -148,6 +148,9 @@ class Org
     #[ORM\Column]
     private ?int $rewardWithdrawable = 0;
 
+    #[ORM\ManyToOne]
+    private ?Consumer $partner = null;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
@@ -673,6 +676,18 @@ class Org
     public function setRewardWithdrawable(int $rewardWithdrawable): self
     {
         $this->rewardWithdrawable = $rewardWithdrawable;
+
+        return $this;
+    }
+
+    public function getPartner(): ?Consumer
+    {
+        return $this->partner;
+    }
+
+    public function setPartner(?Consumer $partner): self
+    {
+        $this->partner = $partner;
 
         return $this;
     }
