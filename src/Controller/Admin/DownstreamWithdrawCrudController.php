@@ -112,10 +112,6 @@ class DownstreamWithdrawCrudController extends AbstractCrudController
             ->setChoices(Choice::WITHDRAW_STATUSES)
             ->onlyOnIndex();
         yield DateTimeField::new('date')->HideOnForm();
-        yield ImageField::new('img', 'withdraw.img')
-            ->onlyOnIndex()
-            ->setBasePath('img/withdraw/')
-            ->setUploadDir('public/img/withdraw/');
         yield TextareaField::new('note');
         yield VichImageField::new('imageFile', 'withdraw.img')
             ->hideOnIndex()
