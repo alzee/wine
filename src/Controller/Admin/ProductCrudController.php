@@ -83,12 +83,12 @@ class ProductCrudController extends AbstractCrudController
                 ->setCurrency('CNY')
             ,
             ImageField::new('img', 'Product Image')
-                ->onlyOnIndex()
+                ->hideOnForm()
                 ->setBasePath('img/product/thumbnail/')
                 // ->setUploadDir('public/img/product/')
             ,
             VichImageField::new('imageFile', 'Product Image')
-            ->hideOnIndex()
+            ->onlyOnForms()
         ];
     }
 
