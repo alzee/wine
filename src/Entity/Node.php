@@ -63,6 +63,9 @@ class Node
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
+    #[ORM\ManyToOne]
+    private ?Org $org = null;
+
     public function __toString(): string
     {
         return $this->title;
@@ -164,5 +167,17 @@ class Node
     public function getImageFile(): ?File
     {
         return $this->imageFile;
+    }
+
+    public function getOrg(): ?Org
+    {
+        return $this->org;
+    }
+
+    public function setOrg(?Org $org): self
+    {
+        $this->org = $org;
+
+        return $this;
     }
 }
