@@ -16,18 +16,14 @@ use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use Symfony\Component\HttpFoundation\File\File;
 
+// #[UniqueConstraint(name: "sn_org", columns: ["sn", "org_id"])]
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
-#[UniqueConstraint(name: "sn_org", columns: ["sn", "org_id"])]
-#[UniqueEntity(
-    fields: ['sn', 'org'],
-    errorPath: 'sn',
-    message: 'SN is already in use',
-)]
+#[UniqueEntity('sn')]
 #[ApiResource(
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
 )]
-#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'sn' => 'exact', 'org' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'sn' => 'exact'])]
 class Product
 {
     #[ORM\Id]
@@ -57,11 +53,6 @@ class Product
     #[Assert\Positive]
     #[Groups(['read', 'write'])]
     private ?int $voucher = null;
-
-    #[ORM\ManyToOne(inversedBy: 'products')]
-    #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['read', 'write'])]
-    private ?Org $org = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['read', 'write'])]
@@ -166,18 +157,6 @@ class Product
     public function __toString(): string
     {
         return $this->name;
-    }
-
-    public function getOrg(): ?Org
-    {
-        return $this->org;
-    }
-
-    public function setOrg(?Org $org): self
-    {
-        $this->org = $org;
-
-        return $this;
     }
 
     public function getImg(): ?string

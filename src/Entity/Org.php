@@ -58,9 +58,6 @@ class Org
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $type = 1;
 
-    #[ORM\OneToMany(mappedBy: 'org', targetEntity: Product::class)]
-    private Collection $products;
-
     #[ORM\Column(options: ["unsigned" => true])]
     #[Groups(['read', 'write'])]
     private ?int $voucher = null;
@@ -153,7 +150,6 @@ class Org
 
     public function __construct()
     {
-        $this->products = new ArrayCollection();
         $this->voucher = 0;
         $this->orderRestaurants = new ArrayCollection();
         $this->withdraws = new ArrayCollection();
@@ -240,36 +236,6 @@ class Org
     public function setType(int $type): self
     {
         $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Product>
-     */
-    public function getProducts(): Collection
-    {
-        return $this->products;
-    }
-
-    public function addProduct(Product $product): self
-    {
-        if (!$this->products->contains($product)) {
-            $this->products->add($product);
-            $product->setOrg($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProduct(Product $product): self
-    {
-        if ($this->products->removeElement($product)) {
-            // set the owning side to null (unless already changed)
-            if ($product->getOrg() === $this) {
-                $product->setOrg(null);
-            }
-        }
 
         return $this;
     }
