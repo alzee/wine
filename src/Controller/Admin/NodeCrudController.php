@@ -82,4 +82,13 @@ class NodeCrudController extends AbstractCrudController
         $response->andWhere("entity.org = $userOrg");
         return $response;
     }
+
+    public function createEntity(string $entityFqcn)
+    {
+        $node = new Node();
+        $node->setOrg($this->getUser()->getOrg());
+        $node->setTag(1);
+
+        return $node;
+    }
 }
