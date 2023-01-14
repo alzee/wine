@@ -27,14 +27,11 @@ class Upload
         };
 
         $new_height = $width / $info[0] * $info[1];
+        // crop height if greater than $height
         if ($new_height > $height) {
             $offset_y = ($new_height - $height) / 2;
-        } else {
-            $offset_y = 0;
-            $height = $new_height;
+            $new_file = imagecrop($new_file, ['x' => 0, 'y' => $offset_y, 'width' => $width, 'height' => $height]);
         }
-        // crop height
-        $new_file = imagecrop($new_file, ['x' => 0, 'y' => $offset_y, 'width' => $width, 'height' => $height]);
 
         // save thumbnail
         imagejpeg(imagescale($new_file, $thumbnail_width), $file->getPath() . '/thumbnail/' . preg_replace('/.png/i', '.jpg', $file->getFilename()), 60);
