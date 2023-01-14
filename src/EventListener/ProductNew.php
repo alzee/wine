@@ -19,10 +19,6 @@ class ProductNew extends AbstractController
     {
         $em = $event->getEntityManager();
         $head = $em->getRepository(Org::class)->findOneBy(['type' => 0]);
-        // only if its not a clone in an order
-        if (is_null($product->getOrg())) {
-            $product->setOrg($head);
-        }
 
         $stockRecord = new Stock;
         $stockRecord->setStock(100);
