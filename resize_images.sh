@@ -25,11 +25,12 @@ do
 
     mogrify -format jpg -resize $target_width -quality $target_quality *.{jpg,png} && rm *.png
 
-    # Crop height if is org/product image
-    if [ $dir = 'org' -o $dir = 'product']; then
+    # Crop height if is org/product/node image
+    if [ $dir != 'withdraw' ]; then
         for i in *.jpg
         do
             height=$(identify -format '%[fx:h]' $i)
+            # Only crop if greater than $target_height
             if [ $height -gt $target_height ]; then
                 to_shave=$(php -r "echo ($height-$target_height)/2;")
                 mogrify -shave 0x$to_shave $i
