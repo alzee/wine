@@ -26,7 +26,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 
 class NodeCrudController extends AbstractCrudController
 {
-    private $tags = ['轮播图' => 0, '产品推荐' => 1, '企业简介' => 2, '用户协议' => 3];
+    private $tags = ['轮播图' => 0, '产品推荐' => 1, '企业简介' => 2, '用户协议' => 3, '活动公告' => 4];
 
     public static function getEntityFqcn(): string
     {
