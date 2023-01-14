@@ -17,6 +17,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 
 class StockCrudController extends AbstractCrudController
 {
@@ -27,38 +28,39 @@ class StockCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        return [
-            // AssociationField::new('org'),
-            // AssociationField::new('product'),
-            TextField::new('product.sn', 'Sn'),
-            TextField::new('product.name', 'Name'),
-            TextField::new('product.spec', 'Spec'),
-            MoneyField::new('product.price', 'Price')->setCurrency('CNY'),
-            IntegerField::new('stock'),
-            MoneyField::new('product.voucher', 'Voucher')
+        if ($this->isGranted('ROLE_HEAD')) {
+            yield AssociationField::new('product')->setDisabled();
+            yield IntegerField::new('stock');
+        } else {
+            yield TextField::new('product.sn', 'Sn');
+            yield TextField::new('product.name', 'Name');
+            yield TextField::new('product.spec', 'Spec');
+            yield MoneyField::new('product.price', 'Price')->setCurrency('CNY');
+            yield IntegerField::new('stock');
+            yield MoneyField::new('product.voucher', 'Voucher')
                 ->setCurrency('CNY')
                 ->setHelp('<b>代金券</b>为本件商品随增的代金券金额')
-            ,
-            MoneyField::new('product.refReward', 'Ref Reward')
+            ;
+            yield MoneyField::new('product.refReward', 'Ref Reward')
                 ->setCurrency('CNY')
-            ,
-            MoneyField::new('product.orgRefReward', 'Org Ref Reward')
+            ;
+            yield MoneyField::new('product.orgRefReward', 'Org Ref Reward')
                 ->setCurrency('CNY')
-            ,
-            MoneyField::new('product.partnerReward', 'Partner Reward')
+            ;
+            yield MoneyField::new('product.partnerReward', 'Partner Reward')
                 ->setCurrency('CNY')
-            ,
-            MoneyField::new('product.offIndustryStoreReward', 'Off Industry Store Reward')
+            ;
+            yield MoneyField::new('product.offIndustryStoreReward', 'Off Industry Store Reward')
                 ->setCurrency('CNY')
-            ,
-            MoneyField::new('product.offIndustryAgencyReward', 'Off Industry Agency Reward')
+            ;
+            yield MoneyField::new('product.offIndustryAgencyReward', 'Off Industry Agency Reward')
                 ->setCurrency('CNY')
-            ,
-            ImageField::new('product.img', 'Product Image')
+            ;
+            yield ImageField::new('product.img', 'Product Image')
                 ->onlyOnIndex()
                 ->setBasePath('img/product/thumbnail/')
-            ,
-        ];
+            ;
+        }
     }
 
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
@@ -81,4 +83,12 @@ class StockCrudController extends AbstractCrudController
             ;
         }
     }
+
+    // public function configureCrud(Crud $crud): Crud
+    // {
+    //     return $crud
+    //     // as the first argument
+    //         ->setPageTitle('detail', fn (Product $product) => (string) $product)
+    //     ;
+    // }
 }
