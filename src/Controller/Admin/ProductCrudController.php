@@ -92,20 +92,6 @@ class ProductCrudController extends AbstractCrudController
         ];
     }
 
-    // public function configureFilters(Filters $filters): Filters
-    // {
-    //     return $filters
-    //     ;
-    // }
-
-    public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
-    {
-        $userOrg = $this->getUser()->getOrg()->getId();
-        $response = $this->container->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
-        $response->andWhere("entity.org = $userOrg");
-        return $response;
-    }
-
     public function configureActions(Actions $actions): Actions
     {
         $export = Action::new('export', 'export')

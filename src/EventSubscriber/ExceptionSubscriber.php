@@ -40,7 +40,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
             );
             // sends the modified response object to the event
             $response->setContent($message);
-            $event->setResponse($response);
+            // $event->setResponse($response);
         }
         if ($exception->getCode() == 44) {
             $message = sprintf(
