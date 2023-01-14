@@ -89,9 +89,13 @@ class MoveStockCommand extends Command
         }
 
         // product
-        $products = $this->em->getRepository(Product::class)->findNotOrg($head);
+        $products = $this->em->getRepository(Product::class)->findAll();
         foreach ($products as $p) {
-            $product = $this->em->getRepository(Product::class)->findOneBy(['sn' => $p->getSn() , 'org' => $head]);
+            if ($p->getOrg() != $head) {
+                $product = $p;
+            } else {
+                $product = $this->em->getRepository(Product::class)->findOneBy(['sn' => $p->getSn() , 'org' => $head]);
+            }
             $stockRecord = $this->em->getRepository(Stock::class)->findOneBy(['org' => $p->getOrg(), 'product' => $product]);
             if (is_null($stockRecord)) {
                 $stockRecord = new Stock();
@@ -102,7 +106,9 @@ class MoveStockCommand extends Command
             }
             $stockRecord->setStock($p->getStock() + $stockRecord->getStock());
 
-            $this->em->remove($p);
+            if ($p->getOrg() != $head) {
+                $this->em->remove($p);
+            }
         }
         $this->em->flush();
 
