@@ -31,6 +31,7 @@ class Upload
             $offset_y = ($new_height - $height) / 2;
         } else {
             $offset_y = 0;
+            $height = $new_height;
         }
         // crop height
         $new_file = imagecrop($new_file, ['x' => 0, 'y' => $offset_y, 'width' => $width, 'height' => $height]);
