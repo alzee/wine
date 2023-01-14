@@ -25,7 +25,7 @@ class ProductNew extends AbstractController
         }
 
         $stockRecord = new Stock;
-        $stockRecord->setStock(0);
+        $stockRecord->setStock(100);
         $stockRecord->setOrg($head);
         $stockRecord->setProduct($product);
 
