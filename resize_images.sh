@@ -8,24 +8,34 @@
 
 ############### Main Part ###############
 
+target_width=400
 target_height=200
+target_quality=75
 
 pushd public/img/
 
 for dir in {node,org,product,withdraw}
 do
     pushd $dir
-    mogrify -format jpg -resize 400 -quality 75 *.{jpg,png} && rm *.png
 
-    # Crop height to 200
-    for i in *.jpg
-    do
-        height=$(identify -format '%[fx:h]' $i)
-        if [ $height -gt $target_height ]; then
-            to_shave=$(php -r "echo ($height-$target_height)/2;")
-            mogrify -shave 0x$to_shave $i
-        fi
-    done
+    if [ $dir = 'withdraw' ]; then
+        target_width=800
+        target_quality=85
+    fi
+
+    mogrify -format jpg -resize $target_width -quality $target_quality *.{jpg,png} && rm *.png
+
+    # Crop height if is org/product image
+    if [ $dir = 'org' -o $dir = 'product']; then
+        for i in *.jpg
+        do
+            height=$(identify -format '%[fx:h]' $i)
+            if [ $height -gt $target_height ]; then
+                to_shave=$(php -r "echo ($height-$target_height)/2;")
+                mogrify -shave 0x$to_shave $i
+            fi
+        done
+    fi
 
     mogrify -format jpg -path thumbnail -thumbnail 100 -quality 60 *.jpg
     popd
