@@ -17,6 +17,12 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
 use App\Admin\Field\VichImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
+use Doctrine\ORM\QueryBuilder;
+use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 
 class NodeCrudController extends AbstractCrudController
 {
@@ -40,28 +46,18 @@ class NodeCrudController extends AbstractCrudController
         yield VichImageField::new('imageFile', 'Img')
             ->hideOnIndex()
             ;
-        yield ChoiceField::new('tag')
-            ->setChoices($this->tags)
+        if ($this->isGranted('ROLE_HEAD')) {
+            yield ChoiceField::new('tag')
+                ->setChoices($this->tags)
             // ->allowMultipleChoices()
-        ;
+            ;
+        }
         yield TextareaField::new('body')
             ->onlyOnForms()
             // ->addCssClass('test')
             ;
         yield DateTimeField::new('date')
             ->onlyOnIndex();
-    }
-
-    public function configureActions(Actions $actions): Actions
-    {
-        if ($this->isGranted('ROLE_HEAD')) {
-            return $actions
-                ;
-        } else {
-            return $actions
-                ->disable(Action::DELETE, Action::NEW, Action::EDIT, Action::DETAIL, Action::INDEX)
-            ;
-        }
     }
 
     public function configureAssets(Assets $assets): Assets
@@ -77,5 +73,13 @@ class NodeCrudController extends AbstractCrudController
                     ->onlyOnForms()
             )
         ;
+    }
+
+    public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
+    {
+        $userOrg = $this->getUser()->getOrg()->getId();
+        $response = $this->container->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
+        $response->andWhere("entity.org = $userOrg");
+        return $response;
     }
 }

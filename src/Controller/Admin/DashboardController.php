@@ -143,12 +143,16 @@ class DashboardController extends AbstractDashboardController
             ->setController(MyOrgCrudController::class)
             ->setAction('edit')
             ->setEntityId($this->getUser()->getOrg()->getId());
+
+        if (! $this->isGranted('ROLE_AGENCY')) {
+            yield MenuItem::linkToCrud('NodeManage', 'fas fa-file', Node::class);
+        }
+
         if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_AGENCY')) {
             $items = [
                 MenuItem::linkToCrud('UserManage', 'fas fa-user', User::class),
             ];
             if ($this->isGranted('ROLE_HEAD')) {
-                array_push($items, (MenuItem::linkToCrud('NodeManage', 'fas fa-file', Node::class)));
                 array_push($items, (MenuItem::linkToCrud('CityManage', 'fas fa-city', City::class)));
                 array_push($items, (MenuItem::linkToCrud('IndustryManage', 'fas fa-industry', Industry::class)));
                 array_push($items, (MenuItem::linkToCrud('Conf', 'fas fa-cog', Conf::class)->setAction('detail')->setEntityId(1)));
