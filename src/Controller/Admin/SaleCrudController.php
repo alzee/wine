@@ -248,8 +248,6 @@ class SaleCrudController extends AbstractCrudController
     {
         $ord = new Orders();
         $item = new OrderItems();
-        $p = $this->doctrine->getRepository(Product::class)->findOneBy(['org' => $this->getUser()->getOrg()]);
-        $item->setProduct($p);
         $ord->addOrderItem($item);
 
         return $ord;

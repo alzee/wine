@@ -175,8 +175,6 @@ class ReturnToMeCrudController extends AbstractCrudController
     {
         $ret = new Returns();
         $item = new ReturnItems();
-        $p = $this->doctrine->getRepository(Product::class)->findOneBy(['org' => $this->getUser()->getOrg()]);
-        $item->setProduct($p);
         $ret->addReturnItem($item);
 
         return $ret;
