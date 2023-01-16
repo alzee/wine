@@ -4,6 +4,22 @@ namespace App\Controller\Admin;
 
 use App\Entity\Node;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use App\Admin\Field\VichImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
+use Doctrine\ORM\QueryBuilder;
+use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 
 class FeaturedCrudController extends AbstractCrudController
 {
@@ -12,14 +28,58 @@ class FeaturedCrudController extends AbstractCrudController
         return Node::class;
     }
 
-    /*
     public function configureFields(string $pageName): iterable
     {
-        return [
-            IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
-        ];
+        yield TextField::new('title');
+        yield AssociationField::new('product');
+        yield ImageField::new('img')
+            ->onlyOnIndex()
+            ->setBasePath('img/node/thumbnail/')
+            // ->setUploadDir('public/img/node/')
+        ;
+        yield VichImageField::new('imageFile', 'Img')
+            ->hideOnIndex()
+            ;
+        yield TextareaField::new('body')
+            ->onlyOnForms()
+            // ->addCssClass('test')
+            ;
+        yield DateTimeField::new('date')
+            ->onlyOnIndex();
     }
-    */
+
+    public function configureAssets(Assets $assets): Assets
+    {
+        return $assets
+            ->addJsFile(
+                Asset::new('/js/ckeditor.js')
+                    ->onlyOnForms()
+            )
+            ->addJsFile(
+                Asset::new('/js/initCKEditor.js')
+                    ->defer()
+                    ->onlyOnForms()
+            )
+        ;
+    }
+
+    public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
+    {
+        $userOrg = $this->getUser()->getOrg()->getId();
+        $response = $this->container->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
+        $response
+            ->andWhere("entity.org = $userOrg")
+            ->andWhere("entity.tag = 1")
+        ;
+        return $response;
+    }
+
+    public function createEntity(string $entityFqcn)
+    {
+        $node = new Node();
+        $node->setOrg($this->getUser()->getOrg());
+        $node->setTag(1);
+
+        return $node;
+    }
 }

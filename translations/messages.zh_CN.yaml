@@ -68,8 +68,8 @@ Approver: 审核方
 Order Items: 订单商品
 Return Items: 退货商品
 withdraw.amount: 提现金额
-Node: 推荐
-NodeManage: 推荐管理
+Node: 内容
+NodeManage: 内容管理
 Title: 标题
 Body: 正文
 Tag: 标签
@@ -117,3 +117,4 @@ Partner: 合伙人
 Submitter: 提交人
 Weight: 权重
 Is Off: 异业
+Featured: 产品推荐

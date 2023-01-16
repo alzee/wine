@@ -26,7 +26,13 @@ use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 
 class NodeCrudController extends AbstractCrudController
 {
-    private $tags = ['轮播图' => 0, '产品推荐' => 1, '企业简介' => 2, '用户协议' => 3, '活动公告' => 4];
+    private $tags = [
+        '轮播图' => 0,
+        // '产品推荐' => 1,
+        '企业简介' => 2,
+        '用户协议' => 3,
+        '活动公告' => 4
+    ];
 
     public static function getEntityFqcn(): string
     {
@@ -79,7 +85,10 @@ class NodeCrudController extends AbstractCrudController
     {
         $userOrg = $this->getUser()->getOrg()->getId();
         $response = $this->container->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
-        $response->andWhere("entity.org = $userOrg");
+        $response
+            ->andWhere("entity.org = $userOrg")
+            ->andWhere("entity.tag != 1")
+        ;
         return $response;
     }
 
@@ -87,7 +96,6 @@ class NodeCrudController extends AbstractCrudController
     {
         $node = new Node();
         $node->setOrg($this->getUser()->getOrg());
-        $node->setTag(1);
 
         return $node;
     }
