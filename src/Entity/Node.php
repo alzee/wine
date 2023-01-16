@@ -66,6 +66,9 @@ class Node
     #[ORM\ManyToOne]
     private ?Org $org = null;
 
+    #[ORM\ManyToOne]
+    private ?Product $product = null;
+
     public function __toString(): string
     {
         return $this->title;
@@ -177,6 +180,18 @@ class Node
     public function setOrg(?Org $org): self
     {
         $this->org = $org;
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): self
+    {
+        $this->product = $product;
 
         return $this;
     }
