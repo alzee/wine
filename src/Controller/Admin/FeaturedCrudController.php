@@ -20,6 +20,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 
 class FeaturedCrudController extends AbstractCrudController
 {
@@ -81,5 +82,15 @@ class FeaturedCrudController extends AbstractCrudController
         $node->setTag(1);
 
         return $node;
+    }
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        $title = 'Featured';
+        return $crud
+            ->setPageTitle('index', $title)
+            ->setPageTitle('new', 'Add ' . $title)
+            ->setPageTitle('edit', 'Edit ' . $title)
+        ;
     }
 }
