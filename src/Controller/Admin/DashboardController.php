@@ -144,11 +144,9 @@ class DashboardController extends AbstractDashboardController
             ->setAction('edit')
             ->setEntityId($this->getUser()->getOrg()->getId());
 
-        if (! $this->isGranted('ROLE_AGENCY')) {
-            yield MenuItem::linkToCrud('Featured', 'fas fa-wine-glass', Node::class)
-                ->setController(FeaturedCrudController::class);
-            ;
-        }
+        yield MenuItem::linkToCrud('Featured', 'fas fa-wine-glass', Node::class)
+            ->setController(FeaturedCrudController::class);
+        ;
 
         if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_AGENCY')) {
             $items = [
