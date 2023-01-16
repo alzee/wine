@@ -11,7 +11,8 @@ class Choice
         'Agency' => 1,
         'Store' => 2,
         'Restaurant' => 3,
-        'Consumer' => 4
+        'Consumer' => 4,
+        'CityAgency' => 5
     ];
     public const REG_TYPES = [
         'Store' => 0,

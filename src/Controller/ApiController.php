@@ -309,7 +309,7 @@ class ApiController extends AbstractController
         $orgs = [];
         foreach ($stocks as $stock) {
             $orgType = $stock->getOrg()->getType();
-            if ($orgType != 0 && $orgType != 1) {
+            if ($orgType != 0 && $orgType != 1 && $orgType != 5) {
                 array_push($orgs, $stock->getOrg());
             }
         }
