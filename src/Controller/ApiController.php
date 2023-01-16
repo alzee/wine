@@ -306,9 +306,9 @@ class ApiController extends AbstractController
     {
         $product = $this->doctrine->getRepository(Product::class)->find($pid);
         $stocks = $this->doctrine->getRepository(Stock::class)->findBy(['product' => $product]);
-        $orgType = $stock->getOrg()->getType();
         $orgs = [];
         foreach ($stocks as $stock) {
+            $orgType = $stock->getOrg()->getType();
             if ($orgType != 0 && $orgType != 1) {
                 array_push($orgs, $stock->getOrg());
             }
