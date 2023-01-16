@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\File\File;
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
 )]
-#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'tag' => 'exact', 'product' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'tag' => 'exact', 'org' => 'exact'])]
 #[ApiFilter(OrderFilter::class, properties: ['id'])]
 class Node
 {
