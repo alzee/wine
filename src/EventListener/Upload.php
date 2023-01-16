@@ -26,9 +26,13 @@ class Upload
         $object = $event->getObject();
         // $mapping = $event->getMapping();
 
-        if ($object instanceof Withdraw || $object instanceof MediaObject) {
+        if ($object instanceof Withdraw) {
             $target_width = 800;
             $target_quality = 85;
+        }
+
+        if ($object instanceof MediaObject) {
+            $target_width = 600;
         }
 
         if ($object instanceof MediaObject) {
