@@ -14,8 +14,11 @@ class Choice
         'Consumer' => 4
     ];
     public const REG_TYPES = [
-        'Partner' => 0,
+        'Store' => 0,
         'Agency' => 1,
+        'Partner' => 2,
+        'CityAgency' => 3,
+        'DistrictAgency' => 4,
     ];
     public const VOUCHER_TYPES = [
         // increase
