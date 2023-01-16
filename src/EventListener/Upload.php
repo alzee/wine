@@ -23,10 +23,6 @@ class Upload
         $thumbnail_width = 100;
 
         $object = $event->getObject();
-        dump($object instanceof Node);
-        dump($object instanceof Org);
-        dump($object instanceof Product);
-        dump($object instanceof Withdraw);
         // $mapping = $event->getMapping();
 
         if ($object instanceof Withdraw) {

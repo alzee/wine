@@ -34,7 +34,8 @@ class ConsumerNew extends AbstractController
         $data = [
             'page' => 'pages/index/index',
             'scene' => $cid,
-            'env_version' => 'trial'
+            'env_version' => 'trial',
+            // 'width' => 280 // Min 280px
         ];
         $response = $this->httpClient->request('POST', $url, ['json' => $data]);
         $file = "img/poster/${cid}.jpg";
