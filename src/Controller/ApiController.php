@@ -4,10 +4,12 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Org;
 use App\Entity\Product;
+use App\Entity\Stock;
 use App\Entity\Orders;
 use App\Entity\OrderItems;
 use App\Entity\Returns;
@@ -297,5 +299,20 @@ class ApiController extends AbstractController
         return $this->json([
             'code' => $code,
         ]);
+    }
+
+    #[Route('/orgs-have-stock-of-product/{pid}', methods: ['GET'])]
+    public function orgsHaveStock(int $pid): Response
+    {
+        $product = $this->doctrine->getRepository(Product::class)->find($pid);
+        $stocks = $this->doctrine->getRepository(Stock::class)->findBy(['product' => $product]);
+
+        $orgs = [];
+        foreach ($stocks as $stock) {
+            if ($stock->getOrg()->getType() != 0) {
+                array_push($orgs, $stock->getOrg());
+            }
+        }
+        return $this->json($orgs);
     }
 }
