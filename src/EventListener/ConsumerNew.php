@@ -47,7 +47,7 @@ class ConsumerNew extends AbstractController
         $poster = new \Imagick('img/poster/poster.jpg');
         $qr = new \Imagick($file);
         $qr->resizeimage(200, 200, \Imagick::FILTER_UNDEFINED, 1);
-        $poster->compositeImage($qr, \Imagick::COMPOSITE_ATOP, 137, 319);
+        $poster->compositeImage($qr, \Imagick::COMPOSITE_ATOP, 200, 720);
         $poster->writeImage($file);
     }
 }
