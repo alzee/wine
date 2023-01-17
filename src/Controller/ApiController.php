@@ -317,7 +317,7 @@ class ApiController extends AbstractController
     }
 
     #[Route('/create-user-org', methods: ['GET'])]
-    public function orgsHaveStock(Request $request): JsonResponse
+    public function createUserAndOrg(Request $request): JsonResponse
     {
         $params  = $request->toArray();
         $org = new Org();
