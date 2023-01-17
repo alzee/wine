@@ -155,4 +155,11 @@ class OrgCrudController extends AbstractCrudController
             ->add('industry')
         ;
     }
+
+    public function createEntity(string $entityFqcn)
+    {
+        $org = new Org();
+        $org->setUpstream($this->getUser()->getOrg());
+        return $org;
+    }
 }

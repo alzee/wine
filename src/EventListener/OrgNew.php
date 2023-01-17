@@ -18,17 +18,9 @@ class OrgNew extends AbstractController
 {
     public function prePersist(Org $org, LifecycleEventArgs $event): void
     {
-        if ($org->getType() == 1) {
-            $em = $event->getEntityManager();
-            $head = $em->getRepository(Org::class)->findOneBy(['type' => 0]);
-            $org->setUpstream($head);
-        }
         if (is_null($org->getUpstream())) {
-            if ($org->getType() == 2 || $org->getType() == 3) {
-                $org->setUpstream($this->getUser()->getOrg());
-            }
             // Inherit upstream's industry
-        } else if (! is_null($org->getUpstream->getIndustry()) && is_null($org->getIndustry())) {
+        } else if (! is_null($org->getUpstream()->getIndustry()) && is_null($org->getIndustry())) {
             $org->setIndustry($org->getUpstream()->getIndustry());
         }
     }
