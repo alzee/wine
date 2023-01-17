@@ -90,7 +90,7 @@ class Consumer
 
     public function __toString()
     {
-        return $this->name;
+        return $this->name . ' ' . $this->phone;
     }
 
     public function getId(): ?int
