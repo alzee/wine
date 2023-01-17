@@ -302,7 +302,7 @@ class ApiController extends AbstractController
     }
 
     #[Route('/orgs-have-stock-of-product/{pid}', methods: ['GET'])]
-    public function orgsHaveStock(int $pid): Response
+    public function orgsHaveStock(int $pid): JsonResponse
     {
         $product = $this->doctrine->getRepository(Product::class)->find($pid);
         $stocks = $this->doctrine->getRepository(Stock::class)->findBy(['product' => $product]);
@@ -314,5 +314,33 @@ class ApiController extends AbstractController
             }
         }
         return $this->json($orgs);
+    }
+
+    #[Route('/create-user-org', methods: ['GET'])]
+    public function orgsHaveStock(Request $request): JsonResponse
+    {
+        $params  = $request->toArray();
+        $org = new Org();
+        $org->setAddress($params['address']);
+        $org->setContact($params['contact']);
+        $org->setDistrict($params['district']);
+        $org->setName($params['name']);
+        $org->setPhone($params['phone']);
+        $org->type($params['type']);
+        dump($org);
+        $em->persist($org);
+        dump($org);
+
+        $user = new User();
+        $user->setUsername($params['username']);
+        $user->setPlainPassword($params['plainPassword']);
+        $user->setOrg($org);
+
+        $em = $this->doctrine->getManager();
+        $em->persist($user);
+        $em->flush();
+        dump($org);
+
+        return $this->json(['code' => 0]);
     }
 }
