@@ -48,7 +48,7 @@ class DashboardController extends AbstractDashboardController
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
-        if ($this->isGranted('ROLE_STORE')) {
+        if ($this->isGranted('ROLE_STORE') || $this->isGranted('ROLE_VARIANT_STORE')) {
             $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
             return $this->redirect($adminUrlGenerator->setController(StockCrudController::class)->generateUrl());
         }
@@ -109,7 +109,7 @@ class DashboardController extends AbstractDashboardController
                 ->setController(MyReturnCrudController::class);
         }
 
-        if ($this->isGranted('ROLE_STORE') || $this->isGranted('ROLE_RESTAURANT')) {
+        if ($this->isGranted('ROLE_STORE') || $this->isGranted('ROLE_VARIANT_STORE') || $this->isGranted('ROLE_RESTAURANT')) {
             yield MenuItem::linkToCrud('Retail', 'fas fa-bag-shopping', Retail::class);
             yield MenuItem::linkToCrud('RetailReturn', 'fas fa-cart-shopping', RetailReturn::class);
         }

@@ -53,6 +53,12 @@ class OrgCrudController extends AbstractCrudController
         if ($this->isGranted('ROLE_AGENCY')) {
             $orgChoices = ['Store' => 2, 'Restaurant' => 3];
         }
+        if ($this->isGranted('ROLE_VARIANT_HEAD')) {
+            $orgChoices = ['VariantAgency' => 11];
+        }
+        if ($this->isGranted('ROLE_VARIANT_AGENCY')) {
+            $orgChoices = ['VariantStore' => 12];
+        }
         yield IdField::new('id')->onlyOnIndex();
         yield ImageField::new('img', 'org.img')
             ->onlyOnIndex()
@@ -118,7 +124,7 @@ class OrgCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-        if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_AGENCY')) {
+        if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_AGENCY') || $this->isGranted('ROLE_VARIANT_HEAD') || $this->isGranted('ROLE_VARIANT_AGENCY')) {
             return $actions
                 ->disable(Action::DELETE)
             ;
