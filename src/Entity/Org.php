@@ -148,6 +148,9 @@ class Org
     #[ORM\ManyToOne]
     private ?Consumer $partner = null;
 
+    #[ORM\ManyToOne]
+    private ?Consumer $referrer = null;
+
     public function __construct()
     {
         $this->voucher = 0;
@@ -654,6 +657,18 @@ class Org
     public function setPartner(?Consumer $partner): self
     {
         $this->partner = $partner;
+
+        return $this;
+    }
+
+    public function getReferrer(): ?Consumer
+    {
+        return $this->referrer;
+    }
+
+    public function setReferrer(?Consumer $referrer): self
+    {
+        $this->referrer = $referrer;
 
         return $this;
     }
