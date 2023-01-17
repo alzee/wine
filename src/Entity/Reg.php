@@ -38,6 +38,12 @@ class Reg
     #[Groups(['read', 'write'])]
     private ?Consumer $submitter = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $address = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $orgName = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -87,6 +93,30 @@ class Reg
     public function setSubmitter(?Consumer $submitter): self
     {
         $this->submitter = $submitter;
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?string $address): self
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    public function getOrgName(): ?string
+    {
+        return $this->orgName;
+    }
+
+    public function setOrgName(?string $orgName): self
+    {
+        $this->orgName = $orgName;
 
         return $this;
     }
