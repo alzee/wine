@@ -101,7 +101,9 @@ class OrgCrudController extends AbstractCrudController
                 ->hideOnForm()
                 // ->setFormTypeOptions(['disabled' => 'disabled'])
             ;
-        yield AssociationField::new('partner')->hideOnIndex();
+        if ($this->isGranted('ROLE_VARIANT_HEAD')) {
+            yield AssociationField::new('partner')->hideOnIndex();
+        }
         yield AssociationField::new('referrer')->hideOnIndex();
         if ($this->isGranted('ROLE_AGENCY')) {
             yield PercentField::new('discount');
