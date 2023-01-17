@@ -66,27 +66,35 @@ class RetailNew extends AbstractController
             $referrer->setReward($referrer->getReward() + $reward);
         }
 
-        // orgRefReward
-        $reward = $product->getOrgRefReward();
+        if ($store->getType() == 12) {
+            // orgRefReward
+            $reward = $product->getOrgRefReward();
+            $up = $store->getUpstream();
+            $referrer = $store->getReferrer();
+            $upReferrer = $up->getReferrer();
+            if ($referrer) {
+                $referrer->setReward($referrer->getReward() + $reward);
+            }
+            if ($upReferrer) {
+                $upReferrer->setReward($upReferrer->getReward() + $reward);
+            }
 
-        // partnerReward
-        $reward = $product->getPartnerReward();
+            // partnerReward
+            $reward = $product->getPartnerReward();
+            $partner = $store->getUpstream()->getPartner();
+            if ($partner) {
+                $partner->setReward($partner->getReward() + $reward);
+            }
 
-        if ($store->getIndustry()->isIsOff()) {
             // offIndustryStoreReward
             $reward = $product->getOffIndustryStoreReward();
             $store->setReward($store->getReward() + $reward);
 
             // offIndustryAgencyReward
-            $agency = $store->getUpstream();
-            // $agency = $em->getRepository(Org::class)->find(27);
             $reward = $product->getOffIndustryAgencyReward();
-            $agency->setReward($agency->getReward() + $reward);
-            //dump($referrer);
-            //dump($consumer);
-            //dump($store);
-            //dump($agency);
-            //dump($reward);
+            $up = $store->getUpstream();
+            // $up = $em->getRepository(Org::class)->find(27);
+            $up->setReward($up->getReward() + $reward);
         }
 
         $em->flush();
