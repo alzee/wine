@@ -339,7 +339,7 @@ class ApiController extends AbstractController
             $user->setOrg($org);
 
             $em->persist($user);
-            // $em->flush();
+            $em->flush();
             $code = 0;
         } else {
             $code = 1;
