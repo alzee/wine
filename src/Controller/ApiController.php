@@ -333,7 +333,7 @@ class ApiController extends AbstractController
             $org->setName($params['name']);
             $org->setPhone($params['phone']);
             $org->setType($params['type']);
-            $up = $this->doctrine->getRepository(Org::class)->find($params['upstream']);
+            $up = $this->doctrine->getRepository(Org::class)->find($params['upstreamId']);
             $org->setUpstream($up);
             $em->persist($org);
 
