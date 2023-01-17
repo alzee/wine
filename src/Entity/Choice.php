@@ -12,14 +12,16 @@ class Choice
         'Store' => 2,
         'Restaurant' => 3,
         'Consumer' => 4,
-        'CityAgency' => 5
+        'VariantHead' => 10,
+        'VariantAgency' => 11,
+        'VariantStore' => 12,
     ];
     public const REG_TYPES = [
         'Store' => 0,
         'Agency' => 1,
         'Partner' => 2,
-        'CityAgency' => 3,
-        'DistrictAgency' => 4,
+        'VariantHead' => 3,
+        'VariantAgency' => 4,
     ];
     public const VOUCHER_TYPES = [
         // increase
