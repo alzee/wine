@@ -55,6 +55,9 @@ class UserCrudController extends AbstractCrudController
                 'Agency' => 'ROLE_AGENCY',
                 'Store' => 'ROLE_STORE',
                 'Restaurant' => 'ROLE_RESTAURANT',
+                'VariantHead' => 'ROLE_VARIANT_HEAD',
+                'VariantAgency' => 'ROLE_VARIANT_STORE',
+                'VariantStore' => 'ROLE_VARIANT_STORE',
             ])
             ->allowMultipleChoices()
             ->onlyOnIndex()

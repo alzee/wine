@@ -48,7 +48,7 @@ class OrgCrudController extends AbstractCrudController
         $user = $this->getUser();
 
         if ($this->isGranted('ROLE_HEAD')) {
-            $orgChoices = ['Agency' => 1];
+            $orgChoices = ['Agency' => 1, 'VariantHead' => 10];
         }
         if ($this->isGranted('ROLE_AGENCY')) {
             $orgChoices = ['Store' => 2, 'Restaurant' => 3];

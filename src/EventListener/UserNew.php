@@ -36,6 +36,9 @@ class UserNew extends AbstractController
                 1 => 'AGENCY',
                 2 => 'STORE',
                 3 => 'RESTAURANT',
+                10 => 'VARIANT_HEAD',
+                11 => 'VARIANT_AGENCY',
+                12 => 'VARIANT_STORE',
             };
             $user->setRoles(['ROLE_' . $role]);
         }
