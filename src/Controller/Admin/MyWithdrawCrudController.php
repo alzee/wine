@@ -66,15 +66,29 @@ class MyWithdrawCrudController extends AbstractCrudController
         yield AssociationField::new('approver')
             ->HideWhenCreating()
             ->setFormTypeOptions(['disabled' => 'disabled']);
-        yield AssociationField::new('approver')
-            ->onlyWhenCreating()
-            ->setQueryBuilder (
-                fn (QueryBuilder $qb) => $qb
-                    ->andWhere('entity.id = :id')
-                    ->setParameter('id', $this->getUser()
-                    ->getOrg()
-                    ->getUpstream())
-            );
+        if ($this->isGranted('ROLE_AGENCY') || $this->isGranted('ROLE_RESTAURANT')) {
+            yield AssociationField::new('approver')
+                ->onlyWhenCreating()
+                ->setQueryBuilder (
+                    fn (QueryBuilder $qb) => $qb
+                        ->andWhere('entity.id = :id')
+                        ->setParameter('id', $this->getUser()
+                        ->getOrg()
+                        ->getUpstream())
+                );
+        }
+        if ($this->isGranted('ROLE_VARIANT_AGENCY') || $this->isGranted('ROLE_VARIANT_STORE')) {
+            yield AssociationField::new('approver')
+                ->onlyWhenCreating()
+                ->setQueryBuilder (
+                    fn (QueryBuilder $qb) => $qb
+                        ->andWhere('entity.id = :id')
+                        ->setParameter('id', 5)
+                        // ->setParameter('id', $this->getUser()
+                        // ->getOrg()
+                        // ->getUpstream())
+                );
+        }
         yield MoneyField::new('amount', 'withdraw.amount')
             ->setCurrency('CNY')
             ->HideWhenCreating()
