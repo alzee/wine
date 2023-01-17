@@ -26,5 +26,9 @@ class OrgNew extends AbstractController
         if (is_null($org->getUpstream()) && ($org->getType() == 2 || $org->getType() == 3)) {
             $org->setUpstream($this->getUser()->getOrg());
         }
+        // Inherit upstream's industry
+        if (is_null($org->getIndustry()) && ! is_null($org->getUpstream()->getIndustry())) {
+            $org->setIndustry($org->getUpstream()->getIndustry());
+        }
     }
 }
