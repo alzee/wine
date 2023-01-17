@@ -80,7 +80,7 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_AGENCY')) {
+        if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_AGENCY') || $this->isGranted('ROLE_VARIANT_HEAD') || $this->isGranted('ROLE_VARIANT_AGENCY')) {
             yield MenuItem::linkToDashboard('Dashboard', 'fa fa-chart-simple');
             yield MenuItem::linkToCrud('OrgManage', 'fas fa-building', Org::class);
         }
@@ -91,20 +91,20 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::linkToCrud('MyStock', 'fas fa-warehouse', Stock::class);
 
-        if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_AGENCY')) {
+        if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_AGENCY') || $this->isGranted('ROLE_VARIANT_HEAD') || $this->isGranted('ROLE_VARIANT_AGENCY')) {
             yield MenuItem::linkToCrud('Sale', 'fas fa-file-export', Orders::class)
                 ->setController(SaleCrudController::class);
         }
-        if (!$this->isGranted('ROLE_HEAD')) {
+        if (! $this->isGranted('ROLE_HEAD')) {
             yield MenuItem::linkToCrud('Buy', 'fas fa-file-import', Orders::class)
                 ->setController(BuyCrudController::class);
         }
 
-        if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_AGENCY')) {
+        if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_AGENCY') || $this->isGranted('ROLE_VARIANT_HEAD') || $this->isGranted('ROLE_VARIANT_AGENCY')) {
             yield MenuItem::linkToCrud('ReturnToMe', 'fas fa-receipt', Returns::class)
                 ->setController(ReturnToMeCrudController::class);
         }
-        if (!$this->isGranted('ROLE_HEAD')) {
+        if (! $this->isGranted('ROLE_HEAD')) {
             yield MenuItem::linkToCrud('MyReturn', 'fas fa-file-invoice', Returns::class)
                 ->setController(MyReturnCrudController::class);
         }
@@ -129,7 +129,9 @@ class DashboardController extends AbstractDashboardController
             ;
         }
 
-        yield MenuItem::linkToCrud('Voucher.detail', 'fas fa-ticket', Voucher::class);
+        if (! $this->isGranted('ROLE_VARIANT_HEAD') && ! $this->isGranted('ROLE_VARIANT_AGENCY') && ! $this->isGranted('ROLE_VARIANT_STORE')) {
+            yield MenuItem::linkToCrud('Voucher.detail', 'fas fa-ticket', Voucher::class);
+        }
 
         if ($this->isGranted('ROLE_HEAD')) {
             yield MenuItem::linkToCrud('ConsumerManage', 'fas fa-users', Consumer::class);
@@ -148,7 +150,7 @@ class DashboardController extends AbstractDashboardController
             ->setController(FeaturedCrudController::class);
         ;
 
-        if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_AGENCY')) {
+        if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_AGENCY') || $this->isGranted('ROLE_VARIANT_HEAD') || $this->isGranted('ROLE_VARIANT_AGENCY')) {
             $items = [
                 MenuItem::linkToCrud('UserManage', 'fas fa-user', User::class),
             ];
