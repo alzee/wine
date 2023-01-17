@@ -319,27 +319,32 @@ class ApiController extends AbstractController
     #[Route('/create-user-org', methods: ['POST'])]
     public function createUserAndOrg(Request $request): JsonResponse
     {
-        $em = $this->doctrine->getManager();
-        $users = $this->doctrine->getRepository(User::class)->findBy(['username' => $params['username']]);
-        dump($users);
         $params  = $request->toArray();
-        $org = new Org();
-        $org->setAddress($params['address']);
-        $org->setContact($params['contact']);
-        $org->setDistrict($params['district']);
-        $org->setName($params['name']);
-        $org->setPhone($params['phone']);
-        $org->setType($params['type']);
-        $em->persist($org);
+        $em = $this->doctrine->getManager();
+        $users = $this->doctrine->getRepository(User::class)->findOneBy(['username' => $params['username']]);
+        // if username already not in use
+        if (is_null($users)) {
+            $org = new Org();
+            $org->setAddress($params['address']);
+            $org->setContact($params['contact']);
+            $org->setDistrict($params['district']);
+            $org->setName($params['name']);
+            $org->setPhone($params['phone']);
+            $org->setType($params['type']);
+            $em->persist($org);
 
-        $user = new User();
-        $user->setUsername($params['username']);
-        $user->setPlainPassword($params['plainPassword']);
-        $user->setOrg($org);
+            $user = new User();
+            $user->setUsername($params['username']);
+            $user->setPlainPassword($params['plainPassword']);
+            $user->setOrg($org);
 
-        $em->persist($user);
-        // $em->flush();
+            $em->persist($user);
+            // $em->flush();
+            $code = 0;
+        } else {
+            $code = 1;
+        }
 
-        return $this->json(['code' => 0]);
+        return $this->json(['code' => $code]);
     }
 }
