@@ -320,6 +320,8 @@ class ApiController extends AbstractController
     public function createUserAndOrg(Request $request): JsonResponse
     {
         $em = $this->doctrine->getManager();
+        $users = $this->doctrine->getRepository(User::class)->findBy(['username' => $params['username']]);
+        dump($users);
         $params  = $request->toArray();
         $org = new Org();
         $org->setAddress($params['address']);
@@ -336,7 +338,7 @@ class ApiController extends AbstractController
         $user->setOrg($org);
 
         $em->persist($user);
-        $em->flush();
+        // $em->flush();
 
         return $this->json(['code' => 0]);
     }
