@@ -316,7 +316,7 @@ class ApiController extends AbstractController
         return $this->json($orgs);
     }
 
-    #[Route('/create-user-org', methods: ['GET'])]
+    #[Route('/create-user-org', methods: ['POST'])]
     public function createUserAndOrg(Request $request): JsonResponse
     {
         $params  = $request->toArray();
