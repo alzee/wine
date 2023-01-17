@@ -26,6 +26,7 @@ use App\Service\Sms;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 
 #[Route('/api')]
 class ApiController extends AbstractController
@@ -252,7 +253,8 @@ class ApiController extends AbstractController
         $params  = $request->toArray();
         $phone = $params['phone'];
         $otp = $params['otp'];
-        $cache = new RedisAdapter(RedisAdapter::createConnection('redis://localhost'));
+        // $cache = new RedisAdapter(RedisAdapter::createConnection('redis://localhost'));
+        $cache = new FilesystemAdapter();
         $otp0 = $cache->get($phone, function (ItemInterface $item){
             return 0;
         });

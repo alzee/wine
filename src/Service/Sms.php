@@ -13,6 +13,7 @@ use Darabonba\OpenApi\Models\Config;
 use AlibabaCloud\SDK\Dysmsapi\V20170525\Models\SendSmsRequest;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 use Symfony\Contracts\Cache\ItemInterface;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 
 class Sms
 {
@@ -66,7 +67,8 @@ class Sms
         ]);
         $client->sendSms($sendSmsRequest);
 
-        $cache = new RedisAdapter(RedisAdapter::createConnection('redis://localhost'));
+        // $cache = new RedisAdapter(RedisAdapter::createConnection('redis://localhost'));
+        $cache = new FilesystemAdapter();
 
         $cache->clear($phone);
 
