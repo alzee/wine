@@ -78,6 +78,7 @@ class RetailNew extends AbstractController
             if ($upReferrer) {
                 $upReferrer->setReward($upReferrer->getReward() + $reward);
             }
+            // up of up, namely VariantHead?
 
             // partnerReward
             $reward = $product->getPartnerReward();
