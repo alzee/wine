@@ -319,6 +319,7 @@ class ApiController extends AbstractController
     #[Route('/create-user-org', methods: ['POST'])]
     public function createUserAndOrg(Request $request): JsonResponse
     {
+        $em = $this->doctrine->getManager();
         $params  = $request->toArray();
         $org = new Org();
         $org->setAddress($params['address']);
@@ -326,20 +327,16 @@ class ApiController extends AbstractController
         $org->setDistrict($params['district']);
         $org->setName($params['name']);
         $org->setPhone($params['phone']);
-        $org->type($params['type']);
-        dump($org);
+        $org->setType($params['type']);
         $em->persist($org);
-        dump($org);
 
         $user = new User();
         $user->setUsername($params['username']);
         $user->setPlainPassword($params['plainPassword']);
         $user->setOrg($org);
 
-        $em = $this->doctrine->getManager();
         $em->persist($user);
         $em->flush();
-        dump($org);
 
         return $this->json(['code' => 0]);
     }
