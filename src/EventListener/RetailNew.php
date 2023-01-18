@@ -76,11 +76,13 @@ class RetailNew extends AbstractController
             }
 
             // partnerReward
+            /*
             $reward = $product->getPartnerReward();
             $partner = $store->getUpstream()->getPartner();
             if ($partner) {
                 $partner->setReward($partner->getReward() + $reward);
             }
+             */
 
             // offIndustryStoreReward
             $reward = $product->getOffIndustryStoreReward();
