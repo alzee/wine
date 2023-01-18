@@ -27,6 +27,11 @@ class Poster
 
     public function generate(int $cid)
     {
+        $dir = 'img/poster/';
+        if (0) {
+            $dir = 'public/' . $dir;
+        }
+        print_r($this);
         $access_token = $this->wx->getAccessToken();
         $url = "https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=${access_token}";
         $data = [
@@ -36,13 +41,13 @@ class Poster
             // 'width' => 280 // Min 280px
         ];
         $response = $this->httpClient->request('POST', $url, ['json' => $data]);
-        $file = "img/poster/${cid}.jpg";
+        $file = $dir . $cid . '.jpg';
         $fileHandler = fopen($file, 'w');
         foreach ($this->httpClient->stream($response) as $chunk) {
             fwrite($fileHandler, $chunk->getContent());
         }
 
-        $poster = new \Imagick('img/poster/poster.jpg');
+        $poster = new \Imagick($dir . 'poster.jpg');
         $qr = new \Imagick($file);
         $qr->resizeimage(200, 200, \Imagick::FILTER_UNDEFINED, 1);
         $poster->compositeImage($qr, \Imagick::COMPOSITE_ATOP, 200, 720);
