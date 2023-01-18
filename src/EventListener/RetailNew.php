@@ -75,24 +75,19 @@ class RetailNew extends AbstractController
                 $referrer->setReward($referrer->getReward() + $reward);
             }
 
-            // partnerReward
-            /*
-            $reward = $product->getPartnerReward();
-            $partner = $store->getUpstream()->getPartner();
-            if ($partner) {
-                $partner->setReward($partner->getReward() + $reward);
-            }
-             */
+            // variantStoreShare
+            $share = $product->getVariantStoreShare();
+            $store->setShare($store->getShare() + $share);
 
-            // offIndustryStoreReward
-            $reward = $product->getOffIndustryStoreReward();
-            $store->setReward($store->getReward() + $reward);
+            // variantAgencyShare
+            $share = $product->getVariantAgencyShare();
+            $variantAgency = $store->getUpstream();
+            $variantAgency->setShare($variantAgency->getShare() + $Share);
 
-            // offIndustryAgencyReward
-            $reward = $product->getOffIndustryAgencyReward();
-            $up = $store->getUpstream();
-            // $up = $em->getRepository(Org::class)->find(27);
-            $up->setReward($up->getReward() + $reward);
+            // variantHeadShare
+            $share = $product->getVariantHeadShare();
+            $variantHead = $variantAgency->getUpstream();
+            $variantHead->setShare($variantHead->getShare() + $share);
         }
 
         $em->flush();
