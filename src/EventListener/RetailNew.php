@@ -15,6 +15,8 @@ use App\Entity\Voucher;
 use App\Entity\Org;
 use App\Entity\Choice;
 use App\Entity\Stock;
+use App\Entity\Reward;
+use App\Entity\Share;
 
 class RetailNew extends AbstractController
 {
@@ -62,31 +64,55 @@ class RetailNew extends AbstractController
         // refReward
         $referrer = $consumer->getReferrer();
         if (! is_null($referrer)) {
-            $reward = $product->getRefReward();
-            $referrer->setReward($referrer->getReward() + $reward * $quantity);
+            $reward = $product->getRefReward() * $quantity;
+            $referrer->setReward($referrer->getReward() + $reward);
         }
 
         // orgRefReward
-        $reward = $product->getOrgRefReward();
+        $reward = $product->getOrgRefReward() * $quantity;
         $referrer = $store->getReferrer();
         if ($referrer) {
-            $referrer->setReward($referrer->getReward() + $reward * $quantity);
+            $referrer->setReward($referrer->getReward() + $reward);
+            $rewardRecord = new Reward();
+            $rewardRecord->setType(3);
+            $rewardRecord->setRetail($retail);
+            $rewardRecord->setReferrer($referrer);
+            $rewardRecord->setAmount($reward);
+            $em->persist($rewardRecord);
         }
 
         if ($store->getType() == 12) {
             // variantStoreShare
-            $share = $product->getVariantStoreShare();
-            $store->setShare($store->getShare() + $share * $quantity);
+            $share = $product->getVariantStoreShare() * $quantity;
+            $store->setShare($store->getShare() + $share);
+
+            $shareRecord = new Share();
+            $shareRecord->setType(0);
+            $shareRecord->setRetail($retail);
+            $shareRecord->setOrg($store);
+            $em->persist($shareRecord);
 
             // variantAgencyShare
-            $share = $product->getVariantAgencyShare();
+            $share = $product->getVariantAgencyShare() * $quantity;
             $variantAgency = $store->getUpstream();
-            $variantAgency->setShare($variantAgency->getShare() + $share * $quantity);
+            $variantAgency->setShare($variantAgency->getShare() + $share);
+
+            $shareRecord = new Share();
+            $shareRecord->setType(1);
+            $shareRecord->setRetail($retail);
+            $shareRecord->setOrg($variantAgency);
+            $em->persist($shareRecord);
 
             // variantHeadShare
-            $share = $product->getVariantHeadShare();
+            $share = $product->getVariantHeadShare() * $quantity;
             $variantHead = $variantAgency->getUpstream();
-            $variantHead->setShare($variantHead->getShare() + $share * $quantity);
+            $variantHead->setShare($variantHead->getShare() + $share);
+
+            $shareRecord = new Share();
+            $shareRecord->setType(2);
+            $shareRecord->setRetail($retail);
+            $shareRecord->setOrg($variantHead);
+            $em->persist($shareRecord);
         }
 
         $em->flush();

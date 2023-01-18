@@ -15,6 +15,7 @@ use App\Entity\Product;
 use App\Entity\Stock;
 use App\Entity\Voucher;
 use App\Entity\Choice;
+use App\Entity\Reward;
 
 class OrdersNew extends AbstractController
 {
@@ -70,17 +71,25 @@ class OrdersNew extends AbstractController
             // buyer stock + quantity
             $stockRecordOfBuyer->setStock($stockRecordOfBuyer->getStock() + $quantity);
 
+            $reward = $product->getOrgRefReward() * $quantity;
+            $rewardRecord = new Reward();
             // orgRefReward when agency/variantHead buy
-            $reward = $product->getOrgRefReward();
             if ($buyer->getType() == 1 || $buyer->getType() == 10) {
                 $referrer = $buyer->getReferrer();
+                $rewardRecord->setType(0);
+                $rewardRecord->setOrd($order);
             }
             // orgRefReward when variantAgency sell
             if ($seller->getType() == 11) {
                 $referrer = $seller->getReferrer();
+                $rewardRecord->setType(1);
+                $rewardRecord->setOrd($order);
             }
             if (isset($referrer) && ! is_null($referrer)) {
-                $referrer->setReward($referrer->getReward() + $reward * $quantity);
+                $referrer->setReward($referrer->getReward() + $reward);
+                $rewardRecord->setReferrer($referrer);
+                $rewardRecord->setAmount($reward);
+                $em->persist($rewardRecord);
             }
         }
 
