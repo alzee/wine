@@ -73,7 +73,7 @@ class Product
     #[Assert\Positive]
     private ?int $orgRefReward = 0;
 
-    #[ORM\Column(options: ["unsigned" => true])]
+    #[ORM\Column(options: ["unsigned" => true], nullable: true)]
     #[Assert\Positive]
     private ?int $partnerReward = 0;
 
