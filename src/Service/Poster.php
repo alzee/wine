@@ -31,7 +31,7 @@ class Poster
         if (0) {
             $dir = 'public/' . $dir;
         }
-        print_r($this);
+        dump($this);
         $access_token = $this->wx->getAccessToken();
         $url = "https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=${access_token}";
         $data = [
