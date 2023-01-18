@@ -15,7 +15,7 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
 )]
-#[ApiFilter(SearchFilter::class, properties: ['retail' => 'exact', 'ord' => 'exact', 'type' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['referrer' => 'exact', 'retail' => 'exact', 'ord' => 'exact', 'type' => 'exact'])]
 class Reward
 {
     #[ORM\Id]
