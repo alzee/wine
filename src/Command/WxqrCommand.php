@@ -11,6 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use App\Service\WX;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use App\Service\Poster;
 
 #[AsCommand(
     name: 'wxqr',
@@ -18,10 +19,11 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 )]
 class WxqrCommand extends Command
 {
-    public function __construct(WX $wx, HttpClientInterface $client)
+    private $poster;
+
+    public function __construct(Poster $poster, HttpClientInterface $client)
     {
-        $this->httpClient = $client;
-        $this->wx = $wx;
+        $this->poster = $poster;
         parent::__construct();
     }
 
@@ -37,28 +39,7 @@ class WxqrCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $cid = $input->getArgument('cid');
-
-        if ($cid) {
-            // $io->note(sprintf('You passed an argument: %s', $cid));
-        }
-
-        // if ($input->getOption('option1')) {
-        //     // ...
-        // }
-
-        $access_token = $this->wx->getAccessToken();
-        $url = "https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=${access_token}";
-        $data = [
-            'page' => 'pages/index/index',
-            'scene' => $cid,
-            'env_version' => 'trial'
-        ];
-        $response = $this->httpClient->request('POST', $url, ['json' => $data]);
-        $file = "public/img/poster/${cid}.jpg";
-        $fileHandler = fopen($file, 'w');
-        foreach ($this->httpClient->stream($response) as $chunk) {
-            fwrite($fileHandler, $chunk->getContent());
-        }
+        $this->poster->generate($cid);
 
         // $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
 
