@@ -67,6 +67,7 @@ class Withdraw
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\ManyToOne]
+    #[Groups(['read', 'write'])]
     private ?Consumer $consumer = null;
 
     public function __construct()
