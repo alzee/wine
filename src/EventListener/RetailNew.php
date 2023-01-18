@@ -90,6 +90,7 @@ class RetailNew extends AbstractController
             $shareRecord->setType(0);
             $shareRecord->setRetail($retail);
             $shareRecord->setOrg($store);
+            $shareRecord->setAmount($share);
             $em->persist($shareRecord);
 
             // variantAgencyShare
@@ -101,6 +102,7 @@ class RetailNew extends AbstractController
             $shareRecord->setType(1);
             $shareRecord->setRetail($retail);
             $shareRecord->setOrg($variantAgency);
+            $shareRecord->setAmount($share);
             $em->persist($shareRecord);
 
             // variantHeadShare
@@ -112,6 +114,7 @@ class RetailNew extends AbstractController
             $shareRecord->setType(2);
             $shareRecord->setRetail($retail);
             $shareRecord->setOrg($variantHead);
+            $shareRecord->setAmount($share);
             $em->persist($shareRecord);
         }
 
