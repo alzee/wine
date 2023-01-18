@@ -44,12 +44,10 @@ class Withdraw
     private ?string $note = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
     #[Groups(['read', 'write'])]
     private ?Org $applicant = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
     #[Groups(['read', 'write'])]
     private ?Org $approver = null;
 
