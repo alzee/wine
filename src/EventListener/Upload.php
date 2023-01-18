@@ -44,7 +44,7 @@ class Upload
                 3 => 'node/body',
                 4 => 'product/body',
                 5 => 'widthdraw',
-            }
+            };
         } else {
             $file = $object->getImageFile();
         }
