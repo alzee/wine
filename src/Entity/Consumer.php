@@ -76,9 +76,11 @@ class Consumer
     private ?self $referrer = null;
 
     #[ORM\Column]
+    #[Groups(['read'])]
     private ?int $reward = 0;
 
     #[ORM\Column]
+    #[Groups(['read'])]
     private ?int $rewardWithdrawable = 0;
 
     public function __construct()
