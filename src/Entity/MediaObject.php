@@ -62,10 +62,10 @@ class MediaObject
     #[ORM\Column(nullable: true)] 
     public ?string $filePath = null;
 
-    #[ORM\Column(type: Types::SMALLINT)]
+    #[ORM\Column(type: Types::SMALLINT, nullable: true)]
     private ?int $type = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $entityId = null;
 
     public function getId(): ?int
