@@ -86,6 +86,7 @@ class Product
     private ?int $variantStoreShare = 0;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['read'])]
     private ?string $intro = null;
 
     public function __construct()
