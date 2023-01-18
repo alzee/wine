@@ -72,11 +72,11 @@ class OrdersNew extends AbstractController
 
             // orgRefReward when agency/variantHead buy
             $reward = $product->getOrgRefReward();
-            if ($buyer->getType == 1 || $buyer->getType == 10) {
+            if ($buyer->getType() == 1 || $buyer->getType() == 10) {
                 $referrer = $buyer->getReferrer();
             }
             // orgRefReward when variantAgency sell
-            if ($seller->getType == 11) {
+            if ($seller->getType() == 11) {
                 $referrer = $seller->getReferrer();
             }
             if (isset($referrer) && ! is_null($referrer)) {
