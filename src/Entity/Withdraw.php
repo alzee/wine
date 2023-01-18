@@ -66,6 +66,9 @@ class Withdraw
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
+    #[ORM\ManyToOne]
+    private ?Consumer $consumer = null;
+
     public function __construct()
     {
         $this->date = new \DateTime();
@@ -196,6 +199,18 @@ class Withdraw
     public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getConsumer(): ?Consumer
+    {
+        return $this->consumer;
+    }
+
+    public function setConsumer(?Consumer $consumer): self
+    {
+        $this->consumer = $consumer;
 
         return $this;
     }
