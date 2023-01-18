@@ -13,10 +13,18 @@ use App\Entity\Withdraw;
 use App\Entity\Product;
 use App\Entity\Node;
 use App\Entity\MediaObject;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\ORM\EntityManagerInterface;
 
 class Upload
 {
+    private $em;
+
+
+    public function __construct(RetailRepository $retailRepo, EntityManagerInterface $em)
+    {
+        $this->em = $em;
+    }
+
     public function onVichUploaderPostUpload(Event $event): void
     {
         $em = $event->getEntityManager();
@@ -86,6 +94,15 @@ class Upload
             if ($type < 3) {
                 rename($thumbnail_path, $file->getPath() . '/../img/' . $dir . '/thumbnail/' . $file->getFilename());
                 rename($file_path, $file->getPath() . '/../img/' . $dir . '/' . $file->getFilename());
+
+                $class = match ($type) {
+                    0 => Org::class,
+                    1 => Product::class,
+                    2 => Node::class,
+                };
+                $entity = $this->em->getRepository($class)->find($object->getEntityId);
+                $entity->setImg($file->getFilename());
+                $this->em->flush();
             }
         }
     }
