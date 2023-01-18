@@ -81,10 +81,11 @@ class Consumer
 
     #[ORM\Column]
     #[Groups(['read'])]
-    private ?int $rewardWithdrawable = 0;
+    private ?int $withdrawable = 0;
 
     #[ORM\Column]
-    private ?int $withdrawing = null;
+    #[Groups(['read'])]
+    private ?int $withdrawing = 0;
 
     public function __construct()
     {
@@ -307,14 +308,14 @@ class Consumer
         return $this;
     }
 
-    public function getRewardWithdrawable(): ?int
+    public function getWithdrawable(): ?int
     {
-        return $this->rewardWithdrawable;
+        return $this->withdrawable;
     }
 
-    public function setRewardWithdrawable(int $rewardWithdrawable): self
+    public function setWithdrawable(int $withdrawable): self
     {
-        $this->rewardWithdrawable = $rewardWithdrawable;
+        $this->withdrawable = $withdrawable;
 
         return $this;
     }
