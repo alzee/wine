@@ -253,8 +253,8 @@ class ApiController extends AbstractController
         $params  = $request->toArray();
         $phone = $params['phone'];
         $otp = $params['otp'];
-        // $cache = new RedisAdapter(RedisAdapter::createConnection('redis://localhost'));
-        $cache = new FilesystemAdapter();
+        $cache = new RedisAdapter(RedisAdapter::createConnection('redis://localhost'));
+        // $cache = new FilesystemAdapter();
         $otp0 = $cache->get($phone, function (ItemInterface $item){
             return 0;
         });

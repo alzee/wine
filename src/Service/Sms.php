@@ -67,8 +67,8 @@ class Sms
         ]);
         $client->sendSms($sendSmsRequest);
 
-        // $cache = new RedisAdapter(RedisAdapter::createConnection('redis://localhost'));
-        $cache = new FilesystemAdapter();
+        $cache = new RedisAdapter(RedisAdapter::createConnection('redis://localhost'));
+        // $cache = new FilesystemAdapter();
 
         $cache->clear($phone);
 
