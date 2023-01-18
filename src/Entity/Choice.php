@@ -19,9 +19,9 @@ class Choice
     public const REG_TYPES = [
         'Store' => 0,
         'Agency' => 1,
-        'Partner' => 2,
-        'VariantHead' => 3,
-        'VariantAgency' => 4,
+        'VariantHead' => 2,
+        'VariantAgency' => 3,
+        'VariantStore' => 4,
     ];
     public const VOUCHER_TYPES = [
         // increase
