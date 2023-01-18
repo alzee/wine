@@ -81,7 +81,7 @@ class Upload
         if ($object instanceof MediaObject) {
             if ($type < 3) {
                 rename($thumbnail_path, $file->getPath() . '/../img/' . $dir . '/thumbnail/' . $file->getFilename());
-                rename($file_path, $file->getPath() . '/../img/' . $file->getFilename());
+                rename($file_path, $file->getPath() . '/../img/' . $dir . $file->getFilename());
             }
         }
     }
