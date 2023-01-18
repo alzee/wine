@@ -81,7 +81,7 @@ class RetailNew extends AbstractController
             // variantAgencyShare
             $share = $product->getVariantAgencyShare();
             $variantAgency = $store->getUpstream();
-            $variantAgency->setShare($variantAgency->getShare() + $Share * $quantity);
+            $variantAgency->setShare($variantAgency->getShare() + $share * $quantity);
 
             // variantHeadShare
             $share = $product->getVariantHeadShare();
