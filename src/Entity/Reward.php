@@ -15,7 +15,7 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
 )]
-#[ApiFilter(SearchFilter::class, properties: ['consumer' => 'exact', 'org' => 'exact', 'retail' => 'exact', 'ord' => 'exact', 'type' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['retail' => 'exact', 'ord' => 'exact', 'type' => 'exact'])]
 class Reward
 {
     #[ORM\Id]
@@ -38,15 +38,7 @@ class Reward
 
     #[ORM\ManyToOne]
     #[Groups(['read'])]
-    private ?Consumer $consumer = null;
-
-    #[ORM\ManyToOne]
-    #[Groups(['read'])]
     private ?Retail $retail = null;
-
-    #[ORM\ManyToOne]
-    #[Groups(['read'])]
-    private ?Org $org = null;
 
     #[ORM\ManyToOne]
     #[Groups(['read'])]
@@ -54,6 +46,7 @@ class Reward
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['read'])]
     private ?Consumer $referrer = null;
 
     public function __construct()
@@ -102,18 +95,6 @@ class Reward
         return $this;
     }
 
-    public function getConsumer(): ?Consumer
-    {
-        return $this->consumer;
-    }
-
-    public function setConsumer(?Consumer $consumer): self
-    {
-        $this->consumer = $consumer;
-
-        return $this;
-    }
-
     public function getRetail(): ?Retail
     {
         return $this->retail;
@@ -122,18 +103,6 @@ class Reward
     public function setRetail(?Retail $retail): self
     {
         $this->retail = $retail;
-
-        return $this;
-    }
-
-    public function getOrg(): ?Org
-    {
-        return $this->org;
-    }
-
-    public function setOrg(?Org $org): self
-    {
-        $this->org = $org;
 
         return $this;
     }
