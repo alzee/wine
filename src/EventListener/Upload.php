@@ -13,11 +13,15 @@ use App\Entity\Withdraw;
 use App\Entity\Product;
 use App\Entity\Node;
 use App\Entity\MediaObject;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class Upload
 {
     public function onVichUploaderPostUpload(Event $event): void
     {
+        $em = $event->getEntityManager();
+        dump($em);
+
         $target_width = 400;
         $target_height = 200;
         $target_quality = 75;
