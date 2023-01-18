@@ -27,9 +27,6 @@ class Upload
 
     public function onVichUploaderPostUpload(Event $event): void
     {
-        $em = $event->getEntityManager();
-        dump($em);
-
         $target_width = 400;
         $target_height = 200;
         $target_quality = 75;
