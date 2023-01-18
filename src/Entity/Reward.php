@@ -52,6 +52,10 @@ class Reward
     #[Groups(['read'])]
     private ?Orders $ord = null;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Consumer $referrer = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -142,6 +146,18 @@ class Reward
     public function setOrd(?Orders $ord): self
     {
         $this->ord = $ord;
+
+        return $this;
+    }
+
+    public function getReferrer(): ?Consumer
+    {
+        return $this->referrer;
+    }
+
+    public function setReferrer(?Consumer $referrer): self
+    {
+        $this->referrer = $referrer;
 
         return $this;
     }
