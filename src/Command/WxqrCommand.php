@@ -21,7 +21,7 @@ class WxqrCommand extends Command
 {
     private $poster;
 
-    public function __construct(Poster $poster, HttpClientInterface $client)
+    public function __construct(Poster $poster)
     {
         $this->poster = $poster;
         parent::__construct();
