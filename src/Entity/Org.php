@@ -122,11 +122,11 @@ class Org
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['read', 'write'])]
-    private ?string $bank_account = null;
+    private ?string $bankAccount = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['read', 'write'])]
-    private ?string $bank_addr = null;
+    private ?string $bankAddr = null;
 
     #[ORM\ManyToOne]
     #[Groups(['read'])]
@@ -559,24 +559,24 @@ class Org
 
     public function getBankAccount(): ?string
     {
-        return $this->bank_account;
+        return $this->bankAccount;
     }
 
-    public function setBankAccount(?string $bank_account): self
+    public function setBankAccount(?string $bankAccount): self
     {
-        $this->bank_account = $bank_account;
+        $this->bankAccount = $bankAccount;
 
         return $this;
     }
 
     public function getBankAddr(): ?string
     {
-        return $this->bank_addr;
+        return $this->bankAddr;
     }
 
-    public function setBankAddr(?string $bank_addr): self
+    public function setBankAddr(?string $bankAddr): self
     {
-        $this->bank_addr = $bank_addr;
+        $this->bankAddr = $bankAddr;
 
         return $this;
     }
