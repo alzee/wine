@@ -39,9 +39,6 @@ class Withdraw
     #[Groups(['read', 'write'])]
     private ?int $status = 0;
 
-    #[ORM\ManyToOne(inversedBy: 'withdraws')]
-    private ?Org $org = null;
-
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['read', 'write'])]
     private ?string $note = null;
@@ -113,18 +110,6 @@ class Withdraw
     public function setStatus(int $status): self
     {
         $this->status = $status;
-
-        return $this;
-    }
-
-    public function getOrg(): ?Org
-    {
-        return $this->org;
-    }
-
-    public function setOrg(?Org $org): self
-    {
-        $this->org = $org;
 
         return $this;
     }
