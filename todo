@@ -1,3 +1,4 @@
+- determine if is command or http calling a service?
 - orgDetail node height limit
 - uplaod file type, frontend for all and validator for MediaObject 
 - only show products which have stock when creating orders
