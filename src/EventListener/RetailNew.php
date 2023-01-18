@@ -63,31 +63,30 @@ class RetailNew extends AbstractController
         $referrer = $consumer->getReferrer();
         if (! is_null($referrer)) {
             $reward = $product->getRefReward();
-            $referrer->setReward($referrer->getReward() + $reward);
+            $referrer->setReward($referrer->getReward() + $reward * $quantity);
+        }
+
+        // orgRefReward
+        $reward = $product->getOrgRefReward();
+        $referrer = $store->getReferrer();
+        if ($referrer) {
+            $referrer->setReward($referrer->getReward() + $reward * $quantity);
         }
 
         if ($store->getType() == 12) {
-            // orgRefReward
-            $reward = $product->getOrgRefReward();
-            $up = $store->getUpstream();
-            $referrer = $store->getReferrer();
-            if ($referrer) {
-                $referrer->setReward($referrer->getReward() + $reward);
-            }
-
             // variantStoreShare
             $share = $product->getVariantStoreShare();
-            $store->setShare($store->getShare() + $share);
+            $store->setShare($store->getShare() + $share * $quantity);
 
             // variantAgencyShare
             $share = $product->getVariantAgencyShare();
             $variantAgency = $store->getUpstream();
-            $variantAgency->setShare($variantAgency->getShare() + $Share);
+            $variantAgency->setShare($variantAgency->getShare() + $Share * $quantity);
 
             // variantHeadShare
             $share = $product->getVariantHeadShare();
             $variantHead = $variantAgency->getUpstream();
-            $variantHead->setShare($variantHead->getShare() + $share);
+            $variantHead->setShare($variantHead->getShare() + $share * $quantity);
         }
 
         $em->flush();
