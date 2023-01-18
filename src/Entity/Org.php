@@ -140,10 +140,10 @@ class Org
     private ?User $manager = null;
 
     #[ORM\Column]
-    private ?int $reward = 0;
+    private ?int $share = 0;
 
     #[ORM\Column]
-    private ?int $rewardWithdrawable = 0;
+    private ?int $shareWithdrawable = 0;
 
     #[ORM\ManyToOne]
     private ?Consumer $partner = null;
@@ -625,26 +625,26 @@ class Org
         return $this;
     }
 
-    public function getReward(): ?int
+    public function getShare(): ?int
     {
-        return $this->reward;
+        return $this->share;
     }
 
-    public function setReward(int $reward): self
+    public function setShare(int $share): self
     {
-        $this->reward = $reward;
+        $this->share = $share;
 
         return $this;
     }
 
-    public function getRewardWithdrawable(): ?int
+    public function getShareWithdrawable(): ?int
     {
-        return $this->rewardWithdrawable;
+        return $this->shareWithdrawable;
     }
 
-    public function setRewardWithdrawable(int $rewardWithdrawable): self
+    public function setShareWithdrawable(int $shareWithdrawable): self
     {
-        $this->rewardWithdrawable = $rewardWithdrawable;
+        $this->shareWithdrawable = $shareWithdrawable;
 
         return $this;
     }
