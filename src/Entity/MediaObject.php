@@ -65,6 +65,9 @@ class MediaObject
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $type = null;
 
+    #[ORM\Column]
+    private ?int $entityId = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -78,6 +81,18 @@ class MediaObject
     public function setType(int $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getEntityId(): ?int
+    {
+        return $this->entityId;
+    }
+
+    public function setEntityId(int $entityId): self
+    {
+        $this->entityId = $entityId;
 
         return $this;
     }
