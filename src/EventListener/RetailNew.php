@@ -66,6 +66,12 @@ class RetailNew extends AbstractController
         if (! is_null($referrer)) {
             $reward = $product->getRefReward() * $quantity;
             $referrer->setReward($referrer->getReward() + $reward);
+            $rewardRecord = new Reward();
+            $rewardRecord->setType(2);
+            $rewardRecord->setRetail($retail);
+            $rewardRecord->setReferrer($referrer);
+            $rewardRecord->setAmount($reward);
+            $em->persist($rewardRecord);
         }
 
         // orgRefReward
