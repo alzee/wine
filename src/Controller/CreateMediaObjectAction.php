@@ -15,6 +15,7 @@ final class CreateMediaObjectAction extends AbstractController
     {
         $uploadedFile = $request->files->get('upload');
         $type = $request->request->get('type');
+        $entityId = $request->request->get('entityId');
         if (!$uploadedFile) {
             throw new BadRequestHttpException('"file" is required');
         }
@@ -22,6 +23,7 @@ final class CreateMediaObjectAction extends AbstractController
         $mediaObject = new MediaObject();
         $mediaObject->file = $uploadedFile;
         $mediaObject->setType($type);
+        $mediaObject->setType($entityId);
 
         return $mediaObject;
     }
