@@ -15,6 +15,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
@@ -24,6 +25,7 @@ use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
 use App\Admin\Field\VichImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
@@ -88,7 +90,11 @@ class ProductCrudController extends AbstractCrudController
                 // ->setUploadDir('public/img/product/')
             ,
             VichImageField::new('imageFile', 'Product Image')
-            ->onlyOnForms()
+                ->onlyOnForms()
+            ,
+            TextareaField::new('intro')
+                ->onlyOnForms()
+            ,
         ];
     }
 
@@ -155,6 +161,21 @@ class ProductCrudController extends AbstractCrudController
         return $crud
             // ->showEntityActionsInlined()
             ->setHelp('new', $help)
+        ;
+    }
+
+    public function configureAssets(Assets $assets): Assets
+    {
+        return $assets
+            ->addJsFile(
+                Asset::new('/js/ckeditor.js')
+                    ->onlyOnForms()
+            )
+            ->addJsFile(
+                Asset::new('/js/initCKEditor.js')
+                    ->defer()
+                    ->onlyOnForms()
+            )
         ;
     }
 }
