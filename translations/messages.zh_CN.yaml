@@ -107,8 +107,9 @@ Ref Reward: 分销佣金
 Conf: 系统设置
 Org Ref Reward: 介绍人佣金
 Partner Reward: 合伙人佣金
-Off Industry Store Reward: 异业门店分润
-Off Industry Agency Reward: 异业代理商分润
+Variant Head Share: 代理商(异业)分润)
+Variant Agency Share: 区域代理商(异业)分润
+Variant Store Share: 门店(异业)分润
 Manager: 业务员
 RegList: 合作报备
 Reg: 报备
