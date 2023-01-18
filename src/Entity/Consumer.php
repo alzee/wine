@@ -83,6 +83,9 @@ class Consumer
     #[Groups(['read'])]
     private ?int $rewardWithdrawable = 0;
 
+    #[ORM\Column]
+    private ?int $withdrawing = null;
+
     public function __construct()
     {
         $this->orderRestaurants = new ArrayCollection();
@@ -312,6 +315,18 @@ class Consumer
     public function setRewardWithdrawable(int $rewardWithdrawable): self
     {
         $this->rewardWithdrawable = $rewardWithdrawable;
+
+        return $this;
+    }
+
+    public function getWithdrawing(): ?int
+    {
+        return $this->withdrawing;
+    }
+
+    public function setWithdrawing(int $withdrawing): self
+    {
+        $this->withdrawing = $withdrawing;
 
         return $this;
     }
