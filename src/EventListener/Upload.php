@@ -43,6 +43,9 @@ class Upload
         if ($object instanceof MediaObject) {
             $file = $object->file;
             $type = $object->getType();
+            if (is_null($type)) {
+                $type = 9;
+            }
             if ($type >= 3) {
                 $target_width = 600;
             }
@@ -53,6 +56,7 @@ class Upload
                 3 => 'node/body',
                 4 => 'product/body',
                 5 => 'widthdraw',
+                9 => 'media',
             };
         } else {
             $file = $object->getImageFile();
