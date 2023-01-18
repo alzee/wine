@@ -25,6 +25,7 @@ class Upload
 
         $object = $event->getObject();
         // $mapping = $event->getMapping();
+        dump($object);
 
         if ($object instanceof Withdraw) {
             $target_width = 800;

@@ -18,6 +18,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[ORM\Entity]
 #[ApiResource(
     normalizationContext: ['groups' => ['media_object:read']], 
+    denormalizationContext: ['groups' => ['write']],
     types: ['https://schema.org/MediaObject'],
     operations: [
         new Get(),
@@ -63,6 +64,7 @@ class MediaObject
     public ?string $filePath = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
+    #[Groups(['read', 'write'])]
     private ?int $type = null;
 
     public function getId(): ?int
