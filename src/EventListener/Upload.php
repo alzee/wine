@@ -97,7 +97,7 @@ class Upload
                     1 => Product::class,
                     2 => Node::class,
                 };
-                $entity = $this->em->getRepository($class)->find($object->getEntityId);
+                $entity = $this->em->getRepository($class)->find($object->getEntityId());
                 $entity->setImg($file->getFilename());
                 $this->em->flush();
             }
