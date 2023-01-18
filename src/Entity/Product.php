@@ -85,6 +85,9 @@ class Product
     #[Assert\Positive]
     private ?int $variantStoreShare = 0;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $intro = null;
+
     public function __construct()
     {
     }
@@ -255,6 +258,18 @@ class Product
     public function setVariantStoreShare(int $variantStoreShare): self
     {
         $this->variantStoreShare = $variantStoreShare;
+
+        return $this;
+    }
+
+    public function getIntro(): ?string
+    {
+        return $this->intro;
+    }
+
+    public function setIntro(?string $intro): self
+    {
+        $this->intro = $intro;
 
         return $this;
     }
