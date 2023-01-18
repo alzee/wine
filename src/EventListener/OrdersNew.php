@@ -69,6 +69,19 @@ class OrdersNew extends AbstractController
             }
             // buyer stock + quantity
             $stockRecordOfBuyer->setStock($stockRecordOfBuyer->getStock() + $quantity);
+
+            // orgRefReward when agency/variantHead buy
+            $reward = $product->getOrgRefReward();
+            if ($buyer->getType == 1 || $buyer->getType == 10) {
+                $referrer = $buyer->getReferrer();
+            }
+            // orgRefReward when variantAgency sell
+            if ($seller->getType == 11) {
+                $referrer = $seller->getReferrer();
+            }
+            if (isset($referrer) && ! is_null($referrer)) {
+                $referrer->setReward($referrer->getReward() + $reward * $quantity);
+            }
         }
 
         $voucher = $order->getVoucher();
@@ -92,6 +105,7 @@ class OrdersNew extends AbstractController
         $record->setVoucher($voucher);
         $record->setType($type - 100);
         $em->persist($record);
+
 
         $em->flush();
     }
