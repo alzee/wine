@@ -78,7 +78,7 @@ class MediaObject
         return $this->type;
     }
 
-    public function setType(int $type): self
+    public function setType(?int $type): self
     {
         $this->type = $type;
 
@@ -90,7 +90,7 @@ class MediaObject
         return $this->entityId;
     }
 
-    public function setEntityId(int $entityId): self
+    public function setEntityId(?int $entityId): self
     {
         $this->entityId = $entityId;
 
