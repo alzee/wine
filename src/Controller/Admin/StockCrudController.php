@@ -47,13 +47,13 @@ class StockCrudController extends AbstractCrudController
             yield MoneyField::new('product.orgRefReward', 'Org Ref Reward')
                 ->setCurrency('CNY')
             ;
-            yield MoneyField::new('product.partnerReward', 'Partner Reward')
+            yield MoneyField::new('product.variantHeadShare', 'Variant Head Share')
                 ->setCurrency('CNY')
             ;
-            yield MoneyField::new('product.offIndustryStoreReward', 'Off Industry Store Reward')
+            yield MoneyField::new('product.variantAgencyShare', 'Variant Agency Share')
                 ->setCurrency('CNY')
             ;
-            yield MoneyField::new('product.offIndustryAgencyReward', 'Off Industry Agency Reward')
+            yield MoneyField::new('product.variantStoreShare', 'Variant Store Share')
                 ->setCurrency('CNY')
             ;
             yield ImageField::new('product.img', 'Product Image')
