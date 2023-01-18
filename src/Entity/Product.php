@@ -73,17 +73,17 @@ class Product
     #[Assert\Positive]
     private ?int $orgRefReward = 0;
 
-    #[ORM\Column(options: ["unsigned" => true], nullable: true)]
-    // #[Assert\Positive]
-    private ?int $partnerReward = 0;
-
-    #[ORM\Column(options: ["unsigned" => true])]
+    #[ORM\Column(type: Types::SMALLINT, options: ["unsigned" => true])]
     #[Assert\Positive]
-    private ?int $offIndustryStoreReward = 0;
+    private ?int $variantHeadShare = 0;
 
-    #[ORM\Column(options: ["unsigned" => true])]
+    #[ORM\Column(type: Types::SMALLINT, options: ["unsigned" => true])]
     #[Assert\Positive]
-    private ?int $offIndustryAgencyReward = 0;
+    private ?int $variantAgencyShare = 0;
+
+    #[ORM\Column(type: Types::SMALLINT, options: ["unsigned" => true])]
+    #[Assert\Positive]
+    private ?int $variantStoreShare = 0;
 
     public function __construct()
     {
@@ -223,38 +223,38 @@ class Product
         return $this;
     }
 
-    public function getPartnerReward(): ?int
+    public function getVariantHeadShare(): ?int
     {
-        return $this->partnerReward;
+        return $this->variantHeadShare;
     }
 
-    public function setPartnerReward(int $partnerReward): self
+    public function setVariantHeadShare(int $variantHeadShare): self
     {
-        $this->partnerReward = $partnerReward;
+        $this->variantHeadShare = $variantHeadShare;
 
         return $this;
     }
 
-    public function getOffIndustryStoreReward(): ?int
+    public function getVariantAgencyShare(): ?int
     {
-        return $this->offIndustryStoreReward;
+        return $this->variantAgencyShare;
     }
 
-    public function setOffIndustryStoreReward(int $offIndustryStoreReward): self
+    public function setVariantAgencyShare(int $variantAgencyShare): self
     {
-        $this->offIndustryStoreReward = $offIndustryStoreReward;
+        $this->variantAgencyShare = $variantAgencyShare;
 
         return $this;
     }
 
-    public function getOffIndustryAgencyReward(): ?int
+    public function getVariantStoreShare(): ?int
     {
-        return $this->offIndustryAgencyReward;
+        return $this->variantStoreShare;
     }
 
-    public function setOffIndustryAgencyReward(int $offIndustryAgencyReward): self
+    public function setVariantStoreShare(int $variantStoreShare): self
     {
-        $this->offIndustryAgencyReward = $offIndustryAgencyReward;
+        $this->variantStoreShare = $variantStoreShare;
 
         return $this;
     }
