@@ -40,8 +40,10 @@ class RegCrudController extends AbstractCrudController
         yield ChoiceField::new('type')
             ->setChoices(Choice::REG_TYPES)
         ;
-        yield TextField::new('name', 'Person Name');
+        yield TextField::new('orgName');
+        yield TextField::new('name', 'Contact');
         yield TextField::new('phone');
+        yield TextField::new('address');
         yield AssociationField::new('submitter');
     }
 }
