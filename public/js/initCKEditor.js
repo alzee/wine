@@ -4,6 +4,11 @@ if (! textaera) {
 }
 ClassicEditor
   .create( textaera, {
+    image: {
+      upload: {
+        types: ['png', 'jpeg']
+      }
+    },
     simpleUpload: {
       uploadUrl: '/api/media_objects'
       // Enable the XMLHttpRequest.withCredentials property.
