@@ -18,20 +18,18 @@ class Poster
 {
     private $httpClient;
     private $wx;
+    private $imgdir;
 
-    public function __construct(HttpClientInterface $client, WX $wx)
+    public function __construct(HttpClientInterface $client, WX $wx, $imgdir)
     {
         $this->httpClient = $client;
         $this->wx = $wx;
+        $this->imgdir = $imgdir;
     }
 
     public function generate(int $cid)
     {
-        $dir = 'img/poster/';
-        if (0) {
-            $dir = 'public/' . $dir;
-        }
-        dump($this);
+        $dir = $this->imgdir . '/poster/';
         $access_token = $this->wx->getAccessToken();
         $url = "https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=${access_token}";
         $data = [

@@ -20,6 +20,10 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    App\Service\Poster:
+      arguments:
+        $imgdir: '%kernel.project_dir%/public/img'
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
     
