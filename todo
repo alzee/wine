@@ -1,3 +1,5 @@
+- ckeditor5 add form data
+- image process service
 - determine if is command or http calling a service?
 - orgDetail node height limit
 - uplaod file type, frontend for all and validator for MediaObject 
