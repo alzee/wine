@@ -93,8 +93,8 @@ class Upload
 
         if ($object instanceof MediaObject) {
             if ($type < 3) {
-                rename($thumbnail_path, $file->getPath() . '/../img/' . $dir . '/thumbnail/' . $file->getFilename());
-                rename($file_path, $file->getPath() . '/../img/' . $dir . '/' . $file->getFilename());
+                symlink('../../../media/thumbnail/' . $file->getFilename(), $file->getPath() . '/../img/' . $dir . '/thumbnail/' . $file->getFilename());
+                symlink('../../media/', $file->getPath() . '/../img/' . $dir . '/' . $file->getFilename());
 
                 $class = match ($type) {
                     0 => Org::class,
