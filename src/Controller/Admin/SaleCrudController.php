@@ -222,6 +222,7 @@ class SaleCrudController extends AbstractCrudController
             ->setHelp('new', $helpNew)
             ->setPageTitle('index', 'Sale')
             ->setSearchFields(['buyer.name', 'orderItems.product.name'])
+            ->overrideTemplates([ 'crud/index' => 'admin/pages/index.html.twig', ])
         ;
     }
 
