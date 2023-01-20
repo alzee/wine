@@ -29,7 +29,8 @@ class RewardCrudController extends AbstractCrudController
                 ->setCurrency('CNY')
             ;
         yield AssociationField::new('referrer');
-        yield AssociationField::new('ord');
+        yield AssociationField::new('ord', 'Order');
+        yield AssociationField::new('retail');
         yield ChoiceField::new('status')
             ->setChoices(Choice::REWARD_SHARE_STATUSES);
         yield DateTimeField::new('createdAt');
