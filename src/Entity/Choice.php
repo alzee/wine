@@ -4,6 +4,16 @@ namespace App\Entity;
 
 class Choice
 {
+    public const REWARD_TYPES= [
+        'lock' => 0,
+        'withdrawable' => 1,
+        'done' => 2,
+    ];
+    public const SHARE_TYPES= [
+        'lock' => 0,
+        'withdrawable' => 1,
+        'done' => 2,
+    ];
     public const REWARD_SHARE_STATUSES= [
         'lock' => 0,
         'withdrawable' => 1,

@@ -12,6 +12,12 @@ use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
+use App\Entity\Choice;
+use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 
 class ShareCrudController extends AbstractCrudController
 {
@@ -20,16 +26,18 @@ class ShareCrudController extends AbstractCrudController
         return Share::class;
     }
 
-    /*
     public function configureFields(string $pageName): iterable
     {
-        return [
-            IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
-        ];
+        yield IdField::new('id')->onlyOnIndex();
+        yield ChoiceField::new('type')
+            ->setChoices(Choice::SHARE_TYPES);
+        yield MoneyField::new('amount');
+        yield AssociationField::new('org');
+        yield AssociationField::new('retail');
+        yield ChoiceField::new('status')
+            ->setChoices(Choice::REWARD_SHARE_STATUSES);
+        yield DateTimeField::new('createdAt');
     }
-    */
 
     public function configureActions(Actions $actions): Actions
     {
