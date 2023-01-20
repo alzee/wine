@@ -28,7 +28,9 @@ class ShareCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        yield IdField::new('id')->onlyOnIndex();
+        if ($this->isGranted('ROLE_HEAD')) {
+            yield IdField::new('id')->onlyOnIndex();
+        }
         yield ChoiceField::new('type')
             ->setChoices(Choice::SHARE_TYPES);
         yield MoneyField::new('amount')
