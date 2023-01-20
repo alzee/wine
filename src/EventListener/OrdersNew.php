@@ -73,16 +73,22 @@ class OrdersNew extends AbstractController
 
             $reward = $product->getOrgRefReward() * $quantity;
             $rewardRecord = new Reward();
-            // orgRefReward when agency/variantHead buy
-            if ($buyer->getType() == 1 || $buyer->getType() == 10) {
+            // Reward referrer when agency
+            if ($buyer->getType() == 1) {
                 $referrer = $buyer->getReferrer();
                 $rewardRecord->setType(0);
                 $rewardRecord->setOrd($order);
             }
-            // orgRefReward when variantAgency sell
+            // Reward referrer when variantHead buy
+            if ($buyer->getType() == 10) {
+                $referrer = $buyer->getReferrer();
+                $rewardRecord->setType(1);
+                $rewardRecord->setOrd($order);
+            }
+            // Reward referrer when variantAgency sell
             if ($seller->getType() == 11) {
                 $referrer = $seller->getReferrer();
-                $rewardRecord->setType(1);
+                $rewardRecord->setType(2);
                 $rewardRecord->setOrd($order);
             }
             if (isset($referrer) && ! is_null($referrer)) {

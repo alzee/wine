@@ -131,3 +131,15 @@ Share.detail: 分润明细
 Reward: 佣金
 Reward.detail: 佣金明细
 Created At: 日期
+lock: 锁定
+withdrawable: 可提现
+withdrawDone: 已提现
+variantStoreShare: 门店(异业)分润
+variantAgencyShare: 区域代理商(异业)分润
+variantHeadShare: 代理商(异业)分润
+refAgency: 介绍代理商
+refVariantHead: 介绍代理商(异业)
+refVariantAgency: 介绍区域代理商(异业)
+refStore: 介绍门店
+refVariantStore: 介绍门店(异业)
+refConsumer: 介绍顾客

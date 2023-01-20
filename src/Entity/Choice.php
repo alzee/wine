@@ -5,19 +5,22 @@ namespace App\Entity;
 class Choice
 {
     public const REWARD_TYPES= [
-        'lock' => 0,
-        'withdrawable' => 1,
-        'done' => 2,
+        'refAgency' => 0,
+        'refVariantHead' => 1,
+        'refVariantAgency' => 2,
+        'refStore' => 3,
+        'refVariantStore' => 4,
+        'refConsumer' => 5,
     ];
     public const SHARE_TYPES= [
-        'lock' => 0,
-        'withdrawable' => 1,
-        'done' => 2,
+        'variantStoreShare' => 0,
+        'variantAgencyShare' => 1,
+        'variantHeadShare' => 2,
     ];
     public const REWARD_SHARE_STATUSES= [
         'lock' => 0,
         'withdrawable' => 1,
-        'done' => 2,
+        'withdrawDone' => 2,
     ];
     public const MEDIA_TYPESS = [
         'org' => 0,
