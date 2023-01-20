@@ -256,6 +256,11 @@ class SaleCrudController extends AbstractCrudController
 
     public function configureResponseParameters(KeyValueStore $responseParameters): KeyValueStore
     {
+        // For filter popup page
+        if (is_null($responseParameters->get('entities'))) {
+            return $responseParameters;
+        }
+
         $itr = $responseParameters->get('entities')->getIterator();
         $sum = 0;
         $i = 0;
