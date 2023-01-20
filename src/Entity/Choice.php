@@ -21,6 +21,7 @@ class Choice
         'lock' => 0,
         'withdrawable' => 1,
         'withdrawDone' => 2,
+        'returned' => 3,
     ];
     public const MEDIA_TYPESS = [
         'org' => 0,
