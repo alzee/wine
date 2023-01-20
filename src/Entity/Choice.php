@@ -4,6 +4,11 @@ namespace App\Entity;
 
 class Choice
 {
+    public const REWARD_SHARE_STATUSES= [
+        'lock' => 0,
+        'withdrawable' => 1,
+        'done' => 2,
+    ];
     public const MEDIA_TYPESS = [
         'org' => 0,
         'product' => 1,
