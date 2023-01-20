@@ -61,6 +61,11 @@ class Retail
     #[Groups(['read'])]
     private ?int $status = 0;
 
+    public function __toString()
+    {
+        return '#' . $this->id;
+    }
+
     public function __construct()
     {
         $this->date = new \DateTime();
