@@ -136,11 +136,11 @@ class DashboardController extends AbstractDashboardController
         }
 
         if ($this->isGranted('ROLE_HEAD')) {
-            yield MenuItem::linkToCrud('Reward.detail', 'fas fa-ticket', Reward::class);
+            yield MenuItem::linkToCrud('Reward.detail', 'fas fa-money-bill', Reward::class);
         }
 
         if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_VARIANT_HEAD') || $this->isGranted('ROLE_VARIANT_AGENCY') || $this->isGranted('ROLE_VARIANT_STORE')) {
-            yield MenuItem::linkToCrud('Share.detail', 'fas fa-ticket', Share::class);
+            yield MenuItem::linkToCrud('Share.detail', 'fas fa-money-bill-transfer', Share::class);
         }
 
         if ($this->isGranted('ROLE_HEAD')) {
