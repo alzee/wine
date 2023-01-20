@@ -27,6 +27,8 @@ use App\Entity\RetailReturn;
 use App\Entity\City;
 use App\Entity\Industry;
 use App\Entity\Conf;
+use App\Entity\Share;
+use App\Entity\Reward;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\UX\Chartjs\Model\Chart;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -131,6 +133,14 @@ class DashboardController extends AbstractDashboardController
 
         if (! $this->isGranted('ROLE_VARIANT_HEAD') && ! $this->isGranted('ROLE_VARIANT_AGENCY') && ! $this->isGranted('ROLE_VARIANT_STORE')) {
             yield MenuItem::linkToCrud('Voucher.detail', 'fas fa-ticket', Voucher::class);
+        }
+
+        if ($this->isGranted('ROLE_HEAD')) {
+            yield MenuItem::linkToCrud('Reward.detail', 'fas fa-ticket', Reward::class);
+        }
+
+        if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_VARIANT_HEAD') || $this->isGranted('ROLE_VARIANT_AGENCY') || $this->isGranted('ROLE_VARIANT_STORE')) {
+            yield MenuItem::linkToCrud('Share.detail', 'fas fa-ticket', Share::class);
         }
 
         if ($this->isGranted('ROLE_HEAD')) {
