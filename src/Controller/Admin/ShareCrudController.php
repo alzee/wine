@@ -31,7 +31,9 @@ class ShareCrudController extends AbstractCrudController
         yield IdField::new('id')->onlyOnIndex();
         yield ChoiceField::new('type')
             ->setChoices(Choice::SHARE_TYPES);
-        yield MoneyField::new('amount');
+        yield MoneyField::new('amount')
+                ->setCurrency('CNY')
+            ;
         yield AssociationField::new('org');
         yield AssociationField::new('retail');
         yield ChoiceField::new('status')

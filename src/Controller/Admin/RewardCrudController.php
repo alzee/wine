@@ -25,7 +25,9 @@ class RewardCrudController extends AbstractCrudController
         yield IdField::new('id')->onlyOnIndex();
         yield ChoiceField::new('type')
             ->setChoices(Choice::REWARD_TYPES);
-        yield MoneyField::new('amount');
+        yield MoneyField::new('amount')
+                ->setCurrency('CNY')
+            ;
         yield AssociationField::new('referrer');
         yield AssociationField::new('ord');
         yield ChoiceField::new('status')
