@@ -1,0 +1,14 @@
+{% extends '@!EasyAdmin/crud/index.html.twig' %}
+
+{% block table_footer %}
+{% set i = f.index - 1 %}
+<tr>
+  <th scope="row">{{ 'Totals' | trans }}</th>
+  {% for i in 1..i %}
+  <td></td>
+  {% endfor %}
+  <td style="font-weight: bold; text-align: {{f.textAlign}}">
+    ¥{{ f.sum | number_format(2, '.', ',') }}
+  </td>
+</tr>
+{% endblock table_footer %}

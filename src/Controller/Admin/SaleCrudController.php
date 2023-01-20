@@ -256,13 +256,30 @@ class SaleCrudController extends AbstractCrudController
 
  public function configureResponseParameters(KeyValueStore $responseParameters): KeyValueStore
     {
-        $sum = 0;
         $itr = $responseParameters->get('entities')->getIterator();
+        $sum = 0;
+        $i = 0;
         while ($itr->valid()) {
             $sum += $itr->current()->getInstance()->getAmount();
+            // Is there a elegant way to get numeric index of a field?
+            if ($i == 0) {
+                $fields = $itr->current()->getFields();
+                $fitr = $itr->current()->getFields()->getIterator();
+                $field = $fields->getByProperty('amount');
+                $index = array_flip(array_keys($fitr->getArrayCopy()))[$field->getUniqueId()];
+                $textAlign = $field->getTextAlign();
+            }
+            $i++;
             $itr->next();
         }
-        $responseParameters->set('sum', $sum / 100);
+
+        $f = [
+            'index' => $index,
+            'sum' => $sum / 100,
+            'textAlign' => $textAlign,
+        ];
+        
+        $responseParameters->set('f', $f);
         return $responseParameters;
-    }
+ }
 }
