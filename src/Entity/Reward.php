@@ -49,6 +49,9 @@ class Reward
     #[Groups(['read'])]
     private ?Consumer $referrer = null;
 
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $status = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -127,6 +130,18 @@ class Reward
     public function setReferrer(?Consumer $referrer): self
     {
         $this->referrer = $referrer;
+
+        return $this;
+    }
+
+    public function getStatus(): ?int
+    {
+        return $this->status;
+    }
+
+    public function setStatus(int $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

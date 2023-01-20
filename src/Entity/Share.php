@@ -44,6 +44,9 @@ class Share
     #[Groups(['read'])]
     private ?Retail $retail = null;
 
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $status = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -110,6 +113,18 @@ class Share
     public function setRetail(?Retail $retail): self
     {
         $this->retail = $retail;
+
+        return $this;
+    }
+
+    public function getStatus(): ?int
+    {
+        return $this->status;
+    }
+
+    public function setStatus(int $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
