@@ -254,7 +254,7 @@ class SaleCrudController extends AbstractCrudController
         return $ord;
     }
 
- public function configureResponseParameters(KeyValueStore $responseParameters): KeyValueStore
+    public function configureResponseParameters(KeyValueStore $responseParameters): KeyValueStore
     {
         $itr = $responseParameters->get('entities')->getIterator();
         $sum = 0;
@@ -278,8 +278,8 @@ class SaleCrudController extends AbstractCrudController
             'sum' => $sum / 100,
             'textAlign' => $textAlign,
         ];
-        
+
         $responseParameters->set('f', $f);
         return $responseParameters;
- }
+    }
 }
