@@ -59,7 +59,7 @@ class RetailCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-        if ($this->isGranted('ROLE_STORE') || $this->isGranted('ROLE_VARIANT_STORE') || $this->isGranted('ROLE_RESTAURANT')) {
+        if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_STORE') || $this->isGranted('ROLE_VARIANT_STORE') || $this->isGranted('ROLE_RESTAURANT')) {
             return $actions
                 ->disable(Action::DELETE, Action::EDIT)
             ;
