@@ -34,7 +34,9 @@ class ShareCrudController extends AbstractCrudController
         yield MoneyField::new('amount')
                 ->setCurrency('CNY')
             ;
-        yield AssociationField::new('org');
+        if ($this->isGranted('ROLE_HEAD')) {
+            yield AssociationField::new('org');
+        }
         yield AssociationField::new('retail');
         yield ChoiceField::new('status')
             ->setChoices(Choice::REWARD_SHARE_STATUSES);
