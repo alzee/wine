@@ -16,21 +16,12 @@ class ConfCrudController extends AbstractCrudController
         return Conf::class;
     }
 
-    public function configureFields(string $pageName): iterable
-    {
-        yield MoneyField::new('refReward', 'Org Ref Reward')
-            ->setCurrency('CNY')
-        ;
-        yield MoneyField::new('partnerReward')
-            ->setCurrency('CNY')
-        ;
-        yield MoneyField::new('offIndustryStoreReward')
-            ->setCurrency('CNY')
-        ;
-        yield MoneyField::new('offIndustryAgencyReward')
-            ->setCurrency('CNY')
-        ;
-    }
+    // public function configureFields(string $pageName): iterable
+    // {
+    //     yield MoneyField::new('refReward', 'Org Ref Reward')
+    //         ->setCurrency('CNY')
+    //     ;
+    // }
 
     public function configureActions(Actions $actions): Actions
     {
