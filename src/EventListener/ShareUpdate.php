@@ -20,6 +20,9 @@ class ShareUpdate
             $em = $event->getEntityManager();
             $newStatusId = $event->getNewValue('status')->getId();
             if ($newStatusId == 1) {
+                $org = $share->getOrg();
+                $amount = $reward->getAmount();
+                $org->setWithdrawable($org->getWithdrawable() + $amount);
             }
         }
     }

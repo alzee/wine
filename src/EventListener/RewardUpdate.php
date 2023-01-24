@@ -20,6 +20,9 @@ class RewardUpdate
             $em = $event->getEntityManager();
             $newStatusId = $event->getNewValue('status')->getId();
             if ($newStatusId == 1) {
+                $referrer = $reward->getReferrer();
+                $amount = $reward->getAmount();
+                $referrer->setWithdrawable($referrer->getWithdrawable() + $amount);
             }
         }
     }
