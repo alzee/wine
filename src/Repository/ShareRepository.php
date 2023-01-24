@@ -39,6 +39,19 @@ class ShareRepository extends ServiceEntityRepository
         }
     }
 
+    public function findDaysAgo(int $day): array
+    {
+        $date1 = (new \DateTime())->sub(new \DateInterval('P'. $day .'D'));
+        return $this->createQueryBuilder('s')
+                    ->andWhere('s.status = 0')
+                    ->andWhere('s.createdAt < :val')
+                    ->setParameter('val', $date1)
+                    ->orderBy('s.id', 'ASC')
+                    ->getQuery()
+                    ->getResult()
+                ;
+    }
+
 //    /**
 //     * @return Share[] Returns an array of Share objects
 //     */

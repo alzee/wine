@@ -39,6 +39,19 @@ class RewardRepository extends ServiceEntityRepository
         }
     }
 
+    public function findDaysAgo(int $day): array
+    {
+        $date1 = (new \DateTime())->sub(new \DateInterval('P'. $day .'D'));
+        return $this->createQueryBuilder('r')
+                    ->andWhere('r.status = 0')
+                    ->andWhere('r.createdAt < :val')
+                    ->setParameter('val', $date1)
+                    ->orderBy('r.id', 'ASC')
+                    ->getQuery()
+                    ->getResult()
+                ;
+    }
+
 //    /**
 //     * @return Reward[] Returns an array of Reward objects
 //     */
