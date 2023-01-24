@@ -48,8 +48,8 @@ class WithdrawableCommand extends Command
         $rewards = $this->em->getRepository(Reward::class)->findDaysAgo($returnDays);
         $shares = $this->em->getRepository(Share::class)->findDaysAgo($returnDays);
         
-        dump($rewards);
-        dump($shares);
+        dump(count($rewards));
+        dump(count($shares));
 
         foreach ($rewards as $r) {
             $r->setStatus(1);
