@@ -21,7 +21,7 @@ class ShareUpdate
             $newStatusId = $event->getNewValue('status');
             if ($newStatusId == 1) {
                 $org = $share->getOrg();
-                $amount = $reward->getAmount();
+                $amount = $share->getAmount();
                 $org->setWithdrawable($org->getWithdrawable() + $amount);
             }
         }
