@@ -14,15 +14,18 @@ use Doctrine\ORM\Event\PreUpdateEventArgs;
 
 class RewardUpdate
 {
-    public function preUpdate(Reward $reward, PreUpdateEventArgs $event): void
+    public function postUpdate(Reward $reward, LifecycleEventArgs $event): void
     {
-        if ($event->hasChangedField('status')) {
-            $em = $event->getEntityManager();
-            $newStatusId = $event->getNewValue('status');
-            if ($newStatusId == 1) {
+        $em = $event->getEntityManager();
+        $uow = $em->getUnitOfWork();
+        $changeSet = $uow->getEntityChangeSet($reward);
+        if (isset($changeSet['status'])) {
+            $status = $reward->getStatus();
+            if ($status == 1) {
                 $referrer = $reward->getReferrer();
                 $amount = $reward->getAmount();
                 $referrer->setWithdrawable($referrer->getWithdrawable() + $amount);
+                $em->flush();
             }
         }
     }
