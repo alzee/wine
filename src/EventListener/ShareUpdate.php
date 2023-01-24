@@ -18,7 +18,7 @@ class ShareUpdate
     {
         if ($event->hasChangedField('status')) {
             $em = $event->getEntityManager();
-            $newStatusId = $event->getNewValue('status')->getId();
+            $newStatusId = $event->getNewValue('status');
             if ($newStatusId == 1) {
                 $org = $share->getOrg();
                 $amount = $reward->getAmount();
