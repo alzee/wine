@@ -157,11 +157,11 @@ services:
         tags:
             -
                 name: 'doctrine.orm.entity_listener'
-                event: 'preUpdate'
+                event: 'postUpdate'
                 entity: 'App\Entity\Reward'
     App\EventListener\ShareUpdate:
         tags:
             -
                 name: 'doctrine.orm.entity_listener'
-                event: 'preUpdate'
+                event: 'postUpdate'
                 entity: 'App\Entity\Share'
