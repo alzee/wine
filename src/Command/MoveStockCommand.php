@@ -19,7 +19,7 @@ use App\Entity\RetailReturn;
 use App\Entity\Org;
 
 #[AsCommand(
-    name: 'moveStock',
+    name: 'app:moveStock',
     description: 'Move stock in product repo to stock',
 )]
 class MoveStockCommand extends Command

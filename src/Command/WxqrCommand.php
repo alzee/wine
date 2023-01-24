@@ -14,7 +14,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 use App\Service\Poster;
 
 #[AsCommand(
-    name: 'wxqr',
+    name: 'app:wxqr',
     description: 'Manually generate WX QR for consumer',
 )]
 class WxqrCommand extends Command

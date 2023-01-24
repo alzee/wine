@@ -11,10 +11,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
-    name: 'app:pathTojpg',
-    description: 'Update img fields, change .png, .gif to jpg.',
+    name: 'app:withdrawable',
+    description: 'Add a short description for your command',
 )]
-class PathTojpgCommand extends Command
+class WithdrawableCommand extends Command
 {
     protected function configure(): void
     {
