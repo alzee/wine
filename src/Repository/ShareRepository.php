@@ -39,9 +39,8 @@ class ShareRepository extends ServiceEntityRepository
         }
     }
 
-    public function findDaysAgo(int $day): array
+    public function findBeforeDate(\DateTime $date1): array
     {
-        $date1 = (new \DateTime())->sub(new \DateInterval('P'. $day .'D'));
         return $this->createQueryBuilder('s')
                     ->andWhere('s.status = 0')
                     ->andWhere('s.createdAt < :val')

@@ -44,19 +44,20 @@ class WithdrawableCommand extends Command
 
         $conf = $this->em->getRepository(Conf::class)->find(1);
         $returnDays = $conf->getReturnDays();
+        $date1 = (new \DateTime('now', new \DateTimeZone('Asia/Shanghai')))->sub(new \DateInterval('P'. $returnDays .'D'));
 
-        $rewards = $this->em->getRepository(Reward::class)->findDaysAgo($returnDays);
-        $shares = $this->em->getRepository(Share::class)->findDaysAgo($returnDays);
+        $rewards = $this->em->getRepository(Reward::class)->findBeforeDate($date1);
+        $shares = $this->em->getRepository(Share::class)->findBeforeDate($date1);
         
         dump(count($rewards));
         dump(count($shares));
 
         foreach ($rewards as $r) {
-            $r->setStatus(1);
+            // $r->setStatus(1);
         }
 
         foreach ($shares as $s) {
-            $s->setStatus(1);
+            // $s->setStatus(1);
         }
 
         $this->em->flush();
