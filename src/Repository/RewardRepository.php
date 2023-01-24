@@ -43,6 +43,7 @@ class RewardRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('r')
                     ->andWhere('r.status = 0')
+                    ->andWhere('r.type < 1')
                     ->andWhere('r.createdAt < :val')
                     ->setParameter('val', $date1)
                     ->orderBy('r.id', 'ASC')
