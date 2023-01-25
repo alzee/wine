@@ -49,9 +49,6 @@ class WithdrawableCommand extends Command
         $rewards = $this->em->getRepository(Reward::class)->findBeforeDate($date1);
         $shares = $this->em->getRepository(Share::class)->findBeforeDate($date1);
         
-        // dump(count($rewards));
-        // dump(count($shares));
-
         foreach ($rewards as $r) {
             $r->setStatus(1);
         }
@@ -61,6 +58,8 @@ class WithdrawableCommand extends Command
         }
 
         $this->em->flush();
+
+        $io->note(sprintf('%s rewards, %s shares', count($rewards), count($shares)));
 
         if ($arg1) {
             $io->note(sprintf('You passed an argument: %s', $arg1));
