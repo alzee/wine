@@ -28,7 +28,7 @@ class Share
     #[Groups(['read'])]
     private ?int $type = null;
 
-    #[ORM\Column(type: Types::SMALLINT)]
+    #[ORM\Column(options: ["unsigned" => true])]
     #[Groups(['read'])]
     private ?int $amount = null;
 
