@@ -77,7 +77,7 @@ class MyWithdrawCrudController extends AbstractCrudController
                         ->getUpstream())
                 );
         }
-        if ($this->isGranted('ROLE_VARIANT_AGENCY') || $this->isGranted('ROLE_VARIANT_STORE')) {
+        if ($this->isGranted('ROLE_VARIANT_HEAD') || $this->isGranted('ROLE_VARIANT_AGENCY') || $this->isGranted('ROLE_VARIANT_STORE')) {
             yield AssociationField::new('approver')
                 ->onlyWhenCreating()
                 ->setQueryBuilder (
