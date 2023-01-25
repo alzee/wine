@@ -25,7 +25,7 @@ class WithdrawNew extends AbstractController
         $withdraw->setApprover($head);
         $applicant = $withdraw->getApplicant();
 
-        if (is_null($applicant)) {
+        if (! is_null($applicant)) {
             if ($applicant->getType() == 1 || $applicant->getType() == 3) {
                 $withdraw->setApprover($applicant->getUpstream());
             }
