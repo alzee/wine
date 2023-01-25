@@ -80,7 +80,7 @@ class RetailNew extends AbstractController
         if ($referrer) {
             $referrer->setReward($referrer->getReward() + $reward);
             $rewardRecord = new Reward();
-            if ($store->getType() == 2) {
+            if ($store->getType() == 2 || $store->getType() == 3) {
                 $rewardRecord->setType(3);
             }
             if ($store->getType() == 12) {
