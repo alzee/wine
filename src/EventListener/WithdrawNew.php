@@ -11,6 +11,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Withdraw;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
+use App\Entity\Org;
 
 class WithdrawNew extends AbstractController
 {
