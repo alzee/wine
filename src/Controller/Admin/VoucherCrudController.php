@@ -91,7 +91,7 @@ class VoucherCrudController extends AbstractCrudController
             ->setPageTitle('index', '%entity_label_plural%明细')
             ->setHelp('index', $helpIndex)
             ->setHelp('new', $helpNew)
-            ->overrideTemplate('crud/index', 'voucher_index.twig')
+            ->overrideTemplates([ 'crud/index' => 'admin/pages/index.html.twig', ])
             ->setSearchFields(['org.name', 'consumer.name'])
         ;
     }

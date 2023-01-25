@@ -1,6 +1,50 @@
 {% extends '@!EasyAdmin/crud/index.html.twig' %}
 
+{% set has_batch_actions = batch_actions|length > 0 %}
+{% block page_actions %}
+    {% if myVoucher is defined %}
+    <div id="my-voucher" class="me-5"><strong>我的代金券: <span class="text-danger">{{ myVoucher }}</span></strong></div>
+    <div id="withdrawable" class="me-5"><strong>可提现金额: <span class="text-success">{{ withdrawable }}</span></strong></div>
+    <div id="withdrawing" class="me-5"><strong>提现中: <span class="text-info">{{ withdrawing }}</span></strong></div>
+    {% endif %}
+    {% if filters|length > 0 %}
+        <div class="datagrid-filters">
+            {% block filters %}
+                {% set applied_filters = ea.request.query.all['filters']|default([])|keys %}
+                <div class="btn-group action-filters">
+                    <a href="#" data-href="{{ ea_url().setAction('renderFilters').includeReferrer() }}" class="btn btn-secondary btn-labeled btn-labeled-right action-filters-button disabled {{ applied_filters ? 'action-filters-applied' }}" data-bs-toggle="modal" data-bs-target="#modal-filters">
+                        <i class="fa fa-filter fa-fw"></i> {{ t('filter.title', ea.i18n.translationParameters, 'EasyAdminBundle')|trans }}{% if applied_filters %} <span class="action-filters-button-count">({{ applied_filters|length }})</span>{% endif %}
+                    </a>
+                    {% if applied_filters %}
+                        <a href="{{ ea_url().unset('filters') }}" class="btn btn-secondary action-filters-reset">
+                            <i class="fa fa-close"></i>
+                        </a>
+                    {% endif %}
+                </div>
+            {% endblock filters %}
+        </div>
+    {% endif %}
+
+    {% block global_actions %}
+        <div class="global-actions">
+            {% for action in global_actions %}
+                {{ include(action.templatePath, { action: action }, with_context = false) }}
+            {% endfor %}
+        </div>
+    {% endblock global_actions %}
+    {% block batch_actions %}
+        {% if has_batch_actions %}
+            <div class="batch-actions" style="display: none">
+                {% for action in batch_actions %}
+                    {{ include(action.templatePath, { action: action }, with_context = false) }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endblock %}
+{% endblock page_actions %}
+
 {% block table_footer %}
+{% if f is defined %}
 {% set i = f.index - 1 %}
 <tr>
   <th scope="row">{{ 'Totals' | trans }}</th>
@@ -11,4 +55,5 @@
     ¥{{ f.sum | number_format(2, '.', ',') }}
   </td>
 </tr>
+{% endif %}
 {% endblock table_footer %}
