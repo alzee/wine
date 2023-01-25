@@ -57,7 +57,6 @@ class MyWithdrawCrudController extends AbstractCrudController
             ->setFormTypeOptions(['disabled' => 'disabled']);
         yield AssociationField::new('applicant')
             ->onlyWhenCreating()
-            ->setDisabled()
             ->setQueryBuilder (
                 fn (QueryBuilder $qb) => $qb
                     ->andWhere('entity.id = :id')
@@ -70,7 +69,6 @@ class MyWithdrawCrudController extends AbstractCrudController
         if ($this->isGranted('ROLE_AGENCY') || $this->isGranted('ROLE_RESTAURANT')) {
             yield AssociationField::new('approver')
                 ->onlyWhenCreating()
-                ->setDisabled()
                 ->setQueryBuilder (
                     fn (QueryBuilder $qb) => $qb
                         ->andWhere('entity.id = :id')
@@ -82,7 +80,6 @@ class MyWithdrawCrudController extends AbstractCrudController
         if ($this->isGranted('ROLE_VARIANT_HEAD') || $this->isGranted('ROLE_VARIANT_AGENCY') || $this->isGranted('ROLE_VARIANT_STORE')) {
             yield AssociationField::new('approver')
                 ->onlyWhenCreating()
-                ->setDisabled()
                 ->setQueryBuilder (
                     fn (QueryBuilder $qb) => $qb
                         ->andWhere('entity.id = :id')
