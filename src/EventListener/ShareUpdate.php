@@ -25,6 +25,7 @@ class ShareUpdate
                 $org = $share->getOrg();
                 $amount = $share->getAmount();
                 $org->setWithdrawable($org->getWithdrawable() + $amount);
+                $org->setShare($org->getShare() - $amount);
                 $em->flush();
             }
         }

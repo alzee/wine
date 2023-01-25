@@ -25,6 +25,7 @@ class RewardUpdate
                 $referrer = $reward->getReferrer();
                 $amount = $reward->getAmount();
                 $referrer->setWithdrawable($referrer->getWithdrawable() + $amount);
+                $referrer->setReward($referrer->getReward() - $amount);
                 $em->flush();
             }
         }
