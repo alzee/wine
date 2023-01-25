@@ -4,8 +4,13 @@
 {% block page_actions %}
     {% if myVoucher is defined %}
     <div id="my-voucher" class="me-5"><strong>我的代金券: <span class="text-danger">{{ myVoucher }}</span></strong></div>
+    {% endif %}
+    {% if withdrawable is defined %}
     <div id="withdrawable" class="me-5"><strong>可提现金额: <span class="text-success">{{ withdrawable }}</span></strong></div>
     <div id="withdrawing" class="me-5"><strong>提现中: <span class="text-info">{{ withdrawing }}</span></strong></div>
+    {% endif %}
+    {% if share is defined %}
+    <div id="share" class="me-5"><strong>我的分润: <span class="text-danger">{{ share }}</span></strong></div>
     {% endif %}
     {% if filters|length > 0 %}
         <div class="datagrid-filters">

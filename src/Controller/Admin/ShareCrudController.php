@@ -18,6 +18,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\KeyValueStore;
 
 class ShareCrudController extends AbstractCrudController
 {
@@ -60,5 +62,26 @@ class ShareCrudController extends AbstractCrudController
             $response->andWhere("entity.org = $userOrgId");
         }
         return $response;
+    }
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setDefaultSort(['id' => 'DESC'])
+            ->setPageTitle('index', '%entity_label_plural%明细')
+            ->overrideTemplates([ 'crud/index' => 'admin/pages/index.html.twig', ])
+        ;
+    }
+
+    public function configureResponseParameters(KeyValueStore $responseParameters): KeyValueStore
+    {
+      if (!$this->isGranted('ROLE_HEAD')) {
+        if (Crud::PAGE_INDEX === $responseParameters->get('pageName')) {
+          $share = $this->getuser()->getOrg()->getShare() / 100;
+          $responseParameters->set('share', $share);
+          ;
+        }
+      }
+      return $responseParameters;
     }
 }
