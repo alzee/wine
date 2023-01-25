@@ -45,7 +45,7 @@ class Share
     private ?Retail $retail = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
-    private ?int $status = null;
+    private ?int $status = 0;
 
     public function __construct()
     {
