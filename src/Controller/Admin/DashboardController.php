@@ -120,7 +120,11 @@ class DashboardController extends AbstractDashboardController
             yield MenuItem::linkToCrud('OrderRestaurant', 'fas fa-utensils', OrderRestaurant::class);
         }
 
-        if ($this->isGranted('ROLE_RESTAURANT') || $this->isGranted('ROLE_AGENCY') || $this->isGranted('ROLE_VARIANT_AGENCY') || $this->isGranted('ROLE_VARIANT_STORE')) {
+        if ($this->isGranted('ROLE_RESTAURANT') ||
+            $this->isGranted('ROLE_AGENCY') ||
+            $this->isGranted('ROLE_VARIANT_HEAD') ||
+            $this->isGranted('ROLE_VARIANT_AGENCY') ||
+            $this->isGranted('ROLE_VARIANT_STORE')) {
             yield MenuItem::linkToCrud('MyWithdraw', 'fas fa-money-bill', Withdraw::class)
                 ->setController(MyWithdrawCrudController::class);
                 ;
