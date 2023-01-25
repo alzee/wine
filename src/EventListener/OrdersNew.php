@@ -125,7 +125,6 @@ class OrdersNew extends AbstractController
         $record->setType($type - 100);
         $em->persist($record);
 
-
         $em->flush();
     }
 }
