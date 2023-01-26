@@ -262,29 +262,34 @@ class SaleCrudController extends AbstractCrudController
         }
 
         $itr = $responseParameters->get('entities')->getIterator();
-        $sum = 0;
+        $sumFieldNames = ['amount', 'voucher'];
+        foreach($sumFieldNames as $k => $v){
+            $sum[$v] = 0;
+        }
         $i = 0;
         while ($itr->valid()) {
-            $sum += $itr->current()->getInstance()->getAmount();
-            // Is there a elegant way to get numeric index of a field?
+            foreach($sumFieldNames as $k => $v){
+                $getter = 'get' . ucfirst($v);
+                $sum[$v] += $itr->current()->getInstance()->$getter();
+            }
+            // Is there a elegant way to get fields?
             if ($i == 0) {
                 $fields = $itr->current()->getFields();
-                $fitr = $itr->current()->getFields()->getIterator();
-                $field = $fields->getByProperty('amount');
-                $index = array_flip(array_keys($fitr->getArrayCopy()))[$field->getUniqueId()];
-                $textAlign = $field->getTextAlign();
             }
             $i++;
             $itr->next();
         }
 
-        $f = [
-            'index' => $index,
-            'sum' => $sum / 100,
-            'textAlign' => $textAlign,
-        ];
+        if (isset($fields)) {
+            foreach($sumFieldNames as $v){
+                $fieldsum[$v] = $sum[$v] / 100;
+            }
+            $responseParameters->set('f', [
+                'fieldsum' => $fieldsum ,
+                'fields' => $fields
+            ]);
+        }
 
-        $responseParameters->set('f', $f);
         return $responseParameters;
     }
 }

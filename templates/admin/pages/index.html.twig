@@ -50,15 +50,19 @@
 
 {% block table_footer %}
 {% if f is defined %}
-{% set i = f.index - 1 %}
 <tr>
+  {#
   <th scope="row">{{ 'Totals' | trans }}</th>
-  {% for i in 1..i %}
-  <td></td>
-  {% endfor %}
-  <td style="font-weight: bold; text-align: {{f.textAlign}}">
-    ¥{{ f.sum | number_format(2, '.', ',') }}
+  #}
+  {% for i in f.fields %}
+  {% if i.property in f.fieldsum|keys %}
+  <td style="font-weight: bold; text-align: {{i.textAlign}}">
+    ¥{{ f.fieldsum[i.property] | number_format(2, '.', ',') }}
   </td>
+  {% else %}
+  <td></td>
+  {% endif %}
+  {% endfor %}
 </tr>
 {% endif %}
 {% endblock table_footer %}
