@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Orders;
 use App\Entity\OrderItems;
+use App\Service\FieldSum;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -51,12 +52,14 @@ class SaleCrudController extends AbstractCrudController
     private $doctrine;
     private AdminUrlGenerator $adminUrlGenerator;
     private RequestStack $requestStack;
+    private FieldSum $fieldsum;
 
-    public function __construct(ManagerRegistry $doctrine, AdminUrlGenerator $adminUrlGenerator, RequestStack $requestStack)
+    public function __construct(ManagerRegistry $doctrine, AdminUrlGenerator $adminUrlGenerator, RequestStack $requestStack, FieldSum $fieldsum)
     {
         $this->doctrine = $doctrine;
         $this->adminUrlGenerator = $adminUrlGenerator;
         $this->requestStack = $requestStack;
+        $this->fieldsum = $fieldsum;
     }
 
     public static function getEntityFqcn(): string
@@ -256,40 +259,7 @@ class SaleCrudController extends AbstractCrudController
 
     public function configureResponseParameters(KeyValueStore $responseParameters): KeyValueStore
     {
-        // For filter popup page
-        if (is_null($responseParameters->get('entities'))) {
-            return $responseParameters;
-        }
-
-        $itr = $responseParameters->get('entities')->getIterator();
         $sumFieldNames = ['amount', 'voucher'];
-        foreach($sumFieldNames as $k => $v){
-            $sum[$v] = 0;
-        }
-        $i = 0;
-        while ($itr->valid()) {
-            foreach($sumFieldNames as $k => $v){
-                $getter = 'get' . ucfirst($v);
-                $sum[$v] += $itr->current()->getInstance()->$getter();
-            }
-            // Is there a elegant way to get fields?
-            if ($i == 0) {
-                $fields = $itr->current()->getFields();
-            }
-            $i++;
-            $itr->next();
-        }
-
-        if (isset($fields)) {
-            foreach($sumFieldNames as $v){
-                $fieldsum[$v] = $sum[$v] / 100;
-            }
-            $responseParameters->set('f', [
-                'fieldsum' => $fieldsum ,
-                'fields' => $fields
-            ]);
-        }
-
-        return $responseParameters;
+        return $this->fieldsum->calc($responseParameters, $sumFieldNames);
     }
 }
