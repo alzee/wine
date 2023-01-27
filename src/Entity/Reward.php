@@ -28,7 +28,7 @@ class Reward
     #[Groups(['read'])]
     private ?int $type = null;
 
-    #[ORM\Column(options: ["unsigned" => true])]
+    #[ORM\Column]
     #[Groups(['read'])]
     private ?int $amount = null;
 
