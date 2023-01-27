@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\File\File;
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
 )]
-#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'applicant' => 'exact', 'approver' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'applicant' => 'exact', 'approver' => 'exact', 'consumer' => 'exact'])]
 class Withdraw
 {
     #[ORM\Id]
