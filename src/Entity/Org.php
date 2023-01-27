@@ -141,6 +141,7 @@ class Org
     private ?User $manager = null;
 
     #[ORM\Column]
+    #[Groups(['read'])]
     private ?int $share = 0;
 
     #[ORM\Column]
