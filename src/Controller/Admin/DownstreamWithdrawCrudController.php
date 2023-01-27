@@ -42,9 +42,17 @@ use EasyCorp\Bundle\EasyAdminBundle\Filter\DateTimeFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
 use Doctrine\ORM\EntityRepository as ER;
 use App\Admin\Field\VichImageField;
+use App\Service\FieldSum;
 
 class DownstreamWithdrawCrudController extends AbstractCrudController
 {
+    private FieldSum $fieldsum;
+
+    public function __construct(FieldSum $fieldsum)
+    {
+        $this->fieldsum = $fieldsum;
+    }
+
     public static function getEntityFqcn(): string
     {
         return Withdraw::class;
@@ -153,6 +161,7 @@ class DownstreamWithdrawCrudController extends AbstractCrudController
             ->setHelp('new', $helpNew)
             ->setPageTitle('index', 'DownstreamWithdraw')
             ->setSearchFields(['applicant.name'])
+            ->overrideTemplates([ 'crud/index' => 'admin/pages/index.html.twig', ])
         ;
     }
 
@@ -201,5 +210,11 @@ class DownstreamWithdrawCrudController extends AbstractCrudController
         } else {
             return $assets;
         }
+    }
+
+    public function configureResponseParameters(KeyValueStore $responseParameters): KeyValueStore
+    {
+        $sumFieldNames = ['amount', 'actualAmount'];
+        return $this->fieldsum->calc($responseParameters, $sumFieldNames);
     }
 }
