@@ -11,11 +11,13 @@ class Choice
         'refStore' => 3,
         'refVariantStore' => 4,
         'refConsumer' => 5,
+        'return' => 6
     ];
     public const SHARE_TYPES= [
         'variantStoreShare' => 0,
         'variantAgencyShare' => 1,
         'variantHeadShare' => 2,
+        'return' => 3
     ];
     public const REWARD_SHARE_STATUSES= [
         'lock' => 0,

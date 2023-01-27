@@ -52,6 +52,12 @@ class Reward
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $status = 0;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?Returns $ret = null;
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?RetailReturn $retailReturn = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -142,6 +148,30 @@ class Reward
     public function setStatus(int $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getRet(): ?Returns
+    {
+        return $this->ret;
+    }
+
+    public function setRet(?Returns $ret): self
+    {
+        $this->ret = $ret;
+
+        return $this;
+    }
+
+    public function getRetailReturn(): ?RetailReturn
+    {
+        return $this->retailReturn;
+    }
+
+    public function setRetailReturn(?RetailReturn $retailReturn): self
+    {
+        $this->retailReturn = $retailReturn;
 
         return $this;
     }
