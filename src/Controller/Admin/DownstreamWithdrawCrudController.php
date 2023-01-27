@@ -68,6 +68,9 @@ class DownstreamWithdrawCrudController extends AbstractCrudController
                     ->setParameter('id', $this->getUser()
                     ->getOrg())
             );
+        yield AssociationField::new('consumer')
+            ->HideWhenCreating()
+            ->setFormTypeOptions(['disabled' => 'disabled']);
         yield AssociationField::new('approver')
             ->HideWhenCreating()
             ->setFormTypeOptions(['disabled' => 'disabled']);
