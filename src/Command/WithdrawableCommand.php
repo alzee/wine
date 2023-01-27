@@ -57,6 +57,23 @@ class WithdrawableCommand extends Command
             $s->setStatus(1);
         }
 
+        $rewardsOfReturn = $this->em->getRepository(Reward::class)->findBy(['status' => 3 ]);
+        $sharesOfReturn = $this->em->getRepository(Share::class)->findBy(['status' => 3]);
+
+        foreach ($rewardsOfReturn as $r) {
+            $amount = $r->getAmount();
+            $referrer = $r->getReferrer();
+            $referrer->setWithdrawable($referrer->getWithdrawable() + $amount);
+            $r->setStatus(4);
+        }
+
+        foreach ($sharesOfReturn as $s) {
+            $amount = $s->getAmount();
+            $org = $s->getOrg();
+            $org->setWithdrawable($org->getWithdrawable() + $amount);
+            $s->setStatus(4);
+        }
+
         $this->em->flush();
 
         $io->note(sprintf('%s rewards, %s shares', count($rewards), count($shares)));
