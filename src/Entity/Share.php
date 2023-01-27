@@ -45,6 +45,7 @@ class Share
     private ?Retail $retail = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
+    #[Groups(['read'])]
     private ?int $status = 0;
 
     public function __construct()
