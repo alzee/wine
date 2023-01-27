@@ -67,7 +67,6 @@ class ShareCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setDefaultSort(['id' => 'DESC'])
             ->setPageTitle('index', '%entity_label_plural%明细')
             ->overrideTemplates([ 'crud/index' => 'admin/pages/index.html.twig', ])
         ;

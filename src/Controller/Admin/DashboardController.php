@@ -184,6 +184,7 @@ class DashboardController extends AbstractDashboardController
             ->showEntityActionsInlined()
             ->setTimezone('Asia/Shanghai')
             ->setDateTimeFormat('yyyy/MM/dd HH:mm')
+            ->setDefaultSort(['id' => 'DESC'])
         ;
     }
 
