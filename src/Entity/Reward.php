@@ -52,10 +52,10 @@ class Reward
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $status = 0;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne]
     private ?Returns $ret = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne]
     private ?RetailReturn $retailReturn = null;
 
     public function __construct()
