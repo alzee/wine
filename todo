@@ -7,8 +7,6 @@
 - only show products which have stock when creating orders
 - command moveStock MUST do before commit 0fe966b and migrations/Version20230112102505.php. moveStock will not work after this migration because stock field dropped and stock data lost
 - doctrine querybuilder parameter in array
-- cron: command to reward referrer
-- returned in orders/retail status
 
 vichuploader attribute cause apiplatform error: 'Attribute class "ApiPlatform\Core\Annotation\ApiResource" not found'
 

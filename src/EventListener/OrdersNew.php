@@ -89,12 +89,7 @@ class OrdersNew extends AbstractController
                 $rewardRecord->setType(2);
             }
             if (isset($referrer) && ! is_null($referrer)) {
-                if ($rewardRecord->getType() <= 1) {
-                    $referrer->setWithdrawable($referrer->getWithdrawable() + $reward);
-                    $rewardRecord->setStatus(1);
-                } else {
-                    $rewardRecord->setStatus(0);
-                }
+                $rewardRecord->setStatus(0);
                 $referrer->setReward($referrer->getReward() + $reward);
                 $rewardRecord->setReferrer($referrer);
                 $rewardRecord->setAmount($reward);
