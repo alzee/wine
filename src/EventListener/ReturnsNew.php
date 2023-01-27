@@ -82,7 +82,7 @@ class ReturnsNew extends AbstractController
                 $rewardRecord->setStatus(0);
                 $referrer->setReward($referrer->getReward() - $reward);
                 $rewardRecord->setReferrer($referrer);
-                $rewardRecord->setAmount($reward);
+                $rewardRecord->setAmount(-$reward);
                 $rewardRecord->setRet($return);
                 $rewardRecord->setType(6);
                 $em->persist($rewardRecord);
