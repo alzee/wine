@@ -68,6 +68,7 @@ class RetailReturnNew extends AbstractController
             $referrer->setReward($referrer->getReward() - $reward);
             $rewardRecord = new Reward();
             $rewardRecord->setType(6);
+            $rewardRecord->setStatus(3);
             $rewardRecord->setRetailReturn($retailReturn);
             $rewardRecord->setReferrer($referrer);
             $rewardRecord->setAmount(-$reward);
@@ -81,6 +82,7 @@ class RetailReturnNew extends AbstractController
             $referrer->setReward($referrer->getReward() - $reward);
             $rewardRecord = new Reward();
             $rewardRecord->setType(6);
+            $rewardRecord->setStatus(3);
             $rewardRecord->setRetailReturn($retailReturn);
             $rewardRecord->setReferrer($referrer);
             $rewardRecord->setAmount(-$reward);
@@ -94,6 +96,7 @@ class RetailReturnNew extends AbstractController
 
             $shareRecord = new Share();
             $shareRecord->setType(3);
+            $shareRecord->setStatus(3);
             $shareRecord->setRetailReturn($retailReturn);
             $shareRecord->setOrg($store);
             $shareRecord->setAmount(-$share);
@@ -106,6 +109,7 @@ class RetailReturnNew extends AbstractController
 
             $shareRecord = new Share();
             $shareRecord->setType(3);
+            $shareRecord->setStatus(3);
             $shareRecord->setRetailReturn($retailReturn);
             $shareRecord->setOrg($variantAgency);
             $shareRecord->setAmount(-$share);
@@ -118,6 +122,7 @@ class RetailReturnNew extends AbstractController
 
             $shareRecord = new Share();
             $shareRecord->setType(3);
+            $shareRecord->setStatus(3);
             $shareRecord->setRetailReturn($retailReturn);
             $shareRecord->setOrg($variantHead);
             $shareRecord->setAmount(-$share);

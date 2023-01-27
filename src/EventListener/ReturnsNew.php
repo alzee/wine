@@ -79,7 +79,7 @@ class ReturnsNew extends AbstractController
                 $referrer = $recipient->getReferrer();
             }
             if (isset($referrer) && ! is_null($referrer)) {
-                $rewardRecord->setStatus(0);
+                $rewardRecord->setStatus(3);
                 $referrer->setReward($referrer->getReward() - $reward);
                 $rewardRecord->setReferrer($referrer);
                 $rewardRecord->setAmount(-$reward);

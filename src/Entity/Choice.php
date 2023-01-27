@@ -23,7 +23,8 @@ class Choice
         'lock' => 0,
         'withdrawable' => 1,
         'withdrawDone' => 2,
-        'returned' => 3,
+        'returnLock' => 3,
+        'returned' => 4,
     ];
     public const MEDIA_TYPESS = [
         'org' => 0,
