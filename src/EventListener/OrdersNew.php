@@ -68,7 +68,6 @@ class OrdersNew extends AbstractController
                 $stockRecordOfBuyer->setProduct($product);
                 $em->persist($stockRecordOfBuyer);
             }
-            // buyer stock + quantity
             $stockRecordOfBuyer->setStock($stockRecordOfBuyer->getStock() + $quantity);
 
             $reward = $product->getOrgRefReward() * $quantity;
