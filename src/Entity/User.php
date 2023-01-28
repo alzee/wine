@@ -49,6 +49,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\ManyToOne(inversedBy: 'users')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['read'])]
     private ?Org $org = null;
 
     #[ORM\Column(length: 255, nullable: true)]
