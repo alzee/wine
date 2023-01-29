@@ -16,12 +16,14 @@ use AlibabaCloud\Tea\Utils\Utils\RuntimeOptions;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Psr\Log\LoggerInterface;
 
 class Sms
 {
     private $client;
+    private $logger;
 
-    public function __construct()
+    public function __construct(LoggerInterface $logger)
     {
         $accessKeyId = $_ENV['SMS_ACCESS_KEY_ID'];
         $accessKeySecret = $_ENV['SMS_ACCESS_KEY_SECRET'];
@@ -31,6 +33,7 @@ class Sms
             "accessKeySecret" => $accessKeySecret 
         ]);
         $this->client = new Dysmsapi($config);
+        $this->logger = $logger;
     }
 
     public function getTemplateList($page = 1, $pageSize = 50)
@@ -83,7 +86,9 @@ class Sms
             "templateCode" => $templateCode,
             "templateParam" => $templateParam
         ]);
-        return $this->client->sendSms($sendSmsRequest);
+        $resp = $this->client->sendSms($sendSmsRequest);
+        $this->logger->info("SMS send response: type: {$type}, phone: {$phone}, code: {$resp->body->code}, message: {$resp->body->message}");
+        return $resp;
 
         /*
         $cache = new RedisAdapter(RedisAdapter::createConnection('redis://localhost'));
