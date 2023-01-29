@@ -4,7 +4,7 @@ namespace App\Entity;
 
 class Choice
 {
-    public const REWARD_TYPES= [
+    public const REWARD_TYPES = [
         'refAgency' => 0,
         'refVariantHead' => 1,
         'refVariantAgency' => 2,
@@ -13,13 +13,13 @@ class Choice
         'refConsumer' => 5,
         'return' => 6
     ];
-    public const SHARE_TYPES= [
+    public const SHARE_TYPES = [
         'variantStoreShare' => 0,
         'variantAgencyShare' => 1,
         'variantHeadShare' => 2,
         'return' => 3
     ];
-    public const REWARD_SHARE_STATUSES= [
+    public const REWARD_SHARE_STATUSES = [
         'lock' => 0,
         'withdrawable' => 1,
         'withdrawDone' => 2,
@@ -52,6 +52,10 @@ class Choice
         'VariantHead' => 2,
         'VariantAgency' => 3,
         'VariantStore' => 4,
+    ];
+    public const REG_STATUSES = [
+        'pending' => 0,
+        'deal' => 1,
     ];
     public const VOUCHER_TYPES = [
         // increase

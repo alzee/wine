@@ -9,6 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use App\Entity\Choice;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 
@@ -22,7 +23,7 @@ class RegCrudController extends AbstractCrudController
     public function configureActions(Actions $actions): Actions
     {
         return $actions
-            ->disable(Action::DELETE, Action::EDIT, Action::NEW, Action::DETAIL)
+            ->disable(Action::DELETE, Action::NEW, Action::DETAIL)
         ;
     }
 
@@ -40,10 +41,24 @@ class RegCrudController extends AbstractCrudController
         yield ChoiceField::new('type')
             ->setChoices(Choice::REG_TYPES)
         ;
-        yield TextField::new('orgName');
-        yield TextField::new('name', 'Contact');
-        yield TextField::new('phone');
+        yield TextField::new('orgName')
+            ->setDisabled()
+            ;
+        yield TextField::new('name', 'Contact')
+            ->setDisabled()
+            ;
+        yield TextField::new('phone')
+            ->setDisabled()
+            ;
         yield TextField::new('address');
-        yield AssociationField::new('submitter');
+        yield AssociationField::new('submitter')
+            ->setDisabled()
+            ;
+        yield ChoiceField::new('status')
+            ->setChoices(Choice::REG_STATUSES)
+        ;
+        yield TextareaField::new('note')
+            ->setMaxLength(15);
+            ;
     }
 }

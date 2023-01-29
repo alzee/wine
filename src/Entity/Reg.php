@@ -53,6 +53,12 @@ class Reg
     #[Groups(['read'])]
     private ?\DateTimeImmutable $createdAt = null;
 
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $status = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $note = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -143,6 +149,30 @@ class Reg
     public function setCreatedAt(?\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getStatus(): ?int
+    {
+        return $this->status;
+    }
+
+    public function setStatus(int $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getNote(): ?string
+    {
+        return $this->note;
+    }
+
+    public function setNote(?string $note): self
+    {
+        $this->note = $note;
 
         return $this;
     }

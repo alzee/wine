@@ -149,3 +149,5 @@ Return Days: 退货期限（天）
 return: 退货
 returnLock: 锁定
 Cc: 短信抄送
+pending: 待处理
+deal: 达成
