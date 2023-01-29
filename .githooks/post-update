@@ -7,4 +7,5 @@
 ############### Functions ###############
 
 ############### Main Part ###############
+echo $PWD
 bin/console doc:mig:mig -n
