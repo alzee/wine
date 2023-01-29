@@ -66,8 +66,7 @@ class Sms
                 $templateCode = 'SMS_211140344';
                 break;
             case 'orgReg':
-                // 用户${name}提交了一条合作报备，类型${type}，单位名称${orgName}，联系人${contact}，联系电话${phone}。
-                $templateCode = 'SMS_268530712';
+                $templateCode = 'SMS_268690826';
                 break;
             default:
                 $templateCode = 'SMS_211140348';
