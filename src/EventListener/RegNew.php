@@ -54,18 +54,17 @@ class RegNew extends AbstractController
         $type = $this->translator->trans(array_flip(Choice::REG_TYPES)[$reg->getType()]);
         $orgName = $reg->getOrgName();
         $contact = $reg->getName();
-        $phone = $reg->getPhone();
+        $contactPhone = $reg->getPhone();
 
         if ($phone) {
-            $resp =  $this->sms->send($phone, 'orgReg', [
+            return $this->sms->send($phone, 'orgReg', [
                 'name' => $name,
                 'type' => $type,
                 'orgName' => $orgName,
                 'contact' => $contact,
-                'phone' => $phone
+                'phone' => $contactPhone
             ]);
         }
-        dump($resp);
 
         $em->flush();
     }
