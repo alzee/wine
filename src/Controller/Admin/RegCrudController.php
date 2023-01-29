@@ -62,6 +62,7 @@ class RegCrudController extends AbstractCrudController
             ->setMaxLength(15);
             ;
         yield DateTimeField::new('createdAt')
+            ->hideOnForm()
             ;
     }
 }
