@@ -32,7 +32,7 @@ class Sms
         $signName = $_ENV['SIGN_NAME'];
         switch($type){
             case 'verify':
-                $templateCode = 'SMS_211140349';
+                $templateCode = 'SMS_268695017';
                 break;
             case 'login':
                 $templateCode = 'SMS_211140348';
@@ -51,7 +51,7 @@ class Sms
                 break;
             case 'reg_notice':
                 // 用户${name}提交了一条合作报备，类型${type}，单位名称${orgName}，联系人${contact}，联系电话${phone}。
-                $templateCode = 'SMS_268505439';
+                $templateCode = 'SMS_268530712';
                 break;
             default:
                 $templateCode = 'SMS_211140348';
