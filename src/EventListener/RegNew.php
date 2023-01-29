@@ -57,7 +57,7 @@ class RegNew extends AbstractController
         $contactPhone = $reg->getPhone();
 
         if ($phone) {
-            return $this->sms->send($phone, 'orgReg', [
+            $this->sms->send($phone, 'orgReg', [
                 'name' => $name,
                 'type' => $type,
                 'orgName' => $orgName,
