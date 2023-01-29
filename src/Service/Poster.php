@@ -31,7 +31,7 @@ class Poster
     {
         $dir = $this->imgdir . '/poster/';
         $access_token = $this->wx->getAccessToken();
-        $url = "https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=${access_token}";
+        $url = "https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token={$access_token}";
         $data = [
             'page' => 'pages/index/index',
             'scene' => $cid,

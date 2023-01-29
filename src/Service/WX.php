@@ -31,7 +31,7 @@ class WX
             $item->expiresAfter(7200);
             $appid = $_ENV['WX_APP_ID'];
             $secret = $_ENV['WX_APP_SECRET'];
-            $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${appid}&secret=${secret}";
+            $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={$appid}&secret={$secret}";
             $content = $this->httpClient->request('GET', $url)->toArray();
             // dump($content);
             return $content['access_token'];
