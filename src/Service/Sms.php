@@ -22,18 +22,20 @@ class Sms
 {
     private $client;
     private $logger;
+    private $signName;
 
     public function __construct(LoggerInterface $logger)
     {
         $accessKeyId = $_ENV['SMS_ACCESS_KEY_ID'];
         $accessKeySecret = $_ENV['SMS_ACCESS_KEY_SECRET'];
-
         $config = new Config([
             "accessKeyId" => $accessKeyId,
             "accessKeySecret" => $accessKeySecret 
         ]);
+
         $this->client = new Dysmsapi($config);
         $this->logger = $logger;
+        $this->signName = $_ENV['SMS_SIGNATURE'];
     }
 
     public function getTemplateList($page = 1, $pageSize = 50)
@@ -46,9 +48,6 @@ class Sms
 
     public function send($phone, $type = 'verify', $params = [])
     {
-        $accessKeyId = $_ENV['SMS_ACCESS_KEY_ID'];
-        $accessKeySecret = $_ENV['SMS_ACCESS_KEY_SECRET'];
-        $signName = $_ENV['SMS_SIGNATURE'];
         switch($type){
             case 'verify':
                 $templateCode = 'SMS_268695017';
@@ -82,12 +81,12 @@ class Sms
 
         $sendSmsRequest = new SendSmsRequest([
             "phoneNumbers" => $phone,
-            "signName" => $signName,
+            "signName" => $this->signName,
             "templateCode" => $templateCode,
             "templateParam" => $templateParam
         ]);
         $resp = $this->client->sendSms($sendSmsRequest);
-        $this->logger->info("SMS send response: type: {$type}, phone: {$phone}, code: {$resp->body->code}, message: {$resp->body->message}, templateParam: {$templateParam}");
+        $this->logger->info("SMS resp: type: {$type}, sendTo: {$phone}, code: {$resp->body->code}, msg: {$resp->body->message}, templateParam: {$templateParam}");
         return $resp;
 
         /*
