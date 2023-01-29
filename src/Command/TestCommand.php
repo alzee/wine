@@ -9,13 +9,22 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use App\Entity\Conf;
+use Doctrine\ORM\EntityManagerInterface;
 
 #[AsCommand(
-    name: 'app:pathTojpg',
-    description: 'Update img fields, change .png, .gif to jpg.',
+    name: 'app:test',
+    description: 'test stuff',
 )]
-class PathTojpgCommand extends Command
+class TestCommand extends Command
 {
+    private $em;
+    public function __construct(EntityManagerInterface $em)
+    {
+        $this->em = $em;
+        parent::__construct();
+    }
+
     protected function configure(): void
     {
         $this
@@ -28,6 +37,9 @@ class PathTojpgCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $arg1 = $input->getArgument('arg1');
+
+        $list = $this->em->getRepository(Conf::class)->find(1)->getCc();
+        dump($list);
 
         if ($arg1) {
             $io->note(sprintf('You passed an argument: %s', $arg1));

@@ -63,7 +63,7 @@ class RegNew extends AbstractController
                 'orgName' => $orgName,
                 'contact' => $contact,
                 'phone' => $contactPhone
-            ]);
+            ], true);
         }
 
         $em->flush();

@@ -17,14 +17,17 @@ use Symfony\Component\Cache\Adapter\RedisAdapter;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Psr\Log\LoggerInterface;
+use App\Entity\Conf;
+use Doctrine\ORM\EntityManagerInterface;
 
 class Sms
 {
     private $client;
     private $logger;
     private $signName;
+    private $em;
 
-    public function __construct(LoggerInterface $logger)
+    public function __construct(LoggerInterface $logger, EntityManagerInterface $em)
     {
         $accessKeyId = $_ENV['SMS_ACCESS_KEY_ID'];
         $accessKeySecret = $_ENV['SMS_ACCESS_KEY_SECRET'];
@@ -36,6 +39,7 @@ class Sms
         $this->client = new Dysmsapi($config);
         $this->logger = $logger;
         $this->signName = $_ENV['SMS_SIGNATURE'];
+        $this->em = $em;
     }
 
     public function getTemplateList($page = 1, $pageSize = 50)
@@ -46,7 +50,7 @@ class Sms
         return $resp->body->smsTemplateList;
     }
 
-    public function send($phone, $type = 'verify', $params = [])
+    public function send($phone, $type = 'verify', $params = [], $cc = false)
     {
         switch($type){
             case 'verify':
@@ -79,15 +83,23 @@ class Sms
         }
         $templateParam = json_encode($params, JSON_UNESCAPED_UNICODE);
 
-        $sendSmsRequest = new SendSmsRequest([
-            "phoneNumbers" => $phone,
-            "signName" => $this->signName,
-            "templateCode" => $templateCode,
-            "templateParam" => $templateParam
-        ]);
-        $resp = $this->client->sendSms($sendSmsRequest);
-        $this->logger->info("SMS resp: type: {$type}, to: {$phone}, code: {$resp->body->code}, msg: {$resp->body->message}, templateParam: {$templateParam}");
-        return $resp;
+        if ($cc) {
+            $list = $this->em->getRepository(Conf::class)->find(1)->getCc();
+            array_push($list, $phone);
+        } else {
+            $list = [$phone];
+        }
+        foreach ($list as $to) {
+            $sendSmsRequest = new SendSmsRequest([
+                "phoneNumbers" => $to,
+                "signName" => $this->signName,
+                "templateCode" => $templateCode,
+                "templateParam" => $templateParam
+            ]);
+
+            $resp = $this->client->sendSms($sendSmsRequest);
+            $this->logger->info("SMS resp: type: {$type}, to: {$to}, code: {$resp->body->code}, msg: {$resp->body->message}, templateParam: {$templateParam}");
+        }
 
         /*
         $cache = new RedisAdapter(RedisAdapter::createConnection('redis://localhost'));
