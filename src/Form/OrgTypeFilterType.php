@@ -30,7 +30,12 @@ class OrgTypeFilterType extends AbstractType
         ]);
     }
 
-    public function getParent()
+    /**
+     * Returns the name of the parent type.
+     *
+     * @return string|null
+     */
+    public function getParent(): ?string
     {
         return ChoiceType::class;
     }
