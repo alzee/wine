@@ -18,6 +18,9 @@ class Conf
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $returnDays = null;
 
+    #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
+    private array $cc = [];
+
     public function getId(): ?int
     {
         return $this->id;
@@ -31,6 +34,18 @@ class Conf
     public function setReturnDays(int $returnDays): self
     {
         $this->returnDays = $returnDays;
+
+        return $this;
+    }
+
+    public function getCc(): array
+    {
+        return $this->cc;
+    }
+
+    public function setCc(?array $cc): self
+    {
+        $this->cc = $cc;
 
         return $this;
     }
