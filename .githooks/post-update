@@ -8,6 +8,6 @@
 
 ############### Main Part ###############
 
-# pushd ..
+pushd ..
 
 bin/console doc:mig:mig -n
