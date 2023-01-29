@@ -12,14 +12,18 @@ use App\Entity\Reg;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use App\Entity\Org;
 use App\Service\Sms;
+use App\Entity\Choice;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RegNew extends AbstractController
 {
     private $sms ;
+    private $translator;
 
-    public function __construct(Sms $sms)
+    public function __construct(Sms $sms, TranslatorInterface $translator)
     {
         $this->sms = $sms;
+        $this->translator = $translator;
     }
 
     public function postPersist(Reg $reg, LifecycleEventArgs $event): void
@@ -46,9 +50,14 @@ class RegNew extends AbstractController
         }
 
         $phone = $org->getPhone();
+        $name = $reg->getSubmitter()->getName();
+        $type = $this->translator->trans(Choice::REG_TYPES[$reg->getType()]);
+        $orgName = $reg->getOrgName();
+        $contact = $reg->getName();
+        $phone = $reg->getPhone();
 
         if ($phone) {
-            $this->sms->send($phone, 'verify');
+            $this->sms->send($phone, 'orgReg', ['name' => $name, 'type' => $type, 'orgName' => $orgName, 'contact' => $contact, 'phone' => $phone]);
         }
 
         $em->flush();
