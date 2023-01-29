@@ -8,4 +8,5 @@
 
 ############### Main Part ###############
 echo $PWD
+echo ok
 bin/console doc:mig:mig -n
