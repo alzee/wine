@@ -50,6 +50,7 @@ class Reg
     private ?string $orgName = null;
 
     #[ORM\Column]
+    #[Groups(['read'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     public function __construct()
