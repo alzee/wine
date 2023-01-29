@@ -39,7 +39,7 @@ class SmsCommand extends Command
         $arg1 = $input->getArgument('arg1');
 
         $this->sms->getTemplateList();
-        $this->sms->send('13207262011');
+        // $this->sms->send('13207262011');
 
         if ($arg1) {
             $io->note(sprintf('You passed an argument: %s', $arg1));
