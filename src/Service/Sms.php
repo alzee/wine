@@ -11,13 +11,38 @@ namespace App\Service;
 use AlibabaCloud\SDK\Dysmsapi\V20170525\Dysmsapi;
 use Darabonba\OpenApi\Models\Config;
 use AlibabaCloud\SDK\Dysmsapi\V20170525\Models\SendSmsRequest;
+use AlibabaCloud\SDK\Dysmsapi\V20170525\Models\QuerySmsTemplateListRequest;
+use AlibabaCloud\Tea\Utils\Utils\RuntimeOptions;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 
 class Sms
 {
-    public function send($phone, $type = 'verify')
+    private $client;
+
+    public function __construct()
+    {
+        $accessKeyId = $_ENV['SMS_ACCESS_KEY_ID'];
+        $accessKeySecret = $_ENV['SMS_ACCESS_KEY_SECRET'];
+
+        $config = new Config([
+            "accessKeyId" => $accessKeyId,
+            "accessKeySecret" => $accessKeySecret 
+        ]);
+        $this->client = new Dysmsapi($config);
+    }
+
+    public function getTemplateList($page = 1, $pageSize = 50)
+    {
+        $opts = new RuntimeOptions([]);
+        $querySmsTemplateListRequest = new QuerySmsTemplateListRequest([]);
+        $resp = $this->client->querySmsTemplateListWithOptions($querySmsTemplateListRequest, $opts);
+        $list = $resp->body->smsTemplateList;
+        dump($list);
+    }
+
+    public function send($phone, $type = 'verify', $params = [])
     {
         $accessKeyId = $_ENV['SMS_ACCESS_KEY_ID'];
         $accessKeySecret = $_ENV['SMS_ACCESS_KEY_SECRET'];
@@ -50,18 +75,17 @@ class Sms
         }
 
         $code = mt_rand(100000, 999999);
-        $config = new Config([
-            "accessKeyId" => $accessKeyId,
-            "accessKeySecret" => $accessKeySecret 
-        ]);
-        $client = new Dysmsapi($config);
+        // $templateParam = match ($type) {
+        // 'verify' => "{\"code\":\"$code\"}",
+        // 'reg_notice' => "{\"name\":\"$params['name']\"}",
+        // };
         $sendSmsRequest = new SendSmsRequest([
             "phoneNumbers" => $phone,
             "signName" => $signName,
             "templateCode" => $templateCode,
             "templateParam" => "{\"code\":\"$code\"}"
         ]);
-        $client->sendSms($sendSmsRequest);
+        $this->client->sendSms($sendSmsRequest);
 
         $cache = new RedisAdapter(RedisAdapter::createConnection('redis://localhost'));
         // $cache = new FilesystemAdapter();
