@@ -78,7 +78,7 @@ class Sms
         if ($type == 'verify') {
             $params = ['code' => mt_rand(100000, 999999)];
         }
-        $templateParam = json_encode($params);
+        $templateParam = json_encode($params, JSON_UNESCAPED_UNICODE);
 
         $sendSmsRequest = new SendSmsRequest([
             "phoneNumbers" => $phone,
