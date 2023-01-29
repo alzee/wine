@@ -12,6 +12,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 
 class RegCrudController extends AbstractCrudController
 {
@@ -59,6 +60,8 @@ class RegCrudController extends AbstractCrudController
         ;
         yield TextareaField::new('note')
             ->setMaxLength(15);
+            ;
+        yield DateTimeField::new('createdAt')
             ;
     }
 }
