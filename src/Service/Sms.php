@@ -17,19 +17,11 @@ use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 
 class Sms
 {
-    private $a;
-    private $b;
-    private $c;
-    
-    public function __construct()
-    {
-    }
-
     public function send($phone, $type = 'verify')
     {
-        $accessKeyId = $_ENV['accessKeyId'];
-        $accessKeySecret = $_ENV['accessKeySecret'];
-        $signName = $_ENV['SIGN_NAME'];
+        $accessKeyId = $_ENV['SMS_ACCESS_KEY_ID'];
+        $accessKeySecret = $_ENV['SMS_ACCESS_KEY_SECRET'];
+        $signName = $_ENV['SMS_SIGNATURE'];
         switch($type){
             case 'verify':
                 $templateCode = 'SMS_268695017';
