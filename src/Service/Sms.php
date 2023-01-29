@@ -86,7 +86,7 @@ class Sms
             "templateParam" => $templateParam
         ]);
         $resp = $this->client->sendSms($sendSmsRequest);
-        $this->logger->info("SMS resp: type: {$type}, sendTo: {$phone}, code: {$resp->body->code}, msg: {$resp->body->message}, templateParam: {$templateParam}");
+        $this->logger->info("SMS resp: type: {$type}, to: {$phone}, code: {$resp->body->code}, msg: {$resp->body->message}, templateParam: {$templateParam}");
         return $resp;
 
         /*
