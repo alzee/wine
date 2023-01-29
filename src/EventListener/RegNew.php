@@ -51,7 +51,7 @@ class RegNew extends AbstractController
 
         $phone = $org->getPhone();
         $name = $reg->getSubmitter()->getName();
-        $type = $this->translator->trans(Choice::REG_TYPES[$reg->getType()]);
+        $type = $this->translator->trans(array_flip(Choice::REG_TYPES)[$reg->getType()]);
         $orgName = $reg->getOrgName();
         $contact = $reg->getName();
         $phone = $reg->getPhone();
