@@ -49,7 +49,7 @@ class Reg
     #[Groups(['read', 'write'])]
     private ?string $orgName = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
     public function getId(): ?int
