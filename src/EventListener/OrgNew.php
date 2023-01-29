@@ -23,5 +23,9 @@ class OrgNew extends AbstractController
         } else if (! is_null($org->getUpstream()->getIndustry()) && is_null($org->getIndustry())) {
             $org->setIndustry($org->getUpstream()->getIndustry());
         }
+
+        if (is_null($org->getImg())) {
+            $org->setImg('default.jpg');
+        }
     }
 }
