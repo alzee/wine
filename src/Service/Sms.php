@@ -38,8 +38,7 @@ class Sms
         $opts = new RuntimeOptions([]);
         $querySmsTemplateListRequest = new QuerySmsTemplateListRequest([]);
         $resp = $this->client->querySmsTemplateListWithOptions($querySmsTemplateListRequest, $opts);
-        $list = $resp->body->smsTemplateList;
-        dump($list);
+        return $resp->body->smsTemplateList;
     }
 
     public function send($phone, $type = 'verify', $params = [])
@@ -66,7 +65,7 @@ class Sms
             case 'usermod':
                 $templateCode = 'SMS_211140344';
                 break;
-            case 'reg_notice':
+            case 'orgReg':
                 // 用户${name}提交了一条合作报备，类型${type}，单位名称${orgName}，联系人${contact}，联系电话${phone}。
                 $templateCode = 'SMS_268530712';
                 break;
@@ -74,19 +73,20 @@ class Sms
                 $templateCode = 'SMS_211140348';
         }
 
-        $code = mt_rand(100000, 999999);
-        // $templateParam = match ($type) {
-        // 'verify' => "{\"code\":\"$code\"}",
-        // 'reg_notice' => "{\"name\":\"$params['name']\"}",
-        // };
+        if ($type == 'verify') {
+            $params = ['code' => mt_rand(100000, 999999)];
+        }
+        $templateParam = json_encode($params);
+
         $sendSmsRequest = new SendSmsRequest([
             "phoneNumbers" => $phone,
             "signName" => $signName,
             "templateCode" => $templateCode,
-            "templateParam" => "{\"code\":\"$code\"}"
+            "templateParam" => $templateParam
         ]);
-        $this->client->sendSms($sendSmsRequest);
+        return $this->client->sendSms($sendSmsRequest);
 
+        /*
         $cache = new RedisAdapter(RedisAdapter::createConnection('redis://localhost'));
         // $cache = new FilesystemAdapter();
 
@@ -96,5 +96,6 @@ class Sms
             $item->expiresAfter(300);
             return $code;
         });
+         */
     }
 }

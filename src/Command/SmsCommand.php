@@ -38,8 +38,9 @@ class SmsCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $arg1 = $input->getArgument('arg1');
 
-        $this->sms->getTemplateList();
+        // $this->sms->getTemplateList();
         // $this->sms->send('13207262011');
+        // $this->sms->send('13207262011', 'orgReg', ['name' => 'jes', 'type' => '门店', 'orgName' => '小酒馆', 'contact' => '王先生', 'phone' => '13010101010']);
 
         if ($arg1) {
             $io->note(sprintf('You passed an argument: %s', $arg1));
