@@ -72,7 +72,7 @@ class Sms
                 $templateCode = 'SMS_211140344';
                 break;
             case 'orgReg':
-                $templateCode = 'SMS_268690826';
+                $templateCode = 'SMS_268470767';
                 break;
             default:
                 $templateCode = 'SMS_211140348';
