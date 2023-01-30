@@ -54,7 +54,7 @@ class Reg
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
-    private ?int $status = null;
+    private ?int $status = 0;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $note = null;
