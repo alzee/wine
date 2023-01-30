@@ -87,6 +87,10 @@ class Consumer
     #[Groups(['read'])]
     private ?int $withdrawing = 0;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['read'])]
+    private ?string $nick = null;
+
     public function __construct()
     {
         $this->orderRestaurants = new ArrayCollection();
@@ -328,6 +332,18 @@ class Consumer
     public function setWithdrawing(int $withdrawing): self
     {
         $this->withdrawing = $withdrawing;
+
+        return $this;
+    }
+
+    public function getNick(): ?string
+    {
+        return $this->nick;
+    }
+
+    public function setNick(?string $nick): self
+    {
+        $this->nick = $nick;
 
         return $this;
     }
