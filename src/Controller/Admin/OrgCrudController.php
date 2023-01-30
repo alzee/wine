@@ -30,14 +30,26 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use App\Entity\Choice;
+use App\Entity\Reg;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\ChoiceFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\TextFilter;
 use App\Form\OrgTypeFilterType;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Doctrine\Persistence\ManagerRegistry;
 
 class OrgCrudController extends AbstractCrudController
 {
+    private $doctrine;
+    private RequestStack $requestStack;
+
+    public function __construct(ManagerRegistry $doctrine, RequestStack $requestStack)
+    {
+        $this->requestStack = $requestStack;
+        $this->doctrine = $doctrine;
+    }
+
     public static function getEntityFqcn(): string
     {
         return Org::class;
@@ -167,8 +179,19 @@ class OrgCrudController extends AbstractCrudController
 
     public function createEntity(string $entityFqcn)
     {
+        $request = $this->requestStack->getCurrentRequest();
+        $regId = $request->query->get('fromReg');
         $org = new Org();
-        $org->setUpstream($this->getUser()->getOrg());
+        if (is_null($regId)) {
+            $org->setUpstream($this->getUser()->getOrg());
+        } else {
+            $reg = $this->doctrine->getRepository(Reg::class)->find($regId);
+            $org->setName($reg->getOrgName());
+            $org->setContact($reg->getName());
+            $org->setPhone($reg->getPhone());
+            $org->setAddress($reg->getAddress());
+            $org->setReferrer($reg->getSubmitter());
+        }
         return $org;
     }
 }

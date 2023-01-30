@@ -37,6 +37,7 @@ class RegCrudController extends AbstractCrudController
                     ->setController(OrgCrudController::class)
                     ->setDashboard(DashboardController::class)
                     ->setAction('new')
+                    // ->set('menuIndex', 1)
                     ->set('fromReg', $reg->getId())
                     ->generateUrl();
             })
