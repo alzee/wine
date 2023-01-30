@@ -32,14 +32,17 @@ class RegCrudController extends AbstractCrudController
     public function configureActions(Actions $actions): Actions
     {
         $newOrg = Action::new('newOrg')
-            ->linkToUrl(function (Reg $reg){
+            ->linkToUrl(function (Reg $entity){
                 return $this->adminUrlGenerator
                     ->setController(OrgCrudController::class)
                     ->setDashboard(DashboardController::class)
                     ->setAction('new')
                     // ->set('menuIndex', 1)
-                    ->set('fromReg', $reg->getId())
+                    ->set('fromReg', $entity->getId())
                     ->generateUrl();
+            })
+            ->displayIf(static function ($entity) {
+                return $entity->getStatus() == 0;
             })
             ;
         return $actions
