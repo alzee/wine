@@ -79,7 +79,17 @@ class Sms
         }
 
         if ($type == 'verify') {
-            $params = ['code' => mt_rand(100000, 999999)];
+            $code = mt_rand(100000, 999999);
+
+            $cache = new RedisAdapter(RedisAdapter::createConnection('redis://localhost'));
+            // $cache = new FilesystemAdapter();
+            $cache->clear($phone);
+            $cache->get($phone, function (ItemInterface $item) use ($code){
+                $item->expiresAfter(300);
+                return $code;
+            });
+
+            $params = ['code' => $code];
         }
         $templateParam = json_encode($params, JSON_UNESCAPED_UNICODE);
 
@@ -101,16 +111,5 @@ class Sms
             $this->logger->info("SMS resp: type: {$type}, to: {$to}, code: {$resp->body->code}, msg: {$resp->body->message}, templateParam: {$templateParam}");
         }
 
-        /*
-        $cache = new RedisAdapter(RedisAdapter::createConnection('redis://localhost'));
-        // $cache = new FilesystemAdapter();
-
-        $cache->clear($phone);
-
-        $cache->get($phone, function (ItemInterface $item) use ($code){
-            $item->expiresAfter(300);
-            return $code;
-        });
-         */
     }
 }

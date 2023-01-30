@@ -258,7 +258,6 @@ class ApiController extends AbstractController
         $otp0 = $cache->get($phone, function (ItemInterface $item){
             return 0;
         });
-        dump($otp0);
 
         if ($otp == $otp0) {
             $code = 0;
