@@ -54,6 +54,7 @@ class Reg
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
+    #[Groups(['read'])]
     private ?int $status = 0;
 
     #[ORM\Column(length: 255, nullable: true)]
