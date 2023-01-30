@@ -32,7 +32,8 @@ class Choice
         'node' => 2,
         'node_body' => 3,
         'product_body' => 4,
-        'widthdraw' => 5
+        'widthdraw' => 5,
+        'avatar' => 6
     ];
     public const ORDER_STATUSES = ['Pending' => 0, 'Cancelled' => 4, 'Success' => 5];
     public const WITHDRAW_STATUSES = ['Pending' => 0, 'Approved' => 3 , 'Rejected' => 4, 'Paid' => 5];
