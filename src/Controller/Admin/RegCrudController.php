@@ -13,9 +13,17 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 
 class RegCrudController extends AbstractCrudController
 {
+    private $adminUrlGenerator;
+
+    public function __construct(AdminUrlGenerator $adminUrlGenerator)
+    {
+        $this->adminUrlGenerator = $adminUrlGenerator;
+    }
+
     public static function getEntityFqcn(): string
     {
         return Reg::class;
@@ -23,7 +31,18 @@ class RegCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
+        $newOrg = Action::new('newOrg')
+            ->linkToUrl(function (Reg $reg){
+                return $this->adminUrlGenerator
+                    ->setController(OrgCrudController::class)
+                    ->setDashboard(DashboardController::class)
+                    ->setAction('new')
+                    ->set('fromReg', $reg->getId())
+                    ->generateUrl();
+            })
+            ;
         return $actions
+            ->add('index', $newOrg)
             ->disable(Action::DELETE, Action::NEW, Action::DETAIL)
         ;
     }
