@@ -62,6 +62,8 @@ class RegCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        $instance = $this->getContext()->getEntity()->getInstance();
+
         yield ChoiceField::new('type')
             ->setChoices(Choice::REG_TYPES)
         ;
