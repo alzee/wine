@@ -153,6 +153,9 @@ class Org
     #[ORM\ManyToOne]
     private ?Consumer $referrer = null;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?Reg $reg = null;
+
     public function __construct()
     {
         $this->voucher = 0;
@@ -640,6 +643,18 @@ class Org
     public function setReferrer(?Consumer $referrer): self
     {
         $this->referrer = $referrer;
+
+        return $this;
+    }
+
+    public function getReg(): ?Reg
+    {
+        return $this->reg;
+    }
+
+    public function setReg(?Reg $reg): self
+    {
+        $this->reg = $reg;
 
         return $this;
     }

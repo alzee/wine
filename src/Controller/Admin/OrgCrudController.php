@@ -179,18 +179,30 @@ class OrgCrudController extends AbstractCrudController
 
     public function createEntity(string $entityFqcn)
     {
+        $org = new Org();
+
         $request = $this->requestStack->getCurrentRequest();
         $regId = $request->query->get('fromReg');
-        $org = new Org();
         if (is_null($regId)) {
             $org->setUpstream($this->getUser()->getOrg());
         } else {
             $reg = $this->doctrine->getRepository(Reg::class)->find($regId);
-            $org->setName($reg->getOrgName());
-            $org->setContact($reg->getName());
-            $org->setPhone($reg->getPhone());
-            $org->setAddress($reg->getAddress());
-            $org->setReferrer($reg->getSubmitter());
+            if (! is_null($reg->getOrgName())) {
+                $org->setName($reg->getOrgName());
+            }
+            if (! is_null($reg->getName())) {
+                $org->setContact($reg->getName());
+            }
+            if (! is_null($reg->getPhone())) {
+                $org->setPhone($reg->getPhone());
+            }
+            if (! is_null($reg->getAddress())) {
+                $org->setAddress($reg->getAddress());
+            }
+            if (! is_null($reg->getSubmitter())) {
+                $org->setReferrer($reg->getSubmitter());
+            }
+            $org->setReg($reg);
         }
         return $org;
     }

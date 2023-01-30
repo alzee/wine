@@ -11,8 +11,8 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\User;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
-use App\Entity\Voucher;
 use App\Entity\Org;
+use App\Entity\Reg;
 
 class OrgNew extends AbstractController
 {
@@ -26,6 +26,11 @@ class OrgNew extends AbstractController
 
         if (is_null($org->getImg())) {
             $org->setImg('default.jpg');
+        }
+
+        $reg = $org->getReg();
+        if (! is_null($reg)) {
+            $reg->setStatus(1);
         }
     }
 }
