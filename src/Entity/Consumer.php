@@ -37,12 +37,12 @@ class Consumer
     private ?int $id = null;
 
     #[ORM\Column(length: 255, unique: true)]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read'])]
     private ?string $openid = null;
 
     #[ORM\Column(options: ["unsigned" => true])]
     #[Assert\PositiveOrZero]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read'])]
     private ?int $voucher = 0;
 
     #[ORM\OneToMany(mappedBy: 'consumer', targetEntity: OrderRestaurant::class)]
@@ -88,7 +88,7 @@ class Consumer
     private ?int $withdrawing = 0;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['read'])]
+    #[Groups(['read', 'write'])]
     private ?string $nick = null;
 
     public function __construct()
