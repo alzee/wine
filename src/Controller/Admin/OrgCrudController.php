@@ -60,7 +60,14 @@ class OrgCrudController extends AbstractCrudController
         $user = $this->getUser();
 
         if ($this->isGranted('ROLE_HEAD')) {
-            $orgChoices = ['Agency' => 1, 'VariantHead' => 10];
+            $orgChoices = [
+                'Agency' => 1,
+                'Store' => 2,
+                'Restaurant' => 3,
+                'VariantHead' => 10,
+                'VariantAgency' => 11,
+                'VariantStore' => 12,
+            ];
         }
         if ($this->isGranted('ROLE_AGENCY')) {
             $orgChoices = ['Store' => 2, 'Restaurant' => 3];
@@ -85,6 +92,19 @@ class OrgCrudController extends AbstractCrudController
             ->hideWhenCreating()
             ->setDisabled()
         ;
+        $request = $this->requestStack->getCurrentRequest();
+        if (! is_null($request->query->get('fromReg'))) {
+            yield AssociationField::new('upstream')
+                ->setRequired(true)
+                ->setQueryBuilder(
+                    fn (QueryBuilder $qb) => $qb
+                        ->andWhere('entity.type = 0')
+                        ->orWhere('entity.type = 1')
+                        ->orWhere('entity.type = 10')
+                        ->orWhere('entity.type = 11')
+                )
+                ;
+        }
         yield TextField::new('name');
         yield TextField::new('contact');
         yield TelephoneField::new('phone');
