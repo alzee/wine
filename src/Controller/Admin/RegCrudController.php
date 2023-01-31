@@ -62,25 +62,35 @@ class RegCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        $instance = $this->getContext()->getEntity()->getInstance();
+        $disabled = false;
+        if ($pageName === 'edit') {
+            $instance = $this->getContext()->getEntity()->getInstance();
+            if ($instance->getStatus() !== 0) {
+                $disabled = true;
+            }
+        }
 
         yield ChoiceField::new('type')
             ->setChoices(Choice::REG_TYPES)
+            ->setDisabled($disabled)
         ;
         yield TextField::new('orgName')
-            ->setDisabled()
+            ->setDisabled($disabled)
             ;
         yield TextField::new('name', 'Contact')
-            ->setDisabled()
+            ->setDisabled($disabled)
             ;
         yield TextField::new('phone')
-            ->setDisabled()
+            ->setDisabled($disabled)
             ;
-        yield TextField::new('address');
+        yield TextField::new('address')
+            ->setDisabled($disabled)
+            ;
         yield AssociationField::new('submitter')
-            ->setDisabled()
+            ->setDisabled($disabled)
             ;
         yield ChoiceField::new('status')
+            ->setDisabled($disabled)
             ->setChoices(Choice::REG_STATUSES)
         ;
         yield TextareaField::new('note')
