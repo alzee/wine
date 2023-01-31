@@ -207,6 +207,15 @@ class OrgCrudController extends AbstractCrudController
             $org->setUpstream($this->getUser()->getOrg());
         } else {
             $reg = $this->doctrine->getRepository(Reg::class)->find($regId);
+            $type = match ($reg->getType()) {
+                0 => 2,
+                1 => 1,
+                2 => 10,
+                3 => 11,
+                4 => 12,
+                default => 2
+            };
+            $org->setType($type);
             if (! is_null($reg->getOrgName())) {
                 $org->setName($reg->getOrgName());
             }
