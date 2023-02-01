@@ -43,9 +43,9 @@ class Wx
     public function getOpenid($code)
     {
         $url = "https://api.weixin.qq.com/sns/jscode2session?appid={$this->appid}&secret={$this->secret}&js_code=$code&grant_type=authorization_code";
-        $header[] = 'Content-Type: application/json';
-        $header[] = 'Accept:application/json';
-        $content = $this->httpClient->request('GET', $url ,['headers' => $header])->toArray();
+        $headers[] = 'Content-Type: application/json';
+        $headers[] = 'Accept:application/json';
+        $content = $this->httpClient->request('GET', $url, ['headers' => $headers])->toArray();
         $sessionKey = $content['session_key'];
         $openid = $content['openid'];
 
