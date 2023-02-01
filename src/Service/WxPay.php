@@ -39,7 +39,7 @@ class WxPay
         $url = 'https://api.mch.weixin.qq.com/v3/transfer/batches';
         $data = [
             'appid' => $this->wx->getAppid(),
-            'out_batch_no' => $batch['id'],
+            'out_batch_no' => (string) $batch['id'],
             'batch_name' => $batch['name'],
             'batch_remark' => $batch['note'],
             'total_amount' => $batch['amount'],
