@@ -51,4 +51,10 @@ class Wx
 
         return $openid;
     }
+
+    public function getAppid()
+    {
+        return $this->appid;
+
+    }
 }
