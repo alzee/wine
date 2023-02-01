@@ -60,4 +60,8 @@ class WxPay
     public function toBank()
     {
     }
+
+    public static function getPrivateKey() {
+        return openssl_get_privatekey(file_get_contents($_ENV['WXPAY_PRIVATE_KEY_PATH']);
+    }
 }
