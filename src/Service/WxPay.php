@@ -46,7 +46,7 @@ class WxPay
             'batch_remark' => $batch['note'],
             'total_amount' => $batch['amount'],
             'total_num' => count($list),
-            'transfer_detail_list' => $list
+            'transfer_detail_list' => $list,
             'transfer_scene_id' =>  $batch['scene']
         ];
 
