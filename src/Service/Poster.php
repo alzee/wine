@@ -12,7 +12,7 @@ use Symfony\Component\Cache\Adapter\RedisAdapter;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
-use App\Service\WX;
+use App\Service\Wx;
 
 class Poster
 {
@@ -20,7 +20,7 @@ class Poster
     private $wx;
     private $imgdir;
 
-    public function __construct(HttpClientInterface $client, WX $wx, $imgdir)
+    public function __construct(HttpClientInterface $client, Wx $wx, $imgdir)
     {
         $this->httpClient = $client;
         $this->wx = $wx;

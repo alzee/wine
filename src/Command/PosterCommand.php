@@ -9,15 +9,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use App\Service\WX;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use App\Service\Poster;
 
 #[AsCommand(
-    name: 'app:wxqr',
-    description: 'Manually generate WX QR for consumer',
+    name: 'app:poster',
+    description: 'Manually generate poster for consumer',
 )]
-class WxqrCommand extends Command
+class PosterCommand extends Command
 {
     private $poster;
 

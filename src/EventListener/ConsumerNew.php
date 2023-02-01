@@ -12,7 +12,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Doctrine\DBAL\Exception\DriverException;
 use App\Entity\Consumer;
-use App\Service\WX;
 use App\Service\Poster;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 

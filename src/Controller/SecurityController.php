@@ -7,20 +7,20 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 use App\Entity\Consumer;
 use Doctrine\Persistence\ManagerRegistry;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
+use App\Service\Wx;
 
 class SecurityController extends AbstractDashboardController
 {
     private $doctrine;
-    private $client;
+    private $wx;
 
-    public function __construct(ManagerRegistry $doctrine, HttpClientInterface $client)
+    public function __construct(ManagerRegistry $doctrine, Wx $wx)
     {
-        $this->httpclient = $client;
         $this->doctrine = $doctrine;
+        $this->wx = $wx;
     }
 
     #[Route(path: '/login', name: 'app_login')]
@@ -77,14 +77,7 @@ class SecurityController extends AbstractDashboardController
     {
         $data = json_decode($request->getContent());
         $code = $data->code;
-        $appid = $_ENV['WX_APP_ID'];
-        $secret = $_ENV['WX_APP_SECRET'];
-        $url = "https://api.weixin.qq.com/sns/jscode2session?appid=$appid&secret=$secret&js_code=$code&grant_type=authorization_code";
-        $header[] = 'Content-Type: application/json';
-        $header[] = 'Accept:application/json';
-        $content = $this->httpclient->request('GET', $url ,['headers' => $header])->toArray();
-        $sessionKey = $content['session_key'];
-        $openid = $content['openid'];
+        $openid = $this->wx->getOpenid($code);
 
         $consumer = $this->doctrine->getRepository(Consumer::class)->findOneBy(['openid' => $openid]);
         if (is_null($consumer)) {
