@@ -45,8 +45,10 @@ class WxPay
             'total_amount' => $batch['amount'],
             'total_num' => count($list),
             'transfer_detail_list' => $list,
-            'transfer_scene_id' =>  isset($batch['scene']) ? $batch['scene'] : ''
         ];
+        if (isset($batch['scene'])) {
+            $data['transfer_scene_id'] = $batch[$'scene'];
+        }
 
         $json = json_encode($data);
 
