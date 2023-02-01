@@ -83,7 +83,7 @@ class WxPay
         $sign = base64_encode($raw_sign);
 
         $schema = 'WECHATPAY2-SHA256-RSA2048';
-        $token = 'Authorization: ' . $schema . ' ' . sprintf('mchid="%s",nonce_str="%s",timestamp="%d",serial_no="%s",signature="%s"',
+        $token = $schema . ' ' . sprintf('mchid="%s",nonce_str="%s",timestamp="%d",serial_no="%s",signature="%s"',
             $merchant_id, $nonce, $timestamp, $serial_no, $sign);
 
         return $token;
