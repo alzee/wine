@@ -37,10 +37,6 @@ class WxPay
     public function toBalanceBatch(array $batch, array $list)
     {
         $url = 'https://api.mch.weixin.qq.com/v3/transfer/batches';
-        $sig = $this->genSig();
-        $headers[] = "Authorization: {$sig}";
-        $headers[] = 'Content-Type: application/json';
-        $headers[] = 'Accept:application/json';
         $data = [
             'appid' => $this->wx->getAppid(),
             'out_batch_no' => $batch['id'],
@@ -52,10 +48,17 @@ class WxPay
             'transfer_scene_id' =>  isset($batch['scene']) ? $batch['scene'] : ''
         ];
 
+        $json = json_encode($date);
+
+        $sig = $this->genSig($url, 'POST', $json);
+        $headers[] = "Authorization: {$sig}";
+        $headers[] = 'Content-Type: application/json';
+        $headers[] = 'Accept:application/json';
+
         /**
          * @resp { "out_batch_no" : "plfk2020042013", "batch_id" : "1030000071100999991182020050700019480001", "create_time" : "2015-05-20T13:29:35.120+08:00" }
          */
-        $content = $this->httpClient->request('POST', $url, ['headers' => $headers, 'body' => json_encode($data)])->toArray();
+        $content = $this->httpClient->request('POST', $url, ['headers' => $headers, 'body' => $json])->toArray();
         // dump($content);
     }
 
@@ -69,7 +72,6 @@ class WxPay
         $canonical_url = ($url_parts['path'] . (!empty($url_parts['query']) ? "?${url_parts['query']}" : ""));
         $timestamp = time();
         $nonce = md5(uniqid());
-        // $nonce = '593BEC0C930BF1AFEB40B4A08C8FB242';
         $merchant_id = $this->mchid;
         $serial_no = $this->getMchCertSN();
         $mch_private_key = $this->getPrivateKey();
