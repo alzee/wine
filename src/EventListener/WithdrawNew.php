@@ -64,7 +64,7 @@ class WithdrawNew extends AbstractController
             ];
             $list = [
                 [
-                    'out_batch_no' => $id,
+                    'out_detail_no' => $id,
                     'transfer_amount' => $amount,
                     'transfer_remark' => 'I want money.',
                     'openid' => $consumer->getOpenid(),
