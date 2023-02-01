@@ -37,7 +37,7 @@ class WxPay
     public function toBalanceBatch(array $batch, array $list)
     {
         $url = 'https://api.mch.weixin.qq.com/v3/transfer/batches';
-        $auth = '';
+        $auth = $this->genSig();
         $headers[] = "Authorization: {$auth}";
         $headers[] = 'Content-Type: application/json';
         $headers[] = 'Accept:application/json';
