@@ -60,7 +60,7 @@ class WithdrawNew extends AbstractController
                 'name' => $consumer->getName() . 'withdraw',
                 'note' => $consumer->getName() . 'withdraw note',
                 'amount' => $amount,
-                'scene' => ''
+                // 'scene' => 1000
             ];
             $list = [
                 [
