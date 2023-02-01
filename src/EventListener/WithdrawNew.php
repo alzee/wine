@@ -58,17 +58,18 @@ class WithdrawNew extends AbstractController
                 'id' => $withdraw->getId(),
                 'name' => $consumer->getName() . 'withdraw',
                 'note' => $consumer->getName() . 'withdraw note',
-                'amount' => $amount
+                'amount' => $amount,
+                'scene' => ''
             ];
             $list = [
                 [
                     'out_batch_no' => $withdraw->getId(),
                     'transfer_amount' => $amount,
                     'transfer_remark' => 'I want money.',
-                    'openid' => $openid,
+                    'openid' => $consumer->getOpenid(),
                 ]
             ];
-            $this->wxpay->toBalanceBatch();
+            $this->wxpay->toBalanceBatch($batch, $list);
         }
 
         // $em->persist($record);

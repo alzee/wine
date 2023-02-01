@@ -53,7 +53,7 @@ class WxPay
         /**
          * @resp { "out_batch_no" : "plfk2020042013", "batch_id" : "1030000071100999991182020050700019480001", "create_time" : "2015-05-20T13:29:35.120+08:00" }
          */
-        $content = $this->httpClient->request('POST', $url, ['headers' => $headers, 'body' => $data])->toArray();
+        $content = $this->httpClient->request('POST', $url, ['headers' => $headers, 'body' => json_encode($data)])->toArray();
         // dump($content);
     }
 
