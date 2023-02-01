@@ -48,7 +48,7 @@ class WxPay
             'transfer_scene_id' =>  isset($batch['scene']) ? $batch['scene'] : ''
         ];
 
-        $json = json_encode($date);
+        $json = json_encode($data);
 
         $sig = $this->genSig($url, 'POST', $json);
         $headers[] = "Authorization: {$sig}";
