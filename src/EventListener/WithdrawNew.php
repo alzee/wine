@@ -55,7 +55,7 @@ class WithdrawNew extends AbstractController
         $amount = 1;
         if (! is_null($consumer)) {
             $batch = [
-                'id' => $withdraw->getId(),
+                'id' => str_pad($withdraw->getId(), 9, 0, STR_PAD_LEFT), // WxPay require out_batch_no to be string and length > 5
                 'name' => $consumer->getName() . 'withdraw',
                 'note' => $consumer->getName() . 'withdraw note',
                 'amount' => $amount,
