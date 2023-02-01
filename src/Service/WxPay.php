@@ -47,7 +47,7 @@ class WxPay
             'total_amount' => $batch['amount'],
             'total_num' => count($list),
             'transfer_detail_list' => $list,
-            'transfer_scene_id' =>  $batch['scene']
+            'transfer_scene_id' =>  isset($batch['scene']) ? $batch['scene'] : ''
         ];
 
         /**
