@@ -27,7 +27,7 @@ class WxPay
 
     /**
      * @param array $batch  Batch info ['id', 'name', 'note', 'amount', 'scene']
-     * @param array $list   List of transfer ['out_detail_no', 'transfer_amount', 'transfer_remark', 'openid', 'user_name', 'user_id_card']
+     * @param array $list   List of transfer [['out_detail_no', 'transfer_amount', 'transfer_remark', 'openid', 'user_name', 'user_id_card'], ...]
      *
      * @return
      */

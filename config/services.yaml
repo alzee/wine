@@ -136,6 +136,10 @@ services:
                 name: 'doctrine.orm.entity_listener'
                 event: 'prePersist'
                 entity: 'App\Entity\Withdraw'
+            -
+                name: 'doctrine.orm.entity_listener'
+                event: 'postPersist'
+                entity: 'App\Entity\Withdraw'
     App\EventListener\ConsumerNew:
         tags:
             -

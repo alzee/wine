@@ -12,9 +12,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Withdraw;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use App\Entity\Org;
+use App\Service\WxPay;
 
 class WithdrawNew extends AbstractController
 {
+    private $wxpay;
+
+    public function __construct(WxPay $wxpay)
+    {
+        $this->wxpay = $wxpay;
+    }
 
     public function prePersist(Withdraw $withdraw, LifecycleEventArgs $event): void
     {
@@ -23,8 +30,8 @@ class WithdrawNew extends AbstractController
         $amount = $withdraw->getAmount();
         $withdraw->setActualAmount($withdraw->getAmount());
         $withdraw->setApprover($head);
-        $applicant = $withdraw->getApplicant();
 
+        $applicant = $withdraw->getApplicant();
         if (! is_null($applicant)) {
             if ($applicant->getType() == 1 || $applicant->getType() == 3) {
                 $withdraw->setApprover($applicant->getUpstream());
@@ -39,5 +46,32 @@ class WithdrawNew extends AbstractController
 
         $applicant->setWithdrawable($applicant->getWithdrawable() - $amount);
         $applicant->setWithdrawing($applicant->getWithdrawing() + $amount);
+    }
+
+    public function postPersist(Withdraw $withdraw, LifecycleEventArgs $event): void
+    {
+        $em = $event->getEntityManager();
+        $consumer = $withdraw->getConsumer();
+        $amount = 1;
+        if (! is_null($consumer)) {
+            $batch = [
+                'id' => $withdraw->getId(),
+                'name' => $consumer->getName() . 'withdraw',
+                'note' => $consumer->getName() . 'withdraw note',
+                'amount' => $amount
+            ];
+            $list = [
+                [
+                    'out_batch_no' => $withdraw->getId(),
+                    'transfer_amount' => $amount,
+                    'transfer_remark' => 'I want money.',
+                    'openid' => $openid,
+                ]
+            ];
+            $this->wxpay->toBalanceBatch();
+        }
+
+        // $em->persist($record);
+        // $em->flush();
     }
 }
