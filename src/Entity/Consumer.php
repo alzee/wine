@@ -64,7 +64,7 @@ class Consumer
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['read', 'write'])]
-    private ?string $avatar = null;
+    private ?string $avatar = 'default.jpg';
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
