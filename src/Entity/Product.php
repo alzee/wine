@@ -89,6 +89,12 @@ class Product
     #[Groups(['read'])]
     private ?string $intro = null;
 
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $unitPrice = null;
+
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $unitPricePromo = null;
+
     public function __construct()
     {
     }
@@ -271,6 +277,30 @@ class Product
     public function setIntro(?string $intro): self
     {
         $this->intro = $intro;
+
+        return $this;
+    }
+
+    public function getUnitPrice(): ?int
+    {
+        return $this->unitPrice;
+    }
+
+    public function setUnitPrice(int $unitPrice): self
+    {
+        $this->unitPrice = $unitPrice;
+
+        return $this;
+    }
+
+    public function getUnitPricePromo(): ?int
+    {
+        return $this->unitPricePromo;
+    }
+
+    public function setUnitPricePromo(int $unitPricePromo): self
+    {
+        $this->unitPricePromo = $unitPricePromo;
 
         return $this;
     }
