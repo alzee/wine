@@ -33,9 +33,10 @@ class Poster
         $access_token = $this->wx->getAccessToken();
         $url = "https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token={$access_token}";
         $data = [
-            'page' => 'pages/me/index',
+            'page' => 'pages/chooseLogin/index',
             'scene' => $cid,
-            'env_version' => 'trial',
+            'env_version' => 'trial', // default 'release'
+            'is_hyaline' => true
             // 'width' => 280 // Min 280px
         ];
         $response = $this->httpClient->request('POST', $url, ['json' => $data]);
