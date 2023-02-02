@@ -86,9 +86,11 @@ class SecurityController extends AbstractDashboardController
             $consumer = new Consumer();
             $consumer->setOpenid($openid);
             $consumer->setName(substr($openid, 0, 8));
-            $referrer = $this->doctrine->getRepository(Consumer::class)->find($data->referrerId);
-            if ($referrer) {
-                $consumer->setReferrer($referrer);
+            if (isset($data->referrerId)) {
+                $referrer = $this->doctrine->getRepository(Consumer::class)->find($data->referrerId);
+                if ($referrer) {
+                    $consumer->setReferrer($referrer);
+                }
             }
             $em->persist($consumer);
             $em->flush();
