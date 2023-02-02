@@ -80,7 +80,7 @@ class Org
 
     #[ORM\Column]
     #[Groups(['read', 'write'])]
-    private ?float $discount = 0.95;
+    private ?float $discount = 1;
 
     #[ORM\Column(options: ["unsigned" => true])]
     #[Groups(['read'])]
