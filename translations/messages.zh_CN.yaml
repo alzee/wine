@@ -19,7 +19,9 @@ Voucher.detail: 代金券明细
 User: 用户
 UserManage: 用户管理
 Quantity: 数量
-Price: 单价
+Price: 价格
+Unit Price: 单价
+Unit Price Promo: 会员单价
 Amount: 金额
 Date: 日期
 Stock: 库存

@@ -65,6 +65,8 @@ class ProductCrudController extends AbstractCrudController
             TextField::new('name'),
             TextField::new('spec'),
             MoneyField::new('price')->setCurrency('CNY'),
+            MoneyField::new('unitPrice')->setCurrency('CNY'),
+            MoneyField::new('unitPricePromo')->setCurrency('CNY'),
             MoneyField::new('voucher')
                 ->setCurrency('CNY')
                 ->setHelp('<b>代金券</b>为本件商品随增的代金券金额')
