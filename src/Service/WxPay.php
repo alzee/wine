@@ -70,7 +70,7 @@ class WxPay
     public function genSig($url = "https://api.mch.weixin.qq.com/v3/certificates", $http_method = "GET", $body = "")
     {
         $url_parts = parse_url($url);
-        $canonical_url = ($url_parts['path'] . (!empty($url_parts['query']) ? "?${url_parts['query']}" : ""));
+        $canonical_url = ($url_parts['path'] . (!empty($url_parts['query']) ? "?{$url_parts['query']}" : ""));
         $timestamp = time();
         $nonce = md5(uniqid());
         $merchant_id = $this->mchid;
