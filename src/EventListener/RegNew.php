@@ -73,7 +73,5 @@ class RegNew extends AbstractController
                 'address' => $address
             ], true);
         }
-
-        $em->flush();
     }
 }
