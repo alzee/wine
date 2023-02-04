@@ -157,6 +157,7 @@ class Org
     private ?Reg $reg = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['read'])]
     private ?string $area = null;
 
     public function __construct()

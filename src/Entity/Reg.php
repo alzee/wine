@@ -61,6 +61,7 @@ class Reg
     private ?string $note = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['read', 'write'])]
     private ?string $area = null;
 
     public function __construct()
