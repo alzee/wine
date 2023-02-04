@@ -101,7 +101,8 @@ class SecurityController extends AbstractDashboardController
             "role" => 4,
             "name" => $consumer->getName(),
             "phone" => $consumer->getPhone(),
-            "voucher" => $consumer->getVoucher()
+            "voucher" => $consumer->getVoucher(),
+            "avatar" => $consumer->getAvatar(),
         ];
         return $this->json($resp);
     }
