@@ -83,6 +83,9 @@ class RegCrudController extends AbstractCrudController
         yield TextField::new('phone')
             ->setDisabled($disabled)
             ;
+        yield TextField::new('area')
+            ->setDisabled($disabled)
+            ;
         yield TextField::new('address')
             ->setDisabled($disabled)
             ;

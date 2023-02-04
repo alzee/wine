@@ -30,7 +30,7 @@ Spec: 规格
 Sn: 商品编号
 Contact: 联系人
 Phone: 电话
-Address: 地址
+Address: 详细地址
 Value: 面值
 Username: 用户名
 Password: 密码
@@ -155,3 +155,4 @@ pending: 待处理
 deal: 达成
 Nick: 昵称
 New Org: 新增机构
+Area: 地区

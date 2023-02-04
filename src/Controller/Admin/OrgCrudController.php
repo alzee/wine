@@ -108,6 +108,7 @@ class OrgCrudController extends AbstractCrudController
         yield TextField::new('name');
         yield TextField::new('contact');
         yield TelephoneField::new('phone');
+        yield TextField::new('area');
         yield TextField::new('address');
         yield TextField::new('payee')
             ->onlyWhenUpdating()
