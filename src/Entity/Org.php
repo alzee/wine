@@ -50,10 +50,6 @@ class Org
     #[Groups(['read', 'write'])]
     private ?string $address = null;
 
-    #[ORM\Column(length: 255)]
-    #[Groups(['read', 'write'])]
-    private ?string $district = null;
-
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $type = 1;
@@ -223,18 +219,6 @@ class Org
     public function setAddress(string $address): self
     {
         $this->address = $address;
-
-        return $this;
-    }
-
-    public function getDistrict(): ?string
-    {
-        return $this->district;
-    }
-
-    public function setDistrict(string $district): self
-    {
-        $this->district = $district;
 
         return $this;
     }
