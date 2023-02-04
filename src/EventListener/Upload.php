@@ -13,6 +13,7 @@ use App\Entity\Withdraw;
 use App\Entity\Product;
 use App\Entity\Node;
 use App\Entity\MediaObject;
+use App\Entity\Consumer;
 use Doctrine\ORM\EntityManagerInterface;
 
 class Upload
@@ -81,14 +82,14 @@ class Upload
             // save thumbnail
             $thumbnail_path = $file->getPath() . '/thumbnail/' . preg_replace('/.png/i', '.jpg', $file->getFilename());
             imagejpeg(imagescale($new_file, $thumbnail_width), $thumbnail_path, 60);
-        }
 
-        // save image
-        imagejpeg($new_file, preg_replace('/.png/i', '.jpg', $file_path), $target_quality);
+            // save image
+            imagejpeg($new_file, preg_replace('/.png/i', '.jpg', $file_path), $target_quality);
 
-        if ($info['mime'] != 'image/jpeg') {
-            unlink($file_path);
-            $object->setImg(preg_replace('/.png/i', '.jpg', $object->getImg()));
+            if ($info['mime'] != 'image/jpeg') {
+                unlink($file_path);
+                $object->setImg(preg_replace('/.png/i', '.jpg', $object->getImg()));
+            }
         }
 
         if ($object instanceof MediaObject) {
@@ -106,9 +107,9 @@ class Upload
                 $this->em->flush();
             }
             if ($type === 6) {
-                symlink('../../media/' . $file->getFilename(), $file->getPath() . '/../img/avatar/' . $dir . '/' . $file->getFilename());
-                $entity = $this->em->getRepository($class)->find($object->getEntityId());
-                $entity->setImg($file->getFilename());
+                symlink('../../media/' . $file->getFilename(), $file->getPath() . '/../img/' . $dir . '/' . $file->getFilename());
+                $entity = $this->em->getRepository(Consumer::class)->find($object->getEntityId());
+                $entity->setAvatar($file->getFilename());
                 $this->em->flush();
             }
         }
