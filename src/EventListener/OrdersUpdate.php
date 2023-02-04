@@ -15,7 +15,10 @@ use App\Entity\Org;
 use App\Entity\Voucher;
 use App\Entity\Choice;
 use App\Entity\Stock;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+use Doctrine\ORM\Events;
 
+#[AsEntityListener(event: Events::postUpdate, entity: Orders::class)]
 class OrdersUpdate extends AbstractController
 {
     public function postUpdate(Orders $order, LifecycleEventArgs $event): void

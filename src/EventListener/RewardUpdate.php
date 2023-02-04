@@ -11,7 +11,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use App\Entity\Reward;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+use Doctrine\ORM\Events;
 
+#[AsEntityListener(event: Events::postUpdate, entity: Reward::class)]
 class RewardUpdate
 {
     public function postUpdate(Reward $reward, LifecycleEventArgs $event): void

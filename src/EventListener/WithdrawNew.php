@@ -13,7 +13,11 @@ use App\Entity\Withdraw;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use App\Entity\Org;
 use App\Service\WxPay;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+use Doctrine\ORM\Events;
 
+#[AsEntityListener(event: Events::prePersist, entity: Withdraw::class)]
+#[AsEntityListener(event: Events::postPersist, entity: Withdraw::class)]
 class WithdrawNew extends AbstractController
 {
     private $wxpay;

@@ -17,7 +17,10 @@ use App\Entity\Choice;
 use App\Entity\Stock;
 use App\Entity\Reward;
 use App\Entity\Share;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+use Doctrine\ORM\Events;
 
+#[AsEntityListener(event: Events::postPersist, entity: RetailReturn::class)]
 class RetailReturnNew extends AbstractController
 {
     public function postPersist(RetailReturn $retailReturn, LifecycleEventArgs $event): void

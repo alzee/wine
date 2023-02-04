@@ -12,7 +12,10 @@ use App\Entity\Voucher;
 use App\Entity\Org;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use App\Entity\Choice;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+use Doctrine\ORM\Events;
 
+#[AsEntityListener(event: Events::prePersist, entity: Voucher::class)]
 class VoucherNew extends AbstractController
 {
     public function prePersist(Voucher $voucher, LifecycleEventArgs $event): void
@@ -22,9 +25,5 @@ class VoucherNew extends AbstractController
             $org = $voucher->getOrg();
             $org->setVoucher($org->getVoucher() + $voucher->getVoucher());
         }
-    }
-
-    public function postPersist(User $user, LifecycleEventArgs $event): void
-    {
     }
 }

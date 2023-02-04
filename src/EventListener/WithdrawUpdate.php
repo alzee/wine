@@ -15,7 +15,10 @@ use App\Entity\Org;
 use App\Entity\Withdraw;
 use App\Entity\Voucher;
 use App\Entity\Choice;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+use Doctrine\ORM\Events;
 
+#[AsEntityListener(event: Events::postUpdate, entity: Withdraw::class)]
 class WithdrawUpdate
 {
     public function postUpdate(Withdraw $withdraw, LifecycleEventArgs $event): void

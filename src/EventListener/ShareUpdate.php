@@ -11,7 +11,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use App\Entity\Share;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+use Doctrine\ORM\Events;
 
+#[AsEntityListener(event: Events::postUpdate, entity: Share::class)]
 class ShareUpdate
 {
     public function postUpdate(Share $share, LifecycleEventArgs $event): void

@@ -13,7 +13,11 @@ use App\Entity\User;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use App\Entity\Voucher;
 use App\Entity\Org;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+use Doctrine\ORM\Events;
 
+#[AsEntityListener(event: Events::prePersist, entity: User::class)]
+#[AsEntityListener(event: Events::postPersist, entity: User::class)]
 class UserNew extends AbstractController
 {
     private $hasher;

@@ -14,7 +14,10 @@ use Doctrine\DBAL\Exception\DriverException;
 use App\Entity\Consumer;
 use App\Service\Poster;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+use Doctrine\ORM\Events;
 
+#[AsEntityListener(event: Events::postPersist, entity: Consumer::class)]
 class ConsumerNew extends AbstractController
 {
     private $poster;

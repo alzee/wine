@@ -16,7 +16,11 @@ use App\Entity\Stock;
 use App\Entity\Voucher;
 use App\Entity\Choice;
 use App\Entity\Reward;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+use Doctrine\ORM\Events;
 
+#[AsEntityListener(event: Events::prePersist, entity: Orders::class)]
+#[AsEntityListener(event: Events::postPersist, entity: Orders::class)]
 class OrdersNew extends AbstractController
 {
     public function prePersist(Orders $order, LifecycleEventArgs $event): void

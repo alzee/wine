@@ -13,7 +13,10 @@ use App\Entity\User;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use App\Entity\Org;
 use App\Entity\Reg;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+use Doctrine\ORM\Events;
 
+#[AsEntityListener(event: Events::prePersist, entity: Org::class)]
 class OrgNew extends AbstractController
 {
     public function prePersist(Org $org, LifecycleEventArgs $event): void

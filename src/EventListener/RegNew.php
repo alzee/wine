@@ -14,7 +14,10 @@ use App\Entity\Org;
 use App\Service\Sms;
 use App\Entity\Choice;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+use Doctrine\ORM\Events;
 
+#[AsEntityListener(event: Events::postPersist, entity: Reg::class)]
 class RegNew extends AbstractController
 {
     private $sms ;

@@ -17,7 +17,11 @@ use App\Entity\Choice;
 use App\Entity\Stock;
 use Doctrine\DBAL\Exception\DriverException;
 use App\Entity\Reward;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+use Doctrine\ORM\Events;
 
+#[AsEntityListener(event: Events::prePersist, entity: Returns::class)]
+#[AsEntityListener(event: Events::postPersist, entity: Returns::class)]
 class ReturnsNew extends AbstractController
 {
     public function prePersist(Returns $return, LifecycleEventArgs $event): void

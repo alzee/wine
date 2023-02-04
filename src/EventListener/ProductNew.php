@@ -12,7 +12,10 @@ use App\Entity\Product;
 use App\Entity\Org;
 use App\Entity\Stock;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+use Doctrine\ORM\Events;
 
+#[AsEntityListener(event: Events::prePersist, entity: Product::class)]
 class ProductNew extends AbstractController
 {
     public function prePersist(Product $product, LifecycleEventArgs $event): void
