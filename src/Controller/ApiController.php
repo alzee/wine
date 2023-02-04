@@ -329,7 +329,7 @@ class ApiController extends AbstractController
             $org = new Org();
             $org->setAddress($params['address']);
             $org->setContact($params['contact']);
-            $org->setDistrict($params['district']);
+            $org->setArea($params['area']);
             $org->setName($params['name']);
             $org->setPhone($params['phone']);
             $org->setType($params['type']);
