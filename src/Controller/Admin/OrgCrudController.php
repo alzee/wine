@@ -108,7 +108,9 @@ class OrgCrudController extends AbstractCrudController
         yield TextField::new('name');
         yield TextField::new('contact');
         yield TelephoneField::new('phone');
-        yield TextField::new('area');
+        yield TextField::new('area')
+            ->setRequired(true)
+            ;
         yield TextField::new('address');
         yield TextField::new('payee')
             ->onlyWhenUpdating()
@@ -126,8 +128,8 @@ class OrgCrudController extends AbstractCrudController
             ->onlyWhenUpdating()
             ->setDisabled()
         ;
-        yield TextField::new('district');
-        yield AssociationField::new('city');
+        // yield TextField::new('district');
+        // yield AssociationField::new('city');
         yield AssociationField::new('industry');
         yield MoneyField::new('voucher')
                 ->setCurrency('CNY')
@@ -225,6 +227,9 @@ class OrgCrudController extends AbstractCrudController
             }
             if (! is_null($reg->getPhone())) {
                 $org->setPhone($reg->getPhone());
+            }
+            if (! is_null($reg->getArea())) {
+                $org->setArea($reg->getArea());
             }
             if (! is_null($reg->getAddress())) {
                 $org->setAddress($reg->getAddress());
