@@ -55,6 +55,7 @@ class Upload
                 3 => 'node/body',
                 4 => 'product/body',
                 5 => 'widthdraw',
+                6 => 'avatar',
                 9 => 'media',
             };
         } else {
@@ -100,6 +101,12 @@ class Upload
                     1 => Product::class,
                     2 => Node::class,
                 };
+                $entity = $this->em->getRepository($class)->find($object->getEntityId());
+                $entity->setImg($file->getFilename());
+                $this->em->flush();
+            }
+            if ($type === 6) {
+                symlink('../../media/' . $file->getFilename(), $file->getPath() . '/../img/avatar/' . $dir . '/' . $file->getFilename());
                 $entity = $this->em->getRepository($class)->find($object->getEntityId());
                 $entity->setImg($file->getFilename());
                 $this->em->flush();
