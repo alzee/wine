@@ -112,6 +112,7 @@ class OrgCrudController extends AbstractCrudController
             ->setRequired(true)
             ;
         yield TextField::new('address');
+        // yield AssociationField::new('city');
         yield TextField::new('payee')
             ->onlyWhenUpdating()
             ->setDisabled()
@@ -128,8 +129,6 @@ class OrgCrudController extends AbstractCrudController
             ->onlyWhenUpdating()
             ->setDisabled()
         ;
-        // yield TextField::new('district');
-        // yield AssociationField::new('city');
         yield AssociationField::new('industry');
         yield MoneyField::new('voucher')
                 ->setCurrency('CNY')
