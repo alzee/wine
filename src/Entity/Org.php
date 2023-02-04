@@ -156,6 +156,9 @@ class Org
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?Reg $reg = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $area = null;
+
     public function __construct()
     {
         $this->voucher = 0;
@@ -655,6 +658,18 @@ class Org
     public function setReg(?Reg $reg): self
     {
         $this->reg = $reg;
+
+        return $this;
+    }
+
+    public function getArea(): ?string
+    {
+        return $this->area;
+    }
+
+    public function setArea(?string $area): self
+    {
+        $this->area = $area;
 
         return $this;
     }

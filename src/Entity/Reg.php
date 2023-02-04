@@ -60,6 +60,9 @@ class Reg
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $note = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $area = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -174,6 +177,18 @@ class Reg
     public function setNote(?string $note): self
     {
         $this->note = $note;
+
+        return $this;
+    }
+
+    public function getArea(): ?string
+    {
+        return $this->area;
+    }
+
+    public function setArea(?string $area): self
+    {
+        $this->area = $area;
 
         return $this;
     }
