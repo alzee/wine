@@ -358,4 +358,11 @@ class ApiController extends AbstractController
         $a = array_flip(Choice::get($taxon));
         return $this->json($a);
     }
+
+    #[Route('/pca')]
+    public function getPca(): Response
+    {
+        $pca = file_get_contents('pca.json');
+        return new Response($pca);
+    }
 }
