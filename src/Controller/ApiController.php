@@ -19,6 +19,7 @@ use App\Entity\OrderRestaurant;
 use App\Entity\Scan;
 use App\Entity\Consumer;
 use App\Entity\User;
+use App\Entity\Choice;
 use App\Entity\RetailReturn;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -349,5 +350,12 @@ class ApiController extends AbstractController
         }
 
         return $this->json(['code' => $code]);
+    }
+
+    #[Route('/choices/{taxon}')]
+    public function getChoices($taxon): JsonResponse
+    {
+        $a = array_flip(Choice::get($taxon));
+        return $this->json($a);
     }
 }

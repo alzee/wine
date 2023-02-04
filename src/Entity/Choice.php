@@ -103,4 +103,11 @@ class Choice
         // system
         '内部调控' => 255,
     ];
+
+    public static function get($taxon)
+    {
+        $taxon = strtoupper($taxon);
+        $constant = constant('Self::' . $taxon);
+        return $constant;
+    }
 }
