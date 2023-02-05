@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\File\File;
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
 )]
-#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'tag' => 'exact', 'org' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'tags' => 'partial', 'org' => 'exact'])]
 #[ApiFilter(OrderFilter::class, properties: ['id'])]
 class Node
 {
@@ -37,10 +37,6 @@ class Node
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     #[Groups(['read'])]
     private ?string $body = null;
-
-    #[ORM\Column(type: Types::SMALLINT, nullable: true)]
-    #[Groups(['read'])]
-    private ?int $tag = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[Groups(['read'])]
@@ -69,6 +65,9 @@ class Node
     #[ORM\ManyToOne]
     #[Groups(['read'])]
     private ?Product $product = null;
+
+    #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
+    private array $tags = [];
 
     public function __toString(): string
     {
@@ -105,18 +104,6 @@ class Node
     public function setBody(?string $body): self
     {
         $this->body = $body;
-
-        return $this;
-    }
-
-    public function getTag(): ?int
-    {
-        return $this->tag;
-    }
-
-    public function setTag(?int $tag): self
-    {
-        $this->tag = $tag;
 
         return $this;
     }
@@ -193,6 +180,18 @@ class Node
     public function setProduct(?Product $product): self
     {
         $this->product = $product;
+
+        return $this;
+    }
+
+    public function getTags(): array
+    {
+        return $this->tags;
+    }
+
+    public function setTags(?array $tags): self
+    {
+        $this->tags = $tags;
 
         return $this;
     }

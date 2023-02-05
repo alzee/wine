@@ -54,9 +54,9 @@ class NodeCrudController extends AbstractCrudController
             ->hideOnIndex()
             ;
         if ($this->isGranted('ROLE_HEAD')) {
-            yield ChoiceField::new('tag')
+            yield ChoiceField::new('tags')
                 ->setChoices($this->tags)
-            // ->allowMultipleChoices()
+                ->allowMultipleChoices()
             ;
         }
         yield TextareaField::new('body')
@@ -88,7 +88,7 @@ class NodeCrudController extends AbstractCrudController
         $response = $this->container->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
         $response
             ->andWhere("entity.org = $userOrg")
-            ->andWhere("entity.tag != 1")
+            ->andWhere("entity.tags != 1")
         ;
         return $response;
     }

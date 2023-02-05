@@ -70,7 +70,7 @@ class FeaturedCrudController extends AbstractCrudController
         $response = $this->container->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
         $response
             ->andWhere("entity.org = $userOrg")
-            ->andWhere("entity.tag = 1")
+            ->andWhere("entity.tags = 1")
         ;
         return $response;
     }
@@ -79,7 +79,7 @@ class FeaturedCrudController extends AbstractCrudController
     {
         $node = new Node();
         $node->setOrg($this->getUser()->getOrg());
-        $node->setTag(1);
+        $node->setTags([1]);
 
         return $node;
     }
