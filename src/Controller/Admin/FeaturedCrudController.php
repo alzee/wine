@@ -32,7 +32,11 @@ class FeaturedCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         yield TextField::new('title');
-        yield AssociationField::new('product');
+        if ($this->isGranted('ROLE_HEAD')) {
+            yield AssociationField::new('product')
+                ->setRequired(true)
+            ;
+        }
         yield ImageField::new('img')
             ->onlyOnIndex()
             ->setBasePath('img/node/thumbnail/')
