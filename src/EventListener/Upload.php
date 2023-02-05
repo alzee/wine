@@ -90,6 +90,11 @@ class Upload
             if ($info['mime'] != 'image/jpeg') {
                 unlink($file_path);
                 if ($object instanceof MediaObject) {
+                    $class = match ($type) {
+                        0 => Org::class,
+                        1 => Product::class,
+                        2 => Node::class,
+                    };
                     $entity = $this->em->getRepository($class)->find($object->getEntityId());
                     $entity->setImg(preg_replace('/.png/i', '.jpg', $file->getFilename()));
                     $this->em->flush();
