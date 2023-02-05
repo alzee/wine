@@ -89,16 +89,7 @@ class Upload
 
             if ($info['mime'] != 'image/jpeg') {
                 unlink($file_path);
-                if ($object instanceof MediaObject) {
-                    $class = match ($type) {
-                        0 => Org::class,
-                        1 => Product::class,
-                        2 => Node::class,
-                    };
-                    $entity = $this->em->getRepository($class)->find($object->getEntityId());
-                    $entity->setImg(preg_replace('/.png/i', '.jpg', $file->getFilename()));
-                    $this->em->flush();
-                } else {
+                if (! $object instanceof MediaObject) {
                     $object->setImg(preg_replace('/.png/i', '.jpg', $object->getImg()));
                 }
             }
@@ -115,13 +106,13 @@ class Upload
                     2 => Node::class,
                 };
                 $entity = $this->em->getRepository($class)->find($object->getEntityId());
-                $entity->setImg($file->getFilename());
+                $entity->setImg(preg_replace('/.png/i', '.jpg', $file->getFilename()));
                 $this->em->flush();
             }
             if ($type === 6) {
                 symlink('../../media/' . $file->getFilename(), $file->getPath() . '/../img/' . $dir . '/' . $file->getFilename());
                 $entity = $this->em->getRepository(Consumer::class)->find($object->getEntityId());
-                $entity->setAvatar($file->getFilename());
+                $entity->setAvatar(preg_replace('/.png/i', '.jpg', $file->getFilename()));
                 $this->em->flush();
             }
         }
