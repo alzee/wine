@@ -194,7 +194,6 @@ class OrgCrudController extends AbstractCrudController
     {
         return $filters
             ->add(TextFilter::new('type')->setFormType(OrgTypeFilterType::class))
-            ->add('city')
             ->add('industry')
         ;
     }
