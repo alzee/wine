@@ -70,7 +70,7 @@ class FeaturedCrudController extends AbstractCrudController
         $response = $this->container->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
         $response
             ->andWhere("entity.org = $userOrg")
-            ->andWhere("entity.tags = 1")
+            ->andWhere("entity.tags LIKE '%1%'")
         ;
         return $response;
     }
