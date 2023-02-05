@@ -27,27 +27,26 @@ class Upload
 
     public function onVichUploaderPostUpload(Event $event): void
     {
-        $target_width = 400;
-        $target_height = 200;
+        $target_width = 600;
+        $target_height = 300;
         $target_quality = 75;
-        $thumbnail_width = 100;
+        $thumbnail_width = 200;
+        $thumbnail_height = -1;
 
         $object = $event->getObject();
         // $mapping = $event->getMapping();
 
         if ($object instanceof Withdraw) {
-            $target_width = 800;
+            $target_width = 900;
             $target_quality = 85;
         }
 
+        // Uploaded by API
         if ($object instanceof MediaObject) {
             $file = $object->file;
             $type = $object->getType();
             if (is_null($type)) {
                 $type = 9;
-            }
-            if ($type >= 3) {
-                $target_width = 600;
             }
             $dir = match ($type) {
                 0 => 'org',
@@ -81,7 +80,14 @@ class Upload
             }
             // save thumbnail
             $thumbnail_path = $file->getPath() . '/thumbnail/' . preg_replace('/.png/i', '.jpg', $file->getFilename());
-            imagejpeg(imagescale($new_file, $thumbnail_width), $thumbnail_path, 60);
+            imagejpeg(imagescale($new_file, $thumbnail_width), $thumbnail_path, $target_quality);
+
+            // save thumbnail for featured
+            if ($object instanceof Node && $object->getTag() === 1) {
+                $thumbnail_height = 400;
+                $thumbnail_path = $file->getPath() . '/thumbnail/portrait/' . preg_replace('/.png/i', '.jpg', $file->getFilename());
+                imagejpeg(imagescale($new_file, $thumbnail_width, $thumbnail_height), $thumbnail_path, $target_quality);
+            }
 
             // save image
             imagejpeg($new_file, preg_replace('/.png/i', '.jpg', $file_path), $target_quality);
