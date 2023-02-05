@@ -31,7 +31,6 @@ class Upload
         $target_height = 300;
         $target_quality = 75;
         $thumbnail_width = 200;
-        $thumbnail_height = -1;
 
         $object = $event->getObject();
         // $mapping = $event->getMapping();
@@ -72,22 +71,18 @@ class Upload
 
         // if is org/product/node image, crop height and create thumbnail
         if ($object instanceof Org || $object instanceof Product || $object instanceof Node || ($object instanceof MediaObject && $type < 3)) {
-            $new_height = $target_width / $info[0] * $info[1];
-            // Only crop if greater than $target_height
-            if ($new_height > $target_height) {
-                $offset_y = ($new_height - $target_height) / 2;
-                $new_file = imagecrop($new_file, ['x' => 0, 'y' => $offset_y, 'width' => $target_width, 'height' => $target_height]);
+            // Only crop if is not featured node
+            if (! ($object instanceof Node && $object->getTag() === 1)) {
+                $new_height = $target_width / $info[0] * $info[1];
+                // Only crop if greater than $target_height
+                if ($new_height > $target_height) {
+                    $offset_y = ($new_height - $target_height) / 2;
+                    $new_file = imagecrop($new_file, ['x' => 0, 'y' => $offset_y, 'width' => $target_width, 'height' => $target_height]);
+                }
             }
             // save thumbnail
             $thumbnail_path = $file->getPath() . '/thumbnail/' . preg_replace('/.png/i', '.jpg', $file->getFilename());
             imagejpeg(imagescale($new_file, $thumbnail_width), $thumbnail_path, $target_quality);
-
-            // save thumbnail for featured
-            if ($object instanceof Node && $object->getTag() === 1) {
-                $thumbnail_height = 400;
-                $thumbnail_path = $file->getPath() . '/thumbnail/portrait/' . preg_replace('/.png/i', '.jpg', $file->getFilename());
-                imagejpeg(imagescale($new_file, $thumbnail_width, $thumbnail_height), $thumbnail_path, $target_quality);
-            }
 
             // save image
             imagejpeg($new_file, preg_replace('/.png/i', '.jpg', $file_path), $target_quality);
