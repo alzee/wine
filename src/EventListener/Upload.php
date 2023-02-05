@@ -89,7 +89,9 @@ class Upload
 
             if ($info['mime'] != 'image/jpeg') {
                 unlink($file_path);
-                $object->setImg(preg_replace('/.png/i', '.jpg', $object->getImg()));
+                if (! $object instanceof MediaObject) {
+                    $object->setImg(preg_replace('/.png/i', '.jpg', $object->getImg()));
+                }
             }
         }
 
