@@ -12,6 +12,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Ignore;
@@ -22,7 +23,8 @@ use Symfony\Component\Serializer\Annotation\Ignore;
     denormalizationContext: ['groups' => ['write']],
     paginationEnabled: false,
 )]
-#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'city' => 'exact', 'industry' => 'exact', 'type' => 'exact', 'upstream' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'area' => 'partial', 'city' => 'exact', 'industry' => 'exact', 'type' => 'exact', 'name' => 'partial', 'referrer' => 'exact'])]
+#[ApiFilter(BooleanFilter::class, properties: ['display'])]
 #[ApiFilter(OrderFilter::class, properties: ['id'], arguments: ['orderParameterName' => 'order'])]
 class Org
 {
@@ -48,16 +50,9 @@ class Org
     #[Groups(['read', 'write'])]
     private ?string $address = null;
 
-    #[ORM\Column(length: 255)]
-    #[Groups(['read', 'write'])]
-    private ?string $district = null;
-
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $type = 1;
-
-    #[ORM\OneToMany(mappedBy: 'org', targetEntity: Product::class)]
-    private Collection $products;
 
     #[ORM\Column(options: ["unsigned" => true])]
     #[Groups(['read', 'write'])]
@@ -65,9 +60,6 @@ class Org
 
     #[ORM\OneToMany(mappedBy: 'restaurant', targetEntity: OrderRestaurant::class)]
     private Collection $orderRestaurants;
-
-    #[ORM\OneToMany(mappedBy: 'org', targetEntity: Withdraw::class)]
-    private Collection $withdraws;
 
     #[ORM\OneToMany(mappedBy: 'org', targetEntity: Voucher::class)]
     private Collection $vouchers;
@@ -84,7 +76,7 @@ class Org
 
     #[ORM\Column]
     #[Groups(['read', 'write'])]
-    private ?float $discount = 0.95;
+    private ?float $discount = 1.00;
 
     #[ORM\Column(options: ["unsigned" => true])]
     #[Groups(['read'])]
@@ -103,7 +95,7 @@ class Org
     private ?string $img = null;
 
     #[Ignore]
-    #[Assert\Image(maxSize: '1024k')]
+    #[Assert\Image(maxSize: '1024k', mimeTypes: ['image/jpeg', 'image/png'], mimeTypesMessage: 'Only jpg and png')]
     private ?File $imageFile = null;
 
     #[ORM\Column(nullable: true)]
@@ -114,16 +106,20 @@ class Org
     private ?int $withdrawing = 0;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['read', 'write'])]
     private ?string $payee = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['read', 'write'])]
     private ?string $bank = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $bank_account = null;
+    #[Groups(['read', 'write'])]
+    private ?string $bankAccount = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $bank_addr = null;
+    #[Groups(['read', 'write'])]
+    private ?string $bankAddr = null;
 
     #[ORM\ManyToOne]
     #[Groups(['read'])]
@@ -133,12 +129,37 @@ class Org
     #[Groups(['read'])]
     private ?Industry $industry = null;
 
+    #[ORM\Column]
+    #[Groups(['read'])]
+    private ?bool $display = true;
+
+    #[ORM\ManyToOne]
+    private ?User $manager = null;
+
+    #[ORM\Column]
+    #[Groups(['read'])]
+    private ?int $share = 0;
+
+    #[ORM\Column]
+    private ?int $shareWithdrawable = 0;
+
+    #[ORM\ManyToOne]
+    private ?Consumer $partner = null;
+
+    #[ORM\ManyToOne]
+    private ?Consumer $referrer = null;
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?Reg $reg = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['read'])]
+    private ?string $area = null;
+
     public function __construct()
     {
-        $this->products = new ArrayCollection();
         $this->voucher = 0;
         $this->orderRestaurants = new ArrayCollection();
-        $this->withdraws = new ArrayCollection();
         $this->vouchers = new ArrayCollection();
         $this->retails = new ArrayCollection();
         $this->users = new ArrayCollection();
@@ -202,18 +223,6 @@ class Org
         return $this;
     }
 
-    public function getDistrict(): ?string
-    {
-        return $this->district;
-    }
-
-    public function setDistrict(string $district): self
-    {
-        $this->district = $district;
-
-        return $this;
-    }
-
     public function getType(): ?int
     {
         return $this->type;
@@ -222,36 +231,6 @@ class Org
     public function setType(int $type): self
     {
         $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Product>
-     */
-    public function getProducts(): Collection
-    {
-        return $this->products;
-    }
-
-    public function addProduct(Product $product): self
-    {
-        if (!$this->products->contains($product)) {
-            $this->products->add($product);
-            $product->setOrg($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProduct(Product $product): self
-    {
-        if ($this->products->removeElement($product)) {
-            // set the owning side to null (unless already changed)
-            if ($product->getOrg() === $this) {
-                $product->setOrg(null);
-            }
-        }
 
         return $this;
     }
@@ -292,36 +271,6 @@ class Org
             // set the owning side to null (unless already changed)
             if ($orderRestaurant->getRestaurant() === $this) {
                 $orderRestaurant->setRestaurant(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Withdraw>
-     */
-    public function getWithdraws(): Collection
-    {
-        return $this->withdraws;
-    }
-
-    public function addWithdraw(Withdraw $withdraw): self
-    {
-        if (!$this->withdraws->contains($withdraw)) {
-            $this->withdraws->add($withdraw);
-            $withdraw->setOrg($this);
-        }
-
-        return $this;
-    }
-
-    public function removeWithdraw(Withdraw $withdraw): self
-    {
-        if ($this->withdraws->removeElement($withdraw)) {
-            // set the owning side to null (unless already changed)
-            if ($withdraw->getOrg() === $this) {
-                $withdraw->setOrg(null);
             }
         }
 
@@ -568,24 +517,24 @@ class Org
 
     public function getBankAccount(): ?string
     {
-        return $this->bank_account;
+        return $this->bankAccount;
     }
 
-    public function setBankAccount(?string $bank_account): self
+    public function setBankAccount(?string $bankAccount): self
     {
-        $this->bank_account = $bank_account;
+        $this->bankAccount = $bankAccount;
 
         return $this;
     }
 
     public function getBankAddr(): ?string
     {
-        return $this->bank_addr;
+        return $this->bankAddr;
     }
 
-    public function setBankAddr(?string $bank_addr): self
+    public function setBankAddr(?string $bankAddr): self
     {
-        $this->bank_addr = $bank_addr;
+        $this->bankAddr = $bankAddr;
 
         return $this;
     }
@@ -610,6 +559,102 @@ class Org
     public function setIndustry(?Industry $industry): self
     {
         $this->industry = $industry;
+
+        return $this;
+    }
+
+    public function isDisplay(): ?bool
+    {
+        return $this->display;
+    }
+
+    public function setDisplay(bool $display): self
+    {
+        $this->display = $display;
+
+        return $this;
+    }
+
+    public function getManager(): ?User
+    {
+        return $this->manager;
+    }
+
+    public function setManager(?User $manager): self
+    {
+        $this->manager = $manager;
+
+        return $this;
+    }
+
+    public function getShare(): ?int
+    {
+        return $this->share;
+    }
+
+    public function setShare(int $share): self
+    {
+        $this->share = $share;
+
+        return $this;
+    }
+
+    public function getShareWithdrawable(): ?int
+    {
+        return $this->shareWithdrawable;
+    }
+
+    public function setShareWithdrawable(int $shareWithdrawable): self
+    {
+        $this->shareWithdrawable = $shareWithdrawable;
+
+        return $this;
+    }
+
+    public function getPartner(): ?Consumer
+    {
+        return $this->partner;
+    }
+
+    public function setPartner(?Consumer $partner): self
+    {
+        $this->partner = $partner;
+
+        return $this;
+    }
+
+    public function getReferrer(): ?Consumer
+    {
+        return $this->referrer;
+    }
+
+    public function setReferrer(?Consumer $referrer): self
+    {
+        $this->referrer = $referrer;
+
+        return $this;
+    }
+
+    public function getReg(): ?Reg
+    {
+        return $this->reg;
+    }
+
+    public function setReg(?Reg $reg): self
+    {
+        $this->reg = $reg;
+
+        return $this;
+    }
+
+    public function getArea(): ?string
+    {
+        return $this->area;
+    }
+
+    public function setArea(?string $area): self
+    {
+        $this->area = $area;
 
         return $this;
     }

@@ -14,8 +14,14 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
 use App\Entity\Product;
 use App\Entity\Voucher;
 use App\Entity\Choice;
+use App\Entity\Stock;
 use Doctrine\DBAL\Exception\DriverException;
+use App\Entity\Reward;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+use Doctrine\ORM\Events;
 
+#[AsEntityListener(event: Events::prePersist, entity: Returns::class)]
+#[AsEntityListener(event: Events::postPersist, entity: Returns::class)]
 class ReturnsNew extends AbstractController
 {
     public function prePersist(Returns $return, LifecycleEventArgs $event): void
@@ -39,7 +45,7 @@ class ReturnsNew extends AbstractController
         $return->setStatus(5);
     }
 
-    public function postPersist(Returns  $return, LifecycleEventArgs $event): void
+    public function postPersist(Returns $return, LifecycleEventArgs $event): void
     {
         $em = $event->getEntityManager();
 
@@ -51,14 +57,40 @@ class ReturnsNew extends AbstractController
             $sn = $product->getSn();
             $price = $product->getPrice();
             $unitVoucher = $product->getVoucher();
-            // recipient product stock + quantity
-            $product->setStock($product->getStock() + $quantity);
-            // sender product stock - quantity
-            $sender_product = $em->getRepository(Product::class)->findOneByOrgAndSN($sender, $sn);
-            if (is_null($sender_product)) {
-                throw new \Exception('Something went wrong!', 44);
+
+            // sender stock - quantity,
+            $stockRecordOfSender= $em->getRepository(Stock::class)->findOneBy(['org' => $sender, 'product' => $product]);
+            $stockRecordOfSender->setStock($stockRecordOfSender->getStock() - $quantity);
+
+            // recipient stock + quantity, only if recipient is not head
+            if ($recipient->getType() != 0) {
+                $stockRecordOfRecipient = $em->getRepository(Stock::class)->findOneBy(['org' => $recipient, 'product' => $product]);
+                $stockRecordOfRecipient->setStock($stockRecordOfRecipient->getStock() + $quantity);
             }
-            $sender_product->setStock($sender_product->getStock() - $quantity);
+
+            $reward = $product->getOrgRefReward() * $quantity;
+            $rewardRecord = new Reward();
+            // Reward referrer when agency buy
+            if ($sender->getType() == 1) {
+                $referrer = $sender->getReferrer();
+            }
+            // Reward referrer when variantHead buy
+            if ($sender->getType() == 10) {
+                $referrer = $sender->getReferrer();
+            }
+            // Reward referrer when variantAgency sell
+            if ($recipient->getType() == 11) {
+                $referrer = $recipient->getReferrer();
+            }
+            if (isset($referrer) && ! is_null($referrer)) {
+                $rewardRecord->setStatus(3);
+                $referrer->setReward($referrer->getReward() - $reward);
+                $rewardRecord->setReferrer($referrer);
+                $rewardRecord->setAmount(-$reward);
+                $rewardRecord->setRet($return);
+                $rewardRecord->setType(6);
+                $em->persist($rewardRecord);
+            }
         }
 
         $voucher = $return->getVoucher();

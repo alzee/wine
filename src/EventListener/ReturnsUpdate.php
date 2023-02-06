@@ -14,7 +14,10 @@ use App\Entity\Product;
 use App\Entity\Org;
 use App\Entity\Voucher;
 use App\Entity\Choice;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+use Doctrine\ORM\Events;
 
+#[AsEntityListener(event: Events::postUpdate, entity: Returns::class)]
 class ReturnsUpdate
 {
     public function postUpdate(Returns $return, LifecycleEventArgs $event): void
@@ -34,11 +37,16 @@ class ReturnsUpdate
                     $sn = $product->getSn();
                     $price = $product->getPrice();
                     $unitVoucher = $product->getVoucher();
-                    // recipient product stock + quantity
-                    $product->setStock($product->getStock() + $quantity);
-                    // sender product stock - quantity
-                    $sender_product = $em->getRepository(Product::class)->findOneByOrgAndSN($sender, $sn);
-                    $sender_product->setStock($sender_product->getStock() - $quantity);
+
+                    // sender stock - quantity,
+                    $stockRecordOfSender= $em->getRepository(Stock::class)->findOneBy(['org' => $sender, 'product' => $product]);
+                    $stockRecordOfSender->setStock($stockRecordOfSender->getStock() - $quantity);
+
+                    // recipient stock + quantity, only if recipient is not head
+                    if ($recipient->getType() != 0) {
+                        $stockRecordOfRecipient = $em->getRepository(Stock::class)->findOneBy(['org' => $recipient, 'product' => $product]);
+                        $stockRecordOfRecipient->setStock($stockRecordOfRecipient->getStock() + $quantity);
+                    }
                 }
 
                 $voucher = $return->getVoucher();

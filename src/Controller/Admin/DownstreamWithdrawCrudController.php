@@ -42,9 +42,17 @@ use EasyCorp\Bundle\EasyAdminBundle\Filter\DateTimeFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
 use Doctrine\ORM\EntityRepository as ER;
 use App\Admin\Field\VichImageField;
+use App\Service\FieldSum;
 
 class DownstreamWithdrawCrudController extends AbstractCrudController
 {
+    private FieldSum $fieldsum;
+
+    public function __construct(FieldSum $fieldsum)
+    {
+        $this->fieldsum = $fieldsum;
+    }
+
     public static function getEntityFqcn(): string
     {
         return Withdraw::class;
@@ -68,6 +76,9 @@ class DownstreamWithdrawCrudController extends AbstractCrudController
                     ->setParameter('id', $this->getUser()
                     ->getOrg())
             );
+        yield AssociationField::new('consumer')
+            ->HideWhenCreating()
+            ->setFormTypeOptions(['disabled' => 'disabled']);
         yield AssociationField::new('approver')
             ->HideWhenCreating()
             ->setFormTypeOptions(['disabled' => 'disabled']);
@@ -84,7 +95,7 @@ class DownstreamWithdrawCrudController extends AbstractCrudController
             ->setCurrency('CNY')
             ->HideWhenCreating()
             ->setFormTypeOptions(['disabled' => 'disabled']);
-        if ($this->isGranted('ROLE_RESTAURANT') || $this->isGranted('ROLE_AGENCY')){
+        if ($this->isGranted('ROLE_RESTAURANT') || $this->isGranted('ROLE_AGENCY') || $this->isGranted('ROLE_HEAD')){
             yield MoneyField::new('actualAmount')
                 ->setCurrency('CNY')
                 ->hideWhenCreating()
@@ -97,14 +108,19 @@ class DownstreamWithdrawCrudController extends AbstractCrudController
         // ->setFormTypeOptions(['option_name' => 'option_value'])
         ;
         if (!is_null($instance)) {
-            if ($instance->getStatus() > 3 || $instance->getApprover() != $user->getOrg()) {
+            if ($instance->getStatus() > 3 ||
+                ($instance->getApprover() != $user->getOrg() && ! $this->isGranted('ROLE_HEAD'))) {
                 yield ChoiceField::new('status')
                     ->setChoices(Choice::WITHDRAW_STATUSES)
                     ->hideWhenCreating()
                     ->setFormTypeOptions(['disabled' => 'disabled']);
-            } else {
+            } else if ($this->isGranted('ROLE_HEAD')){
                 yield ChoiceField::new('status')
                     ->setChoices(Choice::WITHDRAW_STATUSES)
+                    ->hideWhenCreating();
+            } else {
+                yield ChoiceField::new('status')
+                    ->setChoices(['Pending' => 0, 'Approved' => 3 , 'Rejected' => 4])
                     ->hideWhenCreating();
             }
         }
@@ -112,10 +128,6 @@ class DownstreamWithdrawCrudController extends AbstractCrudController
             ->setChoices(Choice::WITHDRAW_STATUSES)
             ->onlyOnIndex();
         yield DateTimeField::new('date')->HideOnForm();
-        yield ImageField::new('img', 'withdraw.img')
-            ->onlyOnIndex()
-            ->setBasePath('img/withdraw/')
-            ->setUploadDir('public/img/withdraw/');
         yield TextareaField::new('note');
         yield VichImageField::new('imageFile', 'withdraw.img')
             ->hideOnIndex()
@@ -133,11 +145,8 @@ class DownstreamWithdrawCrudController extends AbstractCrudController
     {
         $userOrg = $this->getUser()->getOrg()->getId();
         $response = $this->container->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
-        if ($this->isGranted('ROLE_HEAD')) {
+        if (! $this->isGranted('ROLE_HEAD')) {
             $response->andWhere("entity.approver = $userOrg");
-        } else {
-            $response
-                ->andWhere("entity.approver = $userOrg");
         }
         return $response;
     }
@@ -152,6 +161,7 @@ class DownstreamWithdrawCrudController extends AbstractCrudController
             ->setHelp('new', $helpNew)
             ->setPageTitle('index', 'DownstreamWithdraw')
             ->setSearchFields(['applicant.name'])
+            ->overrideTemplates([ 'crud/index' => 'admin/pages/index.html.twig', ])
         ;
     }
 
@@ -200,5 +210,11 @@ class DownstreamWithdrawCrudController extends AbstractCrudController
         } else {
             return $assets;
         }
+    }
+
+    public function configureResponseParameters(KeyValueStore $responseParameters): KeyValueStore
+    {
+        $sumFieldNames = ['amount', 'actualAmount'];
+        return $this->fieldsum->calc($responseParameters, $sumFieldNames);
     }
 }

@@ -16,18 +16,14 @@ use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use Symfony\Component\HttpFoundation\File\File;
 
+// #[UniqueConstraint(name: "sn_org", columns: ["sn", "org_id"])]
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
-#[UniqueConstraint(name: "sn_org", columns: ["sn", "org_id"])]
-#[UniqueEntity(
-    fields: ['sn', 'org'],
-    errorPath: 'sn',
-    message: 'SN is already in use',
-)]
+#[UniqueEntity('sn')]
 #[ApiResource(
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
 )]
-#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'sn' => 'exact', 'org' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'sn' => 'exact'])]
 class Product
 {
     #[ORM\Id]
@@ -49,11 +45,6 @@ class Product
     #[Groups(['read', 'write'])]
     private ?int $price = null;
 
-    #[ORM\Column(type: Types::SMALLINT)]
-    #[Assert\Positive]
-    #[Groups(['read', 'write'])]
-    private ?int $stock = 0;
-
     #[ORM\Column(length: 255)]
     #[Groups(['read', 'write'])]
     private ?string $sn = null;
@@ -63,20 +54,46 @@ class Product
     #[Groups(['read', 'write'])]
     private ?int $voucher = null;
 
-    #[ORM\ManyToOne(inversedBy: 'products')]
-    #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['read', 'write'])]
-    private ?Org $org = null;
-
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['read', 'write'])]
     private ?string $img = null;
 
-    #[Assert\Image(maxSize: '1024k')]
+    #[Assert\Image(maxSize: '1024k', mimeTypes: ['image/jpeg', 'image/png'], mimeTypesMessage: 'Only jpg and png')]
     private ?File $imageFile = null;
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\Column(options: ["unsigned" => true])]
+    #[Assert\Positive]
+    #[Groups(['read'])]
+    private ?int $refReward = 0;
+
+    #[ORM\Column(options: ["unsigned" => true])]
+    #[Assert\Positive]
+    private ?int $orgRefReward = 0;
+
+    #[ORM\Column(type: Types::SMALLINT, options: ["unsigned" => true])]
+    #[Assert\Positive]
+    private ?int $variantHeadShare = 0;
+
+    #[ORM\Column(type: Types::SMALLINT, options: ["unsigned" => true])]
+    #[Assert\Positive]
+    private ?int $variantAgencyShare = 0;
+
+    #[ORM\Column(type: Types::SMALLINT, options: ["unsigned" => true])]
+    #[Assert\Positive]
+    private ?int $variantStoreShare = 0;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['read'])]
+    private ?string $intro = null;
+
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $unitPrice = null;
+
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $unitPricePromo = null;
 
     public function __construct()
     {
@@ -123,18 +140,6 @@ class Product
         return $this;
     }
 
-    public function getStock(): ?int
-    {
-        return $this->stock;
-    }
-
-    public function setStock(int $stock): self
-    {
-        $this->stock = $stock;
-
-        return $this;
-    }
-
     public function getSn(): ?string
     {
         return $this->sn;
@@ -161,19 +166,7 @@ class Product
 
     public function __toString(): string
     {
-        return $this->name . '(' . $this->org . ')';
-    }
-
-    public function getOrg(): ?Org
-    {
-        return $this->org;
-    }
-
-    public function setOrg(?Org $org): self
-    {
-        $this->org = $org;
-
-        return $this;
+        return $this->name;
     }
 
     public function getImg(): ?string
@@ -214,5 +207,101 @@ class Product
     public function getImageFile(): ?File
     {
         return $this->imageFile;
+    }
+
+    public function getRefReward(): ?int
+    {
+        return $this->refReward;
+    }
+
+    public function setRefReward(int $refReward): self
+    {
+        $this->refReward = $refReward;
+
+        return $this;
+    }
+
+    public function getOrgRefReward(): ?int
+    {
+        return $this->orgRefReward;
+    }
+
+    public function setOrgRefReward(int $orgRefReward): self
+    {
+        $this->orgRefReward = $orgRefReward;
+
+        return $this;
+    }
+
+    public function getVariantHeadShare(): ?int
+    {
+        return $this->variantHeadShare;
+    }
+
+    public function setVariantHeadShare(int $variantHeadShare): self
+    {
+        $this->variantHeadShare = $variantHeadShare;
+
+        return $this;
+    }
+
+    public function getVariantAgencyShare(): ?int
+    {
+        return $this->variantAgencyShare;
+    }
+
+    public function setVariantAgencyShare(int $variantAgencyShare): self
+    {
+        $this->variantAgencyShare = $variantAgencyShare;
+
+        return $this;
+    }
+
+    public function getVariantStoreShare(): ?int
+    {
+        return $this->variantStoreShare;
+    }
+
+    public function setVariantStoreShare(int $variantStoreShare): self
+    {
+        $this->variantStoreShare = $variantStoreShare;
+
+        return $this;
+    }
+
+    public function getIntro(): ?string
+    {
+        return $this->intro;
+    }
+
+    public function setIntro(?string $intro): self
+    {
+        $this->intro = $intro;
+
+        return $this;
+    }
+
+    public function getUnitPrice(): ?int
+    {
+        return $this->unitPrice;
+    }
+
+    public function setUnitPrice(int $unitPrice): self
+    {
+        $this->unitPrice = $unitPrice;
+
+        return $this;
+    }
+
+    public function getUnitPricePromo(): ?int
+    {
+        return $this->unitPricePromo;
+    }
+
+    public function setUnitPricePromo(int $unitPricePromo): self
+    {
+        $this->unitPricePromo = $unitPricePromo;
+
+        return $this;
     }
 }

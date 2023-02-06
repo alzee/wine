@@ -15,6 +15,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
@@ -24,6 +25,7 @@ use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
 use App\Admin\Field\VichImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
@@ -63,40 +65,39 @@ class ProductCrudController extends AbstractCrudController
             TextField::new('name'),
             TextField::new('spec'),
             MoneyField::new('price')->setCurrency('CNY'),
-            IntegerField::new('stock')
-                ->HideWhenUpdating()
-                ->setHelp('<b>请正确填写库存</b>，为保证流转正常，创建后不能修改库存<br/>')
-            ,
-            IntegerField::new('stock')
-                ->onlyWhenUpdating()
-                // ->setFormTypeOptions(['disabled' => 'disabled'])
-            ,
+            MoneyField::new('unitPrice')->setCurrency('CNY'),
+            MoneyField::new('unitPricePromo')->setCurrency('CNY'),
             MoneyField::new('voucher')
                 ->setCurrency('CNY')
                 ->setHelp('<b>代金券</b>为本件商品随增的代金券金额')
             ,
+            MoneyField::new('refReward')
+                ->setCurrency('CNY')
+            ,
+            MoneyField::new('orgRefReward')
+                ->setCurrency('CNY')
+            ,
+            MoneyField::new('variantHeadShare')
+                ->setCurrency('CNY')
+            ,
+            MoneyField::new('variantAgencyShare')
+                ->setCurrency('CNY')
+            ,
+            MoneyField::new('variantStoreShare')
+                ->setCurrency('CNY')
+            ,
             ImageField::new('img', 'Product Image')
-                ->onlyOnIndex()
-                ->setBasePath('img/product/')
-                ->setUploadDir('public/img/product/')
+                ->hideOnForm()
+                ->setBasePath('img/product/thumbnail/')
+                // ->setUploadDir('public/img/product/')
             ,
             VichImageField::new('imageFile', 'Product Image')
-            ->hideOnIndex()
+                ->onlyOnForms()
+            ,
+            TextareaField::new('intro')
+                ->onlyOnForms()
+            ,
         ];
-    }
-
-    // public function configureFilters(Filters $filters): Filters
-    // {
-    //     return $filters
-    //     ;
-    // }
-
-    public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
-    {
-        $userOrg = $this->getUser()->getOrg()->getId();
-        $response = $this->container->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
-        $response->andWhere("entity.org = $userOrg");
-        return $response;
     }
 
     public function configureActions(Actions $actions): Actions
@@ -117,8 +118,7 @@ class ProductCrudController extends AbstractCrudController
                 ;
         } else {
             return $actions
-                ->disable(Action::DELETE, Action::NEW, Action::EDIT)
-                ->add('index', Action::DETAIL)
+                ->disable(Action::DELETE, Action::EDIT, Action::NEW, Action::INDEX)
             ;
         }
     }
@@ -163,6 +163,21 @@ class ProductCrudController extends AbstractCrudController
         return $crud
             // ->showEntityActionsInlined()
             ->setHelp('new', $help)
+        ;
+    }
+
+    public function configureAssets(Assets $assets): Assets
+    {
+        return $assets
+            ->addJsFile(
+                Asset::new('/js/ckeditor.js')
+                    ->onlyOnForms()
+            )
+            ->addJsFile(
+                Asset::new('/js/initCKEditor.js')
+                    ->defer()
+                    ->onlyOnForms()
+            )
         ;
     }
 }

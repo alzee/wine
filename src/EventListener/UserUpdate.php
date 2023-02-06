@@ -12,7 +12,10 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
 use App\Entity\User;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+use Doctrine\ORM\Events;
 
+#[AsEntityListener(event: Events::preUpdate, entity: User::class)]
 class UserUpdate
 {
     private $hasher;

@@ -1,0 +1,13 @@
+#!/bin/bash
+#
+# vim:ft=sh
+
+############### Variables ###############
+
+############### Functions ###############
+
+############### Main Part ###############
+
+pushd ..
+
+bin/console doc:mig:mig -n

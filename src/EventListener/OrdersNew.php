@@ -12,9 +12,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Orders;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use App\Entity\Product;
+use App\Entity\Stock;
 use App\Entity\Voucher;
 use App\Entity\Choice;
+use App\Entity\Reward;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+use Doctrine\ORM\Events;
 
+#[AsEntityListener(event: Events::prePersist, entity: Orders::class)]
+#[AsEntityListener(event: Events::postPersist, entity: Orders::class)]
 class OrdersNew extends AbstractController
 {
     public function prePersist(Orders $order, LifecycleEventArgs $event): void
@@ -50,18 +56,49 @@ class OrdersNew extends AbstractController
             $quantity = $i->getQuantity();
             $price = $product->getPrice();
             $unitVoucher = $product->getVoucher();
-            // product stock - quantity
-            $product->setStock($product->getStock() - $quantity);
-            // if not find this product in buyer org, create it
-            $buyer_product = $em->getRepository(Product::class)->findOneByOrgAndSN($buyer, $sn);
-            if (is_null($buyer_product)) {
-                $buyer_product = clone $product;
-                $buyer_product->setStock(0);
-                $buyer_product->setOrg($buyer);
-                $em->persist($buyer_product);
+            // seller stock - quantity, only if seller is not head
+            if ($seller->getType() != 0) {
+                $stockRecordOfSeller = $em->getRepository(Stock::class)->findOneBy(['org' => $seller, 'product' => $product]);
+                $stockRecordOfSeller->setStock($stockRecordOfSeller->getStock() - $quantity);
             }
+
             // buyer stock + quantity
-            $buyer_product->setStock($buyer_product->getStock() + $quantity);
+            $stockRecordOfBuyer = $em->getRepository(Stock::class)->findOneBy(['org' => $buyer, 'product' => $product]);
+            // if not find this product in buyer org, create it
+            if (is_null($stockRecordOfBuyer)) {
+                $stockRecordOfBuyer = new Stock;
+                $stockRecordOfBuyer->setStock(0);
+                $stockRecordOfBuyer->setOrg($buyer);
+                $stockRecordOfBuyer->setProduct($product);
+                $em->persist($stockRecordOfBuyer);
+            }
+            $stockRecordOfBuyer->setStock($stockRecordOfBuyer->getStock() + $quantity);
+
+            $reward = $product->getOrgRefReward() * $quantity;
+            $rewardRecord = new Reward();
+            // Reward referrer when agency buy
+            if ($buyer->getType() == 1) {
+                $referrer = $buyer->getReferrer();
+                $rewardRecord->setType(0);
+            }
+            // Reward referrer when variantHead buy
+            if ($buyer->getType() == 10) {
+                $referrer = $buyer->getReferrer();
+                $rewardRecord->setType(1);
+            }
+            // Reward referrer when variantAgency sell
+            if ($seller->getType() == 11) {
+                $referrer = $seller->getReferrer();
+                $rewardRecord->setType(2);
+            }
+            if (isset($referrer) && ! is_null($referrer)) {
+                $rewardRecord->setStatus(0);
+                $referrer->setReward($referrer->getReward() + $reward);
+                $rewardRecord->setReferrer($referrer);
+                $rewardRecord->setAmount($reward);
+                $rewardRecord->setOrd($order);
+                $em->persist($rewardRecord);
+            }
         }
 
         $voucher = $order->getVoucher();

@@ -37,15 +37,19 @@ class RetailCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->onlyOnIndex(),
-            AssociationField::new('store')->HideWhenCreating(),
+            TextareaField::new('store')->HideWhenCreating(),
             AssociationField::new('store')->onlyWhenCreating()->setQueryBuilder (
                 fn (QueryBuilder $qb) => $qb->andWhere('entity.id = :id')->setParameter('id', $this->getUser()->getOrg())
             ),
-            AssociationField::new('consumer'),
-            AssociationField::new('product')->HideWhenCreating(),
-            AssociationField::new('product')->onlyWhenCreating()->setQueryBuilder (
-                fn (QueryBuilder $qb) => $qb->andWhere('entity.org = :org')->setParameter('org', $this->getUser()->getOrg())
-            ),
+            TextareaField::new('consumer')->HideWhenCreating(),
+            AssociationField::new('consumer')->onlyWhenCreating(),
+            TextareaField::new('product')->HideWhenCreating(),
+            AssociationField::new('product')
+                ->onlyWhenCreating()
+                //->setQueryBuilder (
+                //    fn (QueryBuilder $qb) => $qb->andWhere('entity.org = :org')->setParameter('org', $this->getUser()->getOrg())
+                //)
+            ,
             IntegerField::new('quantity'),
             MoneyField::new('amount')->setCurrency('CNY')->onlyOnIndex(),
             MoneyField::new('voucher')->setCurrency('CNY')->onlyOnIndex(),
@@ -55,7 +59,7 @@ class RetailCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-        if ($this->isGranted('ROLE_STORE') || $this->isGranted('ROLE_RESTAURANT')) {
+        if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_STORE') || $this->isGranted('ROLE_VARIANT_STORE') || $this->isGranted('ROLE_RESTAURANT')) {
             return $actions
                 ->disable(Action::DELETE, Action::EDIT)
             ;

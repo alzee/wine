@@ -1,5 +1,14 @@
+let textaera = document.querySelector( '#Node_body' );
+if (! textaera) {
+  textaera = document.querySelector( '#Product_intro' );
+}
 ClassicEditor
-  .create( document.querySelector( '#Node_body' ), {
+  .create( textaera, {
+    image: {
+      upload: {
+        types: ['png', 'jpeg']
+      }
+    },
     simpleUpload: {
       uploadUrl: '/api/media_objects'
       // Enable the XMLHttpRequest.withCredentials property.

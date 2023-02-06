@@ -2,6 +2,8 @@ ID: 序号
 Dashboard: 数据统计
 Product: 产品
 MyProduct: 我的产品
+ProductManage: 产品管理
+MyStock: 我的库存
 ProductAgency: 代理商产品
 ProductStore: 门店产品
 ProductRestaurant: 餐厅产品
@@ -17,7 +19,9 @@ Voucher.detail: 代金券明细
 User: 用户
 UserManage: 用户管理
 Quantity: 数量
-Price: 单价
+Price: 价格
+Unit Price: 单价
+Unit Price Promo: 会员单价
 Amount: 金额
 Date: 日期
 Stock: 库存
@@ -26,13 +30,13 @@ Spec: 规格
 Sn: 商品编号
 Contact: 联系人
 Phone: 电话
-Address: 地址
+Address: 详细地址
 Value: 面值
 Username: 用户名
 Password: 密码
 Roles: 角色
 Order No: 餐厅订单号
-District: 地区
+District: 区域
 Status: 状态
 Pending: 待处理
 Cancelled: 已取消
@@ -66,11 +70,11 @@ Approver: 审核方
 Order Items: 订单商品
 Return Items: 退货商品
 withdraw.amount: 提现金额
-Node: 推荐
-NodeManage: 推荐管理
+Node: 内容
+NodeManage: 内容管理
 Title: 标题
 Body: 正文
-Tag: 标签
+Tags: 标签
 Img: 标题图片
 Settings: 系统管理
 Sale: 销售订单
@@ -79,7 +83,7 @@ MyReturn: 我的退货
 ReturnToMe: 售后退货
 Actual Amount: 实际到帐
 MyWithdraw: 我的提现
-DownstreamWithdraw: 下级提现
+DownstreamWithdraw: 商家提现
 Product Image: 产品图片
 Chpwd: 修改密码
 MyOrg: 我的机构
@@ -99,3 +103,56 @@ CityManage: 城市管理
 IndustryManage: 行业管理
 Approved: 已审核
 Paid: 已打款
+Display: 在前端显示
+Admin: 管理员
+Ref Reward: 分销佣金
+Conf: 系统设置
+Org Ref Reward: 介绍人佣金
+Variant Head Share: 代理商(异业)分润
+Variant Agency Share: 区域代理商(异业)分润
+Variant Store Share: 门店(异业)分润
+Manager: 业务员
+RegList: 合作报备
+Reg: 报备
+Person Name: 姓名
+Partner: 合伙人
+Submitter: 提交人
+Weight: 权重
+Is Off: 异业
+Featured: 产品推荐
+Add Featured: 新增 产品推荐
+Edit Featured: 编辑 产品推荐
+VariantHead: 代理商(异业)
+VariantAgency: 区域代理商(异业)
+VariantStore: 门店(异业)
+Referrer: 推荐人
+Org Name: 单位名称
+Intro: 产品介绍
+Share: 分润
+Share.detail: 分润明细
+Reward: 佣金
+Reward.detail: 佣金明细
+Created At: 日期
+lock: 锁定
+withdrawable: 可提现
+withdrawDone: 已提现
+returned: 失效(退货)
+variantStoreShare: 门店(异业)分润
+variantAgencyShare: 区域代理商(异业)分润
+variantHeadShare: 代理商(异业)分润
+refAgency: 介绍代理商
+refVariantHead: 介绍代理商(异业)
+refVariantAgency: 介绍区域代理商(异业)
+refStore: 介绍门店
+refVariantStore: 介绍门店(异业)
+refConsumer: 介绍顾客
+Totals: 合计
+Return Days: 退货期限（天）
+return: 退货
+returnLock: 锁定
+Cc: 短信抄送
+pending: 待处理
+deal: 达成
+Nick: 昵称
+New Org: 新增机构
+Area: 地区

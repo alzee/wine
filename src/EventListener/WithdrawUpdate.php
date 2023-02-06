@@ -15,7 +15,10 @@ use App\Entity\Org;
 use App\Entity\Withdraw;
 use App\Entity\Voucher;
 use App\Entity\Choice;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+use Doctrine\ORM\Events;
 
+#[AsEntityListener(event: Events::postUpdate, entity: Withdraw::class)]
 class WithdrawUpdate
 {
     public function postUpdate(Withdraw $withdraw, LifecycleEventArgs $event): void
@@ -28,6 +31,9 @@ class WithdrawUpdate
         if (isset($changeSet['status'])) {
             $amount = $withdraw->getAmount();
             $applicant = $withdraw->getApplicant();
+            if (is_null($applicant)) {
+                $applicant = $withdraw->getConsumer();
+            }
 
             if ($status == 5) {
                 // in case have more than one withdraw application at same time
@@ -46,17 +52,17 @@ class WithdrawUpdate
                 // stores don't withdraw
                 // if it's an agency, no need to add amount to headquarter
                 // so just need to think about restaurant
-                if ($applicant->getType() == 3) {
-                    $approver = $withdraw->getApprover();
-                    $approver->setWithdrawable($approver->getWithdrawable() + $amount);
+                // if ($applicant->getType() == 3) {
+                //     $approver = $withdraw->getApprover();
+                //     $approver->setWithdrawable($approver->getWithdrawable() + $amount);
 
-                    // voucher record for approver
-                    // $record = new Voucher();
-                    // $record->setOrg($approver);
-                    // $record->setVoucher($amount);
-                    // $record->setType($type - 10);
-                    // $em->persist($record);
-                }
+                //     // voucher record for approver
+                //     // $record = new Voucher();
+                //     // $record->setOrg($approver);
+                //     // $record->setVoucher($amount);
+                //     // $record->setType($type - 10);
+                //     // $em->persist($record);
+                // }
             }
 
             if ($status == 4) {

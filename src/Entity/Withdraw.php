@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\File\File;
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
 )]
-#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'applicant' => 'exact', 'approver' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'applicant' => 'exact', 'approver' => 'exact', 'consumer' => 'exact'])]
 class Withdraw
 {
     #[ORM\Id]
@@ -39,20 +39,15 @@ class Withdraw
     #[Groups(['read', 'write'])]
     private ?int $status = 0;
 
-    #[ORM\ManyToOne(inversedBy: 'withdraws')]
-    private ?Org $org = null;
-
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['read', 'write'])]
     private ?string $note = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
     #[Groups(['read', 'write'])]
     private ?Org $applicant = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
     #[Groups(['read', 'write'])]
     private ?Org $approver = null;
 
@@ -65,11 +60,15 @@ class Withdraw
     #[Groups(['read', 'write'])]
     private ?string $img = null;
 
-    #[Assert\Image(maxSize: '1024k')]
+    #[Assert\Image(maxSize: '1024k', mimeTypes: ['image/jpeg', 'image/png'], mimeTypesMessage: 'Only jpg and png')]
     private ?File $imageFile = null;
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\ManyToOne]
+    #[Groups(['read', 'write'])]
+    private ?Consumer $consumer = null;
 
     public function __construct()
     {
@@ -113,18 +112,6 @@ class Withdraw
     public function setStatus(int $status): self
     {
         $this->status = $status;
-
-        return $this;
-    }
-
-    public function getOrg(): ?Org
-    {
-        return $this->org;
-    }
-
-    public function setOrg(?Org $org): self
-    {
-        $this->org = $org;
 
         return $this;
     }
@@ -213,6 +200,18 @@ class Withdraw
     public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getConsumer(): ?Consumer
+    {
+        return $this->consumer;
+    }
+
+    public function setConsumer(?Consumer $consumer): self
+    {
+        $this->consumer = $consumer;
 
         return $this;
     }

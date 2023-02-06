@@ -13,7 +13,11 @@ use App\Entity\User;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use App\Entity\Voucher;
 use App\Entity\Org;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+use Doctrine\ORM\Events;
 
+#[AsEntityListener(event: Events::prePersist, entity: User::class)]
+#[AsEntityListener(event: Events::postPersist, entity: User::class)]
 class UserNew extends AbstractController
 {
     private $hasher;
@@ -28,14 +32,20 @@ class UserNew extends AbstractController
         $user->setPassword($this->hasher->hashPassword($user, $user->getPlainPassword()));
         $user->eraseCredentials();
 
-        $role = match ($user->getOrg()->getType()) {
-            0 => 'HEAD',
-            1 => 'AGENCY',
-            2 => 'STORE',
-            3 => 'RESTAURANT',
-        };
-
-        $user->setRoles(['ROLE_' . $role]);
+        // If not set any role for user, he will get ONE role ROLE_USER
+        if (count($user->getRoles()) == 1) {
+            // Only give user one of these roles if no roles have set
+            $role = match ($user->getOrg()->getType()) {
+                0 => 'HEAD',
+                1 => 'AGENCY',
+                2 => 'STORE',
+                3 => 'RESTAURANT',
+                10 => 'VARIANT_HEAD',
+                11 => 'VARIANT_AGENCY',
+                12 => 'VARIANT_STORE',
+            };
+            $user->setRoles(['ROLE_' . $role]);
+        }
     }
 
     public function postPersist(User $user, LifecycleEventArgs $event): void

@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\File\File;
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
 )]
-#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'tag' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'tags' => 'partial', 'org' => 'exact'])]
 #[ApiFilter(OrderFilter::class, properties: ['id'])]
 class Node
 {
@@ -38,10 +38,6 @@ class Node
     #[Groups(['read'])]
     private ?string $body = null;
 
-    #[ORM\Column(type: Types::SMALLINT, nullable: true)]
-    #[Groups(['read'])]
-    private ?int $tag = null;
-
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[Groups(['read'])]
     private ?\DateTimeInterface $date = null;
@@ -57,11 +53,21 @@ class Node
     private ?string $img = null;
 
     // #[Vich\UploadableField(mapping: 'imgs', fileNameProperty: 'img')]
-    #[Assert\Image(maxSize: '1024k')]
+    #[Assert\Image(maxSize: '1024k', mimeTypes: ['image/jpeg', 'image/png'], mimeTypesMessage: 'Only jpg and png')]
     private ?File $imageFile = null;
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\ManyToOne]
+    private ?Org $org = null;
+
+    #[ORM\ManyToOne]
+    #[Groups(['read'])]
+    private ?Product $product = null;
+
+    #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
+    private array $tags = [];
 
     public function __toString(): string
     {
@@ -98,18 +104,6 @@ class Node
     public function setBody(?string $body): self
     {
         $this->body = $body;
-
-        return $this;
-    }
-
-    public function getTag(): ?int
-    {
-        return $this->tag;
-    }
-
-    public function setTag(?int $tag): self
-    {
-        $this->tag = $tag;
 
         return $this;
     }
@@ -164,5 +158,41 @@ class Node
     public function getImageFile(): ?File
     {
         return $this->imageFile;
+    }
+
+    public function getOrg(): ?Org
+    {
+        return $this->org;
+    }
+
+    public function setOrg(?Org $org): self
+    {
+        $this->org = $org;
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): self
+    {
+        $this->product = $product;
+
+        return $this;
+    }
+
+    public function getTags(): array
+    {
+        return $this->tags;
+    }
+
+    public function setTags(?array $tags): self
+    {
+        $this->tags = $tags;
+
+        return $this;
     }
 }

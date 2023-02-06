@@ -64,6 +64,11 @@ class Orders
     #[Assert\Valid]
     private Collection $orderItems;
 
+    public function __toString()
+    {
+        return '#' . $this->id;
+    }
+
     public function __construct()
     {
         $this->date = new \DateTime();

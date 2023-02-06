@@ -34,6 +34,7 @@ class ConsumerCrudController extends AbstractCrudController
                 ->setHelp('微信openid')
             ,
             TextField::new('name', 'Consumer.name'),
+            TextField::new('nick'),
             TextField::new('phone'),
             MoneyField::new('voucher')
                 ->setFormTypeOptions(['disabled' => 'disabled'])

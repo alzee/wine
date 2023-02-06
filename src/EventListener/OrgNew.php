@@ -11,20 +11,29 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\User;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
-use App\Entity\Voucher;
 use App\Entity\Org;
+use App\Entity\Reg;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+use Doctrine\ORM\Events;
 
+#[AsEntityListener(event: Events::prePersist, entity: Org::class)]
 class OrgNew extends AbstractController
 {
     public function prePersist(Org $org, LifecycleEventArgs $event): void
     {
-        if ($org->getType() == 1) {
-            $em = $event->getEntityManager();
-            $head = $em->getRepository(Org::class)->findOneBy(['type' => 0]);
-            $org->setUpstream($head);
+        if (is_null($org->getUpstream())) {
+            // Inherit upstream's industry
+        } else if (! is_null($org->getUpstream()->getIndustry()) && is_null($org->getIndustry())) {
+            $org->setIndustry($org->getUpstream()->getIndustry());
         }
-        if (is_null($org->getUpstream()) && ($org->getType() == 2 || $org->getType() == 3)) {
-            $org->setUpstream($this->getUser()->getOrg());
+
+        if (is_null($org->getImg())) {
+            $org->setImg('default.jpg');
+        }
+
+        $reg = $org->getReg();
+        if (! is_null($reg)) {
+            $reg->setStatus(1);
         }
     }
 }

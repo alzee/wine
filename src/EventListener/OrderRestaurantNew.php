@@ -14,7 +14,10 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
 use App\Entity\Voucher;
 use App\Entity\Org;
 use App\Entity\Choice;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+use Doctrine\ORM\Events;
 
+#[AsEntityListener(event: Events::postPersist, entity: OrderRestaurant::class)]
 class OrderRestaurantNew extends AbstractController
 {
     public function postPersist(OrderRestaurant $order, LifecycleEventArgs $event): void

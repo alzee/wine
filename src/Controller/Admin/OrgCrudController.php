@@ -30,14 +30,26 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use App\Entity\Choice;
+use App\Entity\Reg;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\ChoiceFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\TextFilter;
 use App\Form\OrgTypeFilterType;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Doctrine\Persistence\ManagerRegistry;
 
 class OrgCrudController extends AbstractCrudController
 {
+    private $doctrine;
+    private RequestStack $requestStack;
+
+    public function __construct(ManagerRegistry $doctrine, RequestStack $requestStack)
+    {
+        $this->requestStack = $requestStack;
+        $this->doctrine = $doctrine;
+    }
+
     public static function getEntityFqcn(): string
     {
         return Org::class;
@@ -48,16 +60,30 @@ class OrgCrudController extends AbstractCrudController
         $user = $this->getUser();
 
         if ($this->isGranted('ROLE_HEAD')) {
-            $orgChoices = ['Agency' => 1];
+            $orgChoices = [
+                'Agency' => 1,
+                'Store' => 2,
+                'Restaurant' => 3,
+                'VariantHead' => 10,
+                'VariantAgency' => 11,
+                'VariantStore' => 12,
+            ];
         }
         if ($this->isGranted('ROLE_AGENCY')) {
             $orgChoices = ['Store' => 2, 'Restaurant' => 3];
         }
+        if ($this->isGranted('ROLE_VARIANT_HEAD')) {
+            $orgChoices = ['VariantAgency' => 11];
+        }
+        if ($this->isGranted('ROLE_VARIANT_AGENCY')) {
+            $orgChoices = ['VariantStore' => 12];
+        }
         yield IdField::new('id')->onlyOnIndex();
         yield ImageField::new('img', 'org.img')
             ->onlyOnIndex()
-            ->setBasePath('img/org/')
-            ->setUploadDir('public/img/org/');
+            ->setBasePath('img/org/thumbnail/')
+            // ->setUploadDir('public/img/org/')
+        ;
         yield ChoiceField::new('type')
             ->onlyWhenCreating()
             ->setChoices($orgChoices);
@@ -66,10 +92,27 @@ class OrgCrudController extends AbstractCrudController
             ->hideWhenCreating()
             ->setDisabled()
         ;
+        $request = $this->requestStack->getCurrentRequest();
+        if (! is_null($request->query->get('fromReg'))) {
+            yield AssociationField::new('upstream')
+                ->setRequired(true)
+                ->setQueryBuilder(
+                    fn (QueryBuilder $qb) => $qb
+                        ->andWhere('entity.type = 0')
+                        ->orWhere('entity.type = 1')
+                        ->orWhere('entity.type = 10')
+                        ->orWhere('entity.type = 11')
+                )
+                ;
+        }
         yield TextField::new('name');
         yield TextField::new('contact');
         yield TelephoneField::new('phone');
+        yield TextField::new('area')
+            ->setRequired(true)
+            ;
         yield TextField::new('address');
+        // yield AssociationField::new('city');
         yield TextField::new('payee')
             ->onlyWhenUpdating()
             ->setDisabled()
@@ -86,16 +129,26 @@ class OrgCrudController extends AbstractCrudController
             ->onlyWhenUpdating()
             ->setDisabled()
         ;
-        yield TextField::new('district');
-        yield AssociationField::new('city');
         yield AssociationField::new('industry');
         yield MoneyField::new('voucher')
                 ->setCurrency('CNY')
                 ->hideOnForm()
                 // ->setFormTypeOptions(['disabled' => 'disabled'])
             ;
+        if ($this->isGranted('ROLE_VARIANT_HEAD')) {
+            yield AssociationField::new('partner')->hideOnIndex();
+        }
+        yield AssociationField::new('referrer')->hideOnIndex();
         if ($this->isGranted('ROLE_AGENCY')) {
             yield PercentField::new('discount');
+            // yield AssociationField::new('manager')
+            // ->setQueryBuilder(
+            //     fn (QueryBuilder $qb) => $qb
+            //         ->andWhere('entity.roles LIKE :roles')
+            //         ->setParameter('roles', '%ROLE_MANAGER%')
+            // )
+            // ;
+            yield BooleanField::new('display');
         }
     }
 
@@ -108,7 +161,7 @@ class OrgCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-        if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_AGENCY')) {
+        if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_AGENCY') || $this->isGranted('ROLE_VARIANT_HEAD') || $this->isGranted('ROLE_VARIANT_AGENCY')) {
             return $actions
                 ->disable(Action::DELETE)
             ;
@@ -141,6 +194,49 @@ class OrgCrudController extends AbstractCrudController
     {
         return $filters
             ->add(TextFilter::new('type')->setFormType(OrgTypeFilterType::class))
+            ->add('industry')
         ;
+    }
+
+    public function createEntity(string $entityFqcn)
+    {
+        $org = new Org();
+
+        $request = $this->requestStack->getCurrentRequest();
+        $regId = $request->query->get('fromReg');
+        if (is_null($regId)) {
+            $org->setUpstream($this->getUser()->getOrg());
+        } else {
+            $reg = $this->doctrine->getRepository(Reg::class)->find($regId);
+            $type = match ($reg->getType()) {
+                0 => 2,
+                1 => 1,
+                2 => 10,
+                3 => 11,
+                4 => 12,
+                default => 2
+            };
+            $org->setType($type);
+            if (! is_null($reg->getOrgName())) {
+                $org->setName($reg->getOrgName());
+            }
+            if (! is_null($reg->getName())) {
+                $org->setContact($reg->getName());
+            }
+            if (! is_null($reg->getPhone())) {
+                $org->setPhone($reg->getPhone());
+            }
+            if (! is_null($reg->getArea())) {
+                $org->setArea($reg->getArea());
+            }
+            if (! is_null($reg->getAddress())) {
+                $org->setAddress($reg->getAddress());
+            }
+            if (! is_null($reg->getSubmitter())) {
+                $org->setReferrer($reg->getSubmitter());
+            }
+            $org->setReg($reg);
+        }
+        return $org;
     }
 }

@@ -9,16 +9,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use App\Entity\Product;
-use App\Entity\ProductAgency;
-use App\Entity\ProductStore;
-use App\Entity\ProductRestaurant;
 use App\Entity\Order;
-use App\Entity\OrderAgency;
-use App\Entity\OrderStore;
 use App\Entity\OrderRestaurant;
 use App\Entity\Voucher;
-use App\Entity\Agency;
-use App\Entity\Store;
+use App\Entity\Stock;
 use App\Entity\Restaurant;
 use App\Entity\User;
 use App\Entity\Node;
@@ -26,11 +20,15 @@ use App\Entity\Org;
 use App\Entity\Orders;
 use App\Entity\Returns;
 use App\Entity\Consumer;
+use App\Entity\Reg;
 use App\Entity\Withdraw;
 use App\Entity\Retail;
 use App\Entity\RetailReturn;
 use App\Entity\City;
 use App\Entity\Industry;
+use App\Entity\Conf;
+use App\Entity\Share;
+use App\Entity\Reward;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\UX\Chartjs\Model\Chart;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -52,9 +50,9 @@ class DashboardController extends AbstractDashboardController
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
-        if ($this->isGranted('ROLE_STORE')) {
+        if ($this->isGranted('ROLE_STORE') || $this->isGranted('ROLE_VARIANT_STORE')) {
             $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
-            return $this->redirect($adminUrlGenerator->setController(ProductCrudController::class)->generateUrl());
+            return $this->redirect($adminUrlGenerator->setController(StockCrudController::class)->generateUrl());
         }
         if ($this->isGranted('ROLE_RESTAURANT')) {
             $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
@@ -84,32 +82,36 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_AGENCY')) {
+        if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_AGENCY') || $this->isGranted('ROLE_VARIANT_HEAD') || $this->isGranted('ROLE_VARIANT_AGENCY')) {
             yield MenuItem::linkToDashboard('Dashboard', 'fa fa-chart-simple');
             yield MenuItem::linkToCrud('OrgManage', 'fas fa-building', Org::class);
         }
 
-        yield MenuItem::linkToCrud('MyProduct', 'fas fa-wine-bottle', Product::class);
+        if ($this->isGranted('ROLE_HEAD')) {
+            yield MenuItem::linkToCrud('ProductManage', 'fas fa-wine-bottle', Product::class);
+        }
 
-        if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_AGENCY')) {
+        yield MenuItem::linkToCrud('MyStock', 'fas fa-warehouse', Stock::class);
+
+        if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_AGENCY') || $this->isGranted('ROLE_VARIANT_HEAD') || $this->isGranted('ROLE_VARIANT_AGENCY')) {
             yield MenuItem::linkToCrud('Sale', 'fas fa-file-export', Orders::class)
                 ->setController(SaleCrudController::class);
         }
-        if (!$this->isGranted('ROLE_HEAD')) {
+        if (! $this->isGranted('ROLE_HEAD')) {
             yield MenuItem::linkToCrud('Buy', 'fas fa-file-import', Orders::class)
                 ->setController(BuyCrudController::class);
         }
 
-        if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_AGENCY')) {
+        if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_AGENCY') || $this->isGranted('ROLE_VARIANT_HEAD') || $this->isGranted('ROLE_VARIANT_AGENCY')) {
             yield MenuItem::linkToCrud('ReturnToMe', 'fas fa-receipt', Returns::class)
                 ->setController(ReturnToMeCrudController::class);
         }
-        if (!$this->isGranted('ROLE_HEAD')) {
+        if (! $this->isGranted('ROLE_HEAD')) {
             yield MenuItem::linkToCrud('MyReturn', 'fas fa-file-invoice', Returns::class)
                 ->setController(MyReturnCrudController::class);
         }
 
-        if ($this->isGranted('ROLE_STORE') || $this->isGranted('ROLE_RESTAURANT')) {
+        if ($this->isGranted('ROLE_STORE') || $this->isGranted('ROLE_VARIANT_STORE') || $this->isGranted('ROLE_RESTAURANT')) {
             yield MenuItem::linkToCrud('Retail', 'fas fa-bag-shopping', Retail::class);
             yield MenuItem::linkToCrud('RetailReturn', 'fas fa-cart-shopping', RetailReturn::class);
         }
@@ -118,7 +120,11 @@ class DashboardController extends AbstractDashboardController
             yield MenuItem::linkToCrud('OrderRestaurant', 'fas fa-utensils', OrderRestaurant::class);
         }
 
-        if ($this->isGranted('ROLE_RESTAURANT') || $this->isGranted('ROLE_AGENCY')) {
+        if ($this->isGranted('ROLE_RESTAURANT') ||
+            $this->isGranted('ROLE_AGENCY') ||
+            $this->isGranted('ROLE_VARIANT_HEAD') ||
+            $this->isGranted('ROLE_VARIANT_AGENCY') ||
+            $this->isGranted('ROLE_VARIANT_STORE')) {
             yield MenuItem::linkToCrud('MyWithdraw', 'fas fa-money-bill', Withdraw::class)
                 ->setController(MyWithdrawCrudController::class);
                 ;
@@ -129,27 +135,44 @@ class DashboardController extends AbstractDashboardController
             ;
         }
 
-        yield MenuItem::linkToCrud('Voucher.detail', 'fas fa-ticket', Voucher::class);
+        if (! $this->isGranted('ROLE_VARIANT_HEAD') && ! $this->isGranted('ROLE_VARIANT_AGENCY') && ! $this->isGranted('ROLE_VARIANT_STORE')) {
+            yield MenuItem::linkToCrud('Voucher.detail', 'fas fa-ticket', Voucher::class);
+        }
+
+        if ($this->isGranted('ROLE_HEAD')) {
+            yield MenuItem::linkToCrud('Reward.detail', 'fas fa-money-bill', Reward::class);
+        }
+
+        if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_VARIANT_HEAD') || $this->isGranted('ROLE_VARIANT_AGENCY') || $this->isGranted('ROLE_VARIANT_STORE')) {
+            yield MenuItem::linkToCrud('Share.detail', 'fas fa-money-bill-transfer', Share::class);
+        }
 
         if ($this->isGranted('ROLE_HEAD')) {
             yield MenuItem::linkToCrud('ConsumerManage', 'fas fa-users', Consumer::class);
+            yield MenuItem::linkToCrud('RegList', 'fas fa-handshake-alt', Reg::class);
         }
-        yield MenuItem::linkToCrud('Chpwd', 'fas fa-cog', User::class)
+        yield MenuItem::linkToCrud('Chpwd', 'fas fa-key', User::class)
             ->setController(PasswordCrudController::class)
             ->setAction('edit')
             ->setEntityId($this->getUser()->getId());
-        yield MenuItem::linkToCrud('MyOrg', 'fas fa-cog', Org::class)
+        yield MenuItem::linkToCrud('MyOrg', 'fas fa-shop', Org::class)
             ->setController(MyOrgCrudController::class)
             ->setAction('edit')
             ->setEntityId($this->getUser()->getOrg()->getId());
-        if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_AGENCY')) {
+
+        yield MenuItem::linkToCrud('Featured', 'fas fa-wine-glass', Node::class)
+            ->setController(FeaturedCrudController::class);
+        ;
+
+        if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_AGENCY') || $this->isGranted('ROLE_VARIANT_HEAD') || $this->isGranted('ROLE_VARIANT_AGENCY')) {
             $items = [
                 MenuItem::linkToCrud('UserManage', 'fas fa-user', User::class),
             ];
             if ($this->isGranted('ROLE_HEAD')) {
                 array_push($items, (MenuItem::linkToCrud('NodeManage', 'fas fa-file', Node::class)));
-                array_push($items, (MenuItem::linkToCrud('CityManage', 'fas fa-file', City::class)));
-                array_push($items, (MenuItem::linkToCrud('IndustryManage', 'fas fa-file', Industry::class)));
+                array_push($items, (MenuItem::linkToCrud('CityManage', 'fas fa-city', City::class)));
+                array_push($items, (MenuItem::linkToCrud('IndustryManage', 'fas fa-industry', Industry::class)));
+                array_push($items, (MenuItem::linkToCrud('Conf', 'fas fa-cog', Conf::class)->setAction('detail')->setEntityId(1)));
             }
             yield MenuItem::subMenu('Settings', 'fa fa-gear')->setSubItems($items);
         }
@@ -161,6 +184,7 @@ class DashboardController extends AbstractDashboardController
             ->showEntityActionsInlined()
             ->setTimezone('Asia/Shanghai')
             ->setDateTimeFormat('yyyy/MM/dd HH:mm')
+            ->setDefaultSort(['id' => 'DESC'])
         ;
     }
 

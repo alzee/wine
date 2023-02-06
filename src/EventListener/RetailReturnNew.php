@@ -14,7 +14,13 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
 use App\Entity\Voucher;
 use App\Entity\Org;
 use App\Entity\Choice;
+use App\Entity\Stock;
+use App\Entity\Reward;
+use App\Entity\Share;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+use Doctrine\ORM\Events;
 
+#[AsEntityListener(event: Events::postPersist, entity: RetailReturn::class)]
 class RetailReturnNew extends AbstractController
 {
     public function postPersist(RetailReturn $retailReturn, LifecycleEventArgs $event): void
@@ -25,19 +31,20 @@ class RetailReturnNew extends AbstractController
         $quantity = $retailReturn->getQuantity();
         $amount = $quantity * $product->getPrice();
         $voucher = $quantity * $product->getVoucher();
+        $store = $retailReturn->getStore();
+        $consumer = $retailReturn->getConsumer();
 
         $retailReturn->setAmount($amount);
         $retailReturn->setVoucher($voucher);
 
         // store stock + quantity
-        $product->setStock($product->getStock() + $quantity);
+        $stockRecord = $em->getRepository(Stock::class)->findOneBy(['org' => $store, 'product' => $product]);
+        $stockRecord->setStock($stockRecord->getStock() + $quantity);
 
         // consumer - voucher
-        $consumer = $retailReturn->getConsumer();
         $consumer->setVoucher($consumer->getVoucher() - $voucher);
 
         // store + voucher
-        $store = $retailReturn->getStore();
         $store->setVoucher($store->getVoucher() + $voucher);
 
         // voucher record for store
@@ -56,6 +63,74 @@ class RetailReturnNew extends AbstractController
         $record->setVoucher(-$voucher);
         $record->setType($type + 100);
         $em->persist($record);
+
+        // Reward referrer when consumer buy
+        $referrer = $consumer->getReferrer();
+        if (! is_null($referrer)) {
+            $reward = $product->getRefReward() * $quantity;
+            $referrer->setReward($referrer->getReward() - $reward);
+            $rewardRecord = new Reward();
+            $rewardRecord->setType(6);
+            $rewardRecord->setStatus(3);
+            $rewardRecord->setRetailReturn($retailReturn);
+            $rewardRecord->setReferrer($referrer);
+            $rewardRecord->setAmount(-$reward);
+            $em->persist($rewardRecord);
+        }
+
+        // Reward referrer when store buy
+        $reward = $product->getOrgRefReward() * $quantity;
+        $referrer = $store->getReferrer();
+        if ($referrer) {
+            $referrer->setReward($referrer->getReward() - $reward);
+            $rewardRecord = new Reward();
+            $rewardRecord->setType(6);
+            $rewardRecord->setStatus(3);
+            $rewardRecord->setRetailReturn($retailReturn);
+            $rewardRecord->setReferrer($referrer);
+            $rewardRecord->setAmount(-$reward);
+            $em->persist($rewardRecord);
+        }
+
+        if ($store->getType() == 12) {
+            // variantStoreShare
+            $share = $product->getVariantStoreShare() * $quantity;
+            $store->setShare($store->getShare() - $share);
+
+            $shareRecord = new Share();
+            $shareRecord->setType(3);
+            $shareRecord->setStatus(3);
+            $shareRecord->setRetailReturn($retailReturn);
+            $shareRecord->setOrg($store);
+            $shareRecord->setAmount(-$share);
+            $em->persist($shareRecord);
+
+            // variantAgencyShare
+            $share = $product->getVariantAgencyShare() * $quantity;
+            $variantAgency = $store->getUpstream();
+            $variantAgency->setShare($variantAgency->getShare() - $share);
+
+            $shareRecord = new Share();
+            $shareRecord->setType(3);
+            $shareRecord->setStatus(3);
+            $shareRecord->setRetailReturn($retailReturn);
+            $shareRecord->setOrg($variantAgency);
+            $shareRecord->setAmount(-$share);
+            $em->persist($shareRecord);
+
+            // variantHeadShare
+            $share = $product->getVariantHeadShare() * $quantity;
+            $variantHead = $variantAgency->getUpstream();
+            $variantHead->setShare($variantHead->getShare() - $share);
+
+            $shareRecord = new Share();
+            $shareRecord->setType(3);
+            $shareRecord->setStatus(3);
+            $shareRecord->setRetailReturn($retailReturn);
+            $shareRecord->setOrg($variantHead);
+            $shareRecord->setAmount(-$share);
+            $em->persist($shareRecord);
+        }
 
         $em->flush();
     }

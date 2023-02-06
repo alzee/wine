@@ -20,15 +20,22 @@ class OrgTypeFilterType extends AbstractType
     {
         $resolver->setDefaults([
             // Configure your form options here
-            'choices' => [
+            'choices' => 
+            [
                 '代理商' => 1,
                 '门店' => 2,
                 '餐厅' => 3,
+                '总代' => 5
             ]
         ]);
     }
 
-    public function getParent()
+    /**
+     * Returns the name of the parent type.
+     *
+     * @return string|null
+     */
+    public function getParent(): ?string
     {
         return ChoiceType::class;
     }

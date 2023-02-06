@@ -91,7 +91,7 @@ class VoucherCrudController extends AbstractCrudController
             ->setPageTitle('index', '%entity_label_plural%明细')
             ->setHelp('index', $helpIndex)
             ->setHelp('new', $helpNew)
-            ->overrideTemplate('crud/index', 'voucher_index.twig')
+            ->overrideTemplates([ 'crud/index' => 'admin/pages/index.html.twig', ])
             ->setSearchFields(['org.name', 'consumer.name'])
         ;
     }
@@ -110,11 +110,7 @@ class VoucherCrudController extends AbstractCrudController
       if (!$this->isGranted('ROLE_HEAD')) {
         if (Crud::PAGE_INDEX === $responseParameters->get('pageName')) {
           $myVoucher = $this->getuser()->getOrg()->getVoucher() / 100;
-          $withdrawable = $this->getuser()->getOrg()->getWithdrawable() / 100;
-          $withdrawing = $this->getuser()->getOrg()->getWithdrawing() / 100;
           $responseParameters->set('myVoucher', $myVoucher);
-          $responseParameters->set('withdrawable', $withdrawable);
-          $responseParameters->set('withdrawing', $withdrawing);
           ;
         }
       }

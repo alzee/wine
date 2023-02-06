@@ -47,6 +47,29 @@ class UserCrudController extends AbstractCrudController
         yield AssociationField::new('org')
             ->OnlyWhenUpdating()
             ->setFormTypeOptions(['disabled' => 'disabled']);
+        yield ChoiceField::new('roles')
+            ->setChoices([
+                'Manager' => 'ROLE_MANAGER',
+                'Admin' => 'ROLE_ADMIN',
+                'Head' => 'ROLE_HEAD',
+                'Agency' => 'ROLE_AGENCY',
+                'Store' => 'ROLE_STORE',
+                'Restaurant' => 'ROLE_RESTAURANT',
+                'VariantHead' => 'ROLE_VARIANT_HEAD',
+                'VariantAgency' => 'ROLE_VARIANT_STORE',
+                'VariantStore' => 'ROLE_VARIANT_STORE',
+            ])
+            ->allowMultipleChoices()
+            ->onlyOnIndex()
+        ;
+        yield ChoiceField::new('roles')
+            ->setChoices([
+                'Manager' => 'ROLE_MANAGER',
+            ])
+            ->allowMultipleChoices()
+            ->onlyWhenCreating()
+            ->setRequired(false)
+        ;
         yield TextField::new('phone');
         yield TextField::new('plainPassword')
             ->onlyOnForms()
@@ -61,7 +84,7 @@ class UserCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-        if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_AGENCY')) {
+        if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_AGENCY') || $this->isGranted('ROLE_VARIANT_HEAD') || $this->isGranted('ROLE_VARIANT_AGENCY')) {
             return $actions;
         } else {
             return $actions

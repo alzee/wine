@@ -1,5 +1,16 @@
+- png to jpg
+- gen poster for prod
+- custom error page
+- ckeditor5 add form data
+- image process service
+- determine if is command or http calling a service?
+- orgDetail node height limit
+- uplaod file type, frontend for all and validator for MediaObject 
+- only show products which have stock when creating orders
+- command moveStock MUST do before commit 0fe966b and migrations/Version20230112102505.php. moveStock will not work after this migration because stock field dropped and stock data lost
+- doctrine querybuilder parameter in array
+
 vichuploader attribute cause apiplatform error: 'Attribute class "ApiPlatform\Core\Annotation\ApiResource" not found'
-- export xlsx
 
 err:
   - out of range

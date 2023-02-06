@@ -57,6 +57,15 @@ class Retail
     #[Groups(['read'])]
     private ?\DateTimeInterface $date = null;
 
+    #[ORM\Column(type: Types::SMALLINT)]
+    #[Groups(['read'])]
+    private ?int $status = 0;
+
+    public function __toString()
+    {
+        return '#' . $this->id;
+    }
+
     public function __construct()
     {
         $this->date = new \DateTime();
@@ -147,6 +156,18 @@ class Retail
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    public function getStatus(): ?int
+    {
+        return $this->status;
+    }
+
+    public function setStatus(int $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

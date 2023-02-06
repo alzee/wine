@@ -4,10 +4,11 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\IndustryRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: IndustryRepository::class)]
-#[ApiResource]
+#[ApiResource(order: ['weight' => 'ASC'])]
 class Industry
 {
     #[ORM\Id]
@@ -17,6 +18,12 @@ class Industry
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
+
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $weight = 0;
+
+    #[ORM\Column]
+    private ?bool $isOff = false;
 
     public function getId(): ?int
     {
@@ -38,5 +45,29 @@ class Industry
     public function __toString()
     {
         return $this->name;
+    }
+
+    public function getWeight(): ?int
+    {
+        return $this->weight;
+    }
+
+    public function setWeight(int $weight): self
+    {
+        $this->weight = $weight;
+
+        return $this;
+    }
+
+    public function isIsOff(): ?bool
+    {
+        return $this->isOff;
+    }
+
+    public function setIsOff(bool $isOff): self
+    {
+        $this->isOff = $isOff;
+
+        return $this;
     }
 }

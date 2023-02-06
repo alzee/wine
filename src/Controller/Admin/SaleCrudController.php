@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Orders;
 use App\Entity\OrderItems;
+use App\Service\FieldSum;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -51,12 +52,14 @@ class SaleCrudController extends AbstractCrudController
     private $doctrine;
     private AdminUrlGenerator $adminUrlGenerator;
     private RequestStack $requestStack;
+    private FieldSum $fieldsum;
 
-    public function __construct(ManagerRegistry $doctrine, AdminUrlGenerator $adminUrlGenerator, RequestStack $requestStack)
+    public function __construct(ManagerRegistry $doctrine, AdminUrlGenerator $adminUrlGenerator, RequestStack $requestStack, FieldSum $fieldsum)
     {
         $this->doctrine = $doctrine;
         $this->adminUrlGenerator = $adminUrlGenerator;
         $this->requestStack = $requestStack;
+        $this->fieldsum = $fieldsum;
     }
 
     public static function getEntityFqcn(): string
@@ -222,6 +225,7 @@ class SaleCrudController extends AbstractCrudController
             ->setHelp('new', $helpNew)
             ->setPageTitle('index', 'Sale')
             ->setSearchFields(['buyer.name', 'orderItems.product.name'])
+            ->overrideTemplates([ 'crud/index' => 'admin/pages/index.html.twig', ])
         ;
     }
 
@@ -248,10 +252,14 @@ class SaleCrudController extends AbstractCrudController
     {
         $ord = new Orders();
         $item = new OrderItems();
-        $p = $this->doctrine->getRepository(Product::class)->findOneBy(['org' => $this->getUser()->getOrg()]);
-        $item->setProduct($p);
         $ord->addOrderItem($item);
 
         return $ord;
+    }
+
+    public function configureResponseParameters(KeyValueStore $responseParameters): KeyValueStore
+    {
+        $sumFieldNames = ['amount', 'voucher'];
+        return $this->fieldsum->calc($responseParameters, $sumFieldNames);
     }
 }

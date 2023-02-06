@@ -66,15 +66,29 @@ class MyWithdrawCrudController extends AbstractCrudController
         yield AssociationField::new('approver')
             ->HideWhenCreating()
             ->setFormTypeOptions(['disabled' => 'disabled']);
-        yield AssociationField::new('approver')
-            ->onlyWhenCreating()
-            ->setQueryBuilder (
-                fn (QueryBuilder $qb) => $qb
-                    ->andWhere('entity.id = :id')
-                    ->setParameter('id', $this->getUser()
-                    ->getOrg()
-                    ->getUpstream())
-            );
+        if ($this->isGranted('ROLE_AGENCY') || $this->isGranted('ROLE_RESTAURANT')) {
+            yield AssociationField::new('approver')
+                ->onlyWhenCreating()
+                ->setQueryBuilder (
+                    fn (QueryBuilder $qb) => $qb
+                        ->andWhere('entity.id = :id')
+                        ->setParameter('id', $this->getUser()
+                        ->getOrg()
+                        ->getUpstream())
+                );
+        }
+        if ($this->isGranted('ROLE_VARIANT_HEAD') || $this->isGranted('ROLE_VARIANT_AGENCY') || $this->isGranted('ROLE_VARIANT_STORE')) {
+            yield AssociationField::new('approver')
+                ->onlyWhenCreating()
+                ->setQueryBuilder (
+                    fn (QueryBuilder $qb) => $qb
+                        ->andWhere('entity.id = :id')
+                        ->setParameter('id', 5)
+                        // ->setParameter('id', $this->getUser()
+                        // ->getOrg()
+                        // ->getUpstream())
+                );
+        }
         yield MoneyField::new('amount', 'withdraw.amount')
             ->setCurrency('CNY')
             ->HideWhenCreating()
@@ -150,6 +164,7 @@ class MyWithdrawCrudController extends AbstractCrudController
             ->setHelp('new', $helpNew)
             ->setPageTitle('index', 'MyWithdraw')
             ->setSearchFields(null)
+            ->overrideTemplates([ 'crud/index' => 'admin/pages/index.html.twig', ])
         ;
     }
 
@@ -187,5 +202,19 @@ class MyWithdrawCrudController extends AbstractCrudController
         } else {
             return $assets;
         }
+    }
+
+    public function configureResponseParameters(KeyValueStore $responseParameters): KeyValueStore
+    {
+      if (!$this->isGranted('ROLE_HEAD')) {
+        if (Crud::PAGE_INDEX === $responseParameters->get('pageName')) {
+          $withdrawable = $this->getuser()->getOrg()->getWithdrawable() / 100;
+          $withdrawing = $this->getuser()->getOrg()->getWithdrawing() / 100;
+          $responseParameters->set('withdrawable', $withdrawable);
+          $responseParameters->set('withdrawing', $withdrawing);
+          ;
+        }
+      }
+      return $responseParameters;
     }
 }

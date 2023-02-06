@@ -33,14 +33,18 @@ use App\Entity\Choice;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\DateTimeFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
 use Doctrine\ORM\EntityRepository as ER;
+use EasyCorp\Bundle\EasyAdminBundle\Config\KeyValueStore;
+use App\Service\FieldSum;
 
 class ReturnToMeCrudController extends AbstractCrudController
 {
     private $doctrine;
+    private FieldSum $fieldsum;
 
-    public function __construct(ManagerRegistry $doctrine)
+    public function __construct(ManagerRegistry $doctrine, FieldSum $fieldsum)
     {
         $this->doctrine = $doctrine;
+        $this->fieldsum = $fieldsum;
     }
 
     public static function getEntityFqcn(): string
@@ -150,6 +154,7 @@ class ReturnToMeCrudController extends AbstractCrudController
             ->setHelp('new', $helpNew)
             ->setPageTitle('index', 'ReturnToMe')
             ->setSearchFields(['sender.name', 'returnItems.product.name'])
+            ->overrideTemplates([ 'crud/index' => 'admin/pages/index.html.twig', ])
         ;
     }
 
@@ -175,10 +180,14 @@ class ReturnToMeCrudController extends AbstractCrudController
     {
         $ret = new Returns();
         $item = new ReturnItems();
-        $p = $this->doctrine->getRepository(Product::class)->findOneBy(['org' => $this->getUser()->getOrg()]);
-        $item->setProduct($p);
         $ret->addReturnItem($item);
 
         return $ret;
+    }
+
+    public function configureResponseParameters(KeyValueStore $responseParameters): KeyValueStore
+    {
+        $sumFieldNames = ['amount', 'voucher'];
+        return $this->fieldsum->calc($responseParameters, $sumFieldNames);
     }
 }

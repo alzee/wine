@@ -27,7 +27,7 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
 )]
-#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'openid' => 'exact', 'phone' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'openid' => 'exact', 'phone' => 'exact', 'referrer' => 'exact'])]
 class Consumer
 {
     #[ORM\Id]
@@ -37,12 +37,12 @@ class Consumer
     private ?int $id = null;
 
     #[ORM\Column(length: 255, unique: true)]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read'])]
     private ?string $openid = null;
 
     #[ORM\Column(options: ["unsigned" => true])]
     #[Assert\PositiveOrZero]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read'])]
     private ?int $voucher = 0;
 
     #[ORM\OneToMany(mappedBy: 'consumer', targetEntity: OrderRestaurant::class)]
@@ -64,13 +64,32 @@ class Consumer
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['read', 'write'])]
-    private ?string $avatar = null;
+    private ?string $avatar = 'default.jpg';
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\ManyToOne(targetEntity: self::class)]
+    private ?self $referrer = null;
+
+    #[ORM\Column]
+    #[Groups(['read'])]
+    private ?int $reward = 0;
+
+    #[ORM\Column]
+    #[Groups(['read'])]
+    private ?int $withdrawable = 0;
+
+    #[ORM\Column]
+    #[Groups(['read'])]
+    private ?int $withdrawing = 0;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['read', 'write'])]
+    private ?string $nick = null;
 
     public function __construct()
     {
@@ -81,7 +100,7 @@ class Consumer
 
     public function __toString()
     {
-        return $this->name;
+        return $this->name . ' ' . $this->phone;
     }
 
     public function getId(): ?int
@@ -267,5 +286,65 @@ class Consumer
     public function setCreatedAtValue(): void
     {
         $this->createdAt = new \DateTimeImmutable();
+    }
+
+    public function getReferrer(): ?self
+    {
+        return $this->referrer;
+    }
+
+    public function setReferrer(?self $referrer): self
+    {
+        $this->referrer = $referrer;
+
+        return $this;
+    }
+
+    public function getReward(): ?int
+    {
+        return $this->reward;
+    }
+
+    public function setReward(int $reward): self
+    {
+        $this->reward = $reward;
+
+        return $this;
+    }
+
+    public function getWithdrawable(): ?int
+    {
+        return $this->withdrawable;
+    }
+
+    public function setWithdrawable(int $withdrawable): self
+    {
+        $this->withdrawable = $withdrawable;
+
+        return $this;
+    }
+
+    public function getWithdrawing(): ?int
+    {
+        return $this->withdrawing;
+    }
+
+    public function setWithdrawing(int $withdrawing): self
+    {
+        $this->withdrawing = $withdrawing;
+
+        return $this;
+    }
+
+    public function getNick(): ?string
+    {
+        return $this->nick;
+    }
+
+    public function setNick(?string $nick): self
+    {
+        $this->nick = $nick;
+
+        return $this;
     }
 }

@@ -4,6 +4,37 @@ namespace App\Entity;
 
 class Choice
 {
+    public const REWARD_TYPES = [
+        'refAgency' => 0,
+        'refVariantHead' => 1,
+        'refVariantAgency' => 2,
+        'refStore' => 3,
+        'refVariantStore' => 4,
+        'refConsumer' => 5,
+        'return' => 6
+    ];
+    public const SHARE_TYPES = [
+        'variantStoreShare' => 0,
+        'variantAgencyShare' => 1,
+        'variantHeadShare' => 2,
+        'return' => 3
+    ];
+    public const REWARD_SHARE_STATUSES = [
+        'lock' => 0,
+        'withdrawable' => 1,
+        'withdrawDone' => 2,
+        'returnLock' => 3,
+        'returned' => 4,
+    ];
+    public const MEDIA_TYPESS = [
+        'org' => 0,
+        'product' => 1,
+        'node' => 2,
+        'node_body' => 3,
+        'product_body' => 4,
+        'widthdraw' => 5,
+        'avatar' => 6
+    ];
     public const ORDER_STATUSES = ['Pending' => 0, 'Cancelled' => 4, 'Success' => 5];
     public const WITHDRAW_STATUSES = ['Pending' => 0, 'Approved' => 3 , 'Rejected' => 4, 'Paid' => 5];
     public const ORG_TYPES = [
@@ -11,7 +42,21 @@ class Choice
         'Agency' => 1,
         'Store' => 2,
         'Restaurant' => 3,
-        'Consumer' => 4
+        'Consumer' => 4,
+        'VariantHead' => 10,
+        'VariantAgency' => 11,
+        'VariantStore' => 12,
+    ];
+    public const REG_TYPES = [
+        'Store' => 0,
+        'Agency' => 1,
+        'VariantHead' => 2,
+        'VariantAgency' => 3,
+        'VariantStore' => 4,
+    ];
+    public const REG_STATUSES = [
+        'pending' => 0,
+        'deal' => 1,
     ];
     public const VOUCHER_TYPES = [
         // increase
@@ -58,4 +103,11 @@ class Choice
         // system
         '内部调控' => 255,
     ];
+
+    public static function get($taxon)
+    {
+        $taxon = strtoupper($taxon);
+        $constant = constant('Self::' . $taxon);
+        return $constant;
+    }
 }
