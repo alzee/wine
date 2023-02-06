@@ -87,6 +87,8 @@ class OrgCrudController extends AbstractCrudController
             ->setDisabled()
         ;
         yield TextField::new('district');
+        yield AssociationField::new('city');
+        yield AssociationField::new('industry');
         yield MoneyField::new('voucher')
                 ->setCurrency('CNY')
                 ->hideOnForm()

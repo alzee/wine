@@ -38,14 +38,25 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use App\Entity\Choice;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\DateTimeFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
+use EasyCorp\Bundle\EasyAdminBundle\Factory\FilterFactory;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SaleCrudController extends AbstractCrudController
 {
     private $doctrine;
+    private AdminUrlGenerator $adminUrlGenerator;
+    private RequestStack $requestStack;
 
-    public function __construct(ManagerRegistry $doctrine)
+    public function __construct(ManagerRegistry $doctrine, AdminUrlGenerator $adminUrlGenerator, RequestStack $requestStack)
     {
         $this->doctrine = $doctrine;
+        $this->adminUrlGenerator = $adminUrlGenerator;
+        $this->requestStack = $requestStack;
     }
 
     public static function getEntityFqcn(): string
@@ -133,17 +144,72 @@ class SaleCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
+        $export = Action::new('export', 'export')
+            ->createAsGlobalAction()
+            ->linkToUrl(function () {
+                $request = $this->requestStack->getCurrentRequest();
+                return $this->adminUrlGenerator->setAll($request->query->all())
+                    ->setAction('export')
+                    ->generateUrl();
+            });
         if ($this->isGranted('ROLE_STORE') || $this->isGranted('ROLE_RESTAURANT')) {
             return $actions
                 ->disable(Action::DELETE, Action::NEW, Action::EDIT)
+                ->add('index', $export)
                 // ->add('index', Action::DETAIL)
             ;
         } else {
             return $actions
                 ->disable(Action::DELETE, Action::EDIT)
+                ->add('index', $export)
                 // ->add('index', Action::DETAIL)
             ;
         }
+    }
+
+    public function export(AdminContext $context, TranslatorInterface $translator)
+    {
+        $fields = FieldCollection::new($this->configureFields(Crud::PAGE_INDEX));
+        $filters = $this->container->get(FilterFactory::class)->create($context->getCrud()->getFiltersConfig(), $fields, $context->getEntity());
+        $queryBuilder = $this->createIndexQueryBuilder($context->getSearch(), $context->getEntity(), $fields, $filters);
+        $entities0 = $queryBuilder->getQuery()->execute();
+        $entities = $queryBuilder->getQuery()->getArrayResult();
+        $title = [];
+        foreach ($entities[0] as $key => $v) {
+            array_push($title, $key);
+        }
+        array_push($title, 'seller', 'buyer', 'product', 'quantity');
+        foreach ($title as &$v) {
+            $v = $translator->trans(ucwords($v));
+        }
+        foreach ($entities as $key => &$entity) {
+            $entity['amount'] /= 100;
+            $entity['voucher'] /= 100;
+            $entity['status'] = $translator->trans(array_flip(Choice::ORDER_STATUSES)[$entity['status']]);
+            $entity['date']->setTimezone(new \DateTimeZone('Asia/Shanghai'));
+            $entity['seller'] = $entities0[$key]->getSeller()->getName();
+            $entity['buyer'] = $entities0[$key]->getBuyer()->getName();
+            $entity['product'] = $entities0[$key]->getOrderItems()[0]->getProduct()->getName();
+            $entity['quantity'] = $entities0[$key]->getOrderItems()[0]->getQuantity();
+        }
+        array_unshift($entities, $title);
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $sheet->fromArray($entities, null);
+
+        $writer = new Xlsx($spreadsheet);
+
+        $response =  new StreamedResponse(
+            function () use ($writer) {
+                $writer->save('php://output');
+            }
+        );
+        $response->headers->set('Content-Type', 'application/vnd.ms-excel');
+        $response->headers->set('Content-Disposition', 'attachment;filename="销售订单.xlsx"');
+        $response->headers->set('Cache-Control','max-age=0');
+        return $response;
     }
 
     public function configureCrud(Crud $crud): Crud

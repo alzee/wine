@@ -103,18 +103,16 @@ class ProductCrudController extends AbstractCrudController
     {
         $export = Action::new('export', 'export')
             ->createAsGlobalAction()
-            // ->linkToCrudAction('export')
             ->linkToUrl(function () {
                 $request = $this->requestStack->getCurrentRequest();
                 return $this->adminUrlGenerator->setAll($request->query->all())
                     ->setAction('export')
                     ->generateUrl();
-            })
-            ;
+            });
         if ($this->isGranted('ROLE_HEAD')) {
             return $actions
                 ->disable(Action::DELETE)
-                // ->add('index', $export)
+                ->add('index', $export)
                 // ->remove(Crud::PAGE_INDEX, Action::DELETE)
                 ;
         } else {

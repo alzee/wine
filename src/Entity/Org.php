@@ -22,7 +22,7 @@ use Symfony\Component\Serializer\Annotation\Ignore;
     denormalizationContext: ['groups' => ['write']],
     paginationEnabled: false,
 )]
-#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'type' => 'exact', 'upstream' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'city' => 'exact', 'industry' => 'exact', 'type' => 'exact', 'upstream' => 'exact'])]
 #[ApiFilter(OrderFilter::class, properties: ['id'], arguments: ['orderParameterName' => 'order'])]
 class Org
 {
@@ -124,6 +124,14 @@ class Org
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $bank_addr = null;
+
+    #[ORM\ManyToOne]
+    #[Groups(['read'])]
+    private ?City $city = null;
+
+    #[ORM\ManyToOne]
+    #[Groups(['read'])]
+    private ?Industry $industry = null;
 
     public function __construct()
     {
@@ -578,6 +586,30 @@ class Org
     public function setBankAddr(?string $bank_addr): self
     {
         $this->bank_addr = $bank_addr;
+
+        return $this;
+    }
+
+    public function getCity(): ?City
+    {
+        return $this->city;
+    }
+
+    public function setCity(?City $city): self
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function getIndustry(): ?Industry
+    {
+        return $this->industry;
+    }
+
+    public function setIndustry(?Industry $industry): self
+    {
+        $this->industry = $industry;
 
         return $this;
     }
