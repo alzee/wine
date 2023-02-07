@@ -90,9 +90,11 @@ class Product
     private ?string $intro = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
+    #[Groups(['read'])]
     private ?int $unitPrice = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
+    #[Groups(['read'])]
     private ?int $unitPricePromo = null;
 
     public function __construct()
