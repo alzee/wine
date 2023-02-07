@@ -32,10 +32,14 @@ class Poster
         $dir = $this->imgdir . '/poster/';
         $access_token = $this->wx->getAccessToken();
         $url = "https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token={$access_token}";
+        $ver = 'release';
+        if ($_ENV['APP_ENV'] !== 'prod') {
+            $ver = 'trial';
+        }
         $data = [
             'page' => 'pages/chooseLogin/index',
             'scene' => $cid,
-            'env_version' => 'trial', // default 'release'
+            'env_version' => $ver, // default 'release'
             'is_hyaline' => true
             // 'width' => 280 // Min 280px
         ];
