@@ -27,6 +27,7 @@
 /public/uploads/
 /public/img/
 /public/media/
+/public/qr/
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
