@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use App\Entity\Consumer;
+use App\Entity\User;
 use Doctrine\Persistence\ManagerRegistry;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use App\Service\Wx;
@@ -47,11 +47,10 @@ class SecurityController extends AbstractDashboardController
     #[Route(path: '/api/login', name: 'api_login', methods: ['POST'])]
     public function apiLogin()
     {
-        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+        if (! $this->isGranted('IS_AUTHENTICATED_FULLY')) {
             $resp = [
                 "code" => 1
             ];
-            dump($resp);
         } else {
             $user = $this->getUser();
             $uid = $user->getId();
@@ -79,15 +78,14 @@ class SecurityController extends AbstractDashboardController
         $code = $data->code;
         $openid = $this->wx->getOpenid($code);
 
-        $consumer = $this->doctrine->getRepository(Consumer::class)->findOneBy(['openid' => $openid]);
+        $consumer = $this->doctrine->getRepository(User::class)->findOneBy(['openid' => $openid]);
         if (is_null($consumer)) {
             // create
             $em = $this->doctrine->getManager();
-            $consumer = new Consumer();
+            $consumer = new User();
             $consumer->setOpenid($openid);
-            $consumer->setName(substr($openid, 0, 8));
             if (isset($data->referrerId)) {
-                $referrer = $this->doctrine->getRepository(Consumer::class)->find($data->referrerId);
+                $referrer = $this->doctrine->getRepository(User::class)->find($data->referrerId);
                 if ($referrer) {
                     $consumer->setReferrer($referrer);
                 }
