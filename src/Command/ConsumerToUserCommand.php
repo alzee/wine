@@ -55,9 +55,6 @@ class ConsumerToUserCommand extends Command
         $io->note('Creating user from consumer...');
         foreach ($consumers as $c) {
             $u = new User();
-            $u->setUsername($c->getOpenid());
-            $u->setRoles(['ROLE_CONSUMER']);
-            $u->setPlainPassword('111');
             $u->setOrg($consumerOrg);
             $u->setPhone($c->getPhone());
             $u->setOpenid($c->getOpenid());

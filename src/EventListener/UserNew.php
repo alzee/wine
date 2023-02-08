@@ -13,6 +13,7 @@ use App\Entity\User;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use App\Entity\Voucher;
 use App\Entity\Org;
+use App\Entity\Choice;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Events;
 
@@ -29,28 +30,23 @@ class UserNew extends AbstractController
 
     public function prePersist(User $user, LifecycleEventArgs $event): void
     {
+        if (! is_null($user->getOpenid())) {
+            $user->setUsername($user->getOpenid());
+        }
+        if (is_null($user->getPlainPassword())) {
+            $user->setPlainPassword('111');
+        }
         $user->setPassword($this->hasher->hashPassword($user, $user->getPlainPassword()));
         $user->eraseCredentials();
 
-        // If not set any role for user, he will get ONE role ROLE_USER
-        if (count($user->getRoles()) == 1) {
-            // Only give user one of these roles if no roles have set
-            $role = match ($user->getOrg()->getType()) {
-                0 => 'HEAD',
-                1 => 'AGENCY',
-                2 => 'STORE',
-                3 => 'RESTAURANT',
-                10 => 'VARIANT_HEAD',
-                11 => 'VARIANT_AGENCY',
-                12 => 'VARIANT_STORE',
-            };
-            $user->setRoles(['ROLE_' . $role]);
-        }
+        $orgTypes = array_flip(Choice::ORG_TYPES);
+        $typeId = $user->getOrg()->getType();
+        $roles = $user->getRoles();
+        $roles[] = 'ROLE_' . strtoupper($orgTypes[$typeId]);
+        $user->setRoles($roles);
     }
 
     public function postPersist(User $user, LifecycleEventArgs $event): void
     {
-        // $em = $event->getEntityManager();
-        // $em->flush();
     }
 }
