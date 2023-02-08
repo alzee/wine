@@ -16,7 +16,7 @@ security:
 
         provider_all:
           chain:
-            providers: ['provider_username', 'provider_phone']
+            providers: ['provider_phone', 'provider_username']
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
