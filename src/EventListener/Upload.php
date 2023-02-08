@@ -13,7 +13,7 @@ use App\Entity\Withdraw;
 use App\Entity\Product;
 use App\Entity\Node;
 use App\Entity\MediaObject;
-use App\Entity\Consumer;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 
 class Upload
@@ -111,7 +111,7 @@ class Upload
             }
             if ($type === 6) {
                 symlink('../../media/' . $file->getFilename(), $file->getPath() . '/../img/' . $dir . '/' . $file->getFilename());
-                $entity = $this->em->getRepository(Consumer::class)->find($object->getEntityId());
+                $entity = $this->em->getRepository(User::class)->find($object->getEntityId());
                 $entity->setAvatar(preg_replace('/.png/i', '.jpg', $file->getFilename()));
                 $this->em->flush();
             }

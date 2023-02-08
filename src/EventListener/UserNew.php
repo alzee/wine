@@ -16,16 +16,19 @@ use App\Entity\Org;
 use App\Entity\Choice;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Events;
+use App\Service\Poster;
 
 #[AsEntityListener(event: Events::prePersist, entity: User::class)]
 #[AsEntityListener(event: Events::postPersist, entity: User::class)]
 class UserNew extends AbstractController
 {
     private $hasher;
+    private $poster;
 
-    public function __construct(UserPasswordHasherInterface $hasher)
+    public function __construct(UserPasswordHasherInterface $hasher, Poster $poster)
     {
         $this->hasher = $hasher;
+        $this->poster = $poster;
     }
 
     public function prePersist(User $user, LifecycleEventArgs $event): void
@@ -48,5 +51,7 @@ class UserNew extends AbstractController
 
     public function postPersist(User $user, LifecycleEventArgs $event): void
     {
+        $uid = $consumer->getId();
+        $this->poster->generate($uid);
     }
 }

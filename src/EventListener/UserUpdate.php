@@ -14,6 +14,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Events;
+use App\Entity\Choice;
 
 #[AsEntityListener(event: Events::preUpdate, entity: User::class)]
 class UserUpdate
