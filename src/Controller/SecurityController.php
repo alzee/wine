@@ -95,7 +95,7 @@ class SecurityController extends AbstractDashboardController
         }
 
         $resp = [
-            "cid" => $consumer->getId(),
+            "uid" => $consumer->getId(),
             "role" => 4,
             "name" => $consumer->getName(),
             "phone" => $consumer->getPhone(),
