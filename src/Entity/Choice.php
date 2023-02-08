@@ -5,25 +5,25 @@ namespace App\Entity;
 class Choice
 {
     public const REWARD_TYPES = [
-        'refAgency' => 0,
-        'refVariantHead' => 1,
-        'refVariantAgency' => 2,
-        'refStore' => 3,
-        'refVariantStore' => 4,
-        'refConsumer' => 5,
+        'agency' => 0,
+        'variant_head' => 1,
+        'variant_agency' => 2,
+        'store' => 3,
+        'variant_store' => 4,
+        'consumer' => 5,
         'return' => 6
     ];
     public const SHARE_TYPES = [
-        'variantStoreShare' => 0,
-        'variantAgencyShare' => 1,
-        'variantHeadShare' => 2,
+        'variant_store' => 0,
+        'variant_agency' => 1,
+        'variant_head' => 2,
         'return' => 3
     ];
     public const REWARD_SHARE_STATUSES = [
         'lock' => 0,
         'withdrawable' => 1,
-        'withdrawDone' => 2,
-        'returnLock' => 3,
+        'withdraw_done' => 2,
+        'return_lock' => 3,
         'returned' => 4,
     ];
     public const MEDIA_TYPESS = [
@@ -38,21 +38,21 @@ class Choice
     public const ORDER_STATUSES = ['Pending' => 0, 'Cancelled' => 4, 'Success' => 5];
     public const WITHDRAW_STATUSES = ['Pending' => 0, 'Approved' => 3 , 'Rejected' => 4, 'Paid' => 5];
     public const ORG_TYPES = [
-        'Head' => 0,
-        'Agency' => 1,
-        'Store' => 2,
-        'Restaurant' => 3,
-        'Consumer' => 4,
-        'VariantHead' => 10,
-        'VariantAgency' => 11,
-        'VariantStore' => 12,
+        'head' => 0,
+        'agency' => 1,
+        'store' => 2,
+        'restaurant' => 3,
+        'consumer' => 4,
+        'Variant_head' => 10,
+        'Variant_agency' => 11,
+        'Variant_store' => 12,
     ];
     public const REG_TYPES = [
         'Store' => 0,
         'Agency' => 1,
-        'VariantHead' => 2,
-        'VariantAgency' => 3,
-        'VariantStore' => 4,
+        'variant_head' => 2,
+        'variant_agency' => 3,
+        'variant_store' => 4,
     ];
     public const REG_STATUSES = [
         'pending' => 0,

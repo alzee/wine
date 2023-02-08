@@ -158,3 +158,11 @@ New Org: 新增机构
 Area: 地区
 Withdrawable: 可提现
 Withdrawing: 提现中
+head: 总公司
+agency: 代理商
+store: 门店
+restaurant: 餐厅
+consumer: 顾客
+variant_head: 代理商(异业)
+variant_agency: 区域代理商(异业)
+variant_store: 门店(异业)

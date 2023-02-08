@@ -61,12 +61,12 @@ class OrgCrudController extends AbstractCrudController
 
         if ($this->isGranted('ROLE_HEAD')) {
             $orgChoices = [
-                'Agency' => 1,
-                'Store' => 2,
-                'Restaurant' => 3,
-                'VariantHead' => 10,
-                'VariantAgency' => 11,
-                'VariantStore' => 12,
+                'agency' => 1,
+                'store' => 2,
+                'restaurant' => 3,
+                'variant_head' => 10,
+                'variant_agency' => 11,
+                'variant_store' => 12,
             ];
         }
         if ($this->isGranted('ROLE_AGENCY')) {
