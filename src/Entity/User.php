@@ -10,15 +10,26 @@ use ApiPlatform\Metadata\ApiResource;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity('username',
     message: 'This username is already in use',
 )]
+#[UniqueEntity(
+    fields: 'openid',
+    message: 'Openid is already in use',
+)]
+#[UniqueEntity(
+    fields: 'phone',
+    message: 'Phone is already in use',
+)]
 #[ApiResource(
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
 )]
+#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'openid' => 'exact', 'phone' => 'exact', 'referrer' => 'exact'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -55,9 +66,51 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $plainPassword = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255, nullable: true, unique: true)]
     #[Groups(['read', 'write'])]
     private ?string $phone = null;
+
+    #[ORM\Column(length: 255, nullable: true, unique: true)]
+    #[Groups(['read'])]
+    private ?string $openid = null;
+
+    #[ORM\Column(options: ["unsigned" => true])]
+    #[Assert\PositiveOrZero]
+    #[Groups(['read'])]
+    private ?int $voucher = 0;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['read', 'write'])]
+    private ?string $name = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['read', 'write'])]
+    private ?string $avatar = 'default.jpg';
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\ManyToOne(targetEntity: self::class)]
+    private ?self $referrer = null;
+
+    #[ORM\Column]
+    #[Groups(['read'])]
+    private ?int $reward = 0;
+
+    #[ORM\Column]
+    #[Groups(['read'])]
+    private ?int $withdrawable = 0;
+
+    #[ORM\Column]
+    #[Groups(['read'])]
+    private ?int $withdrawing = 0;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['read', 'write'])]
+    private ?string $nick = null;
 
     public function __toString()
     {
@@ -166,6 +219,138 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPhone(?string $phone): self
     {
         $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getOpenid(): ?string
+    {
+        return $this->openid;
+    }
+
+    public function setOpenid(string $openid): self
+    {
+        $this->openid = $openid;
+
+        return $this;
+    }
+
+    public function getVoucher(): ?int
+    {
+        return $this->voucher;
+    }
+
+    public function setVoucher(int $voucher): self
+    {
+        $this->voucher = $voucher;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(?string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?string $avatar): self
+    {
+        $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getReferrer(): ?self
+    {
+        return $this->referrer;
+    }
+
+    public function setReferrer(?self $referrer): self
+    {
+        $this->referrer = $referrer;
+
+        return $this;
+    }
+
+    public function getReward(): ?int
+    {
+        return $this->reward;
+    }
+
+    public function setReward(int $reward): self
+    {
+        $this->reward = $reward;
+
+        return $this;
+    }
+
+    public function getWithdrawable(): ?int
+    {
+        return $this->withdrawable;
+    }
+
+    public function setWithdrawable(int $withdrawable): self
+    {
+        $this->withdrawable = $withdrawable;
+
+        return $this;
+    }
+
+    public function getWithdrawing(): ?int
+    {
+        return $this->withdrawing;
+    }
+
+    public function setWithdrawing(int $withdrawing): self
+    {
+        $this->withdrawing = $withdrawing;
+
+        return $this;
+    }
+
+    public function getNick(): ?string
+    {
+        return $this->nick;
+    }
+
+    public function setNick(?string $nick): self
+    {
+        $this->nick = $nick;
 
         return $this;
     }
