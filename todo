@@ -1,4 +1,7 @@
-- UserUpdate change roles when org change
+- consumer to user:
+  - ApiController
+  - Entities
+- update roles when org change in event UserUpdate
 - head stock
 - png to jpg
 - gen poster for prod
