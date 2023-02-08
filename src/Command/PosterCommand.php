@@ -29,7 +29,7 @@ class PosterCommand extends Command
     protected function configure(): void
     {
         $this
-            ->addArgument('cid', InputArgument::REQUIRED, 'Consumer ID')
+            ->addArgument('uid', InputArgument::REQUIRED, 'User ID')
             // ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description')
         ;
     }
@@ -37,8 +37,8 @@ class PosterCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $cid = $input->getArgument('cid');
-        $this->poster->generate($cid);
+        $uid = $input->getArgument('uid');
+        $this->poster->generate($uid);
 
         // $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
 
