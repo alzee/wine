@@ -19,7 +19,6 @@ use App\Entity\Node;
 use App\Entity\Org;
 use App\Entity\Orders;
 use App\Entity\Returns;
-use App\Entity\Consumer;
 use App\Entity\Reg;
 use App\Entity\Withdraw;
 use App\Entity\Retail;
@@ -63,7 +62,7 @@ class DashboardController extends AbstractDashboardController
         $countAgencies = $orgRepo->count(['type' => 1]);
         $countStroes = $orgRepo->count(['type' => 2]);
         $countRestaurants = $orgRepo->count(['type' => 3]);
-        $countConsumers = $this->doctrine->getRepository(Consumer::class)->count([]);
+        $countConsumers = $this->doctrine->getRepository(User::class)->count([]);
 
         $data = [
           'countAgencies' => $countAgencies,
@@ -148,7 +147,9 @@ class DashboardController extends AbstractDashboardController
         }
 
         if ($this->isGranted('ROLE_HEAD')) {
-            yield MenuItem::linkToCrud('ConsumerManage', 'fas fa-users', Consumer::class);
+            yield MenuItem::linkToCrud('ConsumerManage', 'fas fa-users', User::class)
+                ->setController(ConsumerCrudController::class);
+            ;
             yield MenuItem::linkToCrud('RegList', 'fas fa-handshake-alt', Reg::class);
         }
         yield MenuItem::linkToCrud('Chpwd', 'fas fa-key', User::class)

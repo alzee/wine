@@ -2,7 +2,7 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Consumer;
+use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -17,27 +17,46 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use Doctrine\ORM\QueryBuilder;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
+use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 
 class ConsumerCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Consumer::class;
+        return User::class;
     }
 
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id')->onlyOnIndex(),
+            // IdField::new('id')->onlyOnIndex(),
             TextField::new('openid')
-                ->setFormTypeOptions(['disabled' => 'disabled'])
+                ->setDisabled()
                 ->setHelp('微信openid')
             ,
             TextField::new('name', 'Consumer.name'),
-            TextField::new('nick'),
-            TextField::new('phone'),
+            TextField::new('nick')
+                ->setDisabled()
+            ,
+            TextField::new('phone')
+                ->setDisabled()
+            ,
             MoneyField::new('voucher')
-                ->setFormTypeOptions(['disabled' => 'disabled'])
+                ->setDisabled()
+                ->setCurrency('CNY'),
+            MoneyField::new('reward')
+                ->setDisabled()
+                ->setCurrency('CNY'),
+            MoneyField::new('withdrawable')
+                ->setDisabled()
+                ->setCurrency('CNY'),
+            MoneyField::new('withdrawing')
+                ->setDisabled()
                 ->setCurrency('CNY'),
         ];
     }
@@ -55,14 +74,11 @@ class ConsumerCrudController extends AbstractCrudController
         }
     }
 
-    // public function configureCrud(Crud $crud): Crud
-    // {
-    //     $helpIndex = '';
-    //     $helpNew = '';
-    //     return $crud
-    //         // ->setDefaultSort(['id' => 'DESC'])
-    //         ->setHelp('index', $helpIndex)
-    //         ->setHelp('new', $helpNew)
-    //     ;
-    // }
+    public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
+    {
+        $response = $this->container->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
+        $response
+            ->andWhere("entity.roles like '%ROLE_CONSUMER%'");
+        return $response;
+    }
 }
