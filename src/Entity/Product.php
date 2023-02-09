@@ -89,11 +89,13 @@ class Product
     #[Groups(['read'])]
     private ?string $intro = null;
 
-    #[ORM\Column(type: Types::SMALLINT)]
+    #[ORM\Column(options: ["unsigned" => true])]
+    #[Assert\Positive]
     #[Groups(['read'])]
     private ?int $unitPrice = null;
 
-    #[ORM\Column(type: Types::SMALLINT)]
+    #[ORM\Column(options: ["unsigned" => true])]
+    #[Assert\Positive]
     #[Groups(['read'])]
     private ?int $unitPricePromo = null;
 
