@@ -24,7 +24,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 
-class ConsumerCrudController extends AbstractCrudController
+class CustomerCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
@@ -39,7 +39,7 @@ class ConsumerCrudController extends AbstractCrudController
                 ->setDisabled()
                 ->setHelp('微信openid')
             ,
-            TextField::new('name', 'Consumer.name'),
+            TextField::new('name', 'Customer.name'),
             TextField::new('nick')
                 ->setDisabled()
             ,
@@ -78,7 +78,7 @@ class ConsumerCrudController extends AbstractCrudController
     {
         $response = $this->container->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
         $response
-            ->andWhere("entity.roles like '%ROLE_CONSUMER%'");
+            ->andWhere("entity.roles like '%ROLE_CUSTOMER%'");
         return $response;
     }
 }

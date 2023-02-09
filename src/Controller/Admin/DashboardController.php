@@ -62,13 +62,13 @@ class DashboardController extends AbstractDashboardController
         $countAgencies = $orgRepo->count(['type' => 1]);
         $countStroes = $orgRepo->count(['type' => 2]);
         $countRestaurants = $orgRepo->count(['type' => 3]);
-        $countConsumers = $this->doctrine->getRepository(User::class)->count([]);
+        $countCustomers = $this->doctrine->getRepository(User::class)->count([]);
 
         $data = [
           'countAgencies' => $countAgencies,
           'countStroes' => $countStroes,
           'countRestaurants' => $countRestaurants,
-          'countConsumers' => $countConsumers,
+          'countCustomers' => $countCustomers,
         ];
         return $this->render('dashboard.html.twig', $data);
     }
@@ -147,8 +147,8 @@ class DashboardController extends AbstractDashboardController
         }
 
         if ($this->isGranted('ROLE_HEAD')) {
-            yield MenuItem::linkToCrud('ConsumerManage', 'fas fa-users', User::class)
-                ->setController(ConsumerCrudController::class);
+            yield MenuItem::linkToCrud('CustomerManage', 'fas fa-users', User::class)
+                ->setController(CustomerCrudController::class);
             ;
             yield MenuItem::linkToCrud('RegList', 'fas fa-handshake-alt', Reg::class);
         }

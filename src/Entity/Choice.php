@@ -10,7 +10,7 @@ class Choice
         'variant_agency' => 2,
         'store' => 3,
         'variant_store' => 4,
-        'consumer' => 5,
+        'customer' => 5,
         'return' => 6
     ];
     public const SHARE_TYPES = [
@@ -42,7 +42,7 @@ class Choice
         'agency' => 1,
         'store' => 2,
         'restaurant' => 3,
-        'consumer' => 4,
+        'customer' => 4,
         'Variant_head' => 10,
         'Variant_agency' => 11,
         'Variant_store' => 12,

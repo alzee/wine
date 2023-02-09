@@ -45,8 +45,7 @@ Orders: 订单
 Org: 机构
 OrgManage: 机构管理
 Returns: 退货
-Consumer: 顾客
-ConsumerManage: 顾客管理
+CustomerManage: 顾客管理
 Type: 类型
 Seller: 发货方
 Buyer: 收货方
@@ -62,7 +61,7 @@ Note: 备注
 Retail: 酒零售
 RetailReturn: 零售退货
 Upstream: 所属代理商
-Consumer.name: 姓名
+Customer.name: 姓名
 Openid: 微信ID
 Repeat password: 密码确认
 Applicant: 申请方
@@ -161,7 +160,7 @@ head: 总公司
 agency: 代理商
 store: 门店
 restaurant: 餐厅
-consumer: 顾客
+customer: 顾客
 variant_head: 代理商(异业)
 variant_agency: 区域代理商(异业)
 variant_store: 门店(异业)
