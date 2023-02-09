@@ -47,7 +47,7 @@ class Reward
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['read'])]
-    private ?Consumer $referrer = null;
+    private ?User $referrer = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $status = 0;
@@ -128,12 +128,12 @@ class Reward
         return $this;
     }
 
-    public function getReferrer(): ?Consumer
+    public function getReferrer(): ?User
     {
         return $this->referrer;
     }
 
-    public function setReferrer(?Consumer $referrer): self
+    public function setReferrer(?User $referrer): self
     {
         $this->referrer = $referrer;
 
