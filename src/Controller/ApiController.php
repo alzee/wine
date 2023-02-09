@@ -17,7 +17,6 @@ use App\Entity\ReturnItems;
 use App\Entity\Retail;
 use App\Entity\OrderRestaurant;
 use App\Entity\Scan;
-use App\Entity\Consumer;
 use App\Entity\User;
 use App\Entity\Choice;
 use App\Entity\RetailReturn;
@@ -112,7 +111,7 @@ class ApiController extends AbstractController
     {
         $params  = $request->toArray();
         $store = $this->doctrine->getRepository(Org::class)->find($params['oid']);
-        $consumer = $this->doctrine->getRepository(Consumer::class)->find($params['cid']);
+        $customer = $this->doctrine->getRepository(User::class)->find($params['cid']);
         $product = $this->doctrine->getRepository(Product::class)->find($params['pid']);
         $rand = $params['timestamp'];
         $quantity = $params['quantity'];
@@ -120,13 +119,13 @@ class ApiController extends AbstractController
 
         $retail = new Retail();
         $retail->setStore($store);
-        $retail->setConsumer($consumer);
+        $retail->setCustomer($customer);
         $retail->setProduct($product);
         $retail->setQuantity($quantity);
         $em->persist($retail);
 
         $scan = new Scan();
-        $scan->setConsumer($consumer);
+        $scan->setCustomer($customer);
         $scan->setOrg($store);
         $scan->setRand($rand);
         $em->persist($scan);
@@ -143,19 +142,19 @@ class ApiController extends AbstractController
     {
         $params  = $request->toArray();
         $restaurant = $this->doctrine->getRepository(Org::class)->find($params['oid']);
-        $consumer = $this->doctrine->getRepository(Consumer::class)->find($params['cid']);
+        $customer = $this->doctrine->getRepository(User::class)->find($params['cid']);
         $rand = $params['timestamp'];
         $voucher = $params['voucher'];
         $em = $this->doctrine->getManager();
 
         $dine = new OrderRestaurant();
         $dine->setRestaurant($restaurant);
-        $dine->setConsumer($consumer);
+        $dine->setCustomer($customer);
         $dine->setVoucher($voucher);
         $em->persist($dine);
 
         $scan = new Scan();
-        $scan->setConsumer($consumer);
+        $scan->setCustomer($customer);
         $scan->setOrg($restaurant);
         $scan->setRand($rand);
         $em->persist($scan);
@@ -172,7 +171,7 @@ class ApiController extends AbstractController
     {
         $params  = $request->toArray();
         $store = $this->doctrine->getRepository(Org::class)->find($params['oid']);
-        $consumer = $this->doctrine->getRepository(Consumer::class)->find($params['cid']);
+        $customer = $this->doctrine->getRepository(User::class)->find($params['cid']);
         $product = $this->doctrine->getRepository(Product::class)->find($params['pid']);
         $rand = $params['timestamp'];
         $quantity = $params['quantity'];
@@ -180,13 +179,13 @@ class ApiController extends AbstractController
 
         $ret = new RetailReturn();
         $ret->setStore($store);
-        $ret->setConsumer($consumer);
+        $ret->setCustomer($customer);
         $ret->setProduct($product);
         $ret->setQuantity($quantity);
         $em->persist($ret);
 
         $scan = new Scan();
-        $scan->setConsumer($consumer);
+        $scan->setCustomer($customer);
         $scan->setOrg($store);
         $scan->setRand($rand);
         $em->persist($scan);
@@ -273,13 +272,13 @@ class ApiController extends AbstractController
     #[Route('/refretail/{cid}', requirements: ['cid' => '\d+'],  methods: ['GET'])]
     public function refRetail(int $cid): JsonResponse
     {
-        $myRefs = $this->doctrine->getRepository(Consumer::class)->findBy(['referrer' => $cid]);
+        $myRefs = $this->doctrine->getRepository(User::class)->findBy(['referrer' => $cid]);
         // dump($myRefs);
         // $refRetails = $this->doctrine->getRepository(Retail::class)->findByMyRefs($myRefs);
         $refRetails = [];
         foreach ($myRefs as $v) {
             // dump($v);
-            $retails = $this->doctrine->getRepository(Retail::class)->findBy(['consumer' => $v]);
+            $retails = $this->doctrine->getRepository(Retail::class)->findBy(['customer' => $v]);
             // dump($retails);
             $refRetails = array_merge($refRetails, $retails);
         }

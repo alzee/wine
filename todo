@@ -11,9 +11,6 @@
   - reg
   - org
 - STDERR PHP stream
-- consumer to user:
-  - ApiController
-  - Entities
 - update roles when org change in event UserUpdate
 - head stock
 - png to jpg
