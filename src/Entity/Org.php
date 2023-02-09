@@ -144,7 +144,7 @@ class Org
     private ?int $shareWithdrawable = 0;
 
     #[ORM\ManyToOne]
-    private ?Consumer $referrer = null;
+    private ?User $referrer = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?Reg $reg = null;
@@ -608,12 +608,12 @@ class Org
         return $this;
     }
 
-    public function getReferrer(): ?Consumer
+    public function getReferrer(): ?User
     {
         return $this->referrer;
     }
 
-    public function setReferrer(?Consumer $referrer): self
+    public function setReferrer(?User $referrer): self
     {
         $this->referrer = $referrer;
 
