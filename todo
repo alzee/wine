@@ -1,6 +1,7 @@
 - migration after renaming Scan::$consumer: 1553 Cannot drop index '...': needed in a foreign key constraint
-- nullable false:
-  - Scan::$customer
+- $customer nullable false:
+  - Scan
+  - Voucher
 - STDERR PHP stream
 - consumer to user:
   - ApiController
