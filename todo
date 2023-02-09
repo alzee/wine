@@ -1,8 +1,6 @@
 - migration after renaming Scan::$consumer: 1553 Cannot drop index '...': needed in a foreign key constraint
-- $customer nullable false/move consumer to customer:
+- $customer nullable false
   - Scan
-  - Voucher
-  - Withdraw
   - Retail
   - RetailReturn
   - OrderRestaurant
