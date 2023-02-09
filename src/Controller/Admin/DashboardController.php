@@ -62,7 +62,7 @@ class DashboardController extends AbstractDashboardController
         $countAgencies = $orgRepo->count(['type' => 1]);
         $countStroes = $orgRepo->count(['type' => 2]);
         $countRestaurants = $orgRepo->count(['type' => 3]);
-        $countCustomers = $this->doctrine->getRepository(User::class)->count([]);
+        $countCustomers = $this->doctrine->getRepository(User::class)->countCustomers();
 
         $data = [
           'countAgencies' => $countAgencies,
