@@ -144,9 +144,6 @@ class Org
     private ?int $shareWithdrawable = 0;
 
     #[ORM\ManyToOne]
-    private ?Consumer $partner = null;
-
-    #[ORM\ManyToOne]
     private ?Consumer $referrer = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
@@ -607,18 +604,6 @@ class Org
     public function setShareWithdrawable(int $shareWithdrawable): self
     {
         $this->shareWithdrawable = $shareWithdrawable;
-
-        return $this;
-    }
-
-    public function getPartner(): ?Consumer
-    {
-        return $this->partner;
-    }
-
-    public function setPartner(?Consumer $partner): self
-    {
-        $this->partner = $partner;
 
         return $this;
     }
