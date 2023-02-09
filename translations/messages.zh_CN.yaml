@@ -161,6 +161,7 @@ agency: 代理商
 store: 门店
 restaurant: 餐厅
 customer: 顾客
+Customer: 顾客
 variant_head: 代理商(异业)
 variant_agency: 区域代理商(异业)
 variant_store: 门店(异业)
