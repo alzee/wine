@@ -14,7 +14,7 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
 )]
-#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'consumer' => 'exact', 'org' => 'exact', 'rand' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'customer' => 'exact', 'org' => 'exact', 'rand' => 'exact'])]
 class Scan
 {
     #[ORM\Id]
@@ -36,6 +36,10 @@ class Scan
     #[ORM\Column(length: 255)]
     #[Groups(['read', 'write'])]
     private ?string $rand = null;
+
+    #[ORM\ManyToOne]
+    #[Groups(['read', 'write'])]
+    private ?User $customer = null;
 
     public function getId(): ?int
     {
@@ -74,6 +78,18 @@ class Scan
     public function setRand(string $rand): self
     {
         $this->rand = $rand;
+
+        return $this;
+    }
+
+    public function getCustomer(): ?User
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?User $customer): self
+    {
+        $this->customer = $customer;
 
         return $this;
     }
