@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\File\File;
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
 )]
-#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'applicant' => 'exact', 'approver' => 'exact', 'consumer' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'applicant' => 'exact', 'approver' => 'exact', 'customer' => 'exact'])]
 class Withdraw
 {
     #[ORM\Id]
@@ -69,6 +69,10 @@ class Withdraw
     #[ORM\ManyToOne]
     #[Groups(['read', 'write'])]
     private ?Consumer $consumer = null;
+
+    #[ORM\ManyToOne]
+    #[Groups(['read', 'write'])]
+    private ?User $customer = null;
 
     public function __construct()
     {
@@ -212,6 +216,18 @@ class Withdraw
     public function setConsumer(?Consumer $consumer): self
     {
         $this->consumer = $consumer;
+
+        return $this;
+    }
+
+    public function getCustomer(): ?User
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?User $customer): self
+    {
+        $this->customer = $customer;
 
         return $this;
     }

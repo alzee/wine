@@ -2,6 +2,7 @@
 - $customer nullable false:
   - Scan
   - Voucher
+  - Withdraw
 - STDERR PHP stream
 - consumer to user:
   - ApiController
