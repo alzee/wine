@@ -16,7 +16,7 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
 )]
-#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'consumer' => 'exact', 'restaurant' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'customer' => 'exact', 'restaurant' => 'exact'])]
 class OrderRestaurant
 {
     #[ORM\Id]
@@ -56,6 +56,10 @@ class OrderRestaurant
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['read'])]
     private ?string $note = null;
+
+    #[ORM\ManyToOne]
+    #[Groups(['read'])]
+    private ?User $customer = null;
 
     public function __construct()
     {
@@ -147,6 +151,18 @@ class OrderRestaurant
     public function setNote(?string $note): self
     {
         $this->note = $note;
+
+        return $this;
+    }
+
+    public function getCustomer(): ?User
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?User $customer): self
+    {
+        $this->customer = $customer;
 
         return $this;
     }

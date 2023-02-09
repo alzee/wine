@@ -5,6 +5,7 @@
   - Withdraw
   - Retail
   - RetailReturn
+  - OrderRestaurant
 - STDERR PHP stream
 - consumer to user:
   - ApiController
