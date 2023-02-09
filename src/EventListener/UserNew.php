@@ -51,7 +51,7 @@ class UserNew extends AbstractController
 
     public function postPersist(User $user, LifecycleEventArgs $event): void
     {
-        $uid = $consumer->getId();
+        $uid = $user->getId();
         $this->poster->generate($uid);
     }
 }
