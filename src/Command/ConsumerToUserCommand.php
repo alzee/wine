@@ -16,7 +16,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 #[AsCommand(
     name: 'app:consumerToUser',
-    description: 'Add a short description for your command',
+    description: 'Copy Consumer records to User table',
 )]
 class ConsumerToUserCommand extends Command
 {

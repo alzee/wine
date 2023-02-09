@@ -20,7 +20,7 @@ use App\Entity\Org;
 
 #[AsCommand(
     name: 'app:moveStock',
-    description: 'Move stock in product repo to stock',
+    description: 'Move stock column data in table Product to table Stock',
 )]
 class MoveStockCommand extends Command
 {

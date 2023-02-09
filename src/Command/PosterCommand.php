@@ -14,7 +14,7 @@ use App\Service\Poster;
 
 #[AsCommand(
     name: 'app:poster',
-    description: 'Manually generate poster for consumer',
+    description: 'Manually generate poster for user',
 )]
 class PosterCommand extends Command
 {
