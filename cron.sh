@@ -9,6 +9,7 @@
 
 ############### Main Part ###############
 
+cd ~/w/jiu/
 . .env.local
 
 # DATABASE_URL="mysql://root:toor@127.0.0.1:3306/jiu?serverVersion=mariadb-10.5.18&charset=utf8mb4"
