@@ -16,7 +16,7 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
 )]
-#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'store' => 'exact', 'consumer' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'store' => 'exact', 'customer' => 'exact'])]
 class Retail
 {
     #[ORM\Id]
@@ -60,6 +60,10 @@ class Retail
     #[ORM\Column(type: Types::SMALLINT)]
     #[Groups(['read'])]
     private ?int $status = 0;
+
+    #[ORM\ManyToOne]
+    #[Groups(['read'])]
+    private ?User $customer = null;
 
     public function __toString()
     {
@@ -168,6 +172,18 @@ class Retail
     public function setStatus(int $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getCustomer(): ?User
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?User $customer): self
+    {
+        $this->customer = $customer;
 
         return $this;
     }
