@@ -4,6 +4,7 @@
   - Voucher
   - Withdraw
   - Retail
+  - RetailReturn
 - STDERR PHP stream
 - consumer to user:
   - ApiController

@@ -16,7 +16,7 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
 )]
-#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'store' => 'exact', 'consumer' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'store' => 'exact', 'customer' => 'exact'])]
 class RetailReturn
 {
     #[ORM\Id]
@@ -56,6 +56,10 @@ class RetailReturn
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[Groups(['read'])]
     private ?\DateTimeInterface $date = null;
+
+    #[ORM\ManyToOne]
+    #[Groups(['read'])]
+    private ?User $customer = null;
 
     public function __construct()
     {
@@ -147,6 +151,18 @@ class RetailReturn
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    public function getCustomer(): ?User
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?User $customer): self
+    {
+        $this->customer = $customer;
 
         return $this;
     }
