@@ -1,3 +1,4 @@
+- rewards all at retail
 - migration after renaming Scan::$consumer: 1553 Cannot drop index '...': needed in a foreign key constraint
 - $customer nullable false
   - Scan
