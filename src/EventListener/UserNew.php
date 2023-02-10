@@ -11,7 +11,6 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\User;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
-use App\Entity\Voucher;
 use App\Entity\Org;
 use App\Entity\Choice;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
@@ -43,6 +42,10 @@ class UserNew extends AbstractController
         $user->eraseCredentials();
 
         $orgTypes = array_flip(Choice::ORG_TYPES);
+        if (is_null($user->getOrg())) {
+            $orgCustomer = $event->getEntityManager()->getRepository(Org::class)->findOneBy(['type' => 4]);
+            $user->setOrg($orgCustomer);
+        }
         $typeId = $user->getOrg()->getType();
         $roles = $user->getRoles();
         $roles[] = 'ROLE_' . strtoupper($orgTypes[$typeId]);
