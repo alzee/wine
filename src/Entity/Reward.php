@@ -50,7 +50,7 @@ class Reward
     private ?User $referrer = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
-    private ?int $status = 0;
+    private ?int $status = 1;
 
     #[ORM\ManyToOne]
     private ?Returns $ret = null;

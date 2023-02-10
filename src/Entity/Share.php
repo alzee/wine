@@ -46,7 +46,7 @@ class Share
 
     #[ORM\Column(type: Types::SMALLINT)]
     #[Groups(['read'])]
-    private ?int $status = 0;
+    private ?int $status = 1;
 
     #[ORM\ManyToOne]
     private ?RetailReturn $retailReturn = null;
