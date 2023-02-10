@@ -30,7 +30,7 @@ class Stock
     #[Groups(['read'])]
     private ?Product $product = null;
 
-    #[ORM\Column(type: Types::SMALLINT, options: ["unsigned" => true])]
+    #[ORM\Column(options: ["unsigned" => true])]
     #[Assert\Positive]
     #[Groups(['read'])]
     private ?int $stock = 0;
