@@ -64,37 +64,78 @@ class RetailNew extends AbstractController
         $record->setType($type - 100);
         $em->persist($record);
 
-        // Reward referrer when consumer buy
+        // Reward customer's referrer
         $referrer = $consumer->getReferrer();
         if (! is_null($referrer)) {
             $reward = $product->getRefReward() * $quantity;
-            $referrer->setReward($referrer->getReward() + $reward);
             $rewardRecord = new Reward();
-            $rewardRecord->setType(5);
+            $rewardRecord->setType(6);
             $rewardRecord->setRetail($retail);
             $rewardRecord->setReferrer($referrer);
             $rewardRecord->setAmount($reward);
             $em->persist($rewardRecord);
         }
 
-        // Reward referrer when store retail
+        // org_ref_rewards begin
         $reward = $product->getOrgRefReward() * $quantity;
+        // Reward store's referrer
         $referrer = $store->getReferrer();
         if (! is_null($referrer)) {
-            $referrer->setReward($referrer->getReward() + $reward);
             $rewardRecord = new Reward();
-            if ($store->getType() == 2 || $store->getType() == 3) {
+            // store
+            if ($store->getType() == 2) {
                 $rewardRecord->setType(3);
             }
+            // variant_store
             if ($store->getType() == 12) {
                 $rewardRecord->setType(4);
             }
+            // restaurant
+            if ($store->getType() == 3) {
+                $rewardRecord->setType(5);
+            }
             $rewardRecord->setRetail($retail);
             $rewardRecord->setReferrer($referrer);
             $rewardRecord->setAmount($reward);
             $em->persist($rewardRecord);
         }
 
+        // Reward agency's referrer
+        $agency = $store->getUpstream();
+        $referrer = $agency->getReferrer();
+        if (! is_null($referrer)) {
+            $rewardRecord = new Reward();
+            // agency
+            if ($agency->getType() == 1) {
+                $rewardRecord->setType(0);
+            }
+
+            // variant_agency
+            if ($agency->getType() == 11) {
+                $rewardRecord->setType(2);
+            }
+            $rewardRecord->setRetail($retail);
+            $rewardRecord->setReferrer($referrer);
+            $rewardRecord->setAmount($reward);
+            $em->persist($rewardRecord);
+        }
+
+        // variant_head
+        if ($agency->getType() == 11) {
+            $variantHead = $agency->getUpstream();
+            $referrer = $variantHead->getReferrer();
+            if (! is_null($referrer)) {
+                $rewardRecord = new Reward();
+                $rewardRecord->setType(1);
+                $rewardRecord->setRetail($retail);
+                $rewardRecord->setReferrer($referrer);
+                $rewardRecord->setAmount($reward);
+                $em->persist($rewardRecord);
+            }
+        }
+        // org_ref_rewards end
+
+        // share begin
         if ($store->getType() == 12) {
             // variantStoreShare
             $share = $product->getVariantStoreShare() * $quantity;
@@ -131,6 +172,7 @@ class RetailNew extends AbstractController
             $shareRecord->setAmount($share);
             $em->persist($shareRecord);
         }
+        // share end
 
         $em->flush();
     }

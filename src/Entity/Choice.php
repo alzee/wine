@@ -10,8 +10,8 @@ class Choice
         'variant_agency' => 2,
         'store' => 3,
         'variant_store' => 4,
-        'customer' => 5,
-        'return' => 6
+        'restaurant' => 5,
+        'customer' => 6,
     ];
     public const SHARE_TYPES = [
         'variant_store' => 0,

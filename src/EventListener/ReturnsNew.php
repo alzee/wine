@@ -16,7 +16,6 @@ use App\Entity\Voucher;
 use App\Entity\Choice;
 use App\Entity\Stock;
 use Doctrine\DBAL\Exception\DriverException;
-use App\Entity\Reward;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Events;
 
@@ -66,30 +65,6 @@ class ReturnsNew extends AbstractController
             if ($recipient->getType() != 0) {
                 $stockRecordOfRecipient = $em->getRepository(Stock::class)->findOneBy(['org' => $recipient, 'product' => $product]);
                 $stockRecordOfRecipient->setStock($stockRecordOfRecipient->getStock() + $quantity);
-            }
-
-            $reward = $product->getOrgRefReward() * $quantity;
-            $rewardRecord = new Reward();
-            // Reward referrer when agency buy
-            if ($sender->getType() == 1) {
-                $referrer = $sender->getReferrer();
-            }
-            // Reward referrer when variantHead buy
-            if ($sender->getType() == 10) {
-                $referrer = $sender->getReferrer();
-            }
-            // Reward referrer when variantAgency sell
-            if ($recipient->getType() == 11) {
-                $referrer = $recipient->getReferrer();
-            }
-            if (isset($referrer) && ! is_null($referrer)) {
-                $rewardRecord->setStatus(3);
-                $referrer->setReward($referrer->getReward() - $reward);
-                $rewardRecord->setReferrer($referrer);
-                $rewardRecord->setAmount(-$reward);
-                $rewardRecord->setRet($return);
-                $rewardRecord->setType(6);
-                $em->persist($rewardRecord);
             }
         }
 

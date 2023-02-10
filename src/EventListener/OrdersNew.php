@@ -15,7 +15,6 @@ use App\Entity\Product;
 use App\Entity\Stock;
 use App\Entity\Voucher;
 use App\Entity\Choice;
-use App\Entity\Reward;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Events;
 
@@ -73,32 +72,6 @@ class OrdersNew extends AbstractController
                 $em->persist($stockRecordOfBuyer);
             }
             $stockRecordOfBuyer->setStock($stockRecordOfBuyer->getStock() + $quantity);
-
-            $reward = $product->getOrgRefReward() * $quantity;
-            $rewardRecord = new Reward();
-            // Reward referrer when agency buy
-            if ($buyer->getType() == 1) {
-                $referrer = $buyer->getReferrer();
-                $rewardRecord->setType(0);
-            }
-            // Reward referrer when variantHead buy
-            if ($buyer->getType() == 10) {
-                $referrer = $buyer->getReferrer();
-                $rewardRecord->setType(1);
-            }
-            // Reward referrer when variantAgency sell
-            if ($seller->getType() == 11) {
-                $referrer = $seller->getReferrer();
-                $rewardRecord->setType(2);
-            }
-            if (isset($referrer) && ! is_null($referrer)) {
-                $rewardRecord->setStatus(0);
-                $referrer->setReward($referrer->getReward() + $reward);
-                $rewardRecord->setReferrer($referrer);
-                $rewardRecord->setAmount($reward);
-                $rewardRecord->setOrd($order);
-                $em->persist($rewardRecord);
-            }
         }
 
         $voucher = $order->getVoucher();
