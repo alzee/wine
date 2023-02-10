@@ -91,7 +91,7 @@ class MoveStockCommand extends Command
         // product
         $products = $this->em->getRepository(Product::class)->findAll();
         foreach ($products as $p) {
-            if ($p->getOrg() != $head) {
+            if ($p->getOrg() == $head) {
                 $product = $p;
             } else {
                 $product = $this->em->getRepository(Product::class)->findOneBy(['sn' => $p->getSn() , 'org' => $head]);
