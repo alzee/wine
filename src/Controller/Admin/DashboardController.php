@@ -10,6 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use App\Entity\Product;
 use App\Entity\Order;
+use App\Entity\Prize;
 use App\Entity\OrderRestaurant;
 use App\Entity\Voucher;
 use App\Entity\Stock;
@@ -170,6 +171,7 @@ class DashboardController extends AbstractDashboardController
             ];
             if ($this->isGranted('ROLE_HEAD')) {
                 array_push($items, (MenuItem::linkToCrud('CodeManage', 'fas fa-qrcode', Code::class)));
+                array_push($items, (MenuItem::linkToCrud('PrizeManage', 'fas fa-qrcode', Prize::class)));
                 array_push($items, (MenuItem::linkToCrud('NodeManage', 'fas fa-file', Node::class)));
                 array_push($items, (MenuItem::linkToCrud('CityManage', 'fas fa-city', City::class)));
                 array_push($items, (MenuItem::linkToCrud('IndustryManage', 'fas fa-industry', Industry::class)));
