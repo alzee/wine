@@ -68,6 +68,7 @@ class RetailNew extends AbstractController
         $referrer = $consumer->getReferrer();
         if (! is_null($referrer)) {
             $reward = $product->getRefReward() * $quantity;
+            $referrer->setWithdrawable($referrer->getWithdrawable() + $reward);
             $rewardRecord = new Reward();
             $rewardRecord->setType(6);
             $rewardRecord->setRetail($retail);
@@ -81,6 +82,7 @@ class RetailNew extends AbstractController
         // Reward store's referrer
         $referrer = $store->getReferrer();
         if (! is_null($referrer)) {
+            $referrer->setWithdrawable($referrer->getWithdrawable() + $reward);
             $rewardRecord = new Reward();
             // store
             if ($store->getType() == 2) {
@@ -104,6 +106,7 @@ class RetailNew extends AbstractController
         $agency = $store->getUpstream();
         $referrer = $agency->getReferrer();
         if (! is_null($referrer)) {
+            $referrer->setWithdrawable($referrer->getWithdrawable() + $reward);
             $rewardRecord = new Reward();
             // agency
             if ($agency->getType() == 1) {
@@ -125,6 +128,7 @@ class RetailNew extends AbstractController
             $variantHead = $agency->getUpstream();
             $referrer = $variantHead->getReferrer();
             if (! is_null($referrer)) {
+                $referrer->setWithdrawable($referrer->getWithdrawable() + $reward);
                 $rewardRecord = new Reward();
                 $rewardRecord->setType(1);
                 $rewardRecord->setRetail($retail);
@@ -139,8 +143,7 @@ class RetailNew extends AbstractController
         if ($store->getType() == 12) {
             // variantStoreShare
             $share = $product->getVariantStoreShare() * $quantity;
-            $store->setShare($store->getShare() + $share);
-
+            $store->setWithdrawable($store->getWithdrawable() + $share);
             $shareRecord = new Share();
             $shareRecord->setType(0);
             $shareRecord->setRetail($retail);
@@ -151,8 +154,7 @@ class RetailNew extends AbstractController
             // variantAgencyShare
             $share = $product->getVariantAgencyShare() * $quantity;
             $variantAgency = $store->getUpstream();
-            $variantAgency->setShare($variantAgency->getShare() + $share);
-
+            $variantAgency->setWithdrawable($variantAgency->getWithdrawable() + $share);
             $shareRecord = new Share();
             $shareRecord->setType(1);
             $shareRecord->setRetail($retail);
@@ -163,8 +165,7 @@ class RetailNew extends AbstractController
             // variantHeadShare
             $share = $product->getVariantHeadShare() * $quantity;
             $variantHead = $variantAgency->getUpstream();
-            $variantHead->setShare($variantHead->getShare() + $share);
-
+            $variantHead->setWithdrawable($variantHead->getWithdrawable() + $share);
             $shareRecord = new Share();
             $shareRecord->setType(2);
             $shareRecord->setRetail($retail);
