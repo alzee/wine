@@ -16,6 +16,7 @@ use App\Entity\Stock;
 use App\Entity\Restaurant;
 use App\Entity\User;
 use App\Entity\Node;
+use App\Entity\Code;
 use App\Entity\Org;
 use App\Entity\Orders;
 use App\Entity\Returns;
@@ -168,6 +169,7 @@ class DashboardController extends AbstractDashboardController
                 MenuItem::linkToCrud('UserManage', 'fas fa-user', User::class),
             ];
             if ($this->isGranted('ROLE_HEAD')) {
+                array_push($items, (MenuItem::linkToCrud('CodeManage', 'fas fa-qrcode', Code::class)));
                 array_push($items, (MenuItem::linkToCrud('NodeManage', 'fas fa-file', Node::class)));
                 array_push($items, (MenuItem::linkToCrud('CityManage', 'fas fa-city', City::class)));
                 array_push($items, (MenuItem::linkToCrud('IndustryManage', 'fas fa-industry', Industry::class)));
