@@ -71,36 +71,36 @@ class SecurityController extends AbstractDashboardController
         return $this->json($resp);
     }
 
-    #[Route(path: '/api/consumer_login', name: 'api_consumer_login', methods: ['POST'])]
-    public function consumerLogin(Request $request)
+    #[Route(path: '/api/wxlogin', name: 'api_wx_login', methods: ['POST'])]
+    public function wxLogin(Request $request)
     {
         $data = json_decode($request->getContent());
         $code = $data->code;
         $openid = $this->wx->getOpenid($code);
 
-        $consumer = $this->doctrine->getRepository(User::class)->findOneBy(['openid' => $openid]);
-        if (is_null($consumer)) {
+        $user = $this->doctrine->getRepository(User::class)->findOneBy(['openid' => $openid]);
+        if (is_null($user)) {
             // create
             $em = $this->doctrine->getManager();
-            $consumer = new User();
-            $consumer->setOpenid($openid);
+            $user = new User();
+            $user->setOpenid($openid);
             if (isset($data->referrerId)) {
                 $referrer = $this->doctrine->getRepository(User::class)->find($data->referrerId);
                 if ($referrer) {
-                    $consumer->setReferrer($referrer);
+                    $user->setReferrer($referrer);
                 }
             }
-            $em->persist($consumer);
+            $em->persist($user);
             $em->flush();
         }
 
         $resp = [
-            "uid" => $consumer->getId(),
+            "uid" => $user->getId(),
             "role" => 4,
-            "name" => $consumer->getName(),
-            "phone" => $consumer->getPhone(),
-            "voucher" => $consumer->getVoucher(),
-            "avatar" => $consumer->getAvatar(),
+            "name" => $user->getName(),
+            "phone" => $user->getPhone(),
+            "voucher" => $user->getVoucher(),
+            "avatar" => $user->getAvatar(),
         ];
         return $this->json($resp);
     }
