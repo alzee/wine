@@ -22,7 +22,6 @@ use App\Entity\Returns;
 use App\Entity\Reg;
 use App\Entity\Withdraw;
 use App\Entity\Retail;
-use App\Entity\RetailReturn;
 use App\Entity\City;
 use App\Entity\Industry;
 use App\Entity\Conf;
@@ -112,7 +111,6 @@ class DashboardController extends AbstractDashboardController
 
         if ($this->isGranted('ROLE_STORE') || $this->isGranted('ROLE_VARIANT_STORE') || $this->isGranted('ROLE_RESTAURANT')) {
             yield MenuItem::linkToCrud('Retail', 'fas fa-bag-shopping', Retail::class);
-            yield MenuItem::linkToCrud('RetailReturn', 'fas fa-cart-shopping', RetailReturn::class);
         }
 
         if ($this->isGranted('ROLE_RESTAURANT')) {

@@ -55,9 +55,6 @@ class Reward
     #[ORM\ManyToOne]
     private ?Returns $ret = null;
 
-    #[ORM\ManyToOne]
-    private ?RetailReturn $retailReturn = null;
-
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -160,18 +157,6 @@ class Reward
     public function setRet(?Returns $ret): self
     {
         $this->ret = $ret;
-
-        return $this;
-    }
-
-    public function getRetailReturn(): ?RetailReturn
-    {
-        return $this->retailReturn;
-    }
-
-    public function setRetailReturn(?RetailReturn $retailReturn): self
-    {
-        $this->retailReturn = $retailReturn;
 
         return $this;
     }
