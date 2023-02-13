@@ -21,7 +21,7 @@ class Box
     private ?string $sn = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $enc = null;
+    private ?string $cipher = null;
 
     #[ORM\OneToMany(mappedBy: 'box', targetEntity: Bottle::class)]
     private Collection $bottles;
@@ -62,14 +62,14 @@ class Box
         return $this;
     }
 
-    public function getEnc(): ?string
+    public function getCipher(): ?string
     {
-        return $this->enc;
+        return $this->cipher;
     }
 
-    public function setEnc(?string $enc): self
+    public function setCipher(?string $cipher): self
     {
-        $this->enc = $enc;
+        $this->cipher = $cipher;
 
         return $this;
     }

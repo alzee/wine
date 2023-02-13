@@ -42,7 +42,7 @@ class BoxNew extends AbstractController
         $sn = Sn::gen($id);
         $cipher = $enc->enc($sn);
         $box->setSn($sn);
-        $box->setEnc($cipher);
+        $box->setCipher($cipher);
 
         for ($i = 1; $i <= $bqty; $i++) {
             $bottle = new Bottle;
@@ -50,7 +50,7 @@ class BoxNew extends AbstractController
             $bottle_cipher = $enc->enc($bottle_sn);
             $bottle->setBox($box);
             $bottle->setSn($bottle_sn);
-            $bottle->setEnc($bottle_cipher);
+            $bottle->setCipher($bottle_cipher);
             $em->persist($bottle);
         }
         
