@@ -16,9 +16,15 @@ class BoxCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        // yield IntegerField::new('quantity');
-        yield TextField::new('sn', 'box.sn');
-        yield TextField::new('cipher');
+        yield IntegerField::new('quantity')
+            ->onlyWhenCreating()
+        ;
+        yield TextField::new('sn', 'box.sn')
+            ->hideWhenCreating()
+        ;
+        yield TextField::new('cipher')
+            ->hideWhenCreating()
+        ;
         yield IntegerField::new('bottleQty');
     }
 }
