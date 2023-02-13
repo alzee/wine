@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Box;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 
 class BoxCrudController extends AbstractCrudController
 {
@@ -12,14 +13,8 @@ class BoxCrudController extends AbstractCrudController
         return Box::class;
     }
 
-    /*
     public function configureFields(string $pageName): iterable
     {
-        return [
-            IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
-        ];
+        yield IntegerField::new('quantity');
     }
-    */
 }
