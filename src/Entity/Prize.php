@@ -33,7 +33,14 @@ class Prize
 
     public function __toString()
     {
-        return $this->name;
+        $s = $this->name;
+        if (! is_null($this->value)) {
+            $s .= ' ' . $this->value;
+        }
+        if (! is_null($this->value2)) {
+            $s .= '-' . $this->value2;
+        }
+        return $s;
     }
 
     public function getId(): ?int
