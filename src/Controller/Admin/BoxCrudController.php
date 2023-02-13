@@ -22,12 +22,12 @@ class BoxCrudController extends AbstractCrudController
             ->hideWhenCreating()
         ;
         yield IntegerField::new('quantity')
-            ->onlyWhenCreating()
+            // ->onlyWhenCreating()
         ;
-        yield TextField::new('sn', 'box.sn')
+        yield TextField::new('snStart')
             ->hideWhenCreating()
         ;
-        yield TextField::new('cipher')
+        yield TextField::new('snEnd')
             ->hideWhenCreating()
         ;
         yield IntegerField::new('bottleQty');

@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Service\Sn;
 
 #[ORM\Entity(repositoryClass: BoxRepository::class)]
 class Box
@@ -210,5 +211,15 @@ class Box
         $this->boxid = $boxid;
 
         return $this;
+    }
+
+    public function getSnStart(): string
+    {
+        return Sn::toSn($this->boxid[0]);
+    }
+
+    public function getSnEnd(): string
+    {
+        return Sn::toSn($this->boxid[1]);
     }
 }
