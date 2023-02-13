@@ -23,10 +23,13 @@ class Prize
     private ?int $expire = 365;
 
     #[ORM\Column]
-    private ?float $odds = null;
+    private ?float $odds = 0;
 
     #[ORM\Column]
-    private ?bool $big = null;
+    private ?bool $big = false;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $value2 = null;
 
     public function getId(): ?int
     {
@@ -89,6 +92,18 @@ class Prize
     public function setBig(bool $big): self
     {
         $this->big = $big;
+
+        return $this;
+    }
+
+    public function getValue2(): ?int
+    {
+        return $this->value2;
+    }
+
+    public function setValue2(int $value2): self
+    {
+        $this->value2 = $value2;
 
         return $this;
     }
