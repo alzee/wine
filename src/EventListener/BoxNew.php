@@ -10,6 +10,7 @@ namespace App\EventListener;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Box;
+use App\Entity\Bottle;
 use App\Service\Sn;
 use App\Service\Enc;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
@@ -28,6 +29,7 @@ class BoxNew extends AbstractController
     {
         $em = $event->getEntityManager();
         $qty = $box->getQuantity();
+        $bqty = $box->getBottleQty();
         
         for ($i = 1; $i < $qty; $i++) {
             $b = new Box;
@@ -41,6 +43,13 @@ class BoxNew extends AbstractController
         $cipher = $enc->enc($sn);
         $box->setSn($sn);
         $box->setEnc($cipher);
+
+        for ($i = 1; $i <= $bqty; $i++) {
+            $bottle = new Bottle;
+            $bottle->setBox($box);
+            $bottle->setSn($sn . $i);
+            $em->persist($bottle);
+        }
         
         $em->flush();
     }
