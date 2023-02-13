@@ -21,14 +21,14 @@ class BoxPrizeCrudController extends AbstractCrudController
         //     ->onlyWhenCreating()
         // ;
         yield AssociationField::new('prize')
-            ->onlyWhenCreating()
+            // ->onlyWhenCreating()
             ->setQueryBuilder(
                 fn (QueryBuilder $qb) => $qb
                     ->andWhere('entity.big = 0')
             )
         ;
         yield IntegerField::new('qty')
-            ->onlyWhenCreating()
+            // ->onlyWhenCreating()
         ;
     }
 }

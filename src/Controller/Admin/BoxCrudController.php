@@ -32,7 +32,7 @@ class BoxCrudController extends AbstractCrudController
         ;
         yield IntegerField::new('bottleQty');
         yield CollectionField::new('boxPrizes')
-            ->onlyWhenCreating()
+            // ->onlyWhenCreating()
             // ->allowAdd(false)
             // ->allowDelete(false)
             ->renderExpanded()

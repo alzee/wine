@@ -29,6 +29,7 @@ class Box
     private ?int $bottleQty = 6;
 
     #[ORM\OneToMany(mappedBy: 'box', targetEntity: BoxPrize::class, orphanRemoval: true, cascade: ["persist"])]
+    #[Assert\Valid]
     private Collection $boxPrizes;
 
     #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
