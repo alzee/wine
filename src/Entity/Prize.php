@@ -22,6 +22,12 @@ class Prize
     #[ORM\Column]
     private ?int $expire = 365;
 
+    #[ORM\Column]
+    private ?float $odds = null;
+
+    #[ORM\Column]
+    private ?bool $big = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +65,30 @@ class Prize
     public function setExpire(int $expire): self
     {
         $this->expire = $expire;
+
+        return $this;
+    }
+
+    public function getOdds(): ?float
+    {
+        return $this->odds;
+    }
+
+    public function setOdds(float $odds): self
+    {
+        $this->odds = $odds;
+
+        return $this;
+    }
+
+    public function isBig(): ?bool
+    {
+        return $this->big;
+    }
+
+    public function setBig(bool $big): self
+    {
+        $this->big = $big;
 
         return $this;
     }
