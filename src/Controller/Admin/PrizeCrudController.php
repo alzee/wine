@@ -24,7 +24,7 @@ class PrizeCrudController extends AbstractCrudController
         yield IntegerField::new('value2');
         yield IntegerField::new('expire');
         yield NumberField::new('odds')
-            ->setNumDecimals(6)
+            ->setNumDecimals(8)
             // ->setRoundingMode(\NumberFormatter::GROUPING_SIZE)
             ;
         yield BooleanField::new('big');
