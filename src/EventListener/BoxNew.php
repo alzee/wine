@@ -46,8 +46,11 @@ class BoxNew extends AbstractController
 
         for ($i = 1; $i <= $bqty; $i++) {
             $bottle = new Bottle;
+            $bottle_sn = $sn . $i;
+            $bottle_cipher = $enc->enc($bottle_sn);
             $bottle->setBox($box);
-            $bottle->setSn($sn . $i);
+            $bottle->setSn($bottle_sn);
+            $bottle->setEnc($bottle_cipher);
             $em->persist($bottle);
         }
         

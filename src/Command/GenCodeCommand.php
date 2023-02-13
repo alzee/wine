@@ -56,7 +56,7 @@ class GenCodeCommand extends Command
 
         // $io->info(Sn::gen(100000));
         $enc = new Enc;
-        dump($enc->dec('lx0JnYM3JqoCrQ==.FODoQ7az3T/yrGp7.oENgbCP3E7/PvgkQLGEiXQ=='));
+        dump($enc->dec('V5GHIv1aml4TZrs=.RJPDH6u7U3ehI+ur.+XUr4d7Sq3pcJ0FGpFM3gg=='));
         return Command::SUCCESS;
     }
 }
