@@ -16,30 +16,18 @@ class BoxPrize
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Box $box = null;
-
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
     private ?Prize $prize = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $qty = null;
 
+    #[ORM\ManyToOne(inversedBy: 'boxPrizes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Box $box = null;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getBox(): ?Box
-    {
-        return $this->box;
-    }
-
-    public function setBox(?Box $box): self
-    {
-        $this->box = $box;
-
-        return $this;
     }
 
     public function getPrize(): ?Prize
@@ -62,6 +50,18 @@ class BoxPrize
     public function setQty(int $qty): self
     {
         $this->qty = $qty;
+
+        return $this;
+    }
+
+    public function getBox(): ?Box
+    {
+        return $this->box;
+    }
+
+    public function setBox(?Box $box): self
+    {
+        $this->box = $box;
 
         return $this;
     }

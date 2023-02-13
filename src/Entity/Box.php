@@ -39,10 +39,14 @@ class Box
     #[Assert\LessThanOrEqual(10)]
     private ?int $bottleQty = 6;
 
+    #[ORM\OneToMany(mappedBy: 'box', targetEntity: BoxPrize::class, orphanRemoval: true)]
+    private Collection $boxPrizes;
+
     public function __construct()
     {
         $this->bottles = new ArrayCollection();
         $this->orders = new ArrayCollection();
+        $this->boxPrizes = new ArrayCollection();
     }
 
     public function __toString()
@@ -159,6 +163,36 @@ class Box
     public function setBottleQty(int $bottleQty): self
     {
         $this->bottleQty = $bottleQty;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, BoxPrize>
+     */
+    public function getBoxPrizes(): Collection
+    {
+        return $this->boxPrizes;
+    }
+
+    public function addBoxPrize(BoxPrize $boxPrize): self
+    {
+        if (!$this->boxPrizes->contains($boxPrize)) {
+            $this->boxPrizes->add($boxPrize);
+            $boxPrize->setBox($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBoxPrize(BoxPrize $boxPrize): self
+    {
+        if ($this->boxPrizes->removeElement($boxPrize)) {
+            // set the owning side to null (unless already changed)
+            if ($boxPrize->getBox() === $this) {
+                $boxPrize->setBox(null);
+            }
+        }
 
         return $this;
     }
