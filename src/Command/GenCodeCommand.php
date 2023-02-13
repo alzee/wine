@@ -11,6 +11,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Code;
+use App\Service\Enc;
+use App\Service\Sn;
 
 #[AsCommand(
     name: 'app:gen-code',
@@ -19,10 +21,12 @@ use App\Entity\Code;
 class GenCodeCommand extends Command
 {
     private $em;
+    private $enc;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(Enc $enc, EntityManagerInterface $em)
     {
         $this->em = $em;
+        $this->enc = $enc;
 
         parent::__construct();
     }
@@ -49,35 +53,10 @@ class GenCodeCommand extends Command
         }
 
         // $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
-        $cipher = "aes-128-gcm";
-        // $cipher = "aes-128-cbc";
-        $code = new Code();
-        $this->em->persist($code);
-        // $this->em->flush();
-        $ciphers = openssl_get_cipher_methods();
-        // dump($ciphers);
 
-        $key = '123';
-        $plaintext = 'A0000100';
-        $ivlen = openssl_cipher_iv_length($cipher);
-        $iv = openssl_random_pseudo_bytes($ivlen);
-        $ciphertext = openssl_encrypt($plaintext, $cipher, $key, $options=0, $iv, $tag);
-        // dump($ivlen);
-        // dump(base64_encode($iv));
-        // dump($ciphertext);
-
-        $original_plaintext = openssl_decrypt($ciphertext, $cipher, $key, $options=0, $iv, $tag);
-        // dump($original_plaintext);
-
-        // $io->info($ciphertext);
-
-        // https://stackoverflow.com/a/12001085/7714132
-        $start = 'A0000000';
-        $id = 1;
-        $start_base10 = base_convert($start, 36, 10);
-        $base36 = base_convert($id + $start_base10, 10, 36);
-        $base36 = strtoupper($base36);
-        dump($base36);
+        // $io->info(Sn::gen(100000));
+        $enc = new Enc;
+        dump($enc->dec('lx0JnYM3JqoCrQ==.FODoQ7az3T/yrGp7.oENgbCP3E7/PvgkQLGEiXQ=='));
         return Command::SUCCESS;
     }
 }
