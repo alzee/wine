@@ -42,6 +42,18 @@ class Box
     #[ORM\OneToMany(mappedBy: 'box', targetEntity: BoxPrize::class, orphanRemoval: true, cascade: ["persist"])]
     private Collection $boxPrizes;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $snStart = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $snEnd = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $idStart = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $idEnd = null;
+
     public function __construct()
     {
         $this->bottles = new ArrayCollection();
@@ -193,6 +205,54 @@ class Box
                 $boxPrize->setBox(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSnStart(): ?string
+    {
+        return $this->snStart;
+    }
+
+    public function setSnStart(?string $snStart): self
+    {
+        $this->snStart = $snStart;
+
+        return $this;
+    }
+
+    public function getSnEnd(): ?string
+    {
+        return $this->snEnd;
+    }
+
+    public function setSnEnd(?string $snEnd): self
+    {
+        $this->snEnd = $snEnd;
+
+        return $this;
+    }
+
+    public function getIdStart(): ?int
+    {
+        return $this->idStart;
+    }
+
+    public function setIdStart(?int $idStart): self
+    {
+        $this->idStart = $idStart;
+
+        return $this;
+    }
+
+    public function getIdEnd(): ?int
+    {
+        return $this->idEnd;
+    }
+
+    public function setIdEnd(?int $idEnd): self
+    {
+        $this->idEnd = $idEnd;
 
         return $this;
     }
