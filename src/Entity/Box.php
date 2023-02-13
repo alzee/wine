@@ -27,6 +27,9 @@ class Box
     #[ORM\OneToMany(mappedBy: 'box', targetEntity: Orders::class)]
     private Collection $orders;
 
+    #[ORM\Column]
+    private ?int $quantity = null;
+
     public function __construct()
     {
         $this->bottles = new ArrayCollection();
@@ -118,6 +121,18 @@ class Box
                 $order->setBox(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getQuantity(): ?int
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(int $quantity): self
+    {
+        $this->quantity = $quantity;
 
         return $this;
     }
