@@ -42,6 +42,9 @@ class Box
     #[ORM\OneToMany(mappedBy: 'box', targetEntity: BoxPrize::class, orphanRemoval: true, cascade: ["persist"])]
     private Collection $boxPrizes;
 
+    #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
+    private array $boxid = [];
+
     public function __construct()
     {
         $this->bottles = new ArrayCollection();
@@ -193,6 +196,18 @@ class Box
                 $boxPrize->setBox(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getBoxid(): array
+    {
+        return $this->boxid;
+    }
+
+    public function setBoxid(?array $boxid): self
+    {
+        $this->boxid = $boxid;
 
         return $this;
     }
