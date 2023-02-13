@@ -6,6 +6,7 @@ use App\Entity\Box;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 
 class BoxCrudController extends AbstractCrudController
 {
@@ -26,5 +27,12 @@ class BoxCrudController extends AbstractCrudController
             ->hideWhenCreating()
         ;
         yield IntegerField::new('bottleQty');
+        yield CollectionField::new('boxPrize')
+            ->onlyWhenCreating()
+            ->allowAdd(false)
+            ->allowDelete(false)
+            ->renderExpanded()
+            ->setRequired(true)
+            ->useEntryCrudForm();
     }
 }
