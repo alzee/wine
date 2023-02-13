@@ -39,7 +39,7 @@ class Box
     #[Assert\LessThanOrEqual(10)]
     private ?int $bottleQty = 6;
 
-    #[ORM\OneToMany(mappedBy: 'box', targetEntity: BoxPrize::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'box', targetEntity: BoxPrize::class, orphanRemoval: true, cascade: ["persist"])]
     private Collection $boxPrizes;
 
     public function __construct()
