@@ -10,15 +10,14 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\Code;
 use App\Service\Enc;
 use App\Service\Sn;
 
 #[AsCommand(
-    name: 'app:gen-code',
-    description: 'Genarate product codes',
+    name: 'app:sn',
+    description: 'sn to id convert or inversely',
 )]
-class GenCodeCommand extends Command
+class SnCommand extends Command
 {
     private $em;
     private $enc;
@@ -34,7 +33,7 @@ class GenCodeCommand extends Command
     protected function configure(): void
     {
         $this
-            ->addArgument('arg1', InputArgument::OPTIONAL, 'Argument description')
+            ->addArgument('id', InputArgument::REQUIRED, 'Argument description')
             ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description')
         ;
     }
@@ -42,10 +41,10 @@ class GenCodeCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $arg1 = $input->getArgument('arg1');
+        $arg1 = $input->getArgument('id');
 
         if ($arg1) {
-            $io->note(sprintf('You passed an argument: %s', $arg1));
+            // $io->note(sprintf('You passed an argument: %s', $arg1));
         }
 
         if ($input->getOption('option1')) {
@@ -54,9 +53,11 @@ class GenCodeCommand extends Command
 
         // $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
 
-        // $io->info(Sn::gen(100000));
-        $enc = new Enc;
-        dump($enc->dec('V5GHIv1aml4TZrs=.RJPDH6u7U3ehI+ur.+XUr4d7Sq3pcJ0FGpFM3gg=='));
+        $sn = Sn::toSn($arg1);
+        $id = Sn::toId($sn);
+
+        dump($sn);
+        dump($id);
         return Command::SUCCESS;
     }
 }
