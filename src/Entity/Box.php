@@ -24,9 +24,13 @@ class Box
     #[ORM\OneToMany(mappedBy: 'box', targetEntity: Bottle::class)]
     private Collection $bottles;
 
+    #[ORM\OneToMany(mappedBy: 'box', targetEntity: Orders::class)]
+    private Collection $orders;
+
     public function __construct()
     {
         $this->bottles = new ArrayCollection();
+        $this->orders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -82,6 +86,36 @@ class Box
             // set the owning side to null (unless already changed)
             if ($bottle->getBox() === $this) {
                 $bottle->setBox(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Orders>
+     */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function addOrder(Orders $order): self
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders->add($order);
+            $order->setBox($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrder(Orders $order): self
+    {
+        if ($this->orders->removeElement($order)) {
+            // set the owning side to null (unless already changed)
+            if ($order->getBox() === $this) {
+                $order->setBox(null);
             }
         }
 
