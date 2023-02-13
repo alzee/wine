@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\BoxRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -32,6 +33,11 @@ class Box
     #[Assert\Positive]
     #[Assert\LessThanOrEqual(1000)]
     private ?int $quantity = 1000;
+
+    #[ORM\Column(type: Types::SMALLINT)]
+    #[Assert\Positive]
+    #[Assert\LessThanOrEqual(10)]
+    private ?int $bottleQty = 6;
 
     public function __construct()
     {
@@ -136,6 +142,18 @@ class Box
     public function setQuantity(int $quantity): self
     {
         $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    public function getBottleQty(): ?int
+    {
+        return $this->bottleQty;
+    }
+
+    public function setBottleQty(int $bottleQty): self
+    {
+        $this->bottleQty = $bottleQty;
 
         return $this;
     }

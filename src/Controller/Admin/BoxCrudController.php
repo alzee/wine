@@ -16,5 +16,6 @@ class BoxCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         yield IntegerField::new('quantity');
+        yield IntegerField::new('bottleQty');
     }
 }
