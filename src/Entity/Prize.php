@@ -22,8 +22,8 @@ class Prize
     #[ORM\Column]
     private ?int $expire = 365;
 
-    #[ORM\Column]
-    private ?float $odds = 0;
+    #[ORM\Column(nullable: true)]
+    private ?float $odds = null;
 
     #[ORM\Column]
     private ?bool $big = false;
@@ -77,7 +77,7 @@ class Prize
         return $this->odds;
     }
 
-    public function setOdds(float $odds): self
+    public function setOdds(?float $odds): self
     {
         $this->odds = $odds;
 
@@ -101,7 +101,7 @@ class Prize
         return $this->value2;
     }
 
-    public function setValue2(int $value2): self
+    public function setValue2(?int $value2): self
     {
         $this->value2 = $value2;
 
