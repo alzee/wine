@@ -20,6 +20,9 @@ class Bottle
     #[ORM\Column(length: 255)]
     private ?string $sn = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $enc = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -45,6 +48,18 @@ class Bottle
     public function setSn(string $sn): self
     {
         $this->sn = $sn;
+
+        return $this;
+    }
+
+    public function getEnc(): ?string
+    {
+        return $this->enc;
+    }
+
+    public function setEnc(string $enc): self
+    {
+        $this->enc = $enc;
 
         return $this;
     }
