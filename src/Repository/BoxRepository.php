@@ -39,6 +39,16 @@ class BoxRepository extends ServiceEntityRepository
         }
     }
 
+    public function findLast(): ?Box
+    {
+        return $this->createQueryBuilder('b')
+                    ->orderBy('b.id', 'DESC')
+                    ->setMaxResults(1)
+                    ->getQuery()
+                    ->getOneOrNullResult()
+        ;
+    }
+
 //    /**
 //     * @return Box[] Returns an array of Box objects
 //     */

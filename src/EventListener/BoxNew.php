@@ -18,42 +18,24 @@ use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Events;
 
 #[AsEntityListener(event: Events::prePersist, entity: Box::class)]
-#[AsEntityListener(event: Events::postPersist, entity: Box::class)]
 class BoxNew extends AbstractController
 {
     public function prePersist(Box $box, LifecycleEventArgs $event): void
     {
-    }
-
-    public function postPersist(Box $box, LifecycleEventArgs $event): void
-    {
         $em = $event->getEntityManager();
+        $last = $em->getRepository(Box::class)->findLast();
         $qty = $box->getQuantity();
-        $bqty = $box->getBottleQty();
-        
-        for ($i = 1; $i < $qty; $i++) {
-            $b = new Box;
-            $b->setQuantity(1);
-            $em->persist($b);
+        if (is_null($last)) {
+            $start = 1;
+        } else if (empty($last->getBoxid())) {
+            // $em->remove($last);
+            // $em->remove($box);
+            // return;
+        } else {
+            $start = $last->getBoxid()[1] + 1;
         }
-        
-        $enc = new Enc();
-        $id = $box->getId();
-        $sn = Sn::gen($id);
-        $cipher = $enc->enc($sn);
-        $box->setSn($sn);
-        $box->setCipher($cipher);
-
-        for ($i = 1; $i <= $bqty; $i++) {
-            $bottle = new Bottle;
-            $bottle_sn = $sn . '.' . $i;
-            $bottle_cipher = $enc->enc($bottle_sn);
-            $bottle->setBox($box);
-            $bottle->setSn($bottle_sn);
-            $bottle->setCipher($bottle_cipher);
-            $em->persist($bottle);
-        }
-        
-        $em->flush();
+        $end = $start + $qty - 1;
+        $boxid = [$start, $end];
+        $box->setBoxid($boxid);
     }
 }
