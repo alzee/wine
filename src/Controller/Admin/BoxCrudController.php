@@ -8,6 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 
 class BoxCrudController extends AbstractCrudController
 {
@@ -19,7 +20,7 @@ class BoxCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         yield IdField::new('id', 'box.id')
-            ->hideWhenCreating()
+            ->hideOnForm()
         ;
         yield IntegerField::new('quantity')
             // ->onlyWhenCreating()
@@ -32,11 +33,15 @@ class BoxCrudController extends AbstractCrudController
         ;
         yield IntegerField::new('bottleQty');
         yield CollectionField::new('boxPrizes')
-            // ->onlyWhenCreating()
+            ->hideOnIndex()
             // ->allowAdd(false)
             // ->allowDelete(false)
             ->renderExpanded()
             ->setRequired(true)
-            ->useEntryCrudForm();
+            ->useEntryCrudForm()
+        ;
+        yield ArrayField::new('boxPrizes')
+            ->onlyOnIndex()
+        ;
     }
 }

@@ -33,6 +33,11 @@ class Prize
 
     public function __toString()
     {
+        return $this->getInfo();
+    }
+
+    public function getInfo()
+    {
         $s = $this->name;
         if (! is_null($this->value)) {
             $s .= ' ' . $this->value;

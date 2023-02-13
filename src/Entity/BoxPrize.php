@@ -27,6 +27,12 @@ class BoxPrize
     #[ORM\JoinColumn(nullable: false)]
     private ?Box $box = null;
 
+    public function __toString()
+    {
+        $s = $this->prize->getInfo() . ' x ' . $this->qty;
+        return $s;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
