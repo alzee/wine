@@ -19,6 +19,9 @@ class Prize
     #[ORM\Column(nullable: true)]
     private ?int $value = null;
 
+    #[ORM\Column]
+    private ?int $expire = 365;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -44,6 +47,18 @@ class Prize
     public function setValue(?int $value): self
     {
         $this->value = $value;
+
+        return $this;
+    }
+
+    public function getExpire(): ?int
+    {
+        return $this->expire;
+    }
+
+    public function setExpire(int $expire): self
+    {
+        $this->expire = $expire;
 
         return $this;
     }

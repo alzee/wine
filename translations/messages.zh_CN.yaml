@@ -31,7 +31,7 @@ Sn: 商品编号
 Contact: 联系人
 Phone: 电话
 Address: 详细地址
-Value: 面值
+Value: 数值
 Username: 用户名
 Password: 密码
 Roles: 角色
@@ -175,3 +175,4 @@ PrizeManage: 奖项管理
 Prize: 奖项
 Bottle Qty: 瓶每箱
 Cipher: 密文
+Expire: 兑奖期限（天）
