@@ -16,6 +16,9 @@ class Prize
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $value = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -29,6 +32,18 @@ class Prize
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getValue(): ?int
+    {
+        return $this->value;
+    }
+
+    public function setValue(?int $value): self
+    {
+        $this->value = $value;
 
         return $this;
     }
