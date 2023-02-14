@@ -18,6 +18,7 @@ use App\Entity\Restaurant;
 use App\Entity\User;
 use App\Entity\Node;
 use App\Entity\Box;
+use App\Entity\Batch;
 use App\Entity\BoxPrize;
 use App\Entity\Bottle;
 use App\Entity\Org;
@@ -172,6 +173,7 @@ class DashboardController extends AbstractDashboardController
                 MenuItem::linkToCrud('UserManage', 'fas fa-user', User::class),
             ];
             if ($this->isGranted('ROLE_HEAD')) {
+                array_push($items, (MenuItem::linkToCrud('BatchManage', 'fas fa-box', Batch::class)));
                 array_push($items, (MenuItem::linkToCrud('BoxManage', 'fas fa-box', Box::class)));
                 array_push($items, (MenuItem::linkToCrud('BoxPrize', 'fas fa-bottle-water', BoxPrize::class)));
                 array_push($items, (MenuItem::linkToCrud('BottleManage', 'fas fa-bottle-water', Bottle::class)));
