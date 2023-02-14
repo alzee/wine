@@ -182,8 +182,7 @@ Big: 大奖
 Box Prizes: 每箱奖项
 Batch Prizes: 每箱奖项
 Qty: 数量
-batch.id: 批次号
-Batch: 批次
+Batch: 批量
 Sn Start: 起始箱码
 Sn End: 结束箱码
-BatchManage: 批次管理
+BatchManage: 批量管理
