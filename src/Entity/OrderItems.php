@@ -42,6 +42,9 @@ class OrderItems
     #[ORM\Column]
     private ?int $start = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $snStart = null;
+
     public function __toString(): string
     {
         return $this->product;
@@ -96,6 +99,18 @@ class OrderItems
     public function setStart(int $start): self
     {
         $this->start = $start;
+
+        return $this;
+    }
+
+    public function getSnStart(): ?string
+    {
+        return $this->snStart;
+    }
+
+    public function setSnStart(string $snStart): self
+    {
+        $this->snStart = $snStart;
 
         return $this;
     }

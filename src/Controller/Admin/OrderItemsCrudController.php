@@ -6,6 +6,7 @@ use App\Entity\OrderItems;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Doctrine\ORM\QueryBuilder;
 
 class OrderItemsCrudController extends AbstractCrudController
@@ -40,6 +41,8 @@ class OrderItemsCrudController extends AbstractCrudController
         yield IntegerField::new('quantity')
             ->setFormTypeOptions(['disabled' => 'disabled'])
             ->HideWhenCreating()
+            ;
+        yield TextField::new('snStart')
             ;
     }
 }
