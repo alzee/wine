@@ -31,9 +31,6 @@ class Batch
     #[ORM\Column]
     private ?int $start = null;
 
-    #[ORM\Column]
-    private ?int $end = null;
-
     #[ORM\OneToMany(mappedBy: 'batch', targetEntity: BatchPrize::class, orphanRemoval: true, cascade: ["persist"])]
     #[Assert\Valid]
     private Collection $batchPrizes;
@@ -84,18 +81,6 @@ class Batch
         return $this;
     }
 
-    public function getEnd(): ?int
-    {
-        return $this->end;
-    }
-
-    public function setEnd(int $end): self
-    {
-        $this->end = $end;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, BatchPrize>
      */
@@ -133,6 +118,6 @@ class Batch
 
     public function getSnEnd(): string
     {
-        return Sn::toSn($this->end);
+        return Sn::toSn($this->start + $this->qty - 1);
     }
 }

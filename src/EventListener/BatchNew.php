@@ -27,15 +27,13 @@ class BatchNew extends AbstractController
         $qty = $batch->getQty();
         if (is_null($last)) {
             $start = 1;
-        } else if (is_null($last->getEnd())) {
+        } else if (is_null($last->getStart()) || is_null($last->getQty())) {
             // $em->remove($last);
             // $em->remove($batch);
             // return;
         } else {
-            $start = $last->getEnd() + 1;
+            $start = $last->getStart() + $last->getQty();
         }
-        $end = $start + $qty - 1;
         $batch->setStart($start);
-        $batch->setEnd($end);
     }
 }
