@@ -39,6 +39,9 @@ class OrderItems
     #[Groups(['read', 'write'])]
     private ?Orders $ord = null;
 
+    #[ORM\Column]
+    private ?int $start = null;
+
     public function __toString(): string
     {
         return $this->product;
@@ -81,6 +84,18 @@ class OrderItems
     public function setOrd(?Orders $ord): self
     {
         $this->ord = $ord;
+
+        return $this;
+    }
+
+    public function getStart(): ?int
+    {
+        return $this->start;
+    }
+
+    public function setStart(int $start): self
+    {
+        $this->start = $start;
 
         return $this;
     }
