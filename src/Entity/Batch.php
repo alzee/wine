@@ -3,8 +3,12 @@
 namespace App\Entity;
 
 use App\Repository\BatchRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use App\Service\Sn;
 
 #[ORM\Entity(repositoryClass: BatchRepository::class)]
 class Batch
@@ -15,16 +19,29 @@ class Batch
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Assert\Positive]
+    #[Assert\LessThanOrEqual(1000)]
     private ?int $qty = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
-    private ?int $bottleQty = null;
+    #[Assert\Positive]
+    #[Assert\LessThanOrEqual(10)]
+    private ?int $bottleQty = 6;
 
     #[ORM\Column]
     private ?int $start = null;
 
     #[ORM\Column]
     private ?int $end = null;
+
+    #[ORM\OneToMany(mappedBy: 'batch', targetEntity: BatchPrize::class, orphanRemoval: true, cascade: ["persist"])]
+    #[Assert\Valid]
+    private Collection $batchPrizes;
+
+    public function __construct()
+    {
+        $this->batchPrizes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -77,5 +94,45 @@ class Batch
         $this->end = $end;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, BatchPrize>
+     */
+    public function getBatchPrizes(): Collection
+    {
+        return $this->batchPrizes;
+    }
+
+    public function addBatchPrize(BatchPrize $batchPrize): self
+    {
+        if (!$this->batchPrizes->contains($batchPrize)) {
+            $this->batchPrizes->add($batchPrize);
+            $batchPrize->setBatch($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBatchPrize(BatchPrize $batchPrize): self
+    {
+        if ($this->batchPrizes->removeElement($batchPrize)) {
+            // set the owning side to null (unless already changed)
+            if ($batchPrize->getBatch() === $this) {
+                $batchPrize->setBatch(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getSnStart(): string
+    {
+        return Sn::toSn($this->start);
+    }
+
+    public function getSnEnd(): string
+    {
+        return Sn::toSn($this->end);
     }
 }

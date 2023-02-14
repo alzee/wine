@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\Batch;
+use App\Entity\BatchPrize;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Batch>
+ * @extends ServiceEntityRepository<BatchPrize>
  *
- * @method Batch|null find($id, $lockMode = null, $lockVersion = null)
- * @method Batch|null findOneBy(array $criteria, array $orderBy = null)
- * @method Batch[]    findAll()
- * @method Batch[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method BatchPrize|null find($id, $lockMode = null, $lockVersion = null)
+ * @method BatchPrize|null findOneBy(array $criteria, array $orderBy = null)
+ * @method BatchPrize[]    findAll()
+ * @method BatchPrize[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class BatchRepository extends ServiceEntityRepository
+class BatchPrizeRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Batch::class);
+        parent::__construct($registry, BatchPrize::class);
     }
 
-    public function save(Batch $entity, bool $flush = false): void
+    public function save(BatchPrize $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class BatchRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Batch $entity, bool $flush = false): void
+    public function remove(BatchPrize $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -39,18 +39,8 @@ class BatchRepository extends ServiceEntityRepository
         }
     }
 
-    public function findLast(): ?Batch
-    {
-        return $this->createQueryBuilder('b')
-                    ->orderBy('b.id', 'DESC')
-                    ->setMaxResults(1)
-                    ->getQuery()
-                    ->getOneOrNullResult()
-        ;
-    }
-
 //    /**
-//     * @return Batch[] Returns an array of Batch objects
+//     * @return BatchPrize[] Returns an array of BatchPrize objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -64,7 +54,7 @@ class BatchRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Batch
+//    public function findOneBySomeField($value): ?BatchPrize
 //    {
 //        return $this->createQueryBuilder('b')
 //            ->andWhere('b.exampleField = :val')

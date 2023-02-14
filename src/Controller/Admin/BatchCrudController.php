@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Batch;
+use App\Entity\BatchPrize;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
@@ -32,7 +33,7 @@ class BatchCrudController extends AbstractCrudController
             ->hideWhenCreating()
         ;
         yield IntegerField::new('bottleQty');
-        yield CollectionField::new('boxPrizes')
+        yield CollectionField::new('batchPrizes')
             ->hideOnIndex()
             // ->allowAdd(false)
             // ->allowDelete(false)
@@ -40,8 +41,17 @@ class BatchCrudController extends AbstractCrudController
             ->setRequired(true)
             ->useEntryCrudForm()
         ;
-        yield ArrayField::new('boxPrizes')
+        yield ArrayField::new('batchPrizes')
             ->onlyOnIndex()
         ;
+    }
+
+    public function createEntity(string $entityFqcn)
+    {
+        $batch = new Batch();
+        $item = new BatchPrize();
+        $batch->addBatchPrize($item);
+
+        return $batch;
     }
 }

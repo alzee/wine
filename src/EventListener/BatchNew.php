@@ -9,7 +9,7 @@ namespace App\EventListener;
 
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Entity\Box;
+use App\Entity\Batch;
 use App\Entity\Bottle;
 use App\Service\Sn;
 use App\Service\Enc;
@@ -17,25 +17,25 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Events;
 
-#[AsEntityListener(event: Events::prePersist, entity: Box::class)]
-class BoxNew extends AbstractController
+#[AsEntityListener(event: Events::prePersist, entity: Batch::class)]
+class BatchNew extends AbstractController
 {
-    public function prePersist(Box $box, LifecycleEventArgs $event): void
+    public function prePersist(Batch $batch, LifecycleEventArgs $event): void
     {
         $em = $event->getEntityManager();
-        $last = $em->getRepository(Box::class)->findLast();
-        $qty = $box->getQuantity();
+        $last = $em->getRepository(Batch::class)->findLast();
+        $qty = $batch->getQty();
         if (is_null($last)) {
             $start = 1;
-        } else if (empty($last->getBoxid())) {
+        } else if (is_null($last->getEnd())) {
             // $em->remove($last);
-            // $em->remove($box);
+            // $em->remove($batch);
             // return;
         } else {
-            $start = $last->getBoxid()[1] + 1;
+            $start = $last->getEnd() + 1;
         }
         $end = $start + $qty - 1;
-        $boxid = [$start, $end];
-        $box->setBoxid($boxid);
+        $batch->setStart($start);
+        $batch->setEnd($end);
     }
 }
