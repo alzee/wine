@@ -35,6 +35,9 @@ class Batch
     #[Assert\Valid]
     private Collection $batchPrizes;
 
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $type = null;
+
     public function __construct()
     {
         $this->batchPrizes = new ArrayCollection();
@@ -119,5 +122,17 @@ class Batch
     public function getSnEnd(): string
     {
         return Sn::toSn($this->start + $this->qty - 1);
+    }
+
+    public function getType(): ?int
+    {
+        return $this->type;
+    }
+
+    public function setType(int $type): self
+    {
+        $this->type = $type;
+
+        return $this;
     }
 }

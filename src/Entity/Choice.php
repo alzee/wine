@@ -4,6 +4,12 @@ namespace App\Entity;
 
 class Choice
 {
+    public const BATCH_TYPES = [
+        'prize' => 0,
+        'ord' => 1,
+        'ret' => 2,
+    ];
+
     public const REWARD_TYPES = [
         'agency' => 0,
         'variant_head' => 1,
