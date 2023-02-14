@@ -110,6 +110,12 @@ class SaleCrudController extends AbstractCrudController
             ->allowAdd(false)
             ->allowDelete(false)
             ->useEntryCrudForm();
+        yield IntegerField::new('snStart')
+            ->onlyOnIndex()
+            ;
+        yield IntegerField::new('snEnd')
+            ->onlyOnIndex()
+            ;
         yield MoneyField::new('amount')
             ->setCurrency('CNY')
             ->onlyOnIndex();
