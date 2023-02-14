@@ -161,6 +161,11 @@ class Orders
         return $this->note;
     }
 
+    public function getFirst()
+    {
+        return $this->getOrderItems()[0];
+    }
+
     public function getFirstProduct()
     {
         return $this->getOrderItems()[0]->getProduct();
@@ -218,5 +223,15 @@ class Orders
         $this->box = $box;
 
         return $this;
+    }
+
+    public function getSnStart(): string
+    {
+        return $this->getFirst()->getSnStart();
+    }
+
+    public function getSnEnd(): string
+    {
+        return Sn::toSn($this->getFirst()->getStart() + $this->getFirstProductQuantity() - 1);
     }
 }
