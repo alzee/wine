@@ -215,10 +215,11 @@ class DashboardController extends AbstractDashboardController
             ;
     }
 
-    // public function configureAssets(): Assets
-    // {
-    //     return Assets::new()
-    //         ->addJsFile(Asset::new('js/initChart.js')->defer())
-    //     ;
-    // }
+    public function configureAssets(): Assets
+    {
+        return Assets::new()
+            // ->addJsFile(Asset::new('js/initChart.js')->defer())
+            ->addCssFile('css/main.css')
+        ;
+    }
 }
