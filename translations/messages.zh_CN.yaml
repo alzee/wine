@@ -181,6 +181,7 @@ Odds: 中奖率
 Big: 大奖
 Box Prizes: 每箱奖项
 Qty: 数量
-box.id: 批次号
+batch.id: 批次号
+Batch: 批次
 Sn Start: 起始箱码
 Sn End: 结束箱码

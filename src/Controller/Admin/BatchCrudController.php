@@ -20,7 +20,7 @@ class BatchCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        yield IdField::new('id', 'box.id')
+        yield IdField::new('id', 'batch.id')
             ->hideOnForm()
         ;
         yield IntegerField::new('qty')
