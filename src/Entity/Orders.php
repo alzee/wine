@@ -68,9 +68,6 @@ class Orders
     #[ORM\ManyToOne(inversedBy: 'orders')]
     private ?Box $box = null;
 
-    #[ORM\Column]
-    private ?int $start = null;
-
     public function __toString()
     {
         return '#' . $this->id;
@@ -221,27 +218,5 @@ class Orders
         $this->box = $box;
 
         return $this;
-    }
-
-    public function getStart(): ?int
-    {
-        return $this->start;
-    }
-
-    public function setStart(int $start): self
-    {
-        $this->start = $start;
-
-        return $this;
-    }
-
-    public function getSnStart(): string
-    {
-        return Sn::toSn($this->start);
-    }
-
-    public function getSnEnd(): string
-    {
-        return Sn::toSn($this->start + $this->getFirstProductQuantity() - 1);
     }
 }
