@@ -26,6 +26,7 @@ class BatchNew extends AbstractController
         $snStart = $batch->getSnStart();
         $snEnd = $batch->getSnEnd();
         $qty = $batch->getQty();
+        $type = $batch->getType();
         
         if (is_null($snStart)) {
             $lastBox = $em->getRepository(Box::class)->findLast();
@@ -47,6 +48,28 @@ class BatchNew extends AbstractController
             if (is_null($snEnd)) {
                 $snEnd = Sn::toSn($start + $qty - 1);
                 $batch->setSnEnd($snEnd);
+            }
+        }
+        
+        if ($type === 0) {
+            for ($i = 0; $i < $qty; $i++) {
+                $box = new Box;
+                $box->setSn(Sn::toSn($start + $i));
+                $cipsers = [0,1,2,3,4,5];
+                $prizes = [0,1,2,3,4,5];
+                $box->setCipher($cipsers);
+                $box->setPrize($prizes);
+                $box->setBatch($batch);
+                $em->persist($box);
+            }
+        }
+        
+        if ($type === 1) {
+            $boxes = $em->getRepository(Box::class)->findBetween($start, $start + $qty - 1);
+            if (! is_null($boxes)) {
+                foreach ($boxes as $box) {
+                    $box->setBatch($batch);
+                }
             }
         }
     }

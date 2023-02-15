@@ -48,6 +48,18 @@ class BoxRepository extends ServiceEntityRepository
                     ->getOneOrNullResult()
         ;
     }
+    
+    public function findBetween($start, $end): array
+    {
+        return $this->createQueryBuilder('b')
+            ->andWhere('b.id between :start and :end')
+            ->setParameter('start', $start)
+            ->setParameter('end', $end)
+            ->orderBy('b.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
 //    /**
 //     * @return Box[] Returns an array of Box objects

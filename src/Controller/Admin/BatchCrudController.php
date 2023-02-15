@@ -104,6 +104,7 @@ class BatchCrudController extends AbstractCrudController
         $batch = new Batch();
         $item = new BatchPrize();
         $batch->addBatchPrize($item);
+        $batch->setType($this->type);
         
         return $batch;
     }
