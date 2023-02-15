@@ -9,6 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 
 class ConfCrudController extends AbstractCrudController
 {
@@ -19,8 +20,11 @@ class ConfCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        yield FormField::addTab('订单');
         yield IntegerField::new('returnDays');
+        yield FormField::addTab('短信');
         yield ArrayField::new('cc');
+        yield FormField::addTab('奖项');
     }
 
     public function configureActions(Actions $actions): Actions
