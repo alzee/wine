@@ -1,3 +1,4 @@
+- event ordersNew to change box org
 - validate boxPrize sum of qty equal to bottleQty
 - migration after renaming Scan::$consumer: 1553 Cannot drop index '...': needed in a foreign key constraint
 - $customer nullable false

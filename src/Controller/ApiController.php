@@ -18,6 +18,7 @@ use App\Entity\Retail;
 use App\Entity\OrderRestaurant;
 use App\Entity\Scan;
 use App\Entity\User;
+use App\Entity\Box;
 use App\Entity\Choice;
 use App\Entity\RetailReturn;
 use Doctrine\Persistence\ManagerRegistry;
@@ -360,6 +361,37 @@ class ApiController extends AbstractController
 
     #[Route('/pca')]
     public function getPca(): Response
+    {
+        $pca = file_get_contents('pca.json');
+        return new Response($pca);
+    }
+    
+    #[Route('/draw', methods: ['POST'])]
+    public function draw(Request $request): JsonResponse
+    {
+        $em = $this->doctrine->getManager();
+        $params  = $request->toArray();
+        $bottleId = $params['bottle'];
+        $bottleEnc = $params['enc'];
+        $arr = explode('.', $bottleId);
+        $boxId = $arr[0];
+        $box = $this->doctrine->getRepository(Box::class)->find($boxId);
+        $boxCiphers = $box->getCipher();
+        $bottleCipher = $boxCiphers[$arr[1]];
+        $batch = $box->getBatch();
+        $prizes = $batch->getBatchPrizes();
+        dump($batch);
+        dump($prizes);
+        // https://stackoverflow.com/a/62209394/7714132
+        dump($prizes->toArray());
+        $resp = [
+            'code' => 0
+        ];
+        return $this->json($resp);
+    }
+    
+    #[Route('/waiter-scan')]
+    public function waiterScan(Request $request): Response
     {
         $pca = file_get_contents('pca.json');
         return new Response($pca);
