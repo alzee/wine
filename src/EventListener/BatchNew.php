@@ -67,10 +67,10 @@ class BatchNew extends AbstractController
                 for ($j = 1; $j <= $batch->getBottleQty(); $j++) {
                     $ciphers[] = $enc->enc($start + $i . '.' . $j);
                 }
-                $prizes = range(0, $batch->getBottleQty() - 1);
-                shuffle($prizes);
+                $draws = range(0, $batch->getBottleQty() - 1);
+                shuffle($draws);
                 $box->setCipher($ciphers);
-                $box->setPrize($prizes);
+                $box->setDraws($draws);
                 $box->setBatch($batch);
                 $em->persist($box);
             }
@@ -80,10 +80,10 @@ class BatchNew extends AbstractController
             $boxes = $em->getRepository(Box::class)->findBetween($start, $start + $qty - 1);
             if (! is_null($boxes)) {
                 foreach ($boxes as $box) {
-                    // update prizes
-                    $prizes = range(0, $batch->getBottleQty() - 1);
-                    shuffle($prizes);
-                    $box->setPrize($prizes);
+                    // update draws
+                    $draws = range(0, $batch->getBottleQty() - 1);
+                    shuffle($draws);
+                    $box->setDraws($draws);
                     
                     // update ciphers
                     $ciphers = [ $enc->enc($box->getId()) ];

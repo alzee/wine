@@ -24,7 +24,7 @@ class Box
     private array $cipher = [];
 
     #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
-    private array $prize = [];
+    private array $draws = [];
 
     #[ORM\ManyToOne]
     private ?Batch $batch = null;
@@ -67,14 +67,14 @@ class Box
         return $this;
     }
 
-    public function getPrize(): array
+    public function getDraws(): array
     {
-        return $this->prize;
+        return $this->draws;
     }
 
-    public function setPrize(?array $prize): self
+    public function setDraws(?array $draws): self
     {
-        $this->prize = $prize;
+        $this->draws = $draws;
 
         return $this;
     }

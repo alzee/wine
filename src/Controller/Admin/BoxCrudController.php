@@ -43,7 +43,7 @@ class BoxCrudController extends AbstractCrudController
         ;
         yield ArrayField::new('cipher')
             ;
-        yield ArrayField::new('prize')
+        yield ArrayField::new('draws')
             ->hideWhenCreating()
         ;
         // yield AssociationField::new('batch')
