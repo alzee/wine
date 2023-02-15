@@ -3,3 +3,5 @@ This username is already in use: 该用户名已被使用
 Exceeded: 可提金额不足
 Only jpg and png: 只能上传jpg或png格式的图片
 At lease one of qty and snEnd is not null: 数量和结束箱码须至少填一项
+SN is 8 bits: 箱码为8位
+Wrong SN format: 箱码格式错误

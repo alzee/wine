@@ -43,9 +43,25 @@ class Batch
     private ?int $type = 0;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(
+        exactly: 8,
+        exactMessage: 'SN is 8 bits',
+    )]
+    #[Assert\Regex(
+        pattern: '/^[A-Z0-9]{4}[0-9]{4}$/',
+        message: 'Wrong SN format',
+    )]
     private ?string $snStart = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(
+        exactly: 8,
+        exactMessage: 'SN is 8 bits',
+    )]
+    #[Assert\Regex(
+        pattern: '/^[A-Z0-9]{4}[0-9]{4}$/',
+        message: 'Wrong SN format',
+    )]
     private ?string $snEnd = null;
 
     public function __construct()
