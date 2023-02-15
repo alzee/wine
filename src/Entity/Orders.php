@@ -65,6 +65,9 @@ class Orders
     #[Assert\Valid]
     private Collection $orderItems;
 
+    #[ORM\ManyToOne]
+    private ?Box $box = null;
+
     public function __toString()
     {
         return '#' . $this->id;
@@ -218,5 +221,17 @@ class Orders
     public function getSnEnd(): string
     {
         return Sn::toSn($this->getFirst()->getStart() + $this->getFirstProductQuantity() - 1);
+    }
+
+    public function getBox(): ?Box
+    {
+        return $this->box;
+    }
+
+    public function setBox(?Box $box): self
+    {
+        $this->box = $box;
+
+        return $this;
     }
 }
