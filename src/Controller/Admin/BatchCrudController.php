@@ -13,6 +13,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use Symfony\Component\HttpFoundation\RequestStack;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 
 class BatchCrudController extends AbstractCrudController
 {
@@ -102,5 +106,20 @@ class BatchCrudController extends AbstractCrudController
         $batch->addBatchPrize($item);
         
         return $batch;
+    }
+
+    protected function getRedirectResponseAfterSave(AdminContext $context, string $action): RedirectResponse
+    {
+        $submitButtonName = $context->getRequest()->request->all()['ea']['newForm']['btn'];
+        if ('saveAndReturn' === $submitButtonName) {
+            $url = $this->container->get(AdminUrlGenerator::class)
+                                   ->setController(BoxCrudController::class)
+                                   ->setAction(Action::INDEX)
+                                   ->generateUrl();
+
+            return $this->redirect($url);
+        }
+
+        return parent::getRedirectResponseAfterSave($context, $action);
     }
 }
