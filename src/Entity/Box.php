@@ -18,26 +18,8 @@ class Box
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    #[Assert\Positive]
-    #[Assert\LessThanOrEqual(1000)]
-    private ?int $quantity = 1000;
-
-    #[ORM\Column(type: Types::SMALLINT)]
-    #[Assert\Positive]
-    #[Assert\LessThanOrEqual(10)]
-    private ?int $bottleQty = 6;
-
-    #[ORM\OneToMany(mappedBy: 'box', targetEntity: BoxPrize::class, orphanRemoval: true, cascade: ["persist"])]
-    #[Assert\Valid]
-    private Collection $boxPrizes;
-
-    #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
-    private array $boxid = [];
-
     public function __construct()
     {
-        $this->boxPrizes = new ArrayCollection();
     }
 
     public function __toString()
@@ -50,79 +32,8 @@ class Box
         return $this->id;
     }
 
-    public function getQuantity(): ?int
+    public function getSn(): string
     {
-        return $this->quantity;
-    }
-
-    public function setQuantity(int $quantity): self
-    {
-        $this->quantity = $quantity;
-
-        return $this;
-    }
-
-    public function getBottleQty(): ?int
-    {
-        return $this->bottleQty;
-    }
-
-    public function setBottleQty(int $bottleQty): self
-    {
-        $this->bottleQty = $bottleQty;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, BoxPrize>
-     */
-    public function getBoxPrizes(): Collection
-    {
-        return $this->boxPrizes;
-    }
-
-    public function addBoxPrize(BoxPrize $boxPrize): self
-    {
-        if (!$this->boxPrizes->contains($boxPrize)) {
-            $this->boxPrizes->add($boxPrize);
-            $boxPrize->setBox($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBoxPrize(BoxPrize $boxPrize): self
-    {
-        if ($this->boxPrizes->removeElement($boxPrize)) {
-            // set the owning side to null (unless already changed)
-            if ($boxPrize->getBox() === $this) {
-                $boxPrize->setBox(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getBoxid(): array
-    {
-        return $this->boxid;
-    }
-
-    public function setBoxid(?array $boxid): self
-    {
-        $this->boxid = $boxid;
-
-        return $this;
-    }
-
-    public function getSnStart(): string
-    {
-        return Sn::toSn($this->boxid[0]);
-    }
-
-    public function getSnEnd(): string
-    {
-        return Sn::toSn($this->boxid[1]);
+        return Sn::toSn($this->id);
     }
 }
