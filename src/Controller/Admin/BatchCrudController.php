@@ -28,6 +28,9 @@ class BatchCrudController extends AbstractCrudController
         $this->requestStack = $requestStack;
         $request = $this->requestStack->getCurrentRequest();
         $this->type = $request->query->get('type');
+        if ($this->type === null) {
+            $this->type = 0;
+        }
     }
     
     public static function getEntityFqcn(): string
