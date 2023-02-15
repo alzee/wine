@@ -115,6 +115,8 @@ class BatchCrudController extends AbstractCrudController
             $url = $this->container->get(AdminUrlGenerator::class)
                                    ->setController(BoxCrudController::class)
                                    ->setAction(Action::INDEX)
+                                   ->set('menuIndex', 1)
+                                   // ->set('subMenuIndex', 1)
                                    ->generateUrl();
 
             return $this->redirect($url);
