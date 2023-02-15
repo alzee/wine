@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\PrizeRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PrizeRepository::class)]
@@ -30,6 +31,9 @@ class Prize
 
     #[ORM\Column(nullable: true)]
     private ?int $value2 = null;
+
+    #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
+    private array $bottles = [];
 
     public function __toString()
     {
@@ -121,6 +125,18 @@ class Prize
     public function setValue2(?int $value2): self
     {
         $this->value2 = $value2;
+
+        return $this;
+    }
+
+    public function getBottles(): array
+    {
+        return $this->bottles;
+    }
+
+    public function setBottles(?array $bottles): self
+    {
+        $this->bottles = $bottles;
 
         return $this;
     }
