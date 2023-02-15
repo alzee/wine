@@ -22,16 +22,12 @@ class BoxCrudController extends AbstractCrudController
         yield IdField::new('id')
             ->hideOnForm()
         ;
-        yield IntegerField::new('quantity')
+        yield IntegerField::new('sn')
             // ->onlyWhenCreating()
         ;
-        yield TextField::new('snStart')
+        yield ArrayField::new('cipher')
             ->hideWhenCreating()
         ;
-        yield TextField::new('snEnd')
-            ->hideWhenCreating()
-        ;
-        yield IntegerField::new('bottleQty');
         yield CollectionField::new('boxPrizes')
             ->hideOnIndex()
             // ->allowAdd(false)

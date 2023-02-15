@@ -8,7 +8,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Service\Sn;
 
 #[ORM\Entity(repositoryClass: BoxRepository::class)]
 class Box
@@ -17,6 +16,15 @@ class Box
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $sn = null;
+
+    #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
+    private array $cipher = [];
+
+    #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
+    private array $prize = [];
 
     public function __construct()
     {
@@ -32,8 +40,39 @@ class Box
         return $this->id;
     }
 
-    public function getSn(): string
+    public function getSn(): ?string
     {
-        return Sn::toSn($this->id);
+        return $this->sn;
+    }
+
+    public function setSn(?string $sn): self
+    {
+        $this->sn = $sn;
+
+        return $this;
+    }
+
+    public function getCipher(): array
+    {
+        return $this->cipher;
+    }
+
+    public function setCipher(?array $cipher): self
+    {
+        $this->cipher = $cipher;
+
+        return $this;
+    }
+
+    public function getPrize(): array
+    {
+        return $this->prize;
+    }
+
+    public function setPrize(?array $prize): self
+    {
+        $this->prize = $prize;
+
+        return $this;
     }
 }
