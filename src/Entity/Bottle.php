@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\BottleRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BottleRepository::class)]
@@ -18,6 +19,15 @@ class Bottle
 
     #[ORM\Column(length: 255)]
     private ?string $cipher = null;
+
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $bid = null;
+
+    #[ORM\ManyToOne]
+    private ?Prize $prize = null;
+
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $status = null;
 
     public function getId(): ?int
     {
@@ -44,6 +54,42 @@ class Bottle
     public function setCipher(string $cipher): self
     {
         $this->cipher = $cipher;
+
+        return $this;
+    }
+
+    public function getBid(): ?int
+    {
+        return $this->bid;
+    }
+
+    public function setBid(int $bid): self
+    {
+        $this->bid = $bid;
+
+        return $this;
+    }
+
+    public function getPrize(): ?Prize
+    {
+        return $this->prize;
+    }
+
+    public function setPrize(?Prize $prize): self
+    {
+        $this->prize = $prize;
+
+        return $this;
+    }
+
+    public function getStatus(): ?int
+    {
+        return $this->status;
+    }
+
+    public function setStatus(int $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
