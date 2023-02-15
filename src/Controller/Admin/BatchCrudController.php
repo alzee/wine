@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 
 class BatchCrudController extends AbstractCrudController
 {
@@ -127,5 +128,13 @@ class BatchCrudController extends AbstractCrudController
         }
 
         return parent::getRedirectResponseAfterSave($context, $action);
+    }
+    
+    public function configureActions(Actions $actions): Actions
+    {
+        return $actions
+            ->remove('index', Action::NEW)
+            ->disable(Action::DELETE, Action::EDIT, Action::DETAIL)
+        ;
     }
 }

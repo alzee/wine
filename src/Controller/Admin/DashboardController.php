@@ -172,7 +172,7 @@ class DashboardController extends AbstractDashboardController
                 MenuItem::linkToCrud('UserManage', 'fas fa-user', User::class),
             ];
             if ($this->isGranted('ROLE_HEAD')) {
-                array_push($items, (MenuItem::linkToCrud('BatchManage', 'fas fa-qrcode', Batch::class)));
+                array_push($items, (MenuItem::linkToCrud('Batch', 'fas fa-qrcode', Batch::class)));
                 array_push($items, (MenuItem::linkToCrud('BoxManage', 'fas fa-box', Box::class)));
                 array_push($items, (MenuItem::linkToCrud('BottleManage', 'fas fa-bottle-water', Bottle::class)));
                 array_push($items, (MenuItem::linkToCrud('PrizeManage', 'fas fa-medal', Prize::class)));
