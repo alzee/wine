@@ -26,6 +26,9 @@ class Box
     #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
     private array $prize = [];
 
+    #[ORM\ManyToOne]
+    private ?Batch $batch = null;
+
     public function __construct()
     {
     }
@@ -72,6 +75,18 @@ class Box
     public function setPrize(?array $prize): self
     {
         $this->prize = $prize;
+
+        return $this;
+    }
+
+    public function getBatch(): ?Batch
+    {
+        return $this->batch;
+    }
+
+    public function setBatch(?Batch $batch): self
+    {
+        $this->batch = $batch;
 
         return $this;
     }
