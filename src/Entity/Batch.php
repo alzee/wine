@@ -36,7 +36,7 @@ class Batch
     private Collection $batchPrizes;
 
     #[ORM\Column(type: Types::SMALLINT)]
-    private ?int $type = null;
+    private ?int $type = 0;
 
     public function __construct()
     {
