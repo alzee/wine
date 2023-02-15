@@ -10,7 +10,7 @@ namespace App\EventListener;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Batch;
-use App\Entity\Bottle;
+use App\Entity\Box;
 use App\Service\Sn;
 use App\Service\Enc;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
@@ -23,17 +23,31 @@ class BatchNew extends AbstractController
     public function prePersist(Batch $batch, LifecycleEventArgs $event): void
     {
         $em = $event->getEntityManager();
-        $last = $em->getRepository(Batch::class)->findLast();
+        $snStart = $batch->getSnStart();
+        $snEnd = $batch->getSnEnd();
         $qty = $batch->getQty();
-        if (is_null($last)) {
-            $start = 1;
-        } else if (is_null($last->getStart()) || is_null($last->getQty())) {
-            // $em->remove($last);
-            // $em->remove($batch);
-            // return;
+        
+        if (is_null($snStart)) {
+            $lastBox = $em->getRepository(Box::class)->findLast();
+            if (is_null($lastBox)) {
+                $start = 1;
+            } else {
+                $start = $lastBox->getId() + 1;
+            }
+            $batch->setStart($start);
+            $batch->setSnStart(Sn::toSn($start));
+            $batch->setSnEnd(Sn::toSn($start + $qty - 1));
         } else {
-            $start = $last->getStart() + $last->getQty();
+            $start = Sn::toId($snStart);
+            $batch->setStart($start);
+            if (is_null($qty)) {
+                $qty = Sn::toId($snEnd) - $start + 1;
+                $batch->setQty($qty);
+            }
+            if (is_null($snEnd)) {
+                $snEnd = Sn::toSn($start + $qty - 1);
+                $batch->setSnEnd($snEnd);
+            }
         }
-        $batch->setStart($start);
     }
 }
