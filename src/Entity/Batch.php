@@ -38,6 +38,12 @@ class Batch
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $type = 0;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $snStart = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $snEnd = null;
+
     public function __construct()
     {
         $this->batchPrizes = new ArrayCollection();
@@ -132,6 +138,20 @@ class Batch
     public function setType(int $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function setSnStart(?string $snStart): self
+    {
+        $this->snStart = $snStart;
+
+        return $this;
+    }
+
+    public function setSnEnd(?string $snEnd): self
+    {
+        $this->snEnd = $snEnd;
 
         return $this;
     }
