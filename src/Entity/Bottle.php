@@ -33,6 +33,9 @@ class Bottle
     #[ORM\JoinColumn(nullable: false)]
     private ?Box $box = null;
 
+    #[ORM\OneToOne(mappedBy: 'bottle', cascade: ['persist', 'remove'])]
+    private ?Retail $retail = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -106,6 +109,28 @@ class Bottle
     public function setBox(?Box $box): self
     {
         $this->box = $box;
+
+        return $this;
+    }
+
+    public function getRetail(): ?Retail
+    {
+        return $this->retail;
+    }
+
+    public function setRetail(?Retail $retail): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($retail === null && $this->retail !== null) {
+            $this->retail->setBottle(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($retail !== null && $retail->getBottle() !== $this) {
+            $retail->setBottle($this);
+        }
+
+        $this->retail = $retail;
 
         return $this;
     }
