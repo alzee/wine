@@ -90,4 +90,9 @@ class Box
 
         return $this;
     }
+    
+    public function getBoxCipher(): ?string
+    {
+        return $this->cipher[0];
+    }
 }

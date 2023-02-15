@@ -37,7 +37,8 @@ class BoxCrudController extends AbstractCrudController
         yield IntegerField::new('sn')
             // ->onlyWhenCreating()
         ;
-        yield ArrayField::new('cipher')
+        yield TextField::new('boxCipher', 'Cipher')
+            ->setMaxLength(25)
             ->hideWhenCreating()
         ;
         yield ArrayField::new('prize')
