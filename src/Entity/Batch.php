@@ -11,6 +11,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Service\Sn;
 
 #[ORM\Entity(repositoryClass: BatchRepository::class)]
+#[Assert\Expression(
+    "this.getQty() != null or this.getSnEnd() != null",
+    message: 'At lease one of qty and snEnd is not null',
+)]
 class Batch
 {
     #[ORM\Id]

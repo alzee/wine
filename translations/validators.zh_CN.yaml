@@ -2,3 +2,4 @@ Username cannot start with number: 用户名不能以数字开头
 This username is already in use: 该用户名已被使用
 Exceeded: 可提金额不足
 Only jpg and png: 只能上传jpg或png格式的图片
+At lease one of qty and snEnd is not null: 数量和结束箱码须至少填一项
