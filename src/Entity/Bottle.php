@@ -29,6 +29,10 @@ class Bottle
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $status = null;
 
+    #[ORM\ManyToOne(inversedBy: 'bottles')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Box $box = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -90,6 +94,18 @@ class Bottle
     public function setStatus(int $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getBox(): ?Box
+    {
+        return $this->box;
+    }
+
+    public function setBox(?Box $box): self
+    {
+        $this->box = $box;
 
         return $this;
     }

@@ -29,8 +29,12 @@ class Box
     #[ORM\Column(length: 255)]
     private ?string $cipher = null;
 
+    #[ORM\OneToMany(mappedBy: 'box', targetEntity: Bottle::class, orphanRemoval: true)]
+    private Collection $bottles;
+
     public function __construct()
     {
+        $this->bottles = new ArrayCollection();
     }
 
     public function __toString()
@@ -87,6 +91,36 @@ class Box
     public function setCipher(string $cipher): self
     {
         $this->cipher = $cipher;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Bottle>
+     */
+    public function getBottles(): Collection
+    {
+        return $this->bottles;
+    }
+
+    public function addBottle(Bottle $bottle): self
+    {
+        if (!$this->bottles->contains($bottle)) {
+            $this->bottles->add($bottle);
+            $bottle->setBox($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBottle(Bottle $bottle): self
+    {
+        if ($this->bottles->removeElement($bottle)) {
+            // set the owning side to null (unless already changed)
+            if ($bottle->getBox() === $this) {
+                $bottle->setBox(null);
+            }
+        }
 
         return $this;
     }
