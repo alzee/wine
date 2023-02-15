@@ -27,8 +27,10 @@ class BatchNew extends AbstractController
         $snEnd = $batch->getSnEnd();
         $qty = $batch->getQty();
         $type = $batch->getType();
+        $enc = new Enc();
         
-        if (is_null($snStart)) {
+        // if (is_null($snStart)) {
+        if ($type === 0) {
             $lastBox = $em->getRepository(Box::class)->findLast();
             if (is_null($lastBox)) {
                 $start = 1;
@@ -38,7 +40,9 @@ class BatchNew extends AbstractController
             $batch->setStart($start);
             $batch->setSnStart(Sn::toSn($start));
             $batch->setSnEnd(Sn::toSn($start + $qty - 1));
-        } else {
+        } 
+        
+        if ($type === 1) { 
             $start = Sn::toId($snStart);
             $batch->setStart($start);
             if (is_null($qty)) {
@@ -49,15 +53,18 @@ class BatchNew extends AbstractController
                 $snEnd = Sn::toSn($start + $qty - 1);
                 $batch->setSnEnd($snEnd);
             }
+            // if both snEnd and qty are given, use snEnd
+            if ($qty !== Sn::toId($snEnd) - $start + 1) {
+                $qty = Sn::toId($snEnd) - $start + 1;
+            }
         }
         
         if ($type === 0) {
-            $enc = new Enc();
             for ($i = 0; $i < $qty; $i++) {
                 $box = new Box;
                 $box->setSn(Sn::toSn($start + $i));
                 $ciphers = [ $enc->enc($start + $i) ];
-                for ($j = 0; $j < $batch->getBottleQty(); $j++) {
+                for ($j = 1; $j <= $batch->getBottleQty(); $j++) {
                     $ciphers[] = $enc->enc($start + $i . '.' . $j);
                 }
                 $prizes = range(1, $batch->getBottleQty());
@@ -73,6 +80,18 @@ class BatchNew extends AbstractController
             $boxes = $em->getRepository(Box::class)->findBetween($start, $start + $qty - 1);
             if (! is_null($boxes)) {
                 foreach ($boxes as $box) {
+                    // update prizes
+                    $prizes = range(1, $batch->getBottleQty());
+                    shuffle($prizes);
+                    $box->setPrize($prizes);
+                    
+                    // update ciphers
+                    $ciphers = [ $enc->enc($box->getId()) ];
+                    for ($i = 1; $i <= $batch->getBottleQty(); $i++) {
+                        $ciphers[] = $enc->enc($box->getId() . '.' . $i);
+                    }
+                    $box->setCipher($ciphers);
+                     
                     $box->setBatch($batch);
                 }
             }

@@ -41,12 +41,14 @@ class BoxCrudController extends AbstractCrudController
             ->setMaxLength(25)
             ->hideWhenCreating()
         ;
+        yield ArrayField::new('cipher')
+            ;
         yield ArrayField::new('prize')
             ->hideWhenCreating()
         ;
-        yield AssociationField::new('batch')
-            ->onlyOnIndex()
-        ;
+        // yield AssociationField::new('batch')
+        //     ->onlyOnIndex()
+        // ;
         yield IntegerField::new('batch.bottleQty', 'Bottle Qty')
             ->onlyOnIndex()
         ;
