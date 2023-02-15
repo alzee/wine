@@ -13,10 +13,6 @@ class Bottle
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'bottles')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Box $box = null;
-
     #[ORM\Column(length: 255)]
     private ?string $sn = null;
 
@@ -26,18 +22,6 @@ class Bottle
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getBox(): ?Box
-    {
-        return $this->box;
-    }
-
-    public function setBox(?Box $box): self
-    {
-        $this->box = $box;
-
-        return $this;
     }
 
     public function getSn(): ?string

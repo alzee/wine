@@ -65,9 +65,6 @@ class Orders
     #[Assert\Valid]
     private Collection $orderItems;
 
-    #[ORM\ManyToOne(inversedBy: 'orders')]
-    private ?Box $box = null;
-
     public function __toString()
     {
         return '#' . $this->id;
@@ -209,18 +206,6 @@ class Orders
                 $orderItem->setOrd(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getBox(): ?Box
-    {
-        return $this->box;
-    }
-
-    public function setBox(?Box $box): self
-    {
-        $this->box = $box;
 
         return $this;
     }
