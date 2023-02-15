@@ -23,6 +23,12 @@ class Box
     #[ORM\ManyToOne]
     private ?Batch $batch = null;
 
+    #[ORM\Column]
+    private ?int $bid = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $cipher = null;
+
     public function __construct()
     {
     }
@@ -57,6 +63,30 @@ class Box
     public function setBatch(?Batch $batch): self
     {
         $this->batch = $batch;
+
+        return $this;
+    }
+
+    public function getBid(): ?int
+    {
+        return $this->bid;
+    }
+
+    public function setBid(int $bid): self
+    {
+        $this->bid = $bid;
+
+        return $this;
+    }
+
+    public function getCipher(): ?string
+    {
+        return $this->cipher;
+    }
+
+    public function setCipher(string $cipher): self
+    {
+        $this->cipher = $cipher;
 
         return $this;
     }
