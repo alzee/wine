@@ -34,7 +34,7 @@ class BoxCrudController extends AbstractCrudController
         yield IdField::new('id')
             ->hideOnForm()
         ;
-        yield IntegerField::new('sn')
+        yield IntegerField::new('sn', 'Box')
             // ->onlyWhenCreating()
         ;
         yield TextField::new('boxCipher', 'Cipher')
