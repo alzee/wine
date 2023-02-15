@@ -11,14 +11,18 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use Symfony\Component\HttpFoundation\RequestStack;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 
 class BatchCrudController extends AbstractCrudController
 {
     private RequestStack $requestStack;
+    private $type;
     
     public function __construct(RequestStack $requestStack)
     {
         $this->requestStack = $requestStack;
+        $request = $this->requestStack->getCurrentRequest();
+        $this->type = $request->query->get('type');
     }
     
     public static function getEntityFqcn(): string
@@ -28,10 +32,7 @@ class BatchCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        $request = $this->requestStack->getCurrentRequest();
-        $type = $request->query->get('type');
-        
-        if (! is_null($type) && $type == 1) {
+        if (! is_null($this->type) && $this->type == 1) {
             yield TextField::new('snStart')
                 ->setRequired(true)
                 ;
@@ -45,7 +46,7 @@ class BatchCrudController extends AbstractCrudController
         yield IdField::new('id')
             ->hideOnForm()
         ;
-        if (! is_null($type) && $type == 0) {
+        if (! is_null($this->type) && $this->type == 0) {
             yield IntegerField::new('qty')
                 ->onlyWhenCreating()
                 ;
@@ -68,6 +69,22 @@ class BatchCrudController extends AbstractCrudController
         yield ArrayField::new('batchPrizes')
             ->onlyOnIndex()
         ;
+    }
+    
+    public function configureCrud(Crud $crud): Crud
+    {
+        // if (! is_null($this->type) && $this->type == 1) {
+        //     return $crud
+        //         ->setPageTitle('edit', 'Batch New')
+        //     ;
+        // } else {
+        //     return $crud
+        //         ->setPageTitle('edit', 'Batch Edit')
+        //     ;
+        // }
+        return $crud
+            ->setPageTitle('new', fn () => $this->type == 1 ? 'Batch Edit' : 'Batch New');
+        
     }
 
     public function createEntity(string $entityFqcn)
