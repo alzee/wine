@@ -120,16 +120,6 @@ class Batch
         return $this;
     }
 
-    public function getSnStart(): string
-    {
-        return Sn::toSn($this->start);
-    }
-
-    public function getSnEnd(): string
-    {
-        return Sn::toSn($this->start + $this->qty - 1);
-    }
-
     public function getType(): ?int
     {
         return $this->type;
@@ -154,5 +144,15 @@ class Batch
         $this->snEnd = $snEnd;
 
         return $this;
+    }
+
+    public function getSnStart(): ?string
+    {
+        return $this->snStart;
+    }
+
+    public function getSnEnd(): ?string
+    {
+        return $this->snEnd;
     }
 }

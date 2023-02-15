@@ -10,9 +10,17 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class BatchCrudController extends AbstractCrudController
 {
+    private RequestStack $requestStack;
+    
+    public function __construct(RequestStack $requestStack)
+    {
+        $this->requestStack = $requestStack;
+    }
+    
     public static function getEntityFqcn(): string
     {
         return Batch::class;
@@ -20,12 +28,28 @@ class BatchCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        $request = $this->requestStack->getCurrentRequest();
+        $type = $request->query->get('type');
+        
+        if (! is_null($type) && $type == 1) {
+            yield TextField::new('snStart')
+                ->setRequired(true)
+                ;
+            yield IntegerField::new('qty')
+                ->setRequired(false)
+            ;
+            yield TextField::new('snEnd')
+                ;
+        }
+        
         yield IdField::new('id')
             ->hideOnForm()
         ;
-        yield IntegerField::new('qty')
-            // ->onlyWhenCreating()
-        ;
+        if (! is_null($type) && $type == 0) {
+            yield IntegerField::new('qty')
+                ->onlyWhenCreating()
+                ;
+        }
         yield TextField::new('snStart')
             ->hideWhenCreating()
         ;
@@ -51,7 +75,7 @@ class BatchCrudController extends AbstractCrudController
         $batch = new Batch();
         $item = new BatchPrize();
         $batch->addBatchPrize($item);
-
+        
         return $batch;
     }
 }
