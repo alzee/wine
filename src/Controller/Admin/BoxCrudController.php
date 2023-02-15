@@ -43,20 +43,14 @@ class BoxCrudController extends AbstractCrudController
         yield ArrayField::new('prize')
             ->hideWhenCreating()
         ;
-        yield CollectionField::new('boxPrizes')
-            ->hideOnIndex()
-            // ->allowAdd(false)
-            // ->allowDelete(false)
-            ->renderExpanded()
-            ->setRequired(true)
-            ->useEntryCrudForm()
-        ;
         yield AssociationField::new('batch')
             ->onlyOnIndex()
         ;
-        yield IntegerField::new('batch.bottleQty')
+        yield IntegerField::new('batch.bottleQty', 'Bottle Qty')
             ->onlyOnIndex()
         ;
+        yield ArrayField::new('batch.batchPrizes', 'Box Prizes')
+            ;
     }
     
     public function configureActions(Actions $actions): Actions
