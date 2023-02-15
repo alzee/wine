@@ -12,6 +12,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use Symfony\Component\HttpFoundation\RequestStack;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 
 class BatchCrudController extends AbstractCrudController
 {
@@ -32,15 +33,19 @@ class BatchCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        // yield FormField::addPanel('批量信息');
+        yield FormField::addTab('批量信息');
         if (! is_null($this->type) && $this->type == 1) {
             yield TextField::new('snStart')
                 ->setRequired(true)
+                ->setColumns(6)
+                ;
+            yield TextField::new('snEnd')
+                ->setColumns(6)
                 ;
             yield IntegerField::new('qty')
                 ->setRequired(false)
             ;
-            yield TextField::new('snEnd')
-                ;
         }
         
         yield IdField::new('id')
@@ -57,6 +62,9 @@ class BatchCrudController extends AbstractCrudController
         yield TextField::new('snEnd')
             ->hideWhenCreating()
         ;
+
+        // yield FormField::addPanel('每箱信息');
+        yield FormField::addTab('每箱信息');
         yield IntegerField::new('bottleQty');
         yield CollectionField::new('batchPrizes')
             ->hideOnIndex()
