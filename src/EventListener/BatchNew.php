@@ -67,7 +67,7 @@ class BatchNew extends AbstractController
                 for ($j = 1; $j <= $batch->getBottleQty(); $j++) {
                     $ciphers[] = $enc->enc($start + $i . '.' . $j);
                 }
-                $prizes = range(1, $batch->getBottleQty());
+                $prizes = range(0, $batch->getBottleQty() - 1);
                 shuffle($prizes);
                 $box->setCipher($ciphers);
                 $box->setPrize($prizes);
@@ -81,7 +81,7 @@ class BatchNew extends AbstractController
             if (! is_null($boxes)) {
                 foreach ($boxes as $box) {
                     // update prizes
-                    $prizes = range(1, $batch->getBottleQty());
+                    $prizes = range(0, $batch->getBottleQty() - 1);
                     shuffle($prizes);
                     $box->setPrize($prizes);
                     
