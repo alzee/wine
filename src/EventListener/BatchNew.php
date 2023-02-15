@@ -52,12 +52,17 @@ class BatchNew extends AbstractController
         }
         
         if ($type === 0) {
+            $enc = new Enc();
             for ($i = 0; $i < $qty; $i++) {
                 $box = new Box;
                 $box->setSn(Sn::toSn($start + $i));
-                $cipsers = [0,1,2,3,4,5];
-                $prizes = [0,1,2,3,4,5];
-                $box->setCipher($cipsers);
+                $ciphers = [ $enc->enc($start + $i) ];
+                for ($j = 0; $j < $batch->getBottleQty(); $j++) {
+                    $ciphers[] = $enc->enc($start + $i . '.' . $j);
+                }
+                $prizes = range(1, $batch->getBottleQty());
+                shuffle($prizes);
+                $box->setCipher($ciphers);
                 $box->setPrize($prizes);
                 $box->setBatch($batch);
                 $em->persist($box);
