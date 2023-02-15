@@ -20,12 +20,6 @@ class Box
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $sn = null;
 
-    #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
-    private array $cipher = [];
-
-    #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
-    private array $draws = [];
-
     #[ORM\ManyToOne]
     private ?Batch $batch = null;
 
@@ -55,30 +49,6 @@ class Box
         return $this;
     }
 
-    public function getCipher(): array
-    {
-        return $this->cipher;
-    }
-
-    public function setCipher(?array $cipher): self
-    {
-        $this->cipher = $cipher;
-
-        return $this;
-    }
-
-    public function getDraws(): array
-    {
-        return $this->draws;
-    }
-
-    public function setDraws(?array $draws): self
-    {
-        $this->draws = $draws;
-
-        return $this;
-    }
-
     public function getBatch(): ?Batch
     {
         return $this->batch;
@@ -89,10 +59,5 @@ class Box
         $this->batch = $batch;
 
         return $this;
-    }
-    
-    public function getBoxCipher(): ?string
-    {
-        return $this->cipher[0];
     }
 }
