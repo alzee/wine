@@ -62,10 +62,23 @@ class BoxCrudController extends AbstractCrudController
                     ->setDashboard(DashboardController::class)
                     ->setAction('new')
                     // ->set('menuIndex', 1)
+                    ->set('type', 0)
+                    ->generateUrl();
+            });
+        $batchEdit = Action::new('batchEdit')
+            ->createAsGlobalAction()
+            ->linkToUrl(function (){
+                return $this->adminUrlGenerator
+                    ->setController(BatchCrudController::class)
+                    ->setDashboard(DashboardController::class)
+                    ->setAction('new')
+                    // ->set('menuIndex', 1)
+                    ->set('type', 1)
                     ->generateUrl();
             });
         return $actions
             ->add('index', $batchNew)
+            ->add('index', $batchEdit)
             ->disable(Action::DELETE, Action::EDIT, Action::NEW, Action::DETAIL)
         ;
     }
