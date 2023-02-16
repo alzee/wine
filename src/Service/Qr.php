@@ -10,11 +10,6 @@ namespace App\Service;
 
 use App\Service\Sn;
 use App\Entity\Box;
-use chillerlan\QRCode\{QRCode, QROptions};
-use chillerlan\QRCode\Common\EccLevel;
-use chillerlan\QRCode\Data\QRMatrix;
-use chillerlan\QRCode\Output\QROutputInterface;
-
 
 class Qr
 {
@@ -22,6 +17,7 @@ class Qr
     {
         chdir('qr/');
     }
+    
     public function pack(Box $box)
     {
         $boxSn = $box->getSn();
