@@ -12,6 +12,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DatetimeField;
 use Symfony\Component\HttpFoundation\RequestStack;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
@@ -91,6 +92,9 @@ class BatchCrudController extends AbstractCrudController
             ;
         }
         yield ArrayField::new('batchPrizes')
+            ->onlyOnIndex()
+        ;
+        yield DatetimeField::new('createdAt')
             ->onlyOnIndex()
         ;
     }
