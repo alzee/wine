@@ -4,6 +4,8 @@ namespace App\Controller\Admin;
 
 use App\Entity\Batch;
 use App\Entity\BatchPrize;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use App\Entity\Choice;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
@@ -70,6 +72,8 @@ class BatchCrudController extends AbstractCrudController
         yield TextField::new('snEnd')
             ->hideWhenCreating()
         ;
+        yield ChoiceField::new('type')
+            ->setChoices(Choice::BATCH_TYPES);
 
         // yield FormField::addPanel('每箱信息');
         yield FormField::addTab('每箱信息');

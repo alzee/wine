@@ -7,6 +7,7 @@ class Choice
     public const BATCH_TYPES = [
         'new' => 0,
         'edit' => 1,
+        'qr' => 2
     ];
     
     public const BOTTLE_STATUSES = [

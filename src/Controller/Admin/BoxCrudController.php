@@ -75,6 +75,17 @@ class BoxCrudController extends AbstractCrudController
                     ->set('type', 1)
                     ->generateUrl();
             });
+        $batchQr = Action::new('batchQr')
+            ->createAsGlobalAction()
+            ->linkToUrl(function (){
+                return $this->adminUrlGenerator
+                    ->setController(BatchCrudController::class)
+                    ->setDashboard(DashboardController::class)
+                    ->setAction('new')
+                    // ->set('menuIndex', 1)
+                    ->set('type', 2)
+                    ->generateUrl();
+            });
 
         $listBottles = Action::new('listBottles')
             ->linkToUrl(function (Box $entity){
@@ -88,8 +99,9 @@ class BoxCrudController extends AbstractCrudController
             });
 
         return $actions
-            ->add('index', $batchNew)
             ->add('index', $batchEdit)
+            ->add('index', $batchNew)
+            ->add('index', $batchQr)
             ->add('index', $listBottles)
             ->disable(Action::DELETE, Action::EDIT, Action::NEW, Action::DETAIL)
         ;
