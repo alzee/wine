@@ -11,6 +11,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Batch;
 use App\Entity\Box;
+use App\Entity\Bottle;
 use App\Service\Sn;
 use App\Service\Enc;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
@@ -28,8 +29,15 @@ class BatchNew extends AbstractController
         $qty = $batch->getQty();
         $type = $batch->getType();
         $enc = new Enc();
+        $batchPrizes = $batch->getBatchPrizes();
+        $prizes = [];
+        foreach ($batchPrizes as $v) {
+            for ($i = 0; $i < $v->getQty(); $i++) {
+                $prizes[] = $v->getPrize();
+            }
+        }
         
-        // if (is_null($snStart)) {
+        // Batch properties start
         if ($type === 0) {
             $lastBox = $em->getRepository(Box::class)->findLast();
             if (is_null($lastBox)) {
@@ -58,41 +66,51 @@ class BatchNew extends AbstractController
                 $qty = Sn::toId($snEnd) - $start + 1;
             }
         }
+        // Batch properties end
         
+        // Create boxes
         if ($type === 0) {
             for ($i = 0; $i < $qty; $i++) {
                 $box = new Box;
-                $box->setSn(Sn::toSn($start + $i));
-                $ciphers = [ $enc->enc($start + $i) ];
-                for ($j = 1; $j <= $batch->getBottleQty(); $j++) {
-                    $ciphers[] = $enc->enc($start + $i . '.' . $j);
-                }
-                $draws = range(0, $batch->getBottleQty() - 1);
-                shuffle($draws);
-                $box->setCipher($ciphers);
-                $box->setDraws($draws);
+                $boxSn = Sn::toSn($start + $i);
+                $box->setSn($boxSn);
+                $box->setCipher($enc->enc($boxSn));
                 $box->setBatch($batch);
+                $box->setBid($start + $i);
                 $em->persist($box);
+                
+                // Create bottles;
+                shuffle($prizes);
+                for ($j = 1; $j <= $batch->getBottleQty(); $j++) {
+                    $bottleSn = $boxSn . '.' . $j;
+                    $bottle = new Bottle;
+                    $bottle->setBid($j);
+                    $bottle->setSn($bottleSn);
+                    $bottle->setCipher($enc->enc($bottleSn));
+                    $bottle->setPrize($prizes[$j - 1]);
+                    $bottle->setBox($box);
+                    $em->persist($bottle);
+                }
             }
         }
         
+        // Update bottles prizes;
+        /**
+         * Note: bottleQty MUST NOT change after create
+         */
         if ($type === 1) {
             $boxes = $em->getRepository(Box::class)->findBetween($start, $start + $qty - 1);
             if (! is_null($boxes)) {
                 foreach ($boxes as $box) {
-                    // update draws
-                    $draws = range(0, $batch->getBottleQty() - 1);
-                    shuffle($draws);
-                    $box->setDraws($draws);
-                    
-                    // update ciphers
-                    $ciphers = [ $enc->enc($box->getId()) ];
-                    for ($i = 1; $i <= $batch->getBottleQty(); $i++) {
-                        $ciphers[] = $enc->enc($box->getId() . '.' . $i);
-                    }
-                    $box->setCipher($ciphers);
-                     
+                    // update box
                     $box->setBatch($batch);
+                    
+                    // update bottles prize
+                    shuffle($prizes);
+                    for ($j = 1; $j <= $batch->getBottleQty(); $j++) {
+                        $bottle->setPrize($prizes[$j - 1]);
+                    }
+                    
                 }
             }
         }

@@ -27,7 +27,7 @@ class Bottle
     private ?Prize $prize = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
-    private ?int $status = null;
+    private ?int $status = 0;
 
     #[ORM\ManyToOne(inversedBy: 'bottles')]
     #[ORM\JoinColumn(nullable: false)]

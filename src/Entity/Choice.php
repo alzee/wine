@@ -5,9 +5,14 @@ namespace App\Entity;
 class Choice
 {
     public const BATCH_TYPES = [
-        'prize' => 0,
-        'ord' => 1,
-        'ret' => 2,
+        'new' => 0,
+        'edit' => 1,
+    ];
+    
+    public const BOTTLE_STATUSES = [
+        'for_sale' => 0,
+        'sold' => 1,
+        'waiter_scanned' => 2
     ];
 
     public const REWARD_TYPES = [

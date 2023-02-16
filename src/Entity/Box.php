@@ -39,7 +39,7 @@ class Box
 
     public function __toString()
     {
-        return $this->id;
+        return $this->sn;
     }
 
     public function getId(): ?int
