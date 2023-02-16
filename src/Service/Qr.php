@@ -8,6 +8,8 @@
 
 namespace App\Service;
 
+use App\Service\Sn;
+
 
 class Qr
 {
@@ -15,8 +17,9 @@ class Qr
     {
     }
 
-    public function gen()
+    public function gen($snStart, $qty)
     {
+        $start = Sn::toId($snStart);
     }
 }
 
