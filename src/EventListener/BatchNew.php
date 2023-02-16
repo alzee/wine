@@ -14,6 +14,7 @@ use App\Entity\Box;
 use App\Entity\Bottle;
 use App\Service\Sn;
 use App\Service\Enc;
+use App\Service\Qr;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Events;
@@ -50,7 +51,7 @@ class BatchNew extends AbstractController
             $batch->setSnEnd(Sn::toSn($start + $qty - 1));
         } 
         
-        if ($type === 1) { 
+        if ($type > 0) { 
             $start = Sn::toId($snStart);
             $batch->setStart($start);
             if (is_null($qty)) {
@@ -109,6 +110,18 @@ class BatchNew extends AbstractController
                     shuffle($prizes);
                     for ($j = 1; $j <= $batch->getBottleQty(); $j++) {
                         $bottle->setPrize($prizes[$j - 1]);
+                    }
+                    
+                }
+            }
+        }
+        
+        // Generate QRs
+        if ($type === 2) {
+            $boxes = $em->getRepository(Box::class)->findBetween($start, $start + $qty - 1);
+            if (! is_null($boxes)) {
+                foreach ($boxes as $box) {
+                    for ($j = 1; $j <= $batch->getBottleQty(); $j++) {
                     }
                     
                 }

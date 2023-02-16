@@ -3,7 +3,6 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Box;
-use App\Entity\Batch;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;

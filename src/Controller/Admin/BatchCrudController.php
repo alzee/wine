@@ -30,7 +30,7 @@ class BatchCrudController extends AbstractCrudController
     {
         $this->requestStack = $requestStack;
         $request = $this->requestStack->getCurrentRequest();
-        $this->type = $request->query->get('type');
+        $this->type = (int) $request->query->get('type');
         if ($this->type === null) {
             $this->type = 0;
         }
@@ -43,9 +43,10 @@ class BatchCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        // yield FormField::addPanel('批量信息');
-        yield FormField::addTab('批量信息');
-        if (! is_null($this->type) && $this->type == 1) {
+        if ($this->type !== 2) {
+            yield FormField::addTab('批量信息');
+        }
+        if ($this->type > 0) {
             yield TextField::new('snStart')
                 ->setRequired(true)
                 ->setColumns(6)
@@ -61,7 +62,7 @@ class BatchCrudController extends AbstractCrudController
         yield IdField::new('id')
             ->hideOnForm()
         ;
-        if (! is_null($this->type) && $this->type == 0) {
+        if ($this->type === 0) {
             yield IntegerField::new('qty')
                 ->onlyWhenCreating()
                 ;
@@ -73,19 +74,22 @@ class BatchCrudController extends AbstractCrudController
             ->hideWhenCreating()
         ;
         yield ChoiceField::new('type')
-            ->setChoices(Choice::BATCH_TYPES);
+            ->setChoices(Choice::BATCH_TYPES)
+            ->onlyOnIndex()
+        ;
 
-        // yield FormField::addPanel('每箱信息');
-        yield FormField::addTab('每箱信息');
-        yield IntegerField::new('bottleQty');
-        yield CollectionField::new('batchPrizes')
-            ->hideOnIndex()
+        if ($this->type !== 2) {
+            yield FormField::addTab('每箱信息');
+            yield IntegerField::new('bottleQty');
+            yield CollectionField::new('batchPrizes')
+                ->hideOnIndex()
             // ->allowAdd(false)
             // ->allowDelete(false)
-            ->renderExpanded()
-            ->setRequired(true)
-            ->useEntryCrudForm()
-        ;
+                ->renderExpanded()
+                ->setRequired(true)
+                ->useEntryCrudForm()
+            ;
+        }
         yield ArrayField::new('batchPrizes')
             ->onlyOnIndex()
         ;
@@ -93,18 +97,14 @@ class BatchCrudController extends AbstractCrudController
     
     public function configureCrud(Crud $crud): Crud
     {
-        // if (! is_null($this->type) && $this->type == 1) {
-        //     return $crud
-        //         ->setPageTitle('edit', 'Batch New')
-        //     ;
-        // } else {
-        //     return $crud
-        //         ->setPageTitle('edit', 'Batch Edit')
-        //     ;
-        // }
         return $crud
-            ->setPageTitle('new', fn () => $this->type == 1 ? 'Batch Edit' : 'Batch New');
-        
+            ->setPageTitle('new', fn () => 
+                match ($this->type) {
+                    0 => 'Batch New',
+                    1 => 'Batch Edit',
+                    2 => 'Batch Qr',
+                }
+            );
     }
 
     public function createEntity(string $entityFqcn)
