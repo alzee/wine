@@ -108,8 +108,14 @@ class BatchNew extends AbstractController
                     
                     // update bottles prize
                     shuffle($prizes);
-                    for ($j = 1; $j <= $batch->getBottleQty(); $j++) {
-                        $bottle->setPrize($prizes[$j - 1]);
+                    $bottles = $box->getBottles()->toArray();
+                    foreach ($bottles as $bottle) {
+                        $bottleIndex = $bottle->getBid() - 1;
+                        if (isset($prizes[$bottleIndex])) {
+                            $bottle->setPrize($prizes[$bottleIndex]);
+                        } else {
+                            $bottle->setPrize(null);
+                        }
                     }
                     
                 }
@@ -121,9 +127,9 @@ class BatchNew extends AbstractController
             $boxes = $em->getRepository(Box::class)->findBetween($start, $start + $qty - 1);
             if (! is_null($boxes)) {
                 foreach ($boxes as $box) {
-                    for ($j = 1; $j <= $batch->getBottleQty(); $j++) {
+                    $bottles = $box->getBottles()->toArray();
+                    foreach ($bottles as $bottle) {
                     }
-                    
                 }
             }
         }
