@@ -114,9 +114,11 @@ class BatchCrudController extends AbstractCrudController
     public function createEntity(string $entityFqcn)
     {
         $batch = new Batch();
-        $item = new BatchPrize();
-        $batch->addBatchPrize($item);
         $batch->setType($this->type);
+        if ($this->type !== 2) {
+            $item = new BatchPrize();
+            $batch->addBatchPrize($item);
+        }
         
         return $batch;
     }
