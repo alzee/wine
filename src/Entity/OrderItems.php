@@ -43,6 +43,14 @@ class OrderItems
     private ?int $start = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(
+        exactly: 8,
+        exactMessage: 'SN is 8 bits',
+    )]
+    #[Assert\Regex(
+        pattern: '/^[A-Z0-9]{4}[0-9]{4}$/',
+        message: 'Wrong SN format',
+    )]
     private ?string $snStart = null;
 
     public function __toString(): string
