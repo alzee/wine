@@ -75,9 +75,22 @@ class BoxCrudController extends AbstractCrudController
                     ->set('type', 1)
                     ->generateUrl();
             });
+
+        $listBottles = Action::new('listBottles')
+            ->linkToUrl(function (Box $entity){
+                return $this->adminUrlGenerator
+                    ->setController(BottleCrudController::class)
+                    // ->setDashboard(DashboardController::class)
+                    ->setAction('index')
+                    // ->set('menuIndex', 1)
+                    ->set('box', $entity->getId())
+                    ->generateUrl();
+            });
+
         return $actions
             ->add('index', $batchNew)
             ->add('index', $batchEdit)
+            ->add('index', $listBottles)
             ->disable(Action::DELETE, Action::EDIT, Action::NEW, Action::DETAIL)
         ;
     }

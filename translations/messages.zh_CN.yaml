@@ -193,3 +193,4 @@ Bottle Sn format ABCD1234.1: 瓶码格式 ABCD1234.1
 for_sale: 待售
 sold: 已售
 waiter_scanned: 服务员已扫
+List Bottles: 瓶码列表
