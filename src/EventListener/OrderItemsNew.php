@@ -35,7 +35,7 @@ class OrderItemsNew extends AbstractController
         for ($i = $start; $i < $start + $qty; $i++) {
             $box = $em->getRepository(Box::class)->find($i);
             if (! is_null($box)) {
-                $buyer = $box->getOrd()->getBuyer();
+                $buyer = $item->getOrd()->getBuyer();
                 $box->setOrg($buyer);
             }
         }
