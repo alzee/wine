@@ -124,11 +124,11 @@ class BatchNew extends AbstractController
         
         // Generate QRs
         if ($type === 2) {
-            $qr = new Qr();
             $boxes = $em->getRepository(Box::class)->findBetween($start, $start + $qty - 1);
             if (! is_null($boxes)) {
                 foreach ($boxes as $box) {
-                    $qr->pack($box);
+                    $boxid = $box->getId();
+                    shell_exec("../bin/console app:qr {$box->getId()}");
                     // $bottles = $box->getBottles()->toArray();
                     // foreach ($bottles as $bottle) {
                     // }

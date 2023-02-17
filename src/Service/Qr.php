@@ -10,16 +10,21 @@ namespace App\Service;
 
 use App\Service\Sn;
 use App\Entity\Box;
+use Doctrine\ORM\EntityManagerInterface;
 
 class Qr
 {
-    public function __construct()
+    private $em;
+
+    public function __construct(EntityManagerInterface $em, $qrdir)
     {
-        chdir('qr/');
+        $this->em = $em;
+        chdir($qrdir);
     }
     
-    public function pack(Box $box)
+    public function pack(int $boxid)
     {
+        $box = $this->em->find('App\Entity\Box', $boxid);
         $boxSn = $box->getSn();
         $boxEnc = explode('.', $box->getCipher())[0];
         $this->gen($boxSn, $boxEnc);
