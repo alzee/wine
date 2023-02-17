@@ -33,31 +33,28 @@ class SnCommand extends Command
     protected function configure(): void
     {
         $this
-            ->addArgument('id', InputArgument::REQUIRED, 'Argument description')
-            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description')
+            ->addArgument('arg1', InputArgument::REQUIRED, 'Argument description')
+            ->addOption('sn', '-s', InputOption::VALUE_NONE, 'Option description')
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $arg1 = $input->getArgument('id');
+        $arg1 = $input->getArgument('arg1');
 
         if ($arg1) {
             // $io->note(sprintf('You passed an argument: %s', $arg1));
         }
 
-        if ($input->getOption('option1')) {
-            // ...
+        if ($input->getOption('sn')) {
+            $io->info(Sn::toId($arg1));
+        } else {
+            $io->info(Sn::toSn($arg1));
         }
 
         // $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
 
-        $sn = Sn::toSn($arg1);
-        $id = Sn::toId($sn);
-
-        dump($sn);
-        dump($id);
         return Command::SUCCESS;
     }
 }
