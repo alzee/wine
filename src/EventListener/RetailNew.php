@@ -19,6 +19,7 @@ use App\Entity\Reward;
 use App\Entity\Share;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Events;
+use App\Entity\Bottle;
 
 #[AsEntityListener(event: Events::postPersist, entity: Retail::class)]
 class RetailNew extends AbstractController
@@ -174,6 +175,10 @@ class RetailNew extends AbstractController
             $em->persist($shareRecord);
         }
         // share end
+        
+        // update bottle status
+        $bottle = $retail->getBottle();
+        $bottle->setStatus(1);
 
         $em->flush();
     }
