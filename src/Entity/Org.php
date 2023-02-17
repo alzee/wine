@@ -153,6 +153,9 @@ class Org
     #[Groups(['read'])]
     private ?string $area = null;
 
+    #[ORM\OneToMany(mappedBy: 'org', targetEntity: Box::class)]
+    private Collection $boxes;
+
     public function __construct()
     {
         $this->voucher = 0;
@@ -160,6 +163,7 @@ class Org
         $this->vouchers = new ArrayCollection();
         $this->retails = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->boxes = new ArrayCollection();
     }
 
     public function __toString()
@@ -640,6 +644,36 @@ class Org
     public function setArea(?string $area): self
     {
         $this->area = $area;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Box>
+     */
+    public function getBoxes(): Collection
+    {
+        return $this->boxes;
+    }
+
+    public function addBox(Box $box): self
+    {
+        if (!$this->boxes->contains($box)) {
+            $this->boxes->add($box);
+            $box->setOrg($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBox(Box $box): self
+    {
+        if ($this->boxes->removeElement($box)) {
+            // set the owning side to null (unless already changed)
+            if ($box->getOrg() === $this) {
+                $box->setOrg(null);
+            }
+        }
 
         return $this;
     }

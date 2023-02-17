@@ -32,6 +32,9 @@ class Box
     #[ORM\OneToMany(mappedBy: 'box', targetEntity: Bottle::class, orphanRemoval: true)]
     private Collection $bottles;
 
+    #[ORM\ManyToOne(inversedBy: 'boxes')]
+    private ?Org $org = null;
+
     public function __construct()
     {
         $this->bottles = new ArrayCollection();
@@ -121,6 +124,18 @@ class Box
                 $bottle->setBox(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getOrg(): ?Org
+    {
+        return $this->org;
+    }
+
+    public function setOrg(?Org $org): self
+    {
+        $this->org = $org;
 
         return $this;
     }
