@@ -14,19 +14,31 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Events;
 use App\Service\Sn;
+use App\Entity\Box;
 
-#[AsEntityListener(event: Events::prePersist, entity: OrderItems::class)]
+//#[AsEntityListener(event: Events::prePersist, entity: OrderItems::class)]
+#[AsEntityListener(event: Events::postPersist, entity: OrderItems::class)]
 class OrderItemsNew extends AbstractController
 {
     public function prePersist(OrderItems $item, LifecycleEventArgs $event): void
     {
-        dump($item);
+    }
+
+    public function postPersist(OrderItems $item, LifecycleEventArgs $event): void
+    {
+        $qty = $item->getQuantity();
         $snStart = $item->getSnStart();
-        dump($snStart);
-        $boxid = Sn::toId($snStart);
-        dump($boxid);
-        $item->setStart($boxid);
-        dump($item->getStart());
-        dump($item);
+        $start = Sn::toId($snStart);
+
+        $em = $event->getEntityManager();
+
+        for ($i = $start; $i < $start + $qty; $i++) {
+            $box = $em->getRepository(Box::class)->find($i);
+            if (! is_null($box)) {
+                $buyer = $box->getOrd()->getBuyer();
+                $box->setOrg($buyer);
+            }
+        }
+        $em->flush();
     }
 }
