@@ -155,19 +155,21 @@ class BatchNew extends AbstractController
             }
             $zip->close();
 
-            if ($sn !== $snEnd) {
-                $newfilename = "{$snStart}-{$sn}.zip";
-                rename($filename, $newfilename);
-                $filename = $newfilename;
+            if (file_exists($filename)) {
+                if ($sn !== $snEnd) {
+                    $newfilename = "{$snStart}-{$sn}.zip";
+                    rename($filename, $newfilename);
+                    $filename = $newfilename;
+                }
+
+                $response =  new BinaryFileResponse($filename);
+                $response->headers->set('Content-Type', 'application/zip');
+                $response->headers->set('Content-Disposition', "attachment;filename=\"{$filename}\"");
+                $response->headers->set('Cache-Control','max-age=0');
+                $response->send();
+
+                unlink($filename);
             }
-
-            $response =  new BinaryFileResponse($filename);
-            $response->headers->set('Content-Type', 'application/zip');
-            $response->headers->set('Content-Disposition', "attachment;filename=\"{$filename}\"");
-            $response->headers->set('Cache-Control','max-age=0');
-            $response->send();
-
-            unlink($filename);
         }
     }
 }
