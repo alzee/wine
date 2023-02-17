@@ -66,7 +66,7 @@ class BottleCrudController extends AbstractCrudController
             ->hideOnIndex()
             ->setDisabled()
             ;
-        if ($pageName === 'edit' && $instance->getStatus() > 1) {
+        if ($pageName === 'edit' && $instance->getStatus() > 0) {
             yield AssociationField::new('prize')
                 ->setDisabled()
                 ;
