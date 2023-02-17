@@ -18,10 +18,17 @@ use App\Service\Qr;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Events;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 #[AsEntityListener(event: Events::prePersist, entity: Batch::class)]
 class BatchNew extends AbstractController
 {
+    private $qrdir;
+    public function __construct($qrdir)
+    {
+        $this->qrdir = $qrdir;
+    }
+
     public function prePersist(Batch $batch, LifecycleEventArgs $event): void
     {
         $em = $event->getEntityManager();
@@ -122,18 +129,45 @@ class BatchNew extends AbstractController
             }
         }
         
-        // Generate QRs
+        // Download QRs
         if ($type === 2) {
+            chdir($this->qrdir);
+
+            $zip = new \ZipArchive();
+            $filename = "{$snStart}-{$snEnd}.zip";
+
+            if ($zip->open($filename, \ZipArchive::CREATE) !== TRUE) {
+                // exit("cannot open <$filename>\n");
+            }
+
             $boxes = $em->getRepository(Box::class)->findBetween($start, $start + $qty - 1);
             if (! is_null($boxes)) {
-                foreach ($boxes as $box) {
-                    $boxid = $box->getId();
-                    shell_exec("../bin/console app:qr {$box->getId()}");
-                    // $bottles = $box->getBottles()->toArray();
-                    // foreach ($bottles as $bottle) {
-                    // }
+                for ($i = $start; $i < $start + $qty; $i++) {
+                    if (file_exists(Sn::toSn($i) . '.png')) {
+                        $sn = Sn::toSn($i);
+                        $zip->addFile("{$sn}.png");
+                    }
                 }
+
+                // foreach ($boxes as $box) {
+                //     $zip->addFile("{$box->getSn()}.png");
+                // }
             }
+            $zip->close();
+
+            if ($sn !== $snEnd) {
+                $newfilename = "{$snStart}-{$sn}.zip";
+                rename($filename, $newfilename);
+                $filename = $newfilename;
+            }
+
+            $response =  new BinaryFileResponse($filename);
+            $response->headers->set('Content-Type', 'application/zip');
+            $response->headers->set('Content-Disposition', "attachment;filename=\"{$filename}\"");
+            $response->headers->set('Cache-Control','max-age=0');
+            $response->send();
+
+            unlink($filename);
         }
     }
 }
