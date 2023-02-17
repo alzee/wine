@@ -81,7 +81,9 @@ class BatchCrudController extends AbstractCrudController
 
         if ($this->type !== 2) {
             yield FormField::addTab('每箱信息');
-            yield IntegerField::new('bottleQty');
+            if ($this->type === 0) {
+                yield IntegerField::new('bottleQty');
+            }
             yield CollectionField::new('batchPrizes')
                 ->hideOnIndex()
             // ->allowAdd(false)
