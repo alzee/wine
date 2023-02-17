@@ -36,6 +36,9 @@ class Bottle
     #[ORM\OneToOne(mappedBy: 'bottle', cascade: ['persist', 'remove'])]
     private ?Retail $retail = null;
 
+    #[ORM\ManyToOne(inversedBy: 'bottles')]
+    private ?User $waiter = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -131,6 +134,18 @@ class Bottle
         }
 
         $this->retail = $retail;
+
+        return $this;
+    }
+
+    public function getWaiter(): ?User
+    {
+        return $this->waiter;
+    }
+
+    public function setWaiter(?User $waiter): self
+    {
+        $this->waiter = $waiter;
 
         return $this;
     }
