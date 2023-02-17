@@ -25,8 +25,8 @@ class Qr
         $this->gen($boxSn, $boxEnc);
         
         // https://stackoverflow.com/a/39504523/7714132
-        // system("convert -size 2000x2000 xc:white bg.png");
-        system("composite {$boxSn}.png bg.png {$boxSn}.png");
+        // shell_exec("convert -size 2000x2000 xc:white bg.png");
+        shell_exec("composite {$boxSn}.png bg.png {$boxSn}.png");
         
         $bottles = $box->getBottles();
         foreach ($bottles as $bottle) {
@@ -36,9 +36,10 @@ class Qr
             $width = 645;
             $height = 739;
             $ratio = 0.5;
+            $offset_x = 700;
+            $offset_y = 410;
             $col = 3;
             $reszied_w = $width * $ratio;
-            $reszied_h = $height * $ratio;
             
             $bid = $bottle->getBid();
             if ($bid % $col === 0) {
@@ -46,11 +47,11 @@ class Qr
             } else {
                 $current_col = $bid % $col;
             }
-            $offset_x = $width + $reszied_w * ($current_col - 1);
-            $offset_y = $reszied_h * ceil($bid / $col - 1);
+            $offset_x += $reszied_w * ($current_col - 1);
+            $offset_y *= ceil($bid / $col - 1);
             
-            system("composite -geometry {$reszied_w}x{$reszied_h}+{$offset_x}+{$offset_y} {$sn}.png {$boxSn}.png {$boxSn}.png");
-            system("rm {$sn}.png");
+            shell_exec("composite -geometry {$reszied_w}x+{$offset_x}+{$offset_y} {$sn}.png {$boxSn}.png {$boxSn}.png");
+            shell_exec("rm {$sn}.png");
         }
     }
     
@@ -58,8 +59,7 @@ class Qr
         $url = "https://jiu.itove.com/qr/draw";
         $text = "{$url}?s={$sn}?e={$enc}";
         // -s 15 witth 645px;
-        system("qrencode -t png -s 15 -m 5 {$text} -o {$sn}.png", $ret);
-        system("convert {$sn}.png -pointsize 72 label:{$sn}  -gravity Center -append {$sn}.png");
+        shell_exec("qrencode -t png -s 15 -m 5 {$text} -o {$sn}.png");
+        shell_exec("convert {$sn}.png -pointsize 72 label:{$sn}  -gravity Center -append {$sn}.png");
     }
 }
-
