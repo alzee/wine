@@ -28,10 +28,12 @@ class Qr
         $boxSn = $box->getSn();
         $boxEnc = explode('.', $box->getCipher())[0];
         $this->gen($boxSn, $boxEnc);
+        $margin_l = 100;
+        $margin_t = 100;
         
         // https://stackoverflow.com/a/39504523/7714132
         // shell_exec("convert -size 2000x2000 xc:white bg.png");
-        shell_exec("composite {$boxSn}.png bg.png {$boxSn}.png");
+        shell_exec("composite -geometry +{$margin_l}+{$margin_t} {$boxSn}.png bg.png {$boxSn}.png");
         
         $bottles = $box->getBottles();
         foreach ($bottles as $bottle) {
@@ -52,8 +54,8 @@ class Qr
             } else {
                 $current_col = $bid % $col;
             }
-            $offset_x += $reszied_w * ($current_col - 1);
-            $offset_y *= ceil($bid / $col - 1);
+            $offset_x += $reszied_w * ($current_col - 1) + $margin_l;
+            $offset_y = $offset_y * ceil($bid / $col - 1) + $margin_t;
             
             shell_exec("composite -geometry {$reszied_w}x+{$offset_x}+{$offset_y} {$sn}.png {$boxSn}.png {$boxSn}.png");
             shell_exec("rm {$sn}.png");
