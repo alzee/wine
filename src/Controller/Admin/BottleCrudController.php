@@ -41,6 +41,8 @@ class BottleCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        $instance = $this->getContext()->getEntity()->getInstance();
+
         yield AssociationField::new('box')
             ->onlyOnIndex()
             ;
@@ -64,7 +66,13 @@ class BottleCrudController extends AbstractCrudController
             ->hideOnIndex()
             ->setDisabled()
             ;
-        yield AssociationField::new('prize');
+        if ($pageName === 'edit' && $instance->getStatus() > 1) {
+            yield AssociationField::new('prize')
+                ->setDisabled()
+                ;
+        } else {
+            yield AssociationField::new('prize');
+        }
         yield ChoiceField::new('status')
             ->onlyOnIndex()
             ->setChoices(Choice::BOTTLE_STATUSES);
