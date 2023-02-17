@@ -41,21 +41,39 @@ class BottleCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        yield AssociationField::new('box');
-        yield TextField::new('sn', 'bottle.sn');
+        yield AssociationField::new('box')
+            ->onlyOnIndex()
+            ;
+        yield AssociationField::new('box')
+            ->hideOnIndex()
+            ->setDisabled()
+            ;
+        yield TextField::new('sn', 'bottle.sn')
+            ->onlyOnIndex()
+            ;
+        yield TextField::new('sn', 'bottle.sn')
+            ->hideOnIndex()
+            ->setDisabled()
+            ;
         yield TextField::new('cipher')
+            ->onlyOnIndex()
             ->setMaxLength(25)
             ->hideWhenCreating()
             ;
+        yield TextField::new('cipher')
+            ->hideOnIndex()
+            ->setDisabled()
+            ;
         yield AssociationField::new('prize');
         yield ChoiceField::new('status')
+            ->onlyOnIndex()
             ->setChoices(Choice::BOTTLE_STATUSES);
     }
     
     public function configureActions(Actions $actions): Actions
     {
         return $actions
-            ->disable(Action::DELETE, Action::EDIT, Action::DETAIL, Action::NEW)
+            ->disable(Action::DELETE, Action::DETAIL, Action::NEW)
         ;
     }
     
