@@ -39,9 +39,6 @@ class OrderItems
     #[Groups(['read', 'write'])]
     private ?Orders $ord = null;
 
-    #[ORM\Column]
-    private ?int $start = null;
-
     #[ORM\Column(length: 255)]
     #[Assert\Length(
         exactly: 8,
@@ -95,18 +92,6 @@ class OrderItems
     public function setOrd(?Orders $ord): self
     {
         $this->ord = $ord;
-
-        return $this;
-    }
-
-    public function getStart(): ?int
-    {
-        return $this->start;
-    }
-
-    public function setStart(int $start): self
-    {
-        $this->start = $start;
 
         return $this;
     }
