@@ -13,7 +13,7 @@ class Choice
     public const BOTTLE_STATUSES = [
         'for_sale' => 0,
         'sold' => 1,
-        'waiter_scanned' => 2
+        'claimed' => 2
     ];
 
     public const REWARD_TYPES = [
