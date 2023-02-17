@@ -10,6 +10,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use App\Service\Qr;
+use App\Service\Sn;
 
 #[AsCommand(
     name: 'app:qr',
@@ -47,7 +48,8 @@ class QrCommand extends Command
         // }
 
         // $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
-        $this->qr->pack($boxid);
+        $this->qr->composite($boxid);
+        $io->info($boxid . ' ' . Sn::toSn($boxid));
 
         return Command::SUCCESS;
     }

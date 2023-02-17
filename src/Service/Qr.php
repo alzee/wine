@@ -22,7 +22,7 @@ class Qr
         chdir($qrdir);
     }
     
-    public function pack(int $boxid)
+    public function composite(int $boxid)
     {
         $box = $this->em->find('App\Entity\Box', $boxid);
         $boxSn = $box->getSn();
