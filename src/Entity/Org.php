@@ -156,6 +156,9 @@ class Org
     #[ORM\OneToMany(mappedBy: 'org', targetEntity: Box::class)]
     private Collection $boxes;
 
+    #[ORM\OneToMany(mappedBy: 'store', targetEntity: Claim::class)]
+    private Collection $claims;
+
     public function __construct()
     {
         $this->voucher = 0;
@@ -164,6 +167,7 @@ class Org
         $this->retails = new ArrayCollection();
         $this->users = new ArrayCollection();
         $this->boxes = new ArrayCollection();
+        $this->claims = new ArrayCollection();
     }
 
     public function __toString()
@@ -672,6 +676,36 @@ class Org
             // set the owning side to null (unless already changed)
             if ($box->getOrg() === $this) {
                 $box->setOrg(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Claim>
+     */
+    public function getClaims(): Collection
+    {
+        return $this->claims;
+    }
+
+    public function addClaim(Claim $claim): self
+    {
+        if (!$this->claims->contains($claim)) {
+            $this->claims->add($claim);
+            $claim->setStore($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClaim(Claim $claim): self
+    {
+        if ($this->claims->removeElement($claim)) {
+            // set the owning side to null (unless already changed)
+            if ($claim->getStore() === $this) {
+                $claim->setStore(null);
             }
         }
 

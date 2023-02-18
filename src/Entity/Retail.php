@@ -68,6 +68,9 @@ class Retail
     #[ORM\OneToOne(inversedBy: 'retail', cascade: ['persist', 'remove'])]
     private ?Bottle $bottle = null;
 
+    #[ORM\OneToOne(mappedBy: 'retail', cascade: ['persist', 'remove'])]
+    private ?Claim $claim = null;
+
     public function __toString()
     {
         return '#' . $this->id;
@@ -199,6 +202,23 @@ class Retail
     public function setBottle(?Bottle $bottle): self
     {
         $this->bottle = $bottle;
+
+        return $this;
+    }
+
+    public function getClaim(): ?Claim
+    {
+        return $this->claim;
+    }
+
+    public function setClaim(Claim $claim): self
+    {
+        // set the owning side of the relation if necessary
+        if ($claim->getRetail() !== $this) {
+            $claim->setRetail($this);
+        }
+
+        $this->claim = $claim;
 
         return $this;
     }

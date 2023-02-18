@@ -31,6 +31,7 @@ use App\Entity\Industry;
 use App\Entity\Conf;
 use App\Entity\Share;
 use App\Entity\Reward;
+use App\Entity\Claim;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\UX\Chartjs\Model\Chart;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -152,6 +153,7 @@ class DashboardController extends AbstractDashboardController
             yield MenuItem::linkToCrud('CustomerManage', 'fas fa-users', User::class)
                 ->setController(CustomerCrudController::class);
             ;
+            yield MenuItem::linkToCrud('Claim', 'fas fa-handshake-alt', Claim::class);
             yield MenuItem::linkToCrud('RegList', 'fas fa-handshake-alt', Reg::class);
         }
         yield MenuItem::linkToCrud('Chpwd', 'fas fa-key', User::class)
