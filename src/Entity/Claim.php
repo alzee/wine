@@ -35,6 +35,10 @@ class Claim
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?Bottle $bottle = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Prize $prize = null;
     
     public function __construct()
     {
@@ -126,6 +130,18 @@ class Claim
     public function setBottle(?Bottle $bottle): self
     {
         $this->bottle = $bottle;
+
+        return $this;
+    }
+
+    public function getPrize(): ?Prize
+    {
+        return $this->prize;
+    }
+
+    public function setPrize(?Prize $prize): self
+    {
+        $this->prize = $prize;
 
         return $this;
     }
