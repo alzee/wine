@@ -22,6 +22,11 @@ use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 use App\Entity\Org;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
+use EasyCorp\Bundle\EasyAdminBundle\Filter\TextFilter;
+use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
+use EasyCorp\Bundle\EasyAdminBundle\Filter\ChoiceFilter;
+use App\Entity\Choice;
 
 class UserCrudController extends AbstractCrudController
 {
@@ -102,8 +107,28 @@ class UserCrudController extends AbstractCrudController
             ->leftJoin('entity.org', 'org')
             ->andWhere("entity.id != $uid")
             ->andWhere("entity.id > 100")
-            ->andWhere("entity.org = $userOrgId")
-            ->orWhere("org.upstream = $userOrgId");
+            ->andWhere("entity.org = $userOrgId OR org.upstream = $userOrgId")
+        ;
         return $response;
+    }
+    
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters
+            ->add(TextFilter::new('username'))
+            ->add(EntityFilter::new('org'))
+            // ->add(ChoiceFilter::new('roles')->setChoices([
+            //     'Salesman' => 'ROLE_SALESMAN',
+            //     'Admin' => 'ROLE_ADMIN',
+            //     'Head' => 'ROLE_HEAD',
+            //     'Agency' => 'ROLE_AGENCY',
+            //     'Store' => 'ROLE_STORE',
+            //     'Restaurant' => 'ROLE_RESTAURANT',
+            //     'VariantHead' => 'ROLE_VARIANT_HEAD',
+            //     'VariantAgency' => 'ROLE_VARIANT_AGENCY',
+            //     'VariantStore' => 'ROLE_VARIANT_STORE',
+            // ]))
+            ->add(TextFilter::new('phone'))
+        ;
     }
 }
