@@ -25,6 +25,8 @@ class ConfCrudController extends AbstractCrudController
         yield FormField::addTab('短信');
         yield ArrayField::new('cc');
         yield FormField::addTab('奖项');
+        yield IntegerField::new('waiterTip');
+        yield IntegerField::new('storeTip');
     }
 
     public function configureActions(Actions $actions): Actions
