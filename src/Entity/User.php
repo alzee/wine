@@ -117,6 +117,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'waiter', targetEntity: Bottle::class)]
     private Collection $bottles;
 
+    #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Claim::class)]
+    private Collection $claims;
+
     public function __toString()
     {
         $s = '';
@@ -134,6 +137,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->bottles = new ArrayCollection();
+        $this->claims = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -398,6 +402,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($bottle->getWaiter() === $this) {
                 $bottle->setWaiter(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Claim>
+     */
+    public function getClaims(): Collection
+    {
+        return $this->claims;
+    }
+
+    public function addClaim(Claim $claim): self
+    {
+        if (!$this->claims->contains($claim)) {
+            $this->claims->add($claim);
+            $claim->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClaim(Claim $claim): self
+    {
+        if ($this->claims->removeElement($claim)) {
+            // set the owning side to null (unless already changed)
+            if ($claim->getCustomer() === $this) {
+                $claim->setCustomer(null);
             }
         }
 

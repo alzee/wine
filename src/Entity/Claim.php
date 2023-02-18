@@ -30,6 +30,10 @@ class Claim
     #[ORM\ManyToOne(inversedBy: 'claims')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Org $store = null;
+
+    #[ORM\ManyToOne(inversedBy: 'claims')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $customer = null;
     
     public function __construct()
     {
@@ -97,6 +101,18 @@ class Claim
     public function setStore(?Org $store): self
     {
         $this->store = $store;
+
+        return $this;
+    }
+
+    public function getCustomer(): ?User
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?User $customer): self
+    {
+        $this->customer = $customer;
 
         return $this;
     }
