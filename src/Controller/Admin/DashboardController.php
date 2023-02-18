@@ -154,8 +154,8 @@ class DashboardController extends AbstractDashboardController
             yield MenuItem::linkToCrud('CustomerManage', 'fas fa-users', User::class)
                 ->setController(CustomerCrudController::class);
             ;
-            yield MenuItem::linkToCrud('Claim', 'fas fa-handshake-alt', Claim::class);
-            yield MenuItem::linkToCrud('Borrow', 'fas fa-handshake-alt', Borrow::class);
+            yield MenuItem::linkToCrud('Claim', 'fas fa-award', Claim::class);
+            yield MenuItem::linkToCrud('Borrow', 'fas fa-gift', Borrow::class);
             yield MenuItem::linkToCrud('RegList', 'fas fa-handshake-alt', Reg::class);
         }
         yield MenuItem::linkToCrud('Chpwd', 'fas fa-key', User::class)
