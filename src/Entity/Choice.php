@@ -4,6 +4,18 @@ namespace App\Entity;
 
 class Choice
 {
+    public const CLAIM_TYPES = [
+        'one_more' => 0,
+        'bidirectional_one_mroe' => 1,
+        'three_to_one' => 1,
+    ];
+    
+    public const CLAIM_STATUSES = [
+        'pending' => 0,
+        'expired' => 1,
+        'claimed' => 2
+    ];
+
     public const BATCH_TYPES = [
         'new' => 0,
         'edit' => 1,
