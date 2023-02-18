@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Controller\Admin;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 
 use App\Entity\Claim;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -22,4 +24,11 @@ class ClaimCrudController extends AbstractCrudController
         ];
     }
     */
+    
+    public function configureActions(Actions $actions): Actions
+    {
+        return $actions
+            ->disable(Action::DELETE, Action::EDIT, Action::NEW, Action::DETAIL)
+        ;
+    }
 }
