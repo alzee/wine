@@ -15,6 +15,13 @@ class Choice
         'expired' => 1,
         'claimed' => 2
     ];
+    ;
+    public const BORROW_STATUSES = [
+        'pendin' => 0,
+        'approved' => 1,
+        'borrowed' => 2,
+        'given' => 3,
+    ];
 
     public const BATCH_TYPES = [
         'new' => 0,
