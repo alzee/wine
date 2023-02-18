@@ -20,6 +20,7 @@ use App\Entity\Share;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Events;
 use App\Entity\Bottle;
+use App\Entity\Claim;
 
 #[AsEntityListener(event: Events::postPersist, entity: Retail::class)]
 class RetailNew extends AbstractController
@@ -33,7 +34,7 @@ class RetailNew extends AbstractController
         $amount = $quantity * $product->getPrice();
         $voucher = $quantity * $product->getVoucher();
         $store = $retail->getStore();
-        $consumer = $retail->getConsumer();
+        $customer = $retail->getCustomer();
 
         $retail->setAmount($amount);
         $retail->setVoucher($voucher);
@@ -42,8 +43,8 @@ class RetailNew extends AbstractController
         $stockRecord = $em->getRepository(Stock::class)->findOneBy(['org' => $store, 'product' => $product]);
         $stockRecord->setStock($stockRecord->getStock() - $quantity);
 
-        // consumer + voucher
-        $consumer->setVoucher($consumer->getVoucher() + $voucher);
+        // customer + voucher
+        $customer->setVoucher($customer->getVoucher() + $voucher);
 
         // store - voucher
         $store->setVoucher($store->getVoucher() - $voucher);
@@ -56,17 +57,17 @@ class RetailNew extends AbstractController
         $record->setType($type);
         $em->persist($record);
 
-        // voucher record for consumer
+        // voucher record for customer
         $record = new Voucher();
         $consumers = $em->getRepository(Org::class)->findOneByType(4);
         $record->setOrg($consumers);
-        $record->setConsumer($consumer);
+        $record->setCustomer($customer);
         $record->setVoucher($voucher);
         $record->setType($type - 100);
         $em->persist($record);
 
         // Reward customer's referrer
-        $referrer = $consumer->getReferrer();
+        $referrer = $customer->getReferrer();
         if (! is_null($referrer)) {
             $reward = $product->getRefReward() * $quantity;
             $referrer->setWithdrawable($referrer->getWithdrawable() + $reward);
@@ -178,7 +179,16 @@ class RetailNew extends AbstractController
         
         // update bottle status
         $bottle = $retail->getBottle();
+        $bottle->setCustomer($customer);
         $bottle->setStatus(1);
+        
+        // claim
+        $prize = $bottle->getPrice();
+        if (! in_array($prize->getId(), [7, 8])) {
+            $claim = new Claim();
+            $claim->setBottle($bottle);
+            $em->persist($claim);
+        }
 
         $em->flush();
     }

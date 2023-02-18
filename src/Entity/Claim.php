@@ -32,6 +32,9 @@ class Claim
     #[ORM\ManyToOne(inversedBy: 'claims')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $customer = null;
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?Bottle $bottle = null;
     
     public function __construct()
     {
@@ -111,6 +114,18 @@ class Claim
     public function setCustomer(?User $customer): self
     {
         $this->customer = $customer;
+
+        return $this;
+    }
+
+    public function getBottle(): ?Bottle
+    {
+        return $this->bottle;
+    }
+
+    public function setBottle(?Bottle $bottle): self
+    {
+        $this->bottle = $bottle;
 
         return $this;
     }

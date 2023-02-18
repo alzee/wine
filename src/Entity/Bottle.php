@@ -39,6 +39,9 @@ class Bottle
     #[ORM\ManyToOne(inversedBy: 'bottles')]
     private ?User $waiter = null;
 
+    #[ORM\ManyToOne]
+    private ?User $customer = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -146,6 +149,18 @@ class Bottle
     public function setWaiter(?User $waiter): self
     {
         $this->waiter = $waiter;
+
+        return $this;
+    }
+
+    public function getCustomer(): ?User
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?User $customer): self
+    {
+        $this->customer = $customer;
 
         return $this;
     }

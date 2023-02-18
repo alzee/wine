@@ -114,9 +114,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['read', 'write'])]
     private ?string $nick = null;
 
-    #[ORM\OneToMany(mappedBy: 'waiter', targetEntity: Bottle::class)]
-    private Collection $bottles;
-
     #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Claim::class)]
     private Collection $claims;
 
@@ -136,7 +133,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
-        $this->bottles = new ArrayCollection();
         $this->claims = new ArrayCollection();
     }
 
@@ -374,36 +370,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setNick(?string $nick): self
     {
         $this->nick = $nick;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Bottle>
-     */
-    public function getBottles(): Collection
-    {
-        return $this->bottles;
-    }
-
-    public function addBottle(Bottle $bottle): self
-    {
-        if (!$this->bottles->contains($bottle)) {
-            $this->bottles->add($bottle);
-            $bottle->setWaiter($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBottle(Bottle $bottle): self
-    {
-        if ($this->bottles->removeElement($bottle)) {
-            // set the owning side to null (unless already changed)
-            if ($bottle->getWaiter() === $this) {
-                $bottle->setWaiter(null);
-            }
-        }
 
         return $this;
     }
