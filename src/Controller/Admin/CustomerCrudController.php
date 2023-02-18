@@ -23,6 +23,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
+use EasyCorp\Bundle\EasyAdminBundle\Filter\TextFilter;
+use EasyCorp\Bundle\EasyAdminBundle\Filter\NumericFilter;
 
 class CustomerCrudController extends AbstractCrudController
 {
@@ -80,5 +83,19 @@ class CustomerCrudController extends AbstractCrudController
         $response
             ->andWhere("entity.roles like '%ROLE_CUSTOMER%'");
         return $response;
+    }
+    
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters
+            ->add(TextFilter::new('openid'))
+            ->add(TextFilter::new('name'))
+            ->add(TextFilter::new('nick'))
+            ->add(TextFilter::new('phone'))
+            ->add(NumericFilter::new('voucher'))
+            ->add(NumericFilter::new('reward'))
+            ->add(NumericFilter::new('withdrawable'))
+            ->add(NumericFilter::new('withdrawing'))
+        ;
     }
 }
