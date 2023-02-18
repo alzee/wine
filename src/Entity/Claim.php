@@ -15,7 +15,6 @@ class Claim
     private ?int $id = null;
 
     #[ORM\OneToOne(inversedBy: 'claim', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
     private ?Retail $retail = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
@@ -28,7 +27,6 @@ class Claim
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'claims')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?Org $store = null;
 
     #[ORM\ManyToOne(inversedBy: 'claims')]
