@@ -117,6 +117,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Claim::class)]
     private Collection $claims;
 
+    #[ORM\Column]
+    private ?int $point = 0;
+
     public function __toString()
     {
         $s = '';
@@ -400,6 +403,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $claim->setCustomer(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPoint(): ?int
+    {
+        return $this->point;
+    }
+
+    public function setPoint(int $point): self
+    {
+        $this->point = $point;
 
         return $this;
     }
