@@ -66,6 +66,7 @@ class BatchCrudController extends AbstractCrudController
         ;
         if ($this->type === 0) {
             yield AssociationField::new('product')
+                ->setRequired(true)
                 ;
             yield IntegerField::new('qty')
                 ->onlyWhenCreating()

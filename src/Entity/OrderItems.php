@@ -32,6 +32,7 @@ class OrderItems
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['read', 'write'])]
+    #[Assert\NotBlank]
     private ?Product $product = null;
 
     #[ORM\ManyToOne(inversedBy: 'orderItems')]
