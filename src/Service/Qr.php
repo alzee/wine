@@ -63,7 +63,12 @@ class Qr
     }
     
     public function gen($sn, $enc, $type) {
-        $url = "https://jiu.itove.com/wxqr";
+        $url = $_ENV["WXQR_URL"];
+        if (empty($url)) {
+            echo 'env WXQR_URL not found';
+            echo PHP_EOL;
+            exit;
+        }
         $text = "{$url}?t={$type}&s={$sn}&e={$enc}";
         // -s 15 witth 645px;
         shell_exec("qrencode -t png -s 15 -m 5 \"{$text}\" -o {$sn}.png");
