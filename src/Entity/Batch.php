@@ -67,6 +67,9 @@ class Batch
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
+    #[ORM\ManyToOne]
+    private ?Product $product = null;
+
     public function __construct()
     {
         $this->batchPrizes = new ArrayCollection();
@@ -188,6 +191,18 @@ class Batch
     public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): self
+    {
+        $this->product = $product;
 
         return $this;
     }

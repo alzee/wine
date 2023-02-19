@@ -11,6 +11,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DatetimeField;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -64,6 +65,8 @@ class BatchCrudController extends AbstractCrudController
             ->hideOnForm()
         ;
         if ($this->type === 0) {
+            yield AssociationField::new('product')
+                ;
             yield IntegerField::new('qty')
                 ->onlyWhenCreating()
                 ;
@@ -80,9 +83,8 @@ class BatchCrudController extends AbstractCrudController
         ;
 
         if ($this->type !== 2) {
-            yield FormField::addTab('每箱信息');
+            yield FormField::addTab('奖项');
             if ($this->type === 0) {
-                yield IntegerField::new('bottleQty');
             }
             yield CollectionField::new('batchPrizes')
                 ->hideOnIndex()
