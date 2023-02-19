@@ -21,6 +21,7 @@ use App\Entity\User;
 use App\Entity\Box;
 use App\Entity\Bottle;
 use App\Entity\Choice;
+use App\Entity\Conf;
 use App\Entity\RetailReturn;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -493,9 +494,12 @@ class ApiController extends AbstractController
                 // If no waiter scanned yet
                 if (is_null($bottle->getWaiter())) {
                     // Tip waiter
+                    $conf = $em->getRepository(Conf::class)->find(1);
                     $amount = $conf->getWaiterTip();
                     $user->setWithdrawable($user->getWithdrawable() + $amount);
                     $bottle->setWaiter($user);
+                    // $bottle->setStatus(2);
+                    $em->flush();
                     $code = 3;
                     $msg = 'Waiter tipped.';
                     return $this->json(['code' => $code, 'msg' => $msg]);
@@ -510,7 +514,5 @@ class ApiController extends AbstractController
                 return $this->json(['code' => $code, 'msg' => $msg]);
             }
         }
-        
-        return $this->json($resp);
     }
 }
