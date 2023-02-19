@@ -42,7 +42,7 @@ class BoxCrudController extends AbstractCrudController
             ;
         yield AssociationField::new('org')
             ;
-        yield AssociationField::new('batch.bottleQty', 'Bottle Qty')
+        yield AssociationField::new('product')
             ->onlyOnIndex()
         ;
         yield ArrayField::new('batch.batchPrizes', 'Box Prizes')
