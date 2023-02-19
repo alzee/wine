@@ -495,6 +495,7 @@ class ApiController extends AbstractController
                     // Tip waiter
                     $amount = $conf->getWaiterTip();
                     $user->setWithdrawable($user->getWithdrawable() + $amount);
+                    $bottle->setWaiter($user);
                     $code = 3;
                     $msg = 'Waiter tipped.';
                     return $this->json(['code' => $code, 'msg' => $msg]);

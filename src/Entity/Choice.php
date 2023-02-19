@@ -4,6 +4,13 @@ namespace App\Entity;
 
 class Choice
 {
+    public const WXQR_TYPES = [
+        'box' => 0,
+        'bottle' => 1,
+        'orgSignup' => 2,
+        'WaiterSignup' => 3
+    ];
+    
     public const CLAIM_TYPES = [
         'one_more' => 0,
         'bidirectional_one_mroe' => 1,
