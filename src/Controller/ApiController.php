@@ -24,6 +24,7 @@ use App\Entity\RetailReturn;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Service\Sms;
+use App\Service\Sn;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -390,10 +391,60 @@ class ApiController extends AbstractController
         return $this->json($resp);
     }
     
-    #[Route('/waiter-scan')]
-    public function waiterScan(Request $request): Response
+    #[Route('/scan/box', methods: ['POST'])]
+    public function scanBox(Request $request): Response
     {
-        $pca = file_get_contents('pca.json');
-        return new Response($pca);
+        $em = $this->doctrine->getManager();
+        $params  = $request->toArray();
+        $oid = $params['oid'];
+        $sn = $params['sn'];
+        $boxid = Sn::toId($sn);
+        $cipher = $params['s'];
+        $org = $em->getRepository(Org::class)->find($oid);
+        $box = $em->getRepository(Box::class)->find($boxid);
+        // Verify cipher
+        $cipher0 = explode('.', $box->getCipher())[0];
+        if ($cipher !== $cipher0) {
+            $code = 1;
+            $msg = 'Wrong cipher.';
+            return $this->json(['code' => $code, 'msg' => $msg]);
+        }
+        // Check upstream
+        if ($org->getUpstream() !== $box->getOrg()) {
+            $code = 2;
+            $msg = 'You can not order this box.';
+            return $this->json(['code' => $code, 'msg' => $msg]);
+        }
+        // If all pass, create new order
+        $product = $box->getProduct();
+        $qty = 1;
+        
+        $order = new Orders();
+        $order->setSeller($org->getUpstream());
+        $order->setBuyer($org);
+        // $order->addOrderItem($item);
+        $em->persist($order);
+        
+        $item = new OrderItems();
+        $item->setProduct($product);
+        $item->setQuantity($qty);
+        $item->setSnStart($sn);
+        $item->setOrd($order);
+        $em->persist($item);
+
+        $em->flush();
+        
+        $code = 0;
+        $msg = 'Done.';
+        $ord = ['product' => $product, 'qty' => $qty];
+        
+        return $this->json(['code' => $code, 'msg' => $msg, 'ord' => $ord]);
+    }
+    
+    #[Route('/scan/bottle')]
+    public function scanBottle(Request $request): Response
+    {
+        $resp = '';
+        return $this->json($resp);
     }
 }

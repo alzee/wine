@@ -42,6 +42,6 @@ class Sn
             $right += $i * Self::$right_range;
         }
 
-        return $right;
+        return (int) $right;
     }
 }
