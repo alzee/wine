@@ -1,3 +1,4 @@
+- add staff, if org is restaurant staff is waiter
 - product voucher to box, rewards/shares to bottle
 - disable edit on certain entries on index
 - doctrine get incremental:
