@@ -419,18 +419,19 @@ class ApiController extends AbstractController
         $product = $box->getProduct();
         $qty = 1;
         
-        $order = new Orders();
-        $order->setSeller($org->getUpstream());
-        $order->setBuyer($org);
-        // $order->addOrderItem($item);
-        $em->persist($order);
-        
         $item = new OrderItems();
         $item->setProduct($product);
         $item->setQuantity($qty);
         $item->setSnStart($sn);
-        $item->setOrd($order);
         $em->persist($item);
+        
+        $order = new Orders();
+        $order->setSeller($org->getUpstream());
+        $order->setBuyer($org);
+        $order->addOrderItem($item);
+        $em->persist($order);
+        
+        $item->setOrd($order);
 
         $em->flush();
         
