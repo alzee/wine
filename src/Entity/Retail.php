@@ -31,7 +31,6 @@ class Retail
     private ?Org $store = null;
 
     #[ORM\ManyToOne(inversedBy: 'retails')]
-    #[ORM\JoinColumn(nullable: false)]
     #[Groups(['read'])]
     private ?Consumer $consumer = null;
 
