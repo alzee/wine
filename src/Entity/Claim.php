@@ -18,7 +18,7 @@ class Claim
     private ?Retail $retail = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
-    private ?int $type = null;
+    private ?int $type = 0;
 
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $status = 0;

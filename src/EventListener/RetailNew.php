@@ -183,7 +183,7 @@ class RetailNew extends AbstractController
         $bottle->setStatus(1);
         
         // claim
-        $prize = $bottle->getPrice();
+        $prize = $bottle->getPrize();
         if (! in_array($prize->getId(), [7, 8])) {
             $claim = new Claim();
             $claim->setBottle($bottle);

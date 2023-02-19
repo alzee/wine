@@ -19,6 +19,7 @@ use App\Entity\OrderRestaurant;
 use App\Entity\Scan;
 use App\Entity\User;
 use App\Entity\Box;
+use App\Entity\Bottle;
 use App\Entity\Choice;
 use App\Entity\RetailReturn;
 use Doctrine\Persistence\ManagerRegistry;
@@ -445,7 +446,70 @@ class ApiController extends AbstractController
     #[Route('/scan/bottle')]
     public function scanBottle(Request $request): Response
     {
-        $resp = '';
+        $em = $this->doctrine->getManager();
+        $params  = $request->toArray();
+        $uid = $params['uid'];
+        $sn = $params['sn'];
+        $bid = Sn::toId($sn);
+        $cipher = $params['s'];
+        $user = $em->getRepository(User::class)->find($uid);
+        $bottle = $em->getRepository(Bottle::class)->findOneBy(['sn' => $sn]);
+        $box = $bottle->getBox();
+        $org = $box->getOrg();
+        $qty = 1;
+        // Verify cipher
+        $cipher0 = explode('.', $bottle->getCipher())[0];
+        if ($cipher !== $cipher0) {
+            $code = 1;
+            $msg = 'Wrong cipher.';
+            return $this->json(['code' => $code, 'msg' => $msg]);
+        }
+        // If unsold
+        if ($bottle->getStatus() === 0) {
+            // Only sold if box is in stores
+            if ($org->getType() === 2 || $org->getType() === 12) {
+                $retail = new Retail();
+                $retail->setStore($org);
+                $retail->setCustomer($user);
+                $retail->setProduct($box->getProduct());
+                $retail->setQuantity($qty);
+                $retail->setBottle($bottle);
+                $em->persist($retail);
+                $em->flush();
+                
+                $code = 0;
+                $msg = 'Done.';
+                return $this->json(['code' => $code, 'msg' => $msg]);
+            } else {
+                $code = 2;
+                $msg = 'Bottle not in store.';
+                return $this->json(['code' => $code, 'msg' => $msg]);
+            }
+        }
+        // if sold
+        if ($bottle->getStatus() === 1) {
+            // If is waiter
+            if (in_array('ROLE_WAITER', $user->getRoles())) {
+                // If no waiter scanned yet
+                if (is_null($bottle->getWaiter())) {
+                    // Tip waiter
+                    $amount = $conf->getWaiterTip();
+                    $user->setWithdrawable($user->getWithdrawable() + $amount);
+                    $code = 3;
+                    $msg = 'Waiter tipped.';
+                    return $this->json(['code' => $code, 'msg' => $msg]);
+                } else {
+                    $code = 4;
+                    $msg = 'Can not tip again.';
+                    return $this->json(['code' => $code, 'msg' => $msg]);
+                }
+            } else {
+                $code = 5;
+                $msg = 'Can not draw again.';
+                return $this->json(['code' => $code, 'msg' => $msg]);
+            }
+        }
+        
         return $this->json($resp);
     }
 }
