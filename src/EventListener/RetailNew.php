@@ -31,8 +31,8 @@ class RetailNew extends AbstractController
 
         $product = $retail->getProduct();
         $quantity = $retail->getQuantity();
-        $amount = $quantity * $product->getPrice();
-        $voucher = $quantity * $product->getVoucher();
+        $amount = $quantity * $product->getPrice() / $product->getBottleQty();
+        $voucher = $quantity * $product->getVoucher() / $product->getBottleQty();
         $store = $retail->getStore();
         $customer = $retail->getCustomer();
 
