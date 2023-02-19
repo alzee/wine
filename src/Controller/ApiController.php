@@ -399,9 +399,9 @@ class ApiController extends AbstractController
         $em = $this->doctrine->getManager();
         $params  = $request->toArray();
         $oid = $params['oid'];
-        $sn = $params['sn'];
+        $sn = $params['s'];
         $boxid = Sn::toId($sn);
-        $cipher = $params['s'];
+        $cipher = $params['e'];
         $org = $em->getRepository(Org::class)->find($oid);
         $box = $em->getRepository(Box::class)->find($boxid);
         // Verify cipher
@@ -450,9 +450,9 @@ class ApiController extends AbstractController
         $em = $this->doctrine->getManager();
         $params  = $request->toArray();
         $uid = $params['uid'];
-        $sn = $params['sn'];
+        $sn = $params['s'];
         $bid = Sn::toId($sn);
-        $cipher = $params['s'];
+        $cipher = $params['e'];
         $user = $em->getRepository(User::class)->find($uid);
         $bottle = $em->getRepository(Bottle::class)->findOneBy(['sn' => $sn]);
         $box = $bottle->getBox();
