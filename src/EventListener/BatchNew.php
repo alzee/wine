@@ -78,6 +78,7 @@ class BatchNew extends AbstractController
         
         // Create boxes
         if ($type === 0) {
+            $product = $batch->getProduct();
             for ($i = 0; $i < $qty; $i++) {
                 $box = new Box;
                 $boxSn = Sn::toSn($start + $i);
@@ -85,11 +86,12 @@ class BatchNew extends AbstractController
                 $box->setCipher($enc->enc($boxSn));
                 $box->setBatch($batch);
                 $box->setBid($start + $i);
+                $box->setProduct($product);
                 $em->persist($box);
                 
                 // Create bottles;
                 shuffle($prizes);
-                for ($j = 1; $j <= $batch->getBottleQty(); $j++) {
+                for ($j = 1; $j <= $product->getBottleQty(); $j++) {
                     $bottleSn = $boxSn . '.' . $j;
                     $bottle = new Bottle;
                     $bottle->setBid($j);
@@ -104,7 +106,7 @@ class BatchNew extends AbstractController
         
         // Update bottles prizes;
         /**
-         * Note: bottleQty MUST NOT change after create
+         * Note: product MUST NOT change after create
          */
         if ($type === 1) {
             $boxes = $em->getRepository(Box::class)->findBetween($start, $start + $qty - 1);

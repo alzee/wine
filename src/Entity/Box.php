@@ -35,6 +35,9 @@ class Box
     #[ORM\ManyToOne(inversedBy: 'boxes')]
     private ?Org $org = null;
 
+    #[ORM\ManyToOne(inversedBy: 'boxes')]
+    private ?Product $product = null;
+
     public function __construct()
     {
         $this->bottles = new ArrayCollection();
@@ -136,6 +139,18 @@ class Box
     public function setOrg(?Org $org): self
     {
         $this->org = $org;
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): self
+    {
+        $this->product = $product;
 
         return $this;
     }
