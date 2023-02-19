@@ -58,7 +58,7 @@ class Qr
             $offset_y = $offset_y * ceil($bid / $col - 1) + $margin_t;
             
             shell_exec("composite -geometry {$reszied_w}x+{$offset_x}+{$offset_y} {$sn}.png {$boxSn}.png {$boxSn}.png");
-            // shell_exec("rm {$sn}.png");
+            shell_exec("rm {$sn}.png");
         }
     }
     
