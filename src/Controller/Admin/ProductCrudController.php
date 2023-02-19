@@ -64,6 +64,7 @@ class ProductCrudController extends AbstractCrudController
             TextField::new('sn')->onlyWhenUpdating()->setFormTypeOptions(['disabled' => 'disabled']),
             TextField::new('name'),
             TextField::new('spec'),
+            IntegerField::new('bottleQty'),
             MoneyField::new('price')->setCurrency('CNY'),
             MoneyField::new('unitPrice')->setCurrency('CNY'),
             MoneyField::new('unitPricePromo')->setCurrency('CNY'),

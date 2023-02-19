@@ -102,6 +102,9 @@ class Product
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: Box::class)]
     private Collection $boxes;
 
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $bottleQty = 6;
+
     public function __construct()
     {
         $this->boxes = new ArrayCollection();
@@ -339,6 +342,18 @@ class Product
                 $box->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getBottleQty(): ?int
+    {
+        return $this->bottleQty;
+    }
+
+    public function setBottleQty(int $bottleQty): self
+    {
+        $this->bottleQty = $bottleQty;
 
         return $this;
     }
