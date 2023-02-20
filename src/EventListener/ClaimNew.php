@@ -39,6 +39,7 @@ class ClaimNew extends AbstractController
             $voucher->setType(14);
             $em->persist($voucher);
             $customer->setVoucher($customer->getVoucher() + $amount);
+            $claim->setValue($amount);
             $claim->setStatus(1);
         }
        
@@ -52,6 +53,7 @@ class ClaimNew extends AbstractController
             $voucher->setType(15);
             $em->persist($voucher);
             $customer->setVoucher($customer->getVoucher() + $amount);
+            $claim->setValue($amount);
             $claim->setStatus(1);
         }
        
@@ -59,6 +61,7 @@ class ClaimNew extends AbstractController
         if ($pid === 5) {
             $amount = $prize->getValue() * 100;
             $customer->setWithdrawable($customer->getWithdrawable() + $amount);
+            $claim->setValue($amount);
             $claim->setStatus(1);
         }
        
@@ -66,6 +69,7 @@ class ClaimNew extends AbstractController
         if ($pid === 6) {
             $amount = rand($prize->getValue(), $prize->getValue2()) * 100;
             $customer->setWithdrawable($customer->getWithdrawable() + $amount);
+            $claim->setValue($amount);
             $claim->setStatus(1);
         }
        

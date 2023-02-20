@@ -58,7 +58,7 @@ class Claim
     private ?Prize $prize = null;
 
     #[ORM\Column]
-    private ?int $value = null;
+    private ?int $value = 0;
     
     public function __construct()
     {
