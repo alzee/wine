@@ -59,8 +59,8 @@ class RetailNew extends AbstractController
 
         // voucher record for customer
         $record = new Voucher();
-        $consumers = $em->getRepository(Org::class)->findOneByType(4);
-        $record->setOrg($consumers);
+        $orgCustomer = $em->getRepository(Org::class)->findOneByType(4);
+        $record->setOrg($orgCustomer);
         $record->setCustomer($customer);
         $record->setVoucher($voucher);
         $record->setType($type - 100);

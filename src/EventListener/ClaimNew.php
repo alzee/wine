@@ -15,6 +15,7 @@ use App\Entity\Withdraw;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Events;
+use App\Entity\Org;
 
 #[AsEntityListener(event: Events::postPersist, entity: Claim::class)]
 class ClaimNew extends AbstractController
@@ -24,6 +25,7 @@ class ClaimNew extends AbstractController
         $em = $event->getEntityManager();
         $prize = $claim->getPrize();
         $customer = $claim->getCustomer();
+        $orgCustomer = $em->getRepository(Org::class)->findOneByType(4);
         
         $pid = $prize->getId();
         
@@ -31,7 +33,7 @@ class ClaimNew extends AbstractController
         if ($pid === 3) {
             $amount = $prize->getValue() * 100;
             $voucher = new Voucher();
-            $voucher->setOrg($consumers);
+            $voucher->setOrg($orgCustomer);
             $voucher->setCustomer($customer);
             $voucher->setVoucher($amount);
             $voucher->setType(14);
@@ -44,7 +46,7 @@ class ClaimNew extends AbstractController
         if ($pid === 4) {
             $amount = rand($prize->getValue(), $prize->getValue2()) * 100;
             $voucher = new Voucher();
-            $voucher->setOrg($consumers);
+            $voucher->setOrg($orgCustomer);
             $voucher->setCustomer($customer);
             $voucher->setVoucher($amount);
             $voucher->setType(15);
