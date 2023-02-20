@@ -59,7 +59,7 @@ class Claim
 
     #[ORM\Column]
     #[Groups(['read'])]
-    private ?int $value = 0;
+    private ?int $value = 1;
     
     public function __construct()
     {
