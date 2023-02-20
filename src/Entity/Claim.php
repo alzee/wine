@@ -5,13 +5,22 @@ namespace App\Entity;
 use App\Repository\ClaimRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 
 #[ORM\Entity(repositoryClass: ClaimRepository::class)]
+#[ApiResource(
+    normalizationContext: ['groups' => ['read']],
+    denormalizationContext: ['groups' => ['write']],
+    paginationEnabled: false,
+)]
+#[ApiFilter(SearchFilter::class, properties: ['store' => 'exact', 'customer' => 'partial'])]
 class Claim
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['read'])]
     private ?int $id = null;
 
     #[ORM\OneToOne(inversedBy: 'claim', cascade: ['persist', 'remove'])]
@@ -21,23 +30,29 @@ class Claim
     private ?int $type = 0;
 
     #[ORM\Column(type: Types::SMALLINT)]
+    #[Groups(['read'])]
     private ?int $status = 0;
 
     #[ORM\Column]
+    #[Groups(['read'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'claims')]
+    #[Groups(['read'])]
     private ?Org $store = null;
 
     #[ORM\ManyToOne(inversedBy: 'claims')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['read'])]
     private ?User $customer = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[Groups(['read'])]
     private ?Bottle $bottle = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['read'])]
     private ?Prize $prize = null;
     
     public function __construct()
