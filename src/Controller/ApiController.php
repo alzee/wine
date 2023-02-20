@@ -509,9 +509,9 @@ class ApiController extends AbstractController
                     // $bottle->setStatus(2);
                     $em->flush();
                     $code = 1;
-                    $msg = "恭喜您获得{$tip}元提现金额";
+                    $msg = "恭喜您获得提现金额";
                     // $msg = 'Waiter tipped.';
-                    return $this->json(['code' => $code, 'msg' => $msg]);
+                    return $this->json(['code' => $code, 'msg' => $msg, 'tip' => $tip]);
                 } else {
                     $code = 13;
                     $msg = '此二维码已使用';
