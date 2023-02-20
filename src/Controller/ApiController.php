@@ -408,13 +408,16 @@ class ApiController extends AbstractController
         $cipher0 = explode('.', $box->getCipher())[0];
         if ($cipher !== $cipher0) {
             $code = 1;
-            $msg = 'Wrong cipher.';
+            $msg = '错误的二维码';
+            // $msg = 'Wrong cipher.';
+            return $this->json(['code' => $code, 'msg' => $msg]);
             return $this->json(['code' => $code, 'msg' => $msg]);
         }
         // Check upstream
         if ($org->getUpstream() !== $box->getOrg()) {
             $code = 2;
-            $msg = 'You can not order this box.';
+            $msg = '您不能进货此商品';
+            // $msg = 'You can not order this box.';
             return $this->json(['code' => $code, 'msg' => $msg]);
         }
         // If all pass, create new order
@@ -438,7 +441,8 @@ class ApiController extends AbstractController
         $em->flush();
         
         $code = 0;
-        $msg = 'Done.';
+        $msg = '已入库';
+        // $msg = 'Done';
         $ord = ['product' => $product, 'qty' => $qty];
         
         return $this->json(['code' => $code, 'msg' => $msg, 'ord' => $ord]);
@@ -462,7 +466,8 @@ class ApiController extends AbstractController
         $cipher0 = explode('.', $bottle->getCipher())[0];
         if ($cipher !== $cipher0) {
             $code = 1;
-            $msg = 'Wrong cipher.';
+            $msg = '错误的二维码';
+            // $msg = 'Wrong cipher.';
             return $this->json(['code' => $code, 'msg' => $msg]);
         }
         // If unsold
@@ -479,11 +484,14 @@ class ApiController extends AbstractController
                 $em->flush();
                 
                 $code = 0;
-                $msg = 'Done.';
-                return $this->json(['code' => $code, 'msg' => $msg]);
+                // $msg = 'Done.';
+                $msg = "恭喜您获得奖品";
+                $prize = $bottle->getPrize();
+                return $this->json(['code' => $code, 'msg' => $msg, 'prize' => $prize->getName()]);
             } else {
                 $code = 2;
-                $msg = 'Bottle not in store.';
+                // $msg = 'Bottle not in store.';
+                $msg = '您不能购买此商品';
                 return $this->json(['code' => $code, 'msg' => $msg]);
             }
         }
@@ -495,22 +503,25 @@ class ApiController extends AbstractController
                 if (is_null($bottle->getWaiter())) {
                     // Tip waiter
                     $conf = $em->getRepository(Conf::class)->find(1);
-                    $amount = $conf->getWaiterTip();
-                    $user->setWithdrawable($user->getWithdrawable() + $amount);
+                    $tip = $conf->getWaiterTip();
+                    $user->setWithdrawable($user->getWithdrawable() + $tip);
                     $bottle->setWaiter($user);
                     // $bottle->setStatus(2);
                     $em->flush();
                     $code = 3;
-                    $msg = 'Waiter tipped.';
+                    $msg = "恭喜您获得{$tip}元提现金额";
+                    // $msg = 'Waiter tipped.';
                     return $this->json(['code' => $code, 'msg' => $msg]);
                 } else {
                     $code = 4;
-                    $msg = 'Can not tip again.';
+                    $msg = '此二维码已使用';
+                    // $msg = 'Can not tip again.';
                     return $this->json(['code' => $code, 'msg' => $msg]);
                 }
             } else {
                 $code = 5;
-                $msg = 'Can not draw again.';
+                $msg = '此二维码已抽奖';
+                // $msg = 'Can not draw again.';
                 return $this->json(['code' => $code, 'msg' => $msg]);
             }
         }
