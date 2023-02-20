@@ -5,34 +5,51 @@ namespace App\Entity;
 use App\Repository\BorrowRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 
 #[ORM\Entity(repositoryClass: BorrowRepository::class)]
+#[ApiResource(
+    normalizationContext: ['groups' => ['read']],
+    denormalizationContext: ['groups' => ['write']],
+    paginationEnabled: false,
+)]
+#[ApiFilter(SearchFilter::class, properties: ['salesman' => 'exact'])]
 class Borrow
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['read'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['read'])]
     private ?User $salesman = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['read'])]
     private ?Product $product = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
+    #[Groups(['read'])]
     private ?int $qty = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['read'])]
     private ?Claim $claim = null;
 
     #[ORM\Column]
+    #[Groups(['read'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
+    #[Groups(['read'])]
     private ?int $status = 0;
     
     public function __construct()
