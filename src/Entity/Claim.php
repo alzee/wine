@@ -56,6 +56,9 @@ class Claim
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['read'])]
     private ?Prize $prize = null;
+
+    #[ORM\Column]
+    private ?int $value = null;
     
     public function __construct()
     {
@@ -159,6 +162,18 @@ class Claim
     public function setPrize(?Prize $prize): self
     {
         $this->prize = $prize;
+
+        return $this;
+    }
+
+    public function getValue(): ?int
+    {
+        return $this->value;
+    }
+
+    public function setValue(int $value): self
+    {
+        $this->value = $value;
 
         return $this;
     }
