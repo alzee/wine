@@ -36,7 +36,7 @@ class Bottle
     #[ORM\OneToOne(mappedBy: 'bottle', cascade: ['persist', 'remove'])]
     private ?Retail $retail = null;
 
-    #[ORM\ManyToOne(inversedBy: 'bottles')]
+    #[ORM\ManyToOne]
     private ?User $waiter = null;
 
     #[ORM\ManyToOne]
