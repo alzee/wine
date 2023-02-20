@@ -19,8 +19,8 @@ class Choice
     
     public const CLAIM_STATUSES = [
         'pending' => 0,
-        'expired' => 1,
-        'claimed' => 2
+        'claimed' => 1,
+        'expired' => 2,
     ];
     
     public const BORROW_STATUSES = [

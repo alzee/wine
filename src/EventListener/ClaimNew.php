@@ -39,7 +39,7 @@ class ClaimNew extends AbstractController
             $voucher->setType(14);
             $em->persist($voucher);
             $customer->setVoucher($customer->getVoucher() + $amount);
-            $claim->setStatus(3);
+            $claim->setStatus(1);
         }
        
         // Voucher random
@@ -52,21 +52,21 @@ class ClaimNew extends AbstractController
             $voucher->setType(15);
             $em->persist($voucher);
             $customer->setVoucher($customer->getVoucher() + $amount);
-            $claim->setStatus(3);
+            $claim->setStatus(1);
         }
        
         // wx
         if ($pid === 5) {
             $amount = $prize->getValue() * 100;
             $customer->setWithdrawable($customer->getWithdrawable() + $amount);
-            $claim->setStatus(3);
+            $claim->setStatus(1);
         }
        
         // wx random
         if ($pid === 6) {
             $amount = rand($prize->getValue(), $prize->getValue2()) * 100;
             $customer->setWithdrawable($customer->getWithdrawable() + $amount);
-            $claim->setStatus(3);
+            $claim->setStatus(1);
         }
        
         $em->flush();
