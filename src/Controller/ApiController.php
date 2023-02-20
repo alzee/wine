@@ -407,7 +407,7 @@ class ApiController extends AbstractController
         // Verify cipher
         $cipher0 = explode('.', $box->getCipher())[0];
         if ($cipher !== $cipher0) {
-            $code = 1;
+            $code = 11;
             $msg = '错误的二维码';
             // $msg = 'Wrong cipher.';
             return $this->json(['code' => $code, 'msg' => $msg]);
@@ -415,7 +415,7 @@ class ApiController extends AbstractController
         }
         // Check upstream
         if ($org->getUpstream() !== $box->getOrg()) {
-            $code = 2;
+            $code = 12;
             $msg = '您不能进货此商品';
             // $msg = 'You can not order this box.';
             return $this->json(['code' => $code, 'msg' => $msg]);
@@ -465,7 +465,7 @@ class ApiController extends AbstractController
         // Verify cipher
         $cipher0 = explode('.', $bottle->getCipher())[0];
         if ($cipher !== $cipher0) {
-            $code = 1;
+            $code = 11;
             $msg = '错误的二维码';
             // $msg = 'Wrong cipher.';
             return $this->json(['code' => $code, 'msg' => $msg]);
@@ -489,7 +489,7 @@ class ApiController extends AbstractController
                 $prize = $bottle->getPrize();
                 return $this->json(['code' => $code, 'msg' => $msg, 'prize' => $prize->getName()]);
             } else {
-                $code = 2;
+                $code = 12;
                 // $msg = 'Bottle not in store.';
                 $msg = '您不能购买此商品';
                 return $this->json(['code' => $code, 'msg' => $msg]);
@@ -508,18 +508,18 @@ class ApiController extends AbstractController
                     $bottle->setWaiter($user);
                     // $bottle->setStatus(2);
                     $em->flush();
-                    $code = 3;
+                    $code = 1;
                     $msg = "恭喜您获得{$tip}元提现金额";
                     // $msg = 'Waiter tipped.';
                     return $this->json(['code' => $code, 'msg' => $msg]);
                 } else {
-                    $code = 4;
+                    $code = 13;
                     $msg = '此二维码已使用';
                     // $msg = 'Can not tip again.';
                     return $this->json(['code' => $code, 'msg' => $msg]);
                 }
             } else {
-                $code = 5;
+                $code = 14;
                 $msg = '此二维码已抽奖';
                 // $msg = 'Can not draw again.';
                 return $this->json(['code' => $code, 'msg' => $msg]);
