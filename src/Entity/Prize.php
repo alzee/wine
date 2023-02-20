@@ -5,22 +5,35 @@ namespace App\Entity;
 use App\Repository\PrizeRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 
 #[ORM\Entity(repositoryClass: PrizeRepository::class)]
+#[ApiResource(
+    normalizationContext: ['groups' => ['read']],
+    denormalizationContext: ['groups' => ['write']],
+    paginationEnabled: false,
+)]
 class Prize
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['read'])]
     private ?string $name = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['read'])]
     private ?int $value = null;
 
     #[ORM\Column]
+    #[Groups(['read'])]
     private ?int $expire = 365;
 
     #[ORM\Column(nullable: true)]
@@ -30,6 +43,7 @@ class Prize
     private ?bool $big = false;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['read'])]
     private ?int $value2 = null;
 
     #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
