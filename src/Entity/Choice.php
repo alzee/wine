@@ -24,7 +24,7 @@ class Choice
     ];
     
     public const BORROW_STATUSES = [
-        'pendin' => 0,
+        'pending' => 0,
         'approved' => 1,
         'borrowed' => 2,
         'given' => 3,
