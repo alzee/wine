@@ -40,8 +40,8 @@ class RetailNew extends AbstractController
         $retail->setVoucher($voucher);
 
         // store stock - quantity
-        $stockRecord = $em->getRepository(Stock::class)->findOneBy(['org' => $store, 'product' => $product]);
-        $stockRecord->setStock($stockRecord->getStock() - $quantity);
+        // $stockRecord = $em->getRepository(Stock::class)->findOneBy(['org' => $store, 'product' => $product]);
+        // $stockRecord->setStock($stockRecord->getStock() - $quantity);
 
         // customer + voucher
         $customer->setVoucher($customer->getVoucher() + $voucher);
