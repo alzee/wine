@@ -192,6 +192,8 @@ class RetailNew extends AbstractController
             $claim->setPrize($prize);
             $claim->setStatus(0);
             $em->persist($claim);
+            // Why is this necessary?
+            $retail->setClaim($claim);
         }
 
         if ($prize->getId() === 7) {
