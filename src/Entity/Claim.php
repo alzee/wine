@@ -58,6 +58,7 @@ class Claim
     private ?Prize $prize = null;
 
     #[ORM\Column]
+    #[Groups(['read'])]
     private ?int $value = 0;
     
     public function __construct()
