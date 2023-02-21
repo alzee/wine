@@ -13,7 +13,6 @@ use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Doctrine\Orm\Filter\ExistsFilter;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Service\Sn;
 
 #[ORM\Entity(repositoryClass: OrdersRepository::class)]
 #[ApiResource(
@@ -208,20 +207,5 @@ class Orders
         }
 
         return $this;
-    }
-    
-    public function getSnStart()
-    {
-        return $this->getFirst()->getSnStart();
-    }
-    
-    public function getStart()
-    {
-        return Sn::toId($this->getSnStart());
-    }
-    
-    public function getSnEnd()
-    {
-        return Sn::toSn($this->getStart() + $this->getFirst()->getQuantity() - 1);
     }
 }

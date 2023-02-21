@@ -40,17 +40,6 @@ class OrderItems
     #[Groups(['read', 'write'])]
     private ?Orders $ord = null;
 
-    #[ORM\Column(length: 255)]
-    #[Assert\Length(
-        exactly: 8,
-        exactMessage: 'SN is 8 bits',
-    )]
-    #[Assert\Regex(
-        pattern: '/^[A-Z0-9]{4}[0-9]{4}$/',
-        message: 'Wrong SN format',
-    )]
-    private ?string $snStart = null;
-
     public function __toString(): string
     {
         return $this->product;
@@ -93,18 +82,6 @@ class OrderItems
     public function setOrd(?Orders $ord): self
     {
         $this->ord = $ord;
-
-        return $this;
-    }
-
-    public function getSnStart(): ?string
-    {
-        return $this->snStart;
-    }
-
-    public function setSnStart(string $snStart): self
-    {
-        $this->snStart = $snStart;
 
         return $this;
     }
