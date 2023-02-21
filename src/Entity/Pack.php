@@ -23,6 +23,11 @@ class Pack
     #[ORM\OneToMany(mappedBy: 'pack', targetEntity: PackPrize::class, cascade: ["persist"])]
     #[Assert\Valid]
     private Collection $packPrizes;
+    
+    public function __toString()
+    {
+        return $this->name;
+    }
 
     public function __construct()
     {

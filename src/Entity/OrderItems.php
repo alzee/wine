@@ -44,6 +44,9 @@ class OrderItems
     #[ORM\OneToMany(mappedBy: 'orderItems', targetEntity: Box::class)]
     private Collection $boxes;
 
+    #[ORM\ManyToOne]
+    private ?Pack $pack = null;
+
     public function __construct()
     {
         $this->boxes = new ArrayCollection();
@@ -121,6 +124,18 @@ class OrderItems
                 $box->setOrderItems(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPack(): ?Pack
+    {
+        return $this->pack;
+    }
+
+    public function setPack(?Pack $pack): self
+    {
+        $this->pack = $pack;
 
         return $this;
     }

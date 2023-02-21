@@ -19,8 +19,14 @@ class OrderItemsCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         yield AssociationField::new('product')
-            // ->onlyWhenCreating()
+            ->onlyWhenCreating()
         ;
+        yield AssociationField::new('product')
+            ->hideWhenCreating()
+            ->setDisabled(true)
+        ;
+        yield AssociationField::new('pack')
+            ;
         yield IntegerField::new('quantity')
             ->hideWhenCreating()
             ->setDisabled(true)
