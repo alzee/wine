@@ -25,7 +25,7 @@ class Pack
     private Collection $packPrizes;
 
     #[ORM\Column]
-    private ?bool $forRestaurant = null;
+    private ?bool $forRestaurant = false;
     
     public function __toString()
     {
