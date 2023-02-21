@@ -427,7 +427,7 @@ class ApiController extends AbstractController
         $item = new OrderItems();
         $item->setProduct($product);
         $item->setQuantity($qty);
-        $item->setSnStart($sn);
+        $item->addBox($box);
         $em->persist($item);
         
         $order = new Orders();
@@ -438,6 +438,8 @@ class ApiController extends AbstractController
         
         $item->setOrd($order);
 
+        $em->flush();
+        $order->setStatus(5);
         $em->flush();
         
         $code = 0;
@@ -530,5 +532,47 @@ class ApiController extends AbstractController
                 return $this->json(['code' => $code, 'msg' => $msg]);
             }
         }
+    }
+    
+    #[Route('/scan/storeman')]
+    public function scanStoreman(Request $request): Response
+    {
+        $em = $this->doctrine->getManager();
+        $params  = $request->toArray();
+        // $oid = $params['oid'];
+        $sns = $params['s'];
+        $qty = count($sns);
+        $pid = $params['p'];
+        $product = $em->getRepository(Product::class)->find($pid);
+        // $org = $em->getRepository(Org::class)->find($oid);
+        // $head = $em->getRepository(Org::class)->findOneBy(['type' => 0]);
+        // Verify cipher
+        // Check if box is in head
+        
+        $item = new OrderItems();
+        $item->setProduct($product);
+        $item->setQuantity($qty);
+        foreach ($sns as $sn) {
+            $box = $em->getRepository(Box::class)->find(Sn::toId($sn));
+            $item->addBox($box);
+        }
+        $em->persist($item);
+        
+        $order = new Orders();
+        $order->setSeller($org->getUpstream());
+        $order->setBuyer($org);
+        $order->addOrderItem($item);
+        $em->persist($order);
+        
+        $item->setOrd($order);
+
+        $em->flush();
+        
+        $code = 0;
+        $msg = '已入库';
+        // $msg = 'Done';
+        $ord = ['product' => $product, 'qty' => $qty];
+        
+        return $this->json(['code' => $code, 'msg' => $msg, 'ord' => $ord]);
     }
 }
