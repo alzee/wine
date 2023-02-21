@@ -19,28 +19,10 @@ class OrderItemsCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         yield AssociationField::new('product')
-            ->onlyWhenCreating()
-            //->setQueryBuilder(
-            //    fn (QueryBuilder $qb) => $qb
-            //        ->andWhere('entity.org = :org')
-            //        ->setParameter('org', $this->getUser()->getOrg())
-            //)
+            // ->onlyWhenCreating()
         ;
-        yield AssociationField::new('product')
-            ->HideWhenCreating()
-            ->setFormTypeOptions(['disabled' => 'disabled'])
-            ->setQueryBuilder(
-                fn (QueryBuilder $qb) => $qb
-                    ->andWhere('entity.org = :org')
-                    ->setParameter('org', $this->getUser()->getOrg())
-            )
-            ;
         yield IntegerField::new('quantity')
-            ->onlyWhenCreating()
-            ;
-        yield IntegerField::new('quantity')
-            ->setFormTypeOptions(['disabled' => 'disabled'])
-            ->HideWhenCreating()
+            // ->onlyWhenCreating()
             ;
         yield TextField::new('snStart')
             ;
