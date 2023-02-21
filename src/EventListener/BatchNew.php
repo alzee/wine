@@ -104,33 +104,6 @@ class BatchNew extends AbstractController
             }
         }
         
-        // Update bottles prizes;
-        /**
-         * Note: product MUST NOT change after create
-         */
-        if ($type === 1) {
-            $boxes = $em->getRepository(Box::class)->findBetween($start, $start + $qty - 1);
-            if (! is_null($boxes)) {
-                foreach ($boxes as $box) {
-                    // update box
-                    $box->setBatch($batch);
-                    
-                    // update bottles prize
-                    shuffle($prizes);
-                    $bottles = $box->getBottles()->toArray();
-                    foreach ($bottles as $bottle) {
-                        $bottleIndex = $bottle->getBid() - 1;
-                        if (isset($prizes[$bottleIndex])) {
-                            $bottle->setPrize($prizes[$bottleIndex]);
-                        } else {
-                            $bottle->setPrize(null);
-                        }
-                    }
-                    
-                }
-            }
-        }
-        
         // Download QRs
         if ($type === 2) {
             chdir($this->qrdir);
