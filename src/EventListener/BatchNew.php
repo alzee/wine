@@ -71,7 +71,7 @@ class BatchNew extends AbstractController
         
         // Create boxes
         if ($type === 0) {
-            $product = $batch->getProduct();
+            // $product = $batch->getProduct();
             for ($i = 0; $i < $qty; $i++) {
                 $box = new Box;
                 $boxSn = Sn::toSn($start + $i);
@@ -79,11 +79,11 @@ class BatchNew extends AbstractController
                 $box->setCipher($enc->enc($boxSn));
                 $box->setBatch($batch);
                 $box->setBid($start + $i);
-                $box->setProduct($product);
+                // $box->setProduct($product);
                 $em->persist($box);
                 
                 // Create bottles;
-                for ($j = 1; $j <= $product->getBottleQty(); $j++) {
+                for ($j = 1; $j <= $batch->getBottleQty(); $j++) {
                     $bottleSn = $boxSn . '.' . $j;
                     $bottle = new Bottle;
                     $bottle->setBid($j);

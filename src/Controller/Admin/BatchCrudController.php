@@ -62,9 +62,9 @@ class BatchCrudController extends AbstractCrudController
             ->hideOnForm()
         ;
         if ($this->type === 0) {
-            yield AssociationField::new('product')
-                // ->setRequired(true)
-                ;
+            // yield AssociationField::new('product')
+            //     ->setRequired(true)
+            // ;
             yield IntegerField::new('qty')
                 ->onlyWhenCreating()
                 ;
