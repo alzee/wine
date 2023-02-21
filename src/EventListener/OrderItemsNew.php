@@ -16,7 +16,7 @@ use Doctrine\ORM\Events;
 use App\Service\Sn;
 use App\Entity\Box;
 
-//#[AsEntityListener(event: Events::prePersist, entity: OrderItems::class)]
+// #[AsEntityListener(event: Events::prePersist, entity: OrderItems::class)]
 #[AsEntityListener(event: Events::postPersist, entity: OrderItems::class)]
 class OrderItemsNew extends AbstractController
 {
@@ -29,13 +29,23 @@ class OrderItemsNew extends AbstractController
         $em = $event->getEntityManager();
         
         $boxes = $item->getBoxes()->toArray();
+        $qty = count($boxes);
+        $product = $item->getProduct();
+        $price = $product->getPrice();
+        $unitVoucher = $product->getVoucher();
+        $amount = $price * $qty;
+        $voucher = $unitVoucher * $qty;
         
         foreach ($boxes as $box) {
             $box->setOrderItems($item);
             $box->setProduct($item->getProduct());
         }
         
-        $item->setQuantity(count($boxes));
+        $ord = $item->getOrd();
+        $ord->setAmount($ord->getAmount() + $amount);
+        $ord->setVoucher($ord->getVoucher() + $voucher);
+        
+        $item->setQuantity($qty);
         
         $em->flush();
     }
