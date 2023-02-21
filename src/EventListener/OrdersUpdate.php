@@ -56,6 +56,12 @@ class OrdersUpdate extends AbstractController
                     }
                     // buyer stock + quantity
                     $stockRecordOfBuyer->setStock($stockRecordOfBuyer->getStock() + $quantity);
+                    
+                    // set box org
+                    $boxes = $i->getBoxes()->toArray();
+                    foreach ($boxes as $box) {
+                        $box->setOrg($buyer);
+                    }
                 }
 
                 $voucher = $order->getVoucher();
