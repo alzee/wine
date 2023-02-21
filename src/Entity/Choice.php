@@ -4,6 +4,23 @@ namespace App\Entity;
 
 class Choice
 {
+    public const ROLES = [
+        'ROLE_HEAD',
+        'ROLE_AGENCY',
+        'ROLE_STORE',
+        'ROLE_RESTAURANT',
+        'ROLE_CUSTOMER',
+        'ROLE_VARIANT_HEAD',
+        'ROLE_VARIANT_AGENCY',
+        'ROLE_VARIANT_STORE',
+        'ROLE_ADMIN',
+        'ROLE_ORG_ADMIN',
+        'ROLE_STAFF',
+        'ROLE_STOREMAN',
+        'ROLE_SALESMAN',
+        'ROLE_WAITER',
+    ];
+    
     public const WXQR_TYPES = [
         'box' => 0,
         'bottle' => 1,
