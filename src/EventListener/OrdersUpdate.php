@@ -57,10 +57,13 @@ class OrdersUpdate extends AbstractController
                     // buyer stock + quantity
                     $stockRecordOfBuyer->setStock($stockRecordOfBuyer->getStock() + $quantity);
                     
-                    // set box org
                     $boxes = $i->getBoxes()->toArray();
                     foreach ($boxes as $box) {
+                        // set box org
                         $box->setOrg($buyer);
+                        // set box pack
+                        $box->setPack($i->getPack());
+                        // bottles prize
                     }
                 }
 

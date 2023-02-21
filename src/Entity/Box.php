@@ -41,6 +41,9 @@ class Box
     #[ORM\ManyToOne(inversedBy: 'boxes')]
     private ?OrderItems $orderItems = null;
 
+    #[ORM\ManyToOne]
+    private ?Pack $pack = null;
+
     public function __construct()
     {
         $this->bottles = new ArrayCollection();
@@ -166,6 +169,18 @@ class Box
     public function setOrderItems(?OrderItems $orderItems): self
     {
         $this->orderItems = $orderItems;
+
+        return $this;
+    }
+
+    public function getPack(): ?Pack
+    {
+        return $this->pack;
+    }
+
+    public function setPack(?Pack $pack): self
+    {
+        $this->pack = $pack;
 
         return $this;
     }
