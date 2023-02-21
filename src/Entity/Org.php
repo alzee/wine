@@ -54,7 +54,7 @@ class Org
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $type = 1;
 
-    #[ORM\Column(options: ["unsigned" => true])]
+    #[ORM\Column]
     #[Groups(['read', 'write'])]
     private ?int $voucher = null;
 

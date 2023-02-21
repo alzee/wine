@@ -77,8 +77,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['read'])]
     private ?string $openid = null;
 
-    #[ORM\Column(options: ["unsigned" => true])]
-    #[Assert\PositiveOrZero]
+    #[ORM\Column]
     #[Groups(['read'])]
     private ?int $voucher = 0;
 
