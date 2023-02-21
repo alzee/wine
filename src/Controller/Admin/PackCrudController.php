@@ -6,6 +6,7 @@ use App\Entity\Pack;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -33,6 +34,7 @@ class PackCrudController extends AbstractCrudController
             ->hideOnForm();
             ;
         yield TextField::new('name');
+        yield BooleanField::new('forRestaurant');
         yield CollectionField::new('packPrizes')
                 ->useEntryCrudForm()
                 ->renderExpanded()

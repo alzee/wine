@@ -23,6 +23,9 @@ class Pack
     #[ORM\OneToMany(mappedBy: 'pack', targetEntity: PackPrize::class, cascade: ["persist"])]
     #[Assert\Valid]
     private Collection $packPrizes;
+
+    #[ORM\Column]
+    private ?bool $forRestaurant = null;
     
     public function __toString()
     {
@@ -77,6 +80,18 @@ class Pack
                 $packPrize->setPack(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isForRestaurant(): ?bool
+    {
+        return $this->forRestaurant;
+    }
+
+    public function setForRestaurant(bool $forRestaurant): self
+    {
+        $this->forRestaurant = $forRestaurant;
 
         return $this;
     }
