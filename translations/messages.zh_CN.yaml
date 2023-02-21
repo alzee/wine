@@ -172,7 +172,7 @@ box.sn: 箱码
 BottleManage: 瓶码管理
 Bottle: 瓶码
 bottle.sn: 瓶码
-PrizeManage: 奖项管理
+PrizeManage: 奖项设置
 Prize: 奖项
 Bottle Qty: 瓶每箱
 Cipher: 密文
@@ -202,3 +202,4 @@ Claim: 兑奖记录
 Waiter Tip: 服务员扫码奖
 Store Tip: 门店兑奖服务费
 Borrow: 领用记录
+PackManage: 奖品方案

@@ -33,6 +33,7 @@ use App\Entity\Share;
 use App\Entity\Reward;
 use App\Entity\Claim;
 use App\Entity\Borrow;
+use App\Entity\Pack;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\UX\Chartjs\Model\Chart;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -179,6 +180,7 @@ class DashboardController extends AbstractDashboardController
                 array_push($items, (MenuItem::linkToCrud('Batch', 'fas fa-qrcode', Batch::class)));
                 array_push($items, (MenuItem::linkToCrud('BoxManage', 'fas fa-box', Box::class)));
                 array_push($items, (MenuItem::linkToCrud('BottleManage', 'fas fa-bottle-water', Bottle::class)));
+                array_push($items, (MenuItem::linkToCrud('PackManage', 'fas fa-cube', Pack::class)));
                 array_push($items, (MenuItem::linkToCrud('PrizeManage', 'fas fa-medal', Prize::class)));
                 array_push($items, (MenuItem::linkToCrud('NodeManage', 'fas fa-file', Node::class)));
                 array_push($items, (MenuItem::linkToCrud('CityManage', 'fas fa-city', City::class)));
