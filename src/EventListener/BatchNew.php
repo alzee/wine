@@ -37,13 +37,6 @@ class BatchNew extends AbstractController
         $qty = $batch->getQty();
         $type = $batch->getType();
         $enc = new Enc();
-        $batchPrizes = $batch->getBatchPrizes();
-        $prizes = [];
-        foreach ($batchPrizes as $v) {
-            for ($i = 0; $i < $v->getQty(); $i++) {
-                $prizes[] = $v->getPrize();
-            }
-        }
         
         // Batch properties start
         if ($type === 0) {
@@ -90,14 +83,12 @@ class BatchNew extends AbstractController
                 $em->persist($box);
                 
                 // Create bottles;
-                shuffle($prizes);
                 for ($j = 1; $j <= $product->getBottleQty(); $j++) {
                     $bottleSn = $boxSn . '.' . $j;
                     $bottle = new Bottle;
                     $bottle->setBid($j);
                     $bottle->setSn($bottleSn);
                     $bottle->setCipher($enc->enc($bottleSn));
-                    $bottle->setPrize($prizes[$j - 1]);
                     $bottle->setBox($box);
                     $em->persist($bottle);
                 }
