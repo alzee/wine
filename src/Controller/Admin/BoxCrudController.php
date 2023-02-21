@@ -62,17 +62,6 @@ class BoxCrudController extends AbstractCrudController
                     ->set('type', 0)
                     ->generateUrl();
             });
-        $batchEdit = Action::new('batchEdit')
-            ->createAsGlobalAction()
-            ->linkToUrl(function (){
-                return $this->adminUrlGenerator
-                    ->setController(BatchCrudController::class)
-                    ->setDashboard(DashboardController::class)
-                    ->setAction('new')
-                    // ->set('menuIndex', 1)
-                    ->set('type', 1)
-                    ->generateUrl();
-            });
         $batchQr = Action::new('batchQr')
             ->createAsGlobalAction()
             ->linkToUrl(function (){
@@ -97,7 +86,6 @@ class BoxCrudController extends AbstractCrudController
             });
 
         return $actions
-            ->add('index', $batchEdit)
             ->add('index', $batchNew)
             ->add('index', $batchQr)
             ->add('index', $listBottles)
