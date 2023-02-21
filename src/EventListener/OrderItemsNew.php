@@ -38,7 +38,6 @@ class OrderItemsNew extends AbstractController
         
         foreach ($boxes as $box) {
             $box->setOrderItems($item);
-            $box->setProduct($item->getProduct());
         }
         
         $ord = $item->getOrd();
