@@ -68,8 +68,6 @@ class Batch
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    #[Assert\NotBlank]
     private ?Product $product = null;
 
     public function __construct()
