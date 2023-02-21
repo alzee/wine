@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PackRepository::class)]
 class Pack
@@ -19,8 +20,13 @@ class Pack
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[ORM\OneToMany(mappedBy: 'pack', targetEntity: PackPrize::class, cascade: ["persist"])]
+    #[Assert\Valid]
+    private Collection $packPrizes;
+
     public function __construct()
     {
+        $this->packPrizes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -36,6 +42,36 @@ class Pack
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PackPrize>
+     */
+    public function getPackPrizes(): Collection
+    {
+        return $this->packPrizes;
+    }
+
+    public function addPackPrize(PackPrize $packPrize): self
+    {
+        if (!$this->packPrizes->contains($packPrize)) {
+            $this->packPrizes->add($packPrize);
+            $packPrize->setPack($this);
+        }
+
+        return $this;
+    }
+
+    public function removePackPrize(PackPrize $packPrize): self
+    {
+        if ($this->packPrizes->removeElement($packPrize)) {
+            // set the owning side to null (unless already changed)
+            if ($packPrize->getPack() === $this) {
+                $packPrize->setPack(null);
+            }
+        }
 
         return $this;
     }

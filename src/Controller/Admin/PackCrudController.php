@@ -33,6 +33,10 @@ class PackCrudController extends AbstractCrudController
             ->hideOnForm();
             ;
         yield TextField::new('name');
-        yield CollectionField::new('packPrize');
+        yield CollectionField::new('packPrizes')
+                ->useEntryCrudForm()
+                ->renderExpanded()
+                ->setRequired(true)
+            ;
     }
 }
