@@ -26,19 +26,14 @@ class OrderItemsNew extends AbstractController
 
     public function postPersist(OrderItems $item, LifecycleEventArgs $event): void
     {
-        $qty = $item->getQuantity();
-        $snStart = $item->getSnStart();
-        $start = Sn::toId($snStart);
-
         $em = $event->getEntityManager();
-
-        for ($i = $start; $i < $start + $qty; $i++) {
-            $box = $em->getRepository(Box::class)->find($i);
-            if (! is_null($box)) {
-                $buyer = $item->getOrd()->getBuyer();
-                $box->setOrg($buyer);
-            }
+        
+        $boxes = $item->getBoxes()->toArray();
+        
+        foreach ($boxes as $box) {
+            $box->setOrderItems($item);
         }
+        
         $em->flush();
     }
 }
