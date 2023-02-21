@@ -45,9 +45,6 @@ class BatchCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        if ($this->type !== 2) {
-            yield FormField::addTab('批量信息');
-        }
         if ($this->type > 0) {
             yield TextField::new('snStart')
                 ->setRequired(true)
@@ -66,9 +63,12 @@ class BatchCrudController extends AbstractCrudController
         ;
         if ($this->type === 0) {
             yield AssociationField::new('product')
-                ->setRequired(true)
+                // ->setRequired(true)
                 ;
             yield IntegerField::new('qty')
+                ->onlyWhenCreating()
+                ;
+            yield IntegerField::new('bottleQty')
                 ->onlyWhenCreating()
                 ;
         }
@@ -80,23 +80,6 @@ class BatchCrudController extends AbstractCrudController
         ;
         yield ChoiceField::new('type')
             ->setChoices(Choice::BATCH_TYPES)
-            ->onlyOnIndex()
-        ;
-
-        if ($this->type !== 2) {
-            yield FormField::addTab('奖项');
-            if ($this->type === 0) {
-            }
-            yield CollectionField::new('batchPrizes')
-                ->hideOnIndex()
-            // ->allowAdd(false)
-            // ->allowDelete(false)
-                ->renderExpanded()
-                ->setRequired(true)
-                ->useEntryCrudForm()
-            ;
-        }
-        yield ArrayField::new('batchPrizes')
             ->onlyOnIndex()
         ;
         yield DatetimeField::new('createdAt')
@@ -120,11 +103,6 @@ class BatchCrudController extends AbstractCrudController
     {
         $batch = new Batch();
         $batch->setType($this->type);
-        if ($this->type !== 2) {
-            $item = new BatchPrize();
-            $batch->addBatchPrize($item);
-        }
-        
         return $batch;
     }
 

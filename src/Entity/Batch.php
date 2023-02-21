@@ -35,10 +35,6 @@ class Batch
     #[ORM\Column]
     private ?int $start = null;
 
-    #[ORM\OneToMany(mappedBy: 'batch', targetEntity: BatchPrize::class, orphanRemoval: true, cascade: ["persist"])]
-    #[Assert\Valid]
-    private Collection $batchPrizes;
-
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $type = 0;
 
@@ -72,7 +68,6 @@ class Batch
 
     public function __construct()
     {
-        $this->batchPrizes = new ArrayCollection();
         $this->createdAt = new \DateTimeImmutable();
     }
 
@@ -113,36 +108,6 @@ class Batch
     public function setStart(int $start): self
     {
         $this->start = $start;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, BatchPrize>
-     */
-    public function getBatchPrizes(): Collection
-    {
-        return $this->batchPrizes;
-    }
-
-    public function addBatchPrize(BatchPrize $batchPrize): self
-    {
-        if (!$this->batchPrizes->contains($batchPrize)) {
-            $this->batchPrizes->add($batchPrize);
-            $batchPrize->setBatch($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBatchPrize(BatchPrize $batchPrize): self
-    {
-        if ($this->batchPrizes->removeElement($batchPrize)) {
-            // set the owning side to null (unless already changed)
-            if ($batchPrize->getBatch() === $this) {
-                $batchPrize->setBatch(null);
-            }
-        }
 
         return $this;
     }
