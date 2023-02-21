@@ -45,8 +45,9 @@ class BoxCrudController extends AbstractCrudController
         yield AssociationField::new('product')
             ->onlyOnIndex()
         ;
-        yield ArrayField::new('batch.batchPrizes', 'Box Prizes')
-            ;
+        yield TextField::new('orderItems.ord')
+            ->onlyOnIndex()
+        ;
     }
     
     public function configureActions(Actions $actions): Actions

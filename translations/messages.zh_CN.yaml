@@ -168,6 +168,7 @@ variant_agency: 区域代理商(异业)
 variant_store: 门店(异业)
 BoxManage: 箱码管理
 Box: 箱码
+Boxes: 箱码
 box.sn: 箱码
 BottleManage: 瓶码管理
 Bottle: 瓶码
@@ -205,3 +206,4 @@ Borrow: 领用记录
 PackManage: 奖品方案
 Pack: 方案
 Pack Prizes: 奖品方案
+Order Items.Ord: 订单

@@ -22,7 +22,8 @@ class OrderItemsCrudController extends AbstractCrudController
             // ->onlyWhenCreating()
         ;
         yield IntegerField::new('quantity')
-            // ->onlyWhenCreating()
+            ->hideWhenCreating()
+            ->setDisabled(true)
             ;
         yield AssociationField::new('boxes')
             ->onlyWhenCreating()

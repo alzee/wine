@@ -27,9 +27,8 @@ class OrderItems
     private ?int $id = null;
 
     #[ORM\Column(options: ["unsigned" => true])]
-    #[Assert\Positive]
     #[Groups(['read', 'write'])]
-    private ?int $quantity = null;
+    private ?int $quantity = 0;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
