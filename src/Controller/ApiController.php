@@ -581,7 +581,7 @@ class ApiController extends AbstractController
         $em->flush();
         
         $code = 0;
-        $msg = '已入库';
+        $msg = '已生成订单';
         // $msg = 'Done';
         $ord = ['product' => $product, 'qty' => $qty];
         
