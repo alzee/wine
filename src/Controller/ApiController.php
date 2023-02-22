@@ -489,11 +489,17 @@ class ApiController extends AbstractController
                 // $msg = 'Done.';
                 $msg = "恭喜您获得奖品";
                 $prize = $bottle->getPrize();
+                // prize 7 and 8
+                if (is_null($retail->getClaim()))) {
+                    $value = 1;
+                } else {
+                    'value' => $retail->getClaim()->getValue()
+                }
                 return $this->json([
                     'code' => $code,
                     'msg' => $msg,
                     'prize' => $prize->getName(),
-                    'value' => $retail->getClaim()->getValue()
+                    'value' => $value
                 ]);
             } else {
                 $code = 12;
