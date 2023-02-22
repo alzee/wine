@@ -26,6 +26,7 @@ class OrderItemsCrudController extends AbstractCrudController
             ->setDisabled(true)
         ;
         yield AssociationField::new('pack')
+            ->setRequired(true)
             ;
         yield IntegerField::new('quantity')
             ->hideWhenCreating()

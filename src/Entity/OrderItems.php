@@ -34,6 +34,7 @@ class OrderItems
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['read', 'write'])]
     #[Assert\NotBlank]
+    #[Assert\NotNull]
     private ?Product $product = null;
 
     #[ORM\ManyToOne(inversedBy: 'orderItems')]
@@ -45,6 +46,8 @@ class OrderItems
     private Collection $boxes;
 
     #[ORM\ManyToOne]
+    #[Assert\NotBlank]
+    #[Assert\NotNull]
     private ?Pack $pack = null;
 
     public function __construct()
