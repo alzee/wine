@@ -539,13 +539,13 @@ class ApiController extends AbstractController
     {
         $em = $this->doctrine->getManager();
         $params  = $request->toArray();
-        // $oid = $params['oid'];
+        $oid = $params['oid'];
         $sns = $params['s'];
         $qty = count($sns);
         $pid = $params['p'];
         $product = $em->getRepository(Product::class)->find($pid);
-        // $org = $em->getRepository(Org::class)->find($oid);
-        // $head = $em->getRepository(Org::class)->findOneBy(['type' => 0]);
+        $buyer = $em->getRepository(Org::class)->find($oid);
+        $head = $em->getRepository(Org::class)->findOneBy(['type' => 0]);
         // Verify cipher
         // Check if box is in head
         
@@ -559,8 +559,8 @@ class ApiController extends AbstractController
         $em->persist($item);
         
         $order = new Orders();
-        $order->setSeller($org->getUpstream());
-        $order->setBuyer($org);
+        $order->setSeller($head);
+        $order->setBuyer($buyer);
         $order->addOrderItem($item);
         $em->persist($order);
         
