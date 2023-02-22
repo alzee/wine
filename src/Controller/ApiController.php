@@ -552,9 +552,9 @@ class ApiController extends AbstractController
         $em = $this->doctrine->getManager();
         $params  = $request->toArray();
         $oid = $params['oid'];
-        $sns = $params['s'];
+        $sns = $params['sns'];
         $qty = count($sns);
-        $pid = $params['p'];
+        $pid = $params['pid'];
         $product = $em->getRepository(Product::class)->find($pid);
         $buyer = $em->getRepository(Org::class)->find($oid);
         $head = $em->getRepository(Org::class)->findOneBy(['type' => 0]);
