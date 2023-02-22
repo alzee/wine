@@ -65,21 +65,23 @@ class OrdersUpdate extends AbstractController
                         if ($seller->getType() === 0) {
                             // set box pack
                             $pack = $i->getPack();
-                            $box->setPack($pack);
-                            $box->setProduct($i->getProduct());
-                            // bottles prize
-                            $packPrizes = $pack->getPackPrizes();
-                            $prizes = [];
-                            foreach ($packPrizes as $v) {
-                                for ($i = 0; $i < $v->getQty(); $i++) {
-                                    $prizes[] = $v->getPrize();
+                            if (! is_null($pack)) {
+                                $box->setPack($pack);
+                                $box->setProduct($i->getProduct());
+                                // bottles prize
+                                $packPrizes = $pack->getPackPrizes();
+                                $prizes = [];
+                                foreach ($packPrizes as $v) {
+                                    for ($i = 0; $i < $v->getQty(); $i++) {
+                                        $prizes[] = $v->getPrize();
+                                    }
                                 }
-                            }
-                            shuffle($prizes);
-                            $bottles = $box->getBottles();
-                            for ($i = 0; $i < count($bottles); $i++) {
-                                if (isset($prizes[$i])) {
-                                    $bottles[$i]->setPrize($prizes[$i]);
+                                shuffle($prizes);
+                                $bottles = $box->getBottles();
+                                for ($i = 0; $i < count($bottles); $i++) {
+                                    if (isset($prizes[$i])) {
+                                        $bottles[$i]->setPrize($prizes[$i]);
+                                    }
                                 }
                             }
                         }
