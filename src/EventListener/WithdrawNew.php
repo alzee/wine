@@ -45,7 +45,7 @@ class WithdrawNew extends AbstractController
                 $withdraw->setActualAmount($withdraw->getAmount() * $applicant->getDiscount());
             }
         } else {
-            $applicant = $withdraw->getConsumer();
+            $applicant = $withdraw->getCustomer();
         }
 
         $applicant->setWithdrawable($applicant->getWithdrawable() - $amount);
@@ -55,14 +55,14 @@ class WithdrawNew extends AbstractController
     public function postPersist(Withdraw $withdraw, LifecycleEventArgs $event): void
     {
         $em = $event->getEntityManager();
-        $consumer = $withdraw->getConsumer();
+        $customer = $withdraw->getCustomer();
         $amount = 1;
-        if (! is_null($consumer)) {
+        if (! is_null($customer)) {
             $id = str_pad($withdraw->getId(), 9, 0, STR_PAD_LEFT); // WxPay require out_batch_no to be string and length > 5
             $batch = [
                 'id' => $id, // WxPay require out_batch_no to be string and length > 5
-                'name' => $consumer->getName() . 'withdraw',
-                'note' => $consumer->getName() . 'withdraw note',
+                'name' => $customer->getName() . 'withdraw',
+                'note' => $customer->getName() . 'withdraw note',
                 'amount' => $amount,
                 // 'scene' => 1000
             ];
@@ -71,7 +71,7 @@ class WithdrawNew extends AbstractController
                     'out_detail_no' => $id,
                     'transfer_amount' => $amount,
                     'transfer_remark' => 'I want money.',
-                    'openid' => $consumer->getOpenid(),
+                    'openid' => $customer->getOpenid(),
                 ]
             ];
             $this->wxpay->toBalanceBatch($batch, $list);
