@@ -66,7 +66,7 @@ class OrdersUpdate extends AbstractController
                             // set box pack
                             $pack = $i->getPack();
                             $box->setPack($pack);
-                            $box->setProduct($item->getProduct());
+                            $box->setProduct($i->getProduct());
                             // bottles prize
                             $packPrizes = $pack->getPackPrizes();
                             $prizes = [];
