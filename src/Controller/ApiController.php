@@ -559,14 +559,16 @@ class ApiController extends AbstractController
         $buyer = $em->getRepository(Org::class)->find($oid);
         $head = $em->getRepository(Org::class)->findOneBy(['type' => 0]);
         // Verify cipher
-        // Check if box is in head
         
         $item = new OrderItems();
         $item->setProduct($product);
         $item->setQuantity($qty);
         foreach ($sns as $sn) {
             $box = $em->getRepository(Box::class)->find(Sn::toId($sn));
-            $item->addBox($box);
+            // Check if box is in head
+            // if ($box->getOrg() === $head) {
+                $item->addBox($box);
+            // }
         }
         $em->persist($item);
         
