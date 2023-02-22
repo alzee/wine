@@ -411,13 +411,19 @@ class ApiController extends AbstractController
             $msg = '错误的二维码';
             // $msg = 'Wrong cipher.';
             return $this->json(['code' => $code, 'msg' => $msg]);
-            return $this->json(['code' => $code, 'msg' => $msg]);
         }
         // Check upstream
         if ($org->getUpstream() !== $box->getOrg()) {
             $code = 12;
             $msg = '您不能进货此商品';
             // $msg = 'You can not order this box.';
+            return $this->json(['code' => $code, 'msg' => $msg]);
+        }
+        // Check forRestaurant
+        if ($org->getType() !== 3 && $box->getPack()->isForRestaurant()) {
+            $code = 13;
+            $msg = '此商品限定餐厅';
+            // $msg = 'Only for restaurants';
             return $this->json(['code' => $code, 'msg' => $msg]);
         }
         // If all pass, create new order
