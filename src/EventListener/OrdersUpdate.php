@@ -32,10 +32,10 @@ class OrdersUpdate extends AbstractController
             if ($status == 5) {
                 $seller = $order->getSeller();
                 $buyer = $order->getBuyer();
-                foreach ($order->getOrderItems() as $i) {
-                    $product = $i->getProduct();
+                foreach ($order->getOrderItems() as $item) {
+                    $product = $item->getProduct();
                     $sn = $product->getSn();
-                    $quantity = $i->getQuantity();
+                    $quantity = $item->getQuantity();
                     $price = $product->getPrice();
                     $unitVoucher = $product->getVoucher();
                     // seller stock - quantity, only if seller is not head
@@ -57,17 +57,17 @@ class OrdersUpdate extends AbstractController
                     // buyer stock + quantity
                     $stockRecordOfBuyer->setStock($stockRecordOfBuyer->getStock() + $quantity);
                     
-                    $boxes = $i->getBoxes()->toArray();
+                    $boxes = $item->getBoxes()->toArray();
                     foreach ($boxes as $box) {
                         // set box org
                         $box->setOrg($buyer);
                         // only when head to agency
                         if ($seller->getType() === 0) {
                             // set box pack
-                            $pack = $i->getPack();
+                            $pack = $item->getPack();
                             if (! is_null($pack)) {
                                 $box->setPack($pack);
-                                $box->setProduct($i->getProduct());
+                                $box->setProduct($item->getProduct());
                                 // bottles prize
                                 $packPrizes = $pack->getPackPrizes();
                                 $prizes = [];
