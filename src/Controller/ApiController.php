@@ -490,7 +490,7 @@ class ApiController extends AbstractController
                 $msg = "恭喜您获得奖品";
                 $prize = $bottle->getPrize();
                 // prize 7 and 8
-                if (is_null($retail->getClaim()))) {
+                if (is_null($retail->getClaim())) {
                     $value = 1;
                 } else {
                     'value' => $retail->getClaim()->getValue()
