@@ -69,22 +69,24 @@ class UserCrudController extends AbstractCrudController
         ;
         yield ChoiceField::new('roles')
             ->setChoices([
-                'Salesman' => 'ROLE_SALESMAN',
+                'salesman' => 'ROLE_SALESMAN',
+                'storeman' => 'ROLE_STOREMAN',
+                'org_admin' => 'ROLE_ORG_ADMIN',
             ])
             ->allowMultipleChoices()
-            ->onlyWhenCreating()
+            ->onlyOnForms()
             ->setRequired(false)
         ;
         yield TextField::new('phone');
-        yield TextField::new('plainPassword')
-            ->onlyOnForms()
-            ->setFormType(RepeatedType::class)
-            ->setFormTypeOptions([
-                'type' => PasswordType::class,
-                'first_options' => ['label' => 'Password'],
-                'second_options' => ['label' => 'Repeat password'],
-                'required' => 'required',
-            ]);
+        // yield TextField::new('plainPassword')
+        //     ->onlyOnForms()
+        //     ->setFormType(RepeatedType::class)
+        //     ->setFormTypeOptions([
+        //         'type' => PasswordType::class,
+        //         'first_options' => ['label' => 'Password'],
+        //         'second_options' => ['label' => 'Repeat password'],
+        //         'required' => 'required',
+        //     ]);
     }
 
     public function configureActions(Actions $actions): Actions

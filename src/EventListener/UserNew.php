@@ -49,6 +49,8 @@ class UserNew extends AbstractController
         $typeId = $user->getOrg()->getType();
         $roles = $user->getRoles();
         $roles[] = 'ROLE_' . strtoupper($orgTypes[$typeId]);
+        $roles = array_unique($roles);
+        $roles = array_values($roles);
         $user->setRoles($roles);
     }
 

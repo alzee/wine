@@ -33,15 +33,15 @@ class UserUpdate
             $user->eraseCredentials();
         }
 
-        if ($event->hasChangedField('org')) {
-            $role = match ($user->getOrg()->getType()) {
-                0 => 'HEAD',
-                1 => 'AGENCY',
-                2 => 'STORE',
-                3 => 'RESTAURANT',
-            };
-
-            $user->setRoles(['ROLE_' . $role]);
+        
+        if ($event->hasChangedField('org') || $event->hasChangedField('roles')) {
+            $orgTypes = array_flip(Choice::ORG_TYPES);
+            $typeId = $user->getOrg()->getType();
+            $roles = $user->getRoles();
+            $roles[] = 'ROLE_' . strtoupper($orgTypes[$typeId]);
+            $roles = array_unique($roles);
+            $roles = array_values($roles);
+            $user->setRoles($roles);
         }
     }
 }
