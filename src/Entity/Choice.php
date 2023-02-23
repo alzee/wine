@@ -9,7 +9,6 @@ class Choice
         'ROLE_AGENCY',
         'ROLE_STORE',
         'ROLE_RESTAURANT',
-        'ROLE_CUSTOMER',
         'ROLE_VARIANT_HEAD',
         'ROLE_VARIANT_AGENCY',
         'ROLE_VARIANT_STORE',

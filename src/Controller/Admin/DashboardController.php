@@ -152,9 +152,6 @@ class DashboardController extends AbstractDashboardController
         }
 
         if ($this->isGranted('ROLE_HEAD')) {
-            yield MenuItem::linkToCrud('CustomerManage', 'fas fa-users', User::class)
-                ->setController(CustomerCrudController::class);
-            ;
             yield MenuItem::linkToCrud('Claim', 'fas fa-award', Claim::class);
             yield MenuItem::linkToCrud('Borrow', 'fas fa-gift', Borrow::class);
             yield MenuItem::linkToCrud('RegList', 'fas fa-handshake-alt', Reg::class);
