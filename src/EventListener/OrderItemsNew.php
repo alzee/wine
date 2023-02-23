@@ -36,10 +36,6 @@ class OrderItemsNew extends AbstractController
         $amount = $price * $qty;
         $voucher = $unitVoucher * $qty;
         
-        foreach ($boxes as $box) {
-            $box->setOrderItems($item);
-        }
-        
         $ord = $item->getOrd();
         $ord->setAmount($ord->getAmount() + $amount);
         $ord->setVoucher($ord->getVoucher() + $voucher);
