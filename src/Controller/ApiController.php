@@ -481,7 +481,7 @@ class ApiController extends AbstractController
         // If unsold
         if ($bottle->getStatus() === 0) {
             // Only sold if box is in stores
-            if ($org->getType() === 2 || $org->getType() === 12) {
+            if ($org->getType() === 2 || $org->getType() === 12 || $org->getType() === 3) {
                 $retail = new Retail();
                 $retail->setStore($org);
                 $retail->setCustomer($user);
