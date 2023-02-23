@@ -26,6 +26,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\TextFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\ChoiceFilter;
+use EasyCorp\Bundle\EasyAdminBundle\Filter\ArrayFilter;
 use App\Entity\Choice;
 
 class UserCrudController extends AbstractCrudController
@@ -86,15 +87,6 @@ class UserCrudController extends AbstractCrudController
             ->setRequired(false)
         ;
         yield TextField::new('phone');
-        // yield TextField::new('plainPassword')
-        //     ->onlyOnForms()
-        //     ->setFormType(RepeatedType::class)
-        //     ->setFormTypeOptions([
-        //         'type' => PasswordType::class,
-        //         'first_options' => ['label' => 'Password'],
-        //         'second_options' => ['label' => 'Repeat password'],
-        //         'required' => 'required',
-        //     ]);
     }
 
     public function configureActions(Actions $actions): Actions
@@ -129,17 +121,12 @@ class UserCrudController extends AbstractCrudController
         return $filters
             ->add(TextFilter::new('username'))
             ->add(EntityFilter::new('org'))
-            // ->add(ChoiceFilter::new('roles')->setChoices([
-            //     'Salesman' => 'ROLE_SALESMAN',
-            //     'Admin' => 'ROLE_ADMIN',
-            //     'Head' => 'ROLE_HEAD',
-            //     'Agency' => 'ROLE_AGENCY',
-            //     'Store' => 'ROLE_STORE',
-            //     'Restaurant' => 'ROLE_RESTAURANT',
-            //     'VariantHead' => 'ROLE_VARIANT_HEAD',
-            //     'VariantAgency' => 'ROLE_VARIANT_AGENCY',
-            //     'VariantStore' => 'ROLE_VARIANT_STORE',
-            // ]))
+            ->add(ArrayFilter::new('roles')->setChoices([
+                '业务员' => 'ROLE_SALESMAN',
+                '仓管' => 'ROLE_STOREMAN',
+                '商家管理员' => 'ROLE_ORG_ADMIN',
+                '服务员' => 'ROLE_WAITER',
+            ]))
             ->add(TextFilter::new('phone'))
         ;
     }
