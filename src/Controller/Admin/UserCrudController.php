@@ -63,6 +63,11 @@ class UserCrudController extends AbstractCrudController
                 'VariantHead' => 'ROLE_VARIANT_HEAD',
                 'VariantAgency' => 'ROLE_VARIANT_AGENCY',
                 'VariantStore' => 'ROLE_VARIANT_STORE',
+                'salesman' => 'ROLE_SALESMAN',
+                'storeman' => 'ROLE_STOREMAN',
+                'org_admin' => 'ROLE_ORG_ADMIN',
+                'waiter' => 'ROLE_ORG_WAITER',
+                'user' => 'ROLE_USER',
             ])
             ->allowMultipleChoices()
             ->onlyOnIndex()
@@ -106,10 +111,10 @@ class UserCrudController extends AbstractCrudController
         $uid = $this->getUser()->getId();
         $response = $this->container->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
         $response
-            ->leftJoin('entity.org', 'org')
+            // ->leftJoin('entity.org', 'org')
             ->andWhere("entity.id != $uid")
-            ->andWhere("entity.id > 100")
-            ->andWhere("entity.org = $userOrgId OR org.upstream = $userOrgId")
+            // ->andWhere("entity.id > 100")
+            // ->andWhere("entity.org = $userOrgId OR org.upstream = $userOrgId")
         ;
         return $response;
     }
