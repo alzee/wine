@@ -595,6 +595,7 @@ class ApiController extends AbstractController
     {
         $params = $request->toArray();
         // return $this->json(['code' => $code, 'msg' => $msg, 'ord' => $ord]);
+        return $this->json(['code' => 0]);
     }
     
     #[Route('/org/admin/bind', methods: ['POST'])]
@@ -602,6 +603,7 @@ class ApiController extends AbstractController
     {
         $params = $request->toArray();
         // return $this->json(['code' => $code, 'msg' => $msg, 'ord' => $ord]);
+        return $this->json(['code' => 0]);
     }
     
     #[Route('/waiter/reg', methods: ['POST'])]
