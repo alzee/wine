@@ -25,7 +25,8 @@ class Choice
         'box' => 0,
         'bottle' => 1,
         'orgSignup' => 2,
-        'WaiterSignup' => 3
+        'WaiterSignup' => 3,
+        'userqr' => 4,
     ];
     
     public const CLAIM_TYPES = [
