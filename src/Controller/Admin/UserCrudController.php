@@ -66,7 +66,7 @@ class UserCrudController extends AbstractCrudController
                 'salesman' => 'ROLE_SALESMAN',
                 'storeman' => 'ROLE_STOREMAN',
                 'org_admin' => 'ROLE_ORG_ADMIN',
-                'waiter' => 'ROLE_ORG_WAITER',
+                'waiter' => 'ROLE_WAITER',
                 'customer' => 'ROLE_CUSTOMER',
             ])
             ->allowMultipleChoices()
@@ -77,6 +77,7 @@ class UserCrudController extends AbstractCrudController
                 'salesman' => 'ROLE_SALESMAN',
                 'storeman' => 'ROLE_STOREMAN',
                 'org_admin' => 'ROLE_ORG_ADMIN',
+                'waiter' => 'ROLE_WAITER',
             ])
             ->allowMultipleChoices()
             ->onlyOnForms()

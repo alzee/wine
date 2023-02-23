@@ -456,7 +456,7 @@ class ApiController extends AbstractController
         return $this->json(['code' => $code, 'msg' => $msg, 'ord' => $ord]);
     }
     
-    #[Route('/scan/bottle')]
+    #[Route('/scan/bottle', methods: ['POST'])]
     public function scanBottle(Request $request): Response
     {
         $em = $this->doctrine->getManager();
@@ -546,7 +546,7 @@ class ApiController extends AbstractController
         }
     }
     
-    #[Route('/scan/storeman')]
+    #[Route('/scan/storeman', methods: ['POST'])]
     public function scanStoreman(Request $request): Response
     {
         $em = $this->doctrine->getManager();
@@ -588,5 +588,33 @@ class ApiController extends AbstractController
         $ord = ['product' => $product, 'qty' => $qty];
         
         return $this->json(['code' => $code, 'msg' => $msg, 'ord' => $ord]);
+    }
+    
+    #[Route('/staff/add', methods: ['POST'])]
+    public function addstaff(Request $request): Response
+    {
+        $params = $request->toArray();
+        // return $this->json(['code' => $code, 'msg' => $msg, 'ord' => $ord]);
+    }
+    
+    #[Route('/org/admin/bind', methods: ['POST'])]
+    public function bindOrgAdmin(Request $request): Response
+    {
+        $params = $request->toArray();
+        // return $this->json(['code' => $code, 'msg' => $msg, 'ord' => $ord]);
+    }
+    
+    #[Route('/waiter/reg', methods: ['POST'])]
+    public function watierReg(Request $request): Response
+    {
+        $em = $this->doctrine->getManager();
+        $params = $request->toArray();
+        $uid = $params['uid'];
+        $user = $em->getRepository(User::class)->find($uid);
+        if (! is_null($user)) {
+            $user->addRole('waiter');
+            $em->flush();
+        }
+        return $this->json(['code' => 0]);
     }
 }
