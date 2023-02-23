@@ -47,8 +47,12 @@ class OrderItems
     #[Assert\NotNull]
     private ?Pack $pack = null;
 
+    #[ORM\ManyToMany(targetEntity: Box::class, inversedBy: 'orderItems')]
+    private Collection $boxes;
+
     public function __construct()
     {
+        $this->boxes = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -105,6 +109,30 @@ class OrderItems
     public function setPack(?Pack $pack): self
     {
         $this->pack = $pack;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Box>
+     */
+    public function getBoxes(): Collection
+    {
+        return $this->boxes;
+    }
+
+    public function addBox(Box $box): self
+    {
+        if (!$this->boxes->contains($box)) {
+            $this->boxes->add($box);
+        }
+
+        return $this;
+    }
+
+    public function removeBox(Box $box): self
+    {
+        $this->boxes->removeElement($box);
 
         return $this;
     }

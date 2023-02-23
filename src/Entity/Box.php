@@ -41,9 +41,13 @@ class Box
     #[ORM\ManyToOne]
     private ?Pack $pack = null;
 
+    #[ORM\ManyToMany(targetEntity: OrderItems::class, mappedBy: 'boxes')]
+    private Collection $orderItems;
+
     public function __construct()
     {
         $this->bottles = new ArrayCollection();
+        $this->orderItems = new ArrayCollection();
     }
 
     public function __toString()
@@ -166,6 +170,33 @@ class Box
     public function setPack(?Pack $pack): self
     {
         $this->pack = $pack;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, OrderItems>
+     */
+    public function getOrderItems(): Collection
+    {
+        return $this->orderItems;
+    }
+
+    public function addOrderItem(OrderItems $orderItem): self
+    {
+        if (!$this->orderItems->contains($orderItem)) {
+            $this->orderItems->add($orderItem);
+            $orderItem->addBox($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderItem(OrderItems $orderItem): self
+    {
+        if ($this->orderItems->removeElement($orderItem)) {
+            $orderItem->removeBox($this);
+        }
 
         return $this;
     }
