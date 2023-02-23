@@ -74,6 +74,9 @@ class Withdraw
     #[Groups(['read', 'write'])]
     private ?User $customer = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $wxBatchId = null;
+
     public function __construct()
     {
         $this->date = new \DateTime();
@@ -228,6 +231,18 @@ class Withdraw
     public function setCustomer(?User $customer): self
     {
         $this->customer = $customer;
+
+        return $this;
+    }
+
+    public function getWxBatchId(): ?string
+    {
+        return $this->wxBatchId;
+    }
+
+    public function setWxBatchId(?string $wxBatchId): self
+    {
+        $this->wxBatchId = $wxBatchId;
 
         return $this;
     }
