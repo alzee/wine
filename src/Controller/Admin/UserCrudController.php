@@ -38,7 +38,7 @@ class UserCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         $userOrgId = $this->getUser()->getOrg()->getId();
-        // IdField::new('id')->onlyOnIndex(),
+        yield IdField::new('id')->onlyOnIndex();
         yield
             TextField::new('username')->OnlyWhenUpdating()->setFormTypeOptions(['disabled' => 'disabled']);
         yield TextField::new('username')->HideWhenUpdating();
@@ -49,6 +49,8 @@ class UserCrudController extends AbstractCrudController
                     ->andWhere("entity.id = $userOrgId")
                     ->orWhere("entity.upstream = $userOrgId")
             );
+        yield TextField::new('name', 'Person Name')->HideWhenUpdating();
+        yield TextField::new('nick')->HideWhenUpdating();
         yield AssociationField::new('org')
             ->OnlyWhenUpdating()
             ->setFormTypeOptions(['disabled' => 'disabled']);
