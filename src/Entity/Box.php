@@ -38,9 +38,6 @@ class Box
     #[ORM\ManyToOne(inversedBy: 'boxes')]
     private ?Product $product = null;
 
-    #[ORM\ManyToOne(inversedBy: 'boxes')]
-    private ?OrderItems $orderItems = null;
-
     #[ORM\ManyToOne]
     private ?Pack $pack = null;
 
@@ -157,18 +154,6 @@ class Box
     public function setProduct(?Product $product): self
     {
         $this->product = $product;
-
-        return $this;
-    }
-
-    public function getOrderItems(): ?OrderItems
-    {
-        return $this->orderItems;
-    }
-
-    public function setOrderItems(?OrderItems $orderItems): self
-    {
-        $this->orderItems = $orderItems;
 
         return $this;
     }
