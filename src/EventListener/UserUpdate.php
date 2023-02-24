@@ -35,7 +35,7 @@ class UserUpdate
 
         
         if ($event->hasChangedField('org') || $event->hasChangedField('roles')) {
-            $orgTypes = array_flip(Choice::ORG_TYPES);
+            $orgTypes = array_flip(Choice::ORG_TYPES_ALL);
             $typeId = $user->getOrg()->getType();
             $user->addRole($orgTypes[$typeId]);
         }

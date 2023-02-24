@@ -88,7 +88,7 @@ class OrgCrudController extends AbstractCrudController
             ->onlyWhenCreating()
             ->setChoices($orgChoices);
         yield ChoiceField::new('type')
-            ->setChoices(Choice::ORG_TYPES)
+            ->setChoices(Choice::ORG_TYPES_ALL)
             ->hideWhenCreating()
             ->setDisabled()
         ;

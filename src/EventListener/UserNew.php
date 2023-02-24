@@ -41,7 +41,7 @@ class UserNew extends AbstractController
         $user->setPassword($this->hasher->hashPassword($user, $user->getPlainPassword()));
         $user->eraseCredentials();
 
-        $orgTypes = array_flip(Choice::ORG_TYPES);
+        $orgTypes = array_flip(Choice::ORG_TYPES_ALL);
         if (is_null($user->getOrg())) {
             $orgCustomer = $event->getEntityManager()->getRepository(Org::class)->findOneBy(['type' => 4]);
             $user->setOrg($orgCustomer);
