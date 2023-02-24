@@ -23,8 +23,7 @@ class Choice
     public const WXQR_TYPES = [
         'box' => 0,
         'bottle' => 1,
-        'orgSignup' => 2,
-        'userqr' => 3,
+        'userqr' => 2,
     ];
     
     public const CLAIM_TYPES = [
