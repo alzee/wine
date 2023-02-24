@@ -91,6 +91,14 @@ class Choice
     public const ORDER_STATUSES = ['Pending' => 0, 'Cancelled' => 4, 'Success' => 5];
     public const WITHDRAW_STATUSES = ['Pending' => 0, 'Approved' => 3 , 'Rejected' => 4, 'Paid' => 5];
     public const ORG_TYPES = [
+        'agency' => 1,
+        'store' => 2,
+        'restaurant' => 3,
+        'variant_head' => 10,
+        'variant_agency' => 11,
+        'variant_store' => 12,
+    ];
+    public const ORG_TYPES_ALL = [
         'head' => 0,
         'agency' => 1,
         'store' => 2,
