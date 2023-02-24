@@ -97,7 +97,7 @@ class SecurityController extends AbstractDashboardController
 
         $resp = [
             "uid" => $user->getId(),
-            "role" => 4,
+            "role" => $user->getOrg()->getType(),
             "roles" => $user->getRoles(),
             "name" => $user->getName(),
             "phone" => $user->getPhone(),
