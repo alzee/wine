@@ -601,8 +601,12 @@ class ApiController extends AbstractController
     #[Route('/org/admin/bind', methods: ['POST'])]
     public function bindOrgAdmin(Request $request): Response
     {
+        $em = $this->doctrine->getManager();
         $params = $request->toArray();
-        // return $this->json(['code' => $code, 'msg' => $msg, 'ord' => $ord]);
+        $user = $em->getRepository(User::class)->find($params['uid']);
+        $org = $em->getRepository(Org::class)->find($params['oid']);
+        $org->setAdmin($user);
+        $em->flush();
         return $this->json(['code' => 0]);
     }
     
