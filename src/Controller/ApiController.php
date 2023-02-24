@@ -31,15 +31,18 @@ use Symfony\Component\Cache\Adapter\RedisAdapter;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/api')]
 class ApiController extends AbstractController
 {
     private $doctrine;
+    private $translator;
 
-    public function __construct(ManagerRegistry $doctrine)
+    public function __construct(ManagerRegistry $doctrine, TranslatorInterface $translator)
     {
         $this->doctrine = $doctrine;
+        $this->translator =$translator;
     }
 
     #[Route('/order/new', methods: ['POST'])]
@@ -353,7 +356,7 @@ class ApiController extends AbstractController
         foreach($choice as $v => $k){
             $arr[] = [
                 'id' => $v,
-                'value' => $k
+                'value' => $this->translator->trans($k)
             ];
         }
         return $this->json($arr);
