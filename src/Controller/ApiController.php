@@ -580,7 +580,7 @@ class ApiController extends AbstractController
         return $this->json(['code' => $code, 'msg' => $msg, 'ord' => $ord]);
     }
     
-    #[Route('/staff/add', methods: ['POST'])]
+    #[Route('/org/staff/add', methods: ['POST'])]
     public function addstaff(Request $request): Response
     {
         $params = $request->toArray();
