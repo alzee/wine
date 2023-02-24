@@ -322,7 +322,7 @@ class ApiController extends AbstractController
     }
 
     #[Route('/org/new', methods: ['POST'])]
-    public function createUserAndOrg(Request $request): JsonResponse
+    public function createOrgAndBindAdmin(Request $request): JsonResponse
     {
         $params  = $request->toArray();
         $em = $this->doctrine->getManager();
