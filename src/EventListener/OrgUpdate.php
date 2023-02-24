@@ -24,6 +24,10 @@ class OrgUpdate extends AbstractController
         $changeSet = $uow->getEntityChangeSet($org);
 
         if (isset($changeSet['admin'])) {
+            $ex = $changeSet['admin'][0];
+            if (! is_null($ex)) {
+                $ex->removeRole('org_admin');
+            }
             $admin = $org->getAdmin();
             $admin->addRole('org_admin');
             $admin->setOrg($org);

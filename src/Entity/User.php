@@ -199,6 +199,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         
         return $this;
     }
+    
+    public function removeRole(string $role): self
+    {
+        $role = 'ROLE_' . strtoupper($role);
+        $roles = $this->roles;
+        $index = array_search($role, $roles);
+        array_splice($roles, $index, 1);
+        $roles = array_values($roles);
+        $this->setRoles($roles);
+        
+        return $this;
+    }
 
     /**
      * @see PasswordAuthenticatedUserInterface
