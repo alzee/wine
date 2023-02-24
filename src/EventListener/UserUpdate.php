@@ -32,12 +32,5 @@ class UserUpdate
             $user->setPassword($this->hasher->hashPassword($user, $user->getPlainPassword()));
             $user->eraseCredentials();
         }
-
-        
-        if ($event->hasChangedField('org') || $event->hasChangedField('roles')) {
-            $orgTypes = array_flip(Choice::ORG_TYPES_ALL);
-            $typeId = $user->getOrg()->getType();
-            $user->addRole($orgTypes[$typeId]);
-        }
     }
 }

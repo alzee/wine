@@ -14,6 +14,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use App\Entity\Choice;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity('username',
@@ -173,6 +174,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
+        $orgTypes = array_flip(Choice::ORG_TYPES_ALL);
+        $orgType = $orgTypes[$this->org->getType()];
+        $roles[] = 'ROLE_' . $orgType;
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
