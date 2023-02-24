@@ -79,7 +79,7 @@ class UserCrudController extends AbstractCrudController
             ->setChoices([
                 'salesman' => 'ROLE_SALESMAN',
                 'storeman' => 'ROLE_STOREMAN',
-                'org_admin' => 'ROLE_ORG_ADMIN',
+                // 'org_admin' => 'ROLE_ORG_ADMIN',
                 'waiter' => 'ROLE_WAITER',
             ])
             ->allowMultipleChoices()
