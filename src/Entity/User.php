@@ -176,7 +176,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // guarantee every user at least has ROLE_USER
         $orgTypes = array_flip(Choice::ORG_TYPES_ALL);
         $orgType = $orgTypes[$this->org->getType()];
-        $roles[] = 'ROLE_' . $orgType;
+        $roles[] = 'ROLE_' . strtoupper($orgType);
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
@@ -184,14 +184,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setRoles(array $roles): self
     {
-        $this->roles = $roles;
+        $this->roles = array_values($roles);
 
         return $this;
     }
     
     public function addRole(string $role): self
     {
-        $roles = $this->getRoles();
+        $roles = $this->roles();
         $roles[] = 'ROLE_' . strtoupper($role);
         $roles = array_unique($roles);
         $roles = array_values($roles);
