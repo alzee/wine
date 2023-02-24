@@ -26,7 +26,7 @@ class OrgUpdate extends AbstractController
         if (isset($changeSet['admin'])) {
             $ex = $changeSet['admin'][0];
             if (! is_null($ex)) {
-                $ex->removeRole('org_admin');
+                $ex->delRole('org_admin');
             }
             $admin = $org->getAdmin();
             $admin->addRole('org_admin');

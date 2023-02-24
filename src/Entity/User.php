@@ -191,8 +191,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     
     public function addRole(string $role): self
     {
+        $role = strtoupper($role);
+        if (! str_starts_with($role, 'ROLE_')) {
+            $role = 'ROLE_' . $role;
+        }
         $roles = $this->roles;
-        $roles[] = 'ROLE_' . strtoupper($role);
+        $roles[] = $role;
         $roles = array_unique($roles);
         $roles = array_values($roles);
         $this->setRoles($roles);
@@ -200,9 +204,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
     
-    public function removeRole(string $role): self
+    public function delRole(string $role): self
     {
-        $role = 'ROLE_' . strtoupper($role);
+        $role = strtoupper($role);
+        if (! str_starts_with($role, 'ROLE_')) {
+            $role = 'ROLE_' . $role;
+        }
         $roles = $this->roles;
         $index = array_search($role, $roles);
         array_splice($roles, $index, 1);
