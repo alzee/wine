@@ -348,8 +348,15 @@ class ApiController extends AbstractController
     #[Route('/choices/{taxon}')]
     public function getChoices($taxon): JsonResponse
     {
-        $a = array_flip(Choice::get($taxon));
-        return $this->json($a);
+        $choice = array_flip(Choice::get($taxon));
+        $arr = [];
+        foreach($choice as $v => $k){
+            $arr[] = [
+                'id' => $v,
+                'value' => $k
+            ];
+        }
+        return $this->json($arr);
     }
 
     #[Route('/pca')]
