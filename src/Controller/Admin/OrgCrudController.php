@@ -113,22 +113,6 @@ class OrgCrudController extends AbstractCrudController
             ;
         yield TextField::new('address');
         // yield AssociationField::new('city');
-        yield TextField::new('payee')
-            ->onlyWhenUpdating()
-            ->setDisabled()
-        ;
-        yield TextField::new('bank')
-            ->onlyWhenUpdating()
-            ->setDisabled()
-        ;
-        yield TextField::new('bank_account')
-            ->onlyWhenUpdating()
-            ->setDisabled()
-        ;
-        yield TextField::new('bank_addr')
-            ->onlyWhenUpdating()
-            ->setDisabled()
-        ;
         yield AssociationField::new('industry');
         yield MoneyField::new('voucher')
                 ->setCurrency('CNY')
