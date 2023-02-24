@@ -159,6 +159,9 @@ class Org
     #[ORM\OneToMany(mappedBy: 'store', targetEntity: Claim::class)]
     private Collection $claims;
 
+    #[ORM\ManyToOne]
+    private ?User $admin = null;
+
     public function __construct()
     {
         $this->voucher = 0;
@@ -708,6 +711,18 @@ class Org
                 $claim->setStore(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAdmin(): ?User
+    {
+        return $this->admin;
+    }
+
+    public function setAdmin(?User $admin): self
+    {
+        $this->admin = $admin;
 
         return $this;
     }
