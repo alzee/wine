@@ -96,9 +96,9 @@ class Choice
         'store' => 2,
         'restaurant' => 3,
         'customer' => 4,
-        'Variant_head' => 10,
-        'Variant_agency' => 11,
-        'Variant_store' => 12,
+        'variant_head' => 10,
+        'variant_agency' => 11,
+        'variant_store' => 12,
     ];
     public const REG_TYPES = [
         'Store' => 0,
