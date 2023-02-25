@@ -22,6 +22,8 @@ use App\Entity\Box;
 use App\Entity\Bottle;
 use App\Entity\Choice;
 use App\Entity\Conf;
+use App\Entity\Claim;
+use App\Entity\Borrow;
 use App\Entity\RetailReturn;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -628,4 +630,22 @@ class ApiController extends AbstractController
         }
         return $this->json(['code' => 0]);
     }
+    
+    #[Route('/claim/done', methods: ['POST'])]
+    public function setClaimed(Request $request): Response
+    {
+        $em = $this->doctrine->getManager();
+        $params = $request->toArray();
+        $claim = $em->getRepository(Claim::class)->find($params['id']);
+        $org = $em->getRepository(Claim::class)->find($params['oid']);
+        $conf = $em->getRepository(Conf::class)->find(1);
+        $tip = $conf->getStoreTip();
+        
+        $claim->setStatus(1);
+        $org->setWithdrawable($org->getWithdrawable() + $tip);
+        
+        $em->flush();
+        return $this->json(['code' => 0, 'tip' => $tip]);
+    }
+    
 }
