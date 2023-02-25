@@ -654,15 +654,8 @@ class ApiController extends AbstractController
     {
         $em = $this->doctrine->getManager();
         $params = $request->toArray();
-        $salesman = $em->getRepository(User::class)->find($params['uid']);
         $claim = $em->getRepository(Claim::class)->find($params['id']);
         $borrow = $em->getRepository(Borrow::class)->findOneBy(['claim' => $claim]);
-        $bottle = $claim->getBottle();
-        if (! is_null($bottle)) {
-            $product = $bottle->getBox()->getProduct();
-        } else {
-            $product = $em->getRepository(Product::class)->find(88);
-        }
         
         $code = 0;
         // check if actual have salesman role
@@ -671,14 +664,35 @@ class ApiController extends AbstractController
         if (! is_null($borrow)) {
             $claim->setSettled(true);
             $borrow->setStatus(3);
-            $borrow->setSalesman($salesman);
-            $borrow->setProduct($product);
-            $borrow->setQty(2);
-            $borrow->setClaim($claim);
         } else {
             $code = 1;
         }
         $em->flush();
         return $this->json(['code' => $code]);
+    }
+    
+    #[Route('/borrow/new', methods: ['POST'])]
+    public function setttleClaim(Request $request): Response
+    {
+        $em = $this->doctrine->getManager();
+        $params = $request->toArray();
+        $salesman = $em->getRepository(User::class)->find($params['uid']);
+        $claim = $em->getRepository(Claim::class)->find($params['id']);
+        $bottle = $claim->getBottle();
+        if (! is_null($bottle)) {
+            $product = $bottle->getBox()->getProduct();
+        } else {
+            $product = $em->getRepository(Product::class)->find(88);
+        }
+        
+        $borrow = new Borrow();
+        $borrow->setSalesman($salesman);
+        $borrow->setProduct($product);
+        $borrow->setQty(2);
+        $borrow->setClaim($claim);
+            
+        $em->flush();
+            
+        return $this->json(['code' => 0]);
     }
 }
