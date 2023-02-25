@@ -690,7 +690,7 @@ class ApiController extends AbstractController
         $borrow->setProduct($product);
         $borrow->setQty(2);
         $borrow->setClaim($claim);
-            
+        $em->persist($borrow);
         $em->flush();
             
         return $this->json(['code' => 0]);
