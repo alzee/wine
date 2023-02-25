@@ -149,7 +149,7 @@ class ApiController extends AbstractController
     {
         $params  = $request->toArray();
         $restaurant = $this->doctrine->getRepository(Org::class)->find($params['oid']);
-        $customer = $this->doctrine->getRepository(User::class)->find($params['cid']);
+        $customer = $this->doctrine->getRepository(User::class)->find($params['uid']);
         $rand = $params['timestamp'];
         $voucher = $params['voucher'];
         $em = $this->doctrine->getManager();
