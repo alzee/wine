@@ -637,7 +637,7 @@ class ApiController extends AbstractController
         $em = $this->doctrine->getManager();
         $params = $request->toArray();
         $claim = $em->getRepository(Claim::class)->find($params['id']);
-        $org = $em->getRepository(Claim::class)->find($params['oid']);
+        $org = $em->getRepository(Org::class)->find($params['oid']);
         $conf = $em->getRepository(Conf::class)->find(1);
         $tip = $conf->getStoreTip();
         
