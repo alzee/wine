@@ -672,7 +672,7 @@ class ApiController extends AbstractController
     }
     
     #[Route('/borrow/new', methods: ['POST'])]
-    public function setttleClaim(Request $request): Response
+    public function newBorrow(Request $request): Response
     {
         $em = $this->doctrine->getManager();
         $params = $request->toArray();
