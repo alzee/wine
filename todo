@@ -1,3 +1,4 @@
+- cron to set claim expire
 - weird when editing roles in crud user, addRole/removeRole will be invoked
 - api org/new handle exceptions
 - product voucher to box, rewards/shares to bottle

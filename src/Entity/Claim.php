@@ -16,7 +16,7 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
     denormalizationContext: ['groups' => ['write']],
     paginationEnabled: false,
 )]
-#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'store' => 'exact', 'customer' => 'exact', 'status' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'store' => 'exact', 'customer' => 'exact', 'status' => 'exact', 'settled' => 'exact'])]
 class Claim
 {
     #[ORM\Id]
@@ -60,6 +60,10 @@ class Claim
     #[ORM\Column]
     #[Groups(['read'])]
     private ?int $value = 1;
+
+    #[ORM\Column]
+    #[Groups(['read'])]
+    private ?bool $settled = false;
     
     public function __construct()
     {
@@ -175,6 +179,18 @@ class Claim
     public function setValue(int $value): self
     {
         $this->value = $value;
+
+        return $this;
+    }
+
+    public function isSettled(): ?bool
+    {
+        return $this->settled;
+    }
+
+    public function setSettled(bool $settled): self
+    {
+        $this->settled = $settled;
 
         return $this;
     }
