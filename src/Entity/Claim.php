@@ -16,7 +16,7 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
     denormalizationContext: ['groups' => ['write']],
     paginationEnabled: false,
 )]
-#[ApiFilter(SearchFilter::class, properties: ['store' => 'exact', 'customer' => 'exact', 'status' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'store' => 'exact', 'customer' => 'exact', 'status' => 'exact'])]
 class Claim
 {
     #[ORM\Id]
