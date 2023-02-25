@@ -42,7 +42,7 @@ class Choice
         'pending' => 0,
         'approved' => 1,
         'borrowed' => 2,
-        'given' => 3,
+        'settled' => 3,
     ];
 
     public const BATCH_TYPES = [

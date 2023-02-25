@@ -648,4 +648,22 @@ class ApiController extends AbstractController
         return $this->json(['code' => 0, 'tip' => $tip]);
     }
     
+    #[Route('/claim/settle', methods: ['POST'])]
+    public function setttleClaim(Request $request): Response
+    {
+        $em = $this->doctrine->getManager();
+        $params = $request->toArray();
+        $claim = $em->getRepository(Claim::class)->find($params['id']);
+        $borrow = $em->getRepository(Borrow::class)->findOneBy(['claim' => $claim]);
+        
+        $code = 0;
+        if (! is_null($borrow)) {
+            $claim->setSettled(true);
+            $borrow->setStatus(3);
+        } else {
+            $code = 1;
+        }
+        $em->flush();
+        return $this->json(['code' => $code]);
+    }
 }
