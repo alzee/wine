@@ -342,6 +342,7 @@ class ApiController extends AbstractController
         $org->setUpstream($up);
         $org->setAdmin($admin);
         $em->persist($org);
+        $admin->setOrg($org);
         $em->flush();
         $code = 0;
 
