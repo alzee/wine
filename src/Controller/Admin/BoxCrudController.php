@@ -93,7 +93,7 @@ class BoxCrudController extends AbstractCrudController
             ->add('index', $batchNew)
             ->add('index', $batchQr)
             ->add('index', $listBottles)
-            ->disable(Action::DELETE, Action::EDIT, Action::NEW, Action::DETAIL)
+            ->disable(Action::DELETE, Action::EDIT, Action::NEW)
         ;
     }
 }

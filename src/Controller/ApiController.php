@@ -569,9 +569,9 @@ class ApiController extends AbstractController
         foreach ($sns as $sn) {
             $box = $em->getRepository(Box::class)->find(Sn::toId($sn));
             // Check if box is in head
-            // if ($box->getOrg() === $head) {
+            if ($box->getOrg() === $head) {
                 $item->addBox($box);
-            // }
+            }
         }
         $em->persist($item);
         
