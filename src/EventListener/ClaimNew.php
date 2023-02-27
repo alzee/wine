@@ -24,27 +24,36 @@ class ClaimNew extends AbstractController
     {
         $em = $event->getEntityManager();
         $prize = $claim->getPrize();
+        $store = $claim->getStore();
         $customer = $claim->getCustomer();
         $orgCustomer = $em->getRepository(Org::class)->findOneByType(4);
+        $toCustomer = $prize->getToCustomer();
+        $toStore = $prize->getToStore();
         
-        $pid = $prize->getId();
+        $label = $prize->getLabel();
         
         // Voucher
-        if ($pid === 3) {
-            $amount = $prize->getValue() * 100;
+        if ($label === 'voucher') {
             $voucher = new Voucher();
             $voucher->setOrg($orgCustomer);
             $voucher->setCustomer($customer);
-            $voucher->setVoucher($amount);
+            $voucher->setVoucher($toCustomer);
             $voucher->setType(14);
             $em->persist($voucher);
-            $customer->setVoucher($customer->getVoucher() + $amount);
-            $claim->setValue($amount);
+            $customer->setVoucher($customer->getVoucher() + $toCustomer);
+            
+            $voucher = new Voucher();
+            $voucher->setOrg($store);
+            $voucher->setVoucher($toStore);
+            $voucher->setType(14);
+            $em->persist($voucher);
+            $store->setVoucher($store->getVoucher() + $toStore);
+            
             $claim->setStatus(1);
         }
        
         // Voucher random
-        if ($pid === 4) {
+        if ($label === 'voucher_rand') {
             $amount = rand($prize->getValue(), $prize->getValue2()) * 100;
             $voucher = new Voucher();
             $voucher->setOrg($orgCustomer);
@@ -58,15 +67,17 @@ class ClaimNew extends AbstractController
         }
        
         // wx
-        if ($pid === 5) {
-            $amount = $prize->getValue() * 100;
-            $customer->setWithdrawable($customer->getWithdrawable() + $amount);
-            $claim->setValue($amount);
+        if ($label === 'wx') {
+            // new withdraw to directly wx balance
+            // or
+            $customer->setWithdrawable($customer->getWithdrawable() + $toCustomer);
+            $store->setWithdrawable($store->getWithdrawable() + $toStore);
+            
             $claim->setStatus(1);
         }
        
         // wx random
-        if ($pid === 6) {
+        if ($label === 'wx_rand') {
             $amount = rand($prize->getValue(), $prize->getValue2()) * 100;
             $customer->setWithdrawable($customer->getWithdrawable() + $amount);
             $claim->setValue($amount);
