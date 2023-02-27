@@ -32,5 +32,9 @@ class UserUpdate
             $user->setPassword($this->hasher->hashPassword($user, $user->getPlainPassword()));
             $user->eraseCredentials();
         }
+
+        if ($event->hasChangedField('org') || $event->hasChangedField('roles')) {
+            $user->setReloginRequired(true);
+        }
     }
 }
