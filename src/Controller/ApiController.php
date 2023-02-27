@@ -641,7 +641,7 @@ class ApiController extends AbstractController
         $conf = $em->getRepository(Conf::class)->find(1);
         $tip = $conf->getStoreTip();
         
-        $claim->setStore($org);
+        $claim->setServeStore($org);
         $claim->setStatus(1);
         $org->setWithdrawable($org->getWithdrawable() + $tip);
         
