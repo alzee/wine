@@ -16,7 +16,7 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
     denormalizationContext: ['groups' => ['write']],
     paginationEnabled: false,
 )]
-#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'store' => 'exact', 'customer' => 'exact', 'status' => 'exact', 'settled' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'store' => 'exact', 'serveStore' => 'exact', 'customer' => 'exact', 'status' => 'exact', 'settled' => 'exact'])]
 class Claim
 {
     #[ORM\Id]
@@ -63,6 +63,10 @@ class Claim
     #[ORM\Column]
     #[Groups(['read'])]
     private ?bool $settled = false;
+
+    #[ORM\ManyToOne(inversedBy: 'serveClaims')]
+    #[Groups(['read'])]
+    private ?Org $serveStore = null;
     
     public function __construct()
     {
@@ -190,6 +194,18 @@ class Claim
     public function setSettled(bool $settled): self
     {
         $this->settled = $settled;
+
+        return $this;
+    }
+
+    public function getServeStore(): ?Org
+    {
+        return $this->serveStore;
+    }
+
+    public function setServeStore(?Org $serveStore): self
+    {
+        $this->serveStore = $serveStore;
 
         return $this;
     }

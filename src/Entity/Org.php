@@ -162,6 +162,9 @@ class Org
     #[ORM\ManyToOne]
     private ?User $admin = null;
 
+    #[ORM\OneToMany(mappedBy: 'serveStore', targetEntity: Claim::class)]
+    private Collection $serveClaims;
+
     public function __construct()
     {
         $this->voucher = 0;
@@ -171,6 +174,7 @@ class Org
         $this->users = new ArrayCollection();
         $this->boxes = new ArrayCollection();
         $this->claims = new ArrayCollection();
+        $this->serveClaims = new ArrayCollection();
     }
 
     public function __toString()
@@ -723,6 +727,36 @@ class Org
     public function setAdmin(?User $admin): self
     {
         $this->admin = $admin;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Claim>
+     */
+    public function getServeClaims(): Collection
+    {
+        return $this->serveClaims;
+    }
+
+    public function addServeClaim(Claim $serveClaim): self
+    {
+        if (!$this->serveClaims->contains($serveClaim)) {
+            $this->serveClaims->add($serveClaim);
+            $serveClaim->setServeStore($this);
+        }
+
+        return $this;
+    }
+
+    public function removeServeClaim(Claim $serveClaim): self
+    {
+        if ($this->serveClaims->removeElement($serveClaim)) {
+            // set the owning side to null (unless already changed)
+            if ($serveClaim->getServeStore() === $this) {
+                $serveClaim->setServeStore(null);
+            }
+        }
 
         return $this;
     }
