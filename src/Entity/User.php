@@ -121,6 +121,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $point = 0;
 
+    #[ORM\Column]
+    #[Groups(['read'])]
+    private ?bool $reloginRequired = false;
+
     public function __toString()
     {
         $s = '';
@@ -449,6 +453,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPoint(int $point): self
     {
         $this->point = $point;
+
+        return $this;
+    }
+
+    public function isReloginRequired(): ?bool
+    {
+        return $this->reloginRequired;
+    }
+
+    public function setReloginRequired(bool $reloginRequired): self
+    {
+        $this->reloginRequired = $reloginRequired;
 
         return $this;
     }
