@@ -83,6 +83,12 @@ class ClaimNew extends AbstractController
             $claim->setValue($amount);
             $claim->setStatus(1);
         }
+        
+        // if ($label === 'collect') {
+        // }
+        // 
+        // if ($label === 'onemore') {
+        // }
        
         $em->flush();
     }
