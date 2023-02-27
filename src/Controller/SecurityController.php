@@ -80,9 +80,9 @@ class SecurityController extends AbstractDashboardController
         $openid = $this->wx->getOpenid($code);
 
         $user = $this->doctrine->getRepository(User::class)->findOneBy(['openid' => $openid]);
+        $em = $this->doctrine->getManager();
         if (is_null($user)) {
             // create
-            $em = $this->doctrine->getManager();
             $user = new User();
             $user->setOpenid($openid);
             if (isset($data->referrerId)) {
