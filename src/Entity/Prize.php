@@ -50,9 +50,11 @@ class Prize
     private array $bottles = [];
 
     #[ORM\Column]
+    #[Groups(['read'])]
     private ?int $toStore = 0;
 
     #[ORM\Column]
+    #[Groups(['read'])]
     private ?int $toCustomer = 0;
 
     #[ORM\Column(length: 255, nullable: true)]
