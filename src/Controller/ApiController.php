@@ -482,16 +482,16 @@ class ApiController extends AbstractController
             return $this->json(['code' => $code, 'msg' => $msg]);
         }
         
-        $retail = $em->getRepository(Retail::class)->findOneBy(['bottle' => $bottle]);
-        if (! is_null($retail)) {
-            $code = 12;
-            // $msg = 'Bottle not in store.';
-            $msg = '您不能购买此商品';
-            return $this->json(['code' => $code, 'msg' => $msg]);
-        }
-        
         // If unsold
         if ($bottle->getStatus() === 0) {
+            // $retail = $em->getRepository(Retail::class)->findOneBy(['bottle' => $bottle]);
+            // if (! is_null($retail)) {
+            //     $code = 14;
+            //     $msg = '此二维码已抽奖';
+            //     // $msg = 'Can not draw again.';
+            //     return $this->json(['code' => $code, 'msg' => $msg]);
+            // }
+        
             // Only sold if box is in stores
             if ($org->getType() === 2 || $org->getType() === 12 || $org->getType() === 3) {
                 $retail = new Retail();
