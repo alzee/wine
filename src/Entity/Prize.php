@@ -62,7 +62,8 @@ class Prize
 
     public function __toString()
     {
-        return $this->getInfo();
+        // return $this->getInfo();
+        return $this->name;
     }
 
     public function getInfo()
