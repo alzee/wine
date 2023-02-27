@@ -481,6 +481,15 @@ class ApiController extends AbstractController
             // $msg = 'Wrong cipher.';
             return $this->json(['code' => $code, 'msg' => $msg]);
         }
+        
+        $retail = $em->getRepository(Retail::class)->findOneBy(['bottle' => $bottle]);
+        if (! is_null($retail)) {
+            $code = 12;
+            // $msg = 'Bottle not in store.';
+            $msg = '您不能购买此商品';
+            return $this->json(['code' => $code, 'msg' => $msg]);
+        }
+        
         // If unsold
         if ($bottle->getStatus() === 0) {
             // Only sold if box is in stores
