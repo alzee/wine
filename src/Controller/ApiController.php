@@ -511,7 +511,7 @@ class ApiController extends AbstractController
                 if (is_null($retail->getClaim())) {
                     $value = 1;
                 } else {
-                    $value = $retail->getClaim()->getPrize()->getToCustumer();
+                    $value = $retail->getClaim()->getPrize()->getToCustomer();
                 }
                 return $this->json([
                     'code' => $code,
