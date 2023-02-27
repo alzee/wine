@@ -27,7 +27,6 @@ class PrizeUpdate
         $em = $event->getEntityManager();
         $uow = $em->getUnitOfWork();
         $changeSet = $uow->getEntityChangeSet($prize);
-        dump($changeSet);
 
         if (isset($changeSet['bottles']) && $prize->isBig()) {
             $bottles = $prize->getBottles();
