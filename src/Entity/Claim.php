@@ -44,7 +44,6 @@ class Claim
     private ?Org $store = null;
 
     #[ORM\ManyToOne(inversedBy: 'claims')]
-    #[ORM\JoinColumn(nullable: false)]
     #[Groups(['read'])]
     private ?User $customer = null;
 
