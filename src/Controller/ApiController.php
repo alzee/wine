@@ -505,7 +505,7 @@ class ApiController extends AbstractController
                 
                 $code = 0;
                 // $msg = 'Done.';
-                $msg = "恭喜您获得奖品";
+                $msg = "获得奖品";
                 $prize = $bottle->getPrize();
                 // prize 7 and 8
                 if (is_null($retail->getClaim())) {
