@@ -28,6 +28,9 @@ class PrizeCrudController extends AbstractCrudController
         }
         
         yield TextField::new('name');
+        yield TextField::new('label')
+            ->hideOnIndex()
+            ;
         yield MoneyField::new('toCustomer')
                 ->setCurrency('CNY')
             ;

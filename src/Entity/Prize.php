@@ -55,6 +55,9 @@ class Prize
     #[ORM\Column]
     private ?int $toCustomer = 0;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $label = null;
+
     public function __toString()
     {
         return $this->getInfo();
@@ -181,6 +184,18 @@ class Prize
     public function setToCustomer(int $toCustomer): self
     {
         $this->toCustomer = $toCustomer;
+
+        return $this;
+    }
+
+    public function getLabel(): ?string
+    {
+        return $this->label;
+    }
+
+    public function setLabel(?string $label): self
+    {
+        $this->label = $label;
 
         return $this;
     }
