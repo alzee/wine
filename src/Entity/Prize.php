@@ -50,10 +50,10 @@ class Prize
     private array $bottles = [];
 
     #[ORM\Column]
-    private ?int $toStore = null;
+    private ?int $toStore = 0;
 
     #[ORM\Column]
-    private ?int $toCustomer = null;
+    private ?int $toCustomer = 0;
 
     public function __toString()
     {
