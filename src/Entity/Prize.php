@@ -49,6 +49,12 @@ class Prize
     #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
     private array $bottles = [];
 
+    #[ORM\Column]
+    private ?int $toStore = null;
+
+    #[ORM\Column]
+    private ?int $toCustomer = null;
+
     public function __toString()
     {
         return $this->getInfo();
@@ -151,6 +157,30 @@ class Prize
     public function setBottles(?array $bottles): self
     {
         $this->bottles = $bottles;
+
+        return $this;
+    }
+
+    public function getToStore(): ?int
+    {
+        return $this->toStore;
+    }
+
+    public function setToStore(int $toStore): self
+    {
+        $this->toStore = $toStore;
+
+        return $this;
+    }
+
+    public function getToCustomer(): ?int
+    {
+        return $this->toCustomer;
+    }
+
+    public function setToCustomer(int $toCustomer): self
+    {
+        $this->toCustomer = $toCustomer;
 
         return $this;
     }
