@@ -108,11 +108,12 @@ class Choice
         'variant_store' => 12,
     ];
     public const REG_TYPES = [
-        'Store' => 0,
-        'Agency' => 1,
-        'variant_head' => 2,
-        'variant_agency' => 3,
-        'variant_store' => 4,
+        'agency' => 0,
+        'store' => 1,
+        'restaurant' => 2,
+        'variant_head' => 3,
+        'variant_agency' => 4,
+        'variant_store' => 5,
     ];
     public const REG_STATUSES = [
         'pending' => 0,
