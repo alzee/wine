@@ -695,4 +695,21 @@ class ApiController extends AbstractController
             
         return $this->json(['code' => 0]);
     }
+    
+    #[Route('/withdrawable_move_to_person', methods: ['POST'])]
+    public function withdrawable_move_to_person(Request $request): Response
+    {
+        $em = $this->doctrine->getManager();
+        $params = $request->toArray();
+        $admin = $em->getRepository(User::class)->find($params['uid']);
+        $org = $em->getRepository(Org::class)->find($params['oid']);
+        $orgW = $org->getWithdrawable();
+        if (! is_null($admin)) {
+            $admin->setWithdrawable($admin->getWithdrawable() + $orgW);
+            $org->setWithdrawable(0);
+            $em->flush();
+        }
+        
+        return $this->json(['code' => 0]);
+    }
 }
