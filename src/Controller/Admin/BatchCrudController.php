@@ -95,7 +95,7 @@ class BatchCrudController extends AbstractCrudController
                     0 => 'Batch New',
                     1 => 'Batch Edit',
                     2 => 'Batch Qr',
-                    3 => 'Download String',
+                    3 => 'Export Str',
                 }
             );
     }

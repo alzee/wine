@@ -77,7 +77,7 @@ class BoxCrudController extends AbstractCrudController
                     ->set('type', 2)
                     ->generateUrl();
             });
-        $downloadString = Action::new('downloadString')
+        $exportStr = Action::new('exportStr')
             ->createAsGlobalAction()
             ->linkToUrl(function (){
                 return $this->adminUrlGenerator
@@ -103,7 +103,7 @@ class BoxCrudController extends AbstractCrudController
         return $actions
             ->add('index', $batchNew)
             ->add('index', $batchQr)
-            ->add('index', $downloadString)
+            ->add('index', $exportStr)
             ->add('index', $listBottles)
             ->disable(Action::DELETE, Action::EDIT, Action::NEW)
         ;

@@ -48,7 +48,7 @@ class Choice
         'new' => 0,
         'edit' => 1,
         'qr' => 2,
-        'Download String' => 3,
+        'Export Str' => 3,
     ];
     
     public const BOTTLE_STATUSES = [
