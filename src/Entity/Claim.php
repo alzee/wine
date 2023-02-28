@@ -16,7 +16,7 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
     denormalizationContext: ['groups' => ['write']],
     paginationEnabled: false,
 )]
-#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'store' => 'exact', 'serveStore' => 'exact', 'customer' => 'exact', 'status' => 'exact', 'settled' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'store' => 'exact', 'serveStore' => 'exact', 'customer' => 'exact', 'status' => 'exact', 'storeSettled' => 'exact', 'serveStoreSettled' => 'exact'])]
 class Claim
 {
     #[ORM\Id]
@@ -63,13 +63,17 @@ class Claim
     #[Groups(['read'])]
     private ?int $value = 1;
 
-    #[ORM\Column]
-    #[Groups(['read'])]
-    private ?bool $settled = false;
-
     #[ORM\ManyToOne(inversedBy: 'serveClaims')]
     #[Groups(['read'])]
     private ?Org $serveStore = null;
+
+    #[ORM\Column]
+    #[Groups(['read'])]
+    private ?bool $storeSettled = false;
+
+    #[ORM\Column]
+    #[Groups(['read'])]
+    private ?bool $serveStoreSettled = false;
     
     public function __construct()
     {
@@ -201,18 +205,6 @@ class Claim
         return $this;
     }
 
-    public function isSettled(): ?bool
-    {
-        return $this->settled;
-    }
-
-    public function setSettled(bool $settled): self
-    {
-        $this->settled = $settled;
-
-        return $this;
-    }
-
     public function getServeStore(): ?Org
     {
         return $this->serveStore;
@@ -221,6 +213,30 @@ class Claim
     public function setServeStore(?Org $serveStore): self
     {
         $this->serveStore = $serveStore;
+
+        return $this;
+    }
+
+    public function isStoreSettled(): ?bool
+    {
+        return $this->storeSettled;
+    }
+
+    public function setStoreSettled(bool $storeSettled): self
+    {
+        $this->storeSettled = $storeSettled;
+
+        return $this;
+    }
+
+    public function isServeStoreSettled(): ?bool
+    {
+        return $this->serveStoreSettled;
+    }
+
+    public function setServeStoreSettled(bool $serveStoreSettled): self
+    {
+        $this->serveStoreSettled = $serveStoreSettled;
 
         return $this;
     }
