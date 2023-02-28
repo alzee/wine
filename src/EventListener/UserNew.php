@@ -11,46 +11,45 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\User;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
-use App\Entity\Voucher;
 use App\Entity\Org;
+use App\Entity\Choice;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Events;
+use App\Service\Poster;
 
 #[AsEntityListener(event: Events::prePersist, entity: User::class)]
 #[AsEntityListener(event: Events::postPersist, entity: User::class)]
 class UserNew extends AbstractController
 {
     private $hasher;
+    private $poster;
 
-    public function __construct(UserPasswordHasherInterface $hasher)
+    public function __construct(UserPasswordHasherInterface $hasher, Poster $poster)
     {
         $this->hasher = $hasher;
+        $this->poster = $poster;
     }
 
     public function prePersist(User $user, LifecycleEventArgs $event): void
     {
+        if (! is_null($user->getOpenid())) {
+            $user->setUsername($user->getOpenid());
+        }
+        if (is_null($user->getPlainPassword())) {
+            $user->setPlainPassword('111');
+        }
         $user->setPassword($this->hasher->hashPassword($user, $user->getPlainPassword()));
         $user->eraseCredentials();
 
-        // If not set any role for user, he will get ONE role ROLE_USER
-        if (count($user->getRoles()) == 1) {
-            // Only give user one of these roles if no roles have set
-            $role = match ($user->getOrg()->getType()) {
-                0 => 'HEAD',
-                1 => 'AGENCY',
-                2 => 'STORE',
-                3 => 'RESTAURANT',
-                10 => 'VARIANT_HEAD',
-                11 => 'VARIANT_AGENCY',
-                12 => 'VARIANT_STORE',
-            };
-            $user->setRoles(['ROLE_' . $role]);
+        if (is_null($user->getOrg())) {
+            $orgCustomer = $event->getEntityManager()->getRepository(Org::class)->findOneBy(['type' => 4]);
+            $user->setOrg($orgCustomer);
         }
     }
 
     public function postPersist(User $user, LifecycleEventArgs $event): void
     {
-        // $em = $event->getEntityManager();
-        // $em->flush();
+        $uid = $user->getId();
+        $this->poster->generate($uid);
     }
 }

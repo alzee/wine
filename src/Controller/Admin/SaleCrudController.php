@@ -71,6 +71,12 @@ class SaleCrudController extends AbstractCrudController
     {
         $instance = $this->getContext()->getEntity()->getInstance();
         $user = $this->getUser();
+        $disabled = false;
+        if (!is_null($instance)) {
+            if ($pageName === 'edit' && ($instance->getStatus() > 3 || $instance->getSeller() != $user->getOrg())) {
+                $disabled = true;
+            }
+        }
         yield IdField::new('id')->onlyOnIndex();
         yield AssociationField::new('seller')
             ->hideWhenUpdating()
@@ -99,16 +105,11 @@ class SaleCrudController extends AbstractCrudController
             ->onlyOnIndex()
             ;
         yield CollectionField::new('orderItems')
-            ->onlyWhenCreating()
             ->allowAdd(false)
             ->allowDelete(false)
             ->renderExpanded()
             ->setRequired(true)
-            ->useEntryCrudForm();
-        yield CollectionField::new('orderItems')
-            ->OnlyWhenUpdating()
-            ->allowAdd(false)
-            ->allowDelete(false)
+            ->setDisabled($disabled)
             ->useEntryCrudForm();
         yield MoneyField::new('amount')
             ->setCurrency('CNY')
@@ -116,21 +117,11 @@ class SaleCrudController extends AbstractCrudController
         yield MoneyField::new('voucher')
             ->setCurrency('CNY')
             ->onlyOnIndex();
-        // if (!is_null($instance)) {
-        //     if ($instance->getStatus() > 3 || $instance->getSeller() != $user->getOrg()) {
-        //         yield ChoiceField::new('status')
-        //             ->setChoices(Choice::ORDER_STATUSES)
-        //             ->hideWhenCreating()
-        //             ->setFormTypeOptions(['disabled' => 'disabled']);
-        //     } else {
-        //         yield ChoiceField::new('status')
-        //             ->setChoices(Choice::ORDER_STATUSES)
-        //             ->hideWhenCreating();
-        //     }
-        // }
-        // yield ChoiceField::new('status')
-        //     ->setChoices(Choice::ORDER_STATUSES)
-        //     ->onlyOnIndex();
+        yield ChoiceField::new('status')
+            ->hideWhenCreating()
+            ->setChoices(Choice::ORDER_STATUSES)
+            ->setDisabled($disabled)
+            ;
         yield DateTimeField::new('date')->HideOnForm();
         yield TextareaField::new('note');
     }
@@ -163,7 +154,7 @@ class SaleCrudController extends AbstractCrudController
             ;
         } else {
             return $actions
-                ->disable(Action::DELETE, Action::EDIT)
+                ->disable(Action::DELETE)
                 ->add('index', $export)
                 // ->add('index', Action::DETAIL)
             ;

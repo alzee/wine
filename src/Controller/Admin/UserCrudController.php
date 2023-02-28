@@ -26,6 +26,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\TextFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\ChoiceFilter;
+use EasyCorp\Bundle\EasyAdminBundle\Filter\ArrayFilter;
 use App\Entity\Choice;
 
 class UserCrudController extends AbstractCrudController
@@ -38,7 +39,7 @@ class UserCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         $userOrgId = $this->getUser()->getOrg()->getId();
-        // IdField::new('id')->onlyOnIndex(),
+        yield IdField::new('id')->onlyOnIndex();
         yield
             TextField::new('username')->OnlyWhenUpdating()->setFormTypeOptions(['disabled' => 'disabled']);
         yield TextField::new('username')->HideWhenUpdating();
@@ -49,48 +50,51 @@ class UserCrudController extends AbstractCrudController
                     ->andWhere("entity.id = $userOrgId")
                     ->orWhere("entity.upstream = $userOrgId")
             );
+        yield TextField::new('name', 'Person Name')->HideWhenUpdating();
+        yield TextField::new('nick')->HideWhenUpdating();
         yield AssociationField::new('org')
             ->OnlyWhenUpdating()
             ->setFormTypeOptions(['disabled' => 'disabled']);
         yield ChoiceField::new('roles')
             ->setChoices([
-                'Manager' => 'ROLE_MANAGER',
+                'Salesman' => 'ROLE_SALESMAN',
                 'Admin' => 'ROLE_ADMIN',
                 'Head' => 'ROLE_HEAD',
                 'Agency' => 'ROLE_AGENCY',
                 'Store' => 'ROLE_STORE',
                 'Restaurant' => 'ROLE_RESTAURANT',
                 'VariantHead' => 'ROLE_VARIANT_HEAD',
-                'VariantAgency' => 'ROLE_VARIANT_STORE',
+                'VariantAgency' => 'ROLE_VARIANT_AGENCY',
                 'VariantStore' => 'ROLE_VARIANT_STORE',
+                'salesman' => 'ROLE_SALESMAN',
+                'storeman' => 'ROLE_STOREMAN',
+                'org_admin' => 'ROLE_ORG_ADMIN',
+                'waiter' => 'ROLE_WAITER',
+                'customer' => 'ROLE_CUSTOMER',
             ])
             ->allowMultipleChoices()
             ->onlyOnIndex()
         ;
         yield ChoiceField::new('roles')
             ->setChoices([
-                'Manager' => 'ROLE_MANAGER',
+                'salesman' => 'ROLE_SALESMAN',
+                'storeman' => 'ROLE_STOREMAN',
+                // 'org_admin' => 'ROLE_ORG_ADMIN',
+                'waiter' => 'ROLE_WAITER',
             ])
             ->allowMultipleChoices()
-            ->onlyWhenCreating()
+            ->onlyOnForms()
             ->setRequired(false)
         ;
         yield TextField::new('phone');
-        yield TextField::new('plainPassword')
-            ->onlyOnForms()
-            ->setFormType(RepeatedType::class)
-            ->setFormTypeOptions([
-                'type' => PasswordType::class,
-                'first_options' => ['label' => 'Password'],
-                'second_options' => ['label' => 'Repeat password'],
-                'required' => 'required',
-            ]);
     }
 
     public function configureActions(Actions $actions): Actions
     {
         if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_AGENCY') || $this->isGranted('ROLE_VARIANT_HEAD') || $this->isGranted('ROLE_VARIANT_AGENCY')) {
-            return $actions;
+            return $actions
+                ->disable(Action::DELETE, Action::NEW)
+                ;
         } else {
             return $actions
                 ->disable(Action::DELETE, Action::NEW, Action::EDIT, Action::DETAIL, Action::INDEX)
@@ -104,10 +108,10 @@ class UserCrudController extends AbstractCrudController
         $uid = $this->getUser()->getId();
         $response = $this->container->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
         $response
-            ->leftJoin('entity.org', 'org')
+            // ->leftJoin('entity.org', 'org')
             ->andWhere("entity.id != $uid")
-            ->andWhere("entity.id > 100")
-            ->andWhere("entity.org = $userOrgId OR org.upstream = $userOrgId")
+            // ->andWhere("entity.id > 100")
+            // ->andWhere("entity.org = $userOrgId OR org.upstream = $userOrgId")
         ;
         return $response;
     }
@@ -117,17 +121,12 @@ class UserCrudController extends AbstractCrudController
         return $filters
             ->add(TextFilter::new('username'))
             ->add(EntityFilter::new('org'))
-            // ->add(ChoiceFilter::new('roles')->setChoices([
-            //     'Salesman' => 'ROLE_SALESMAN',
-            //     'Admin' => 'ROLE_ADMIN',
-            //     'Head' => 'ROLE_HEAD',
-            //     'Agency' => 'ROLE_AGENCY',
-            //     'Store' => 'ROLE_STORE',
-            //     'Restaurant' => 'ROLE_RESTAURANT',
-            //     'VariantHead' => 'ROLE_VARIANT_HEAD',
-            //     'VariantAgency' => 'ROLE_VARIANT_AGENCY',
-            //     'VariantStore' => 'ROLE_VARIANT_STORE',
-            // ]))
+            ->add(ArrayFilter::new('roles')->setChoices([
+                '业务员' => 'ROLE_SALESMAN',
+                '仓管' => 'ROLE_STOREMAN',
+                '商家管理员' => 'ROLE_ORG_ADMIN',
+                '服务员' => 'ROLE_WAITER',
+            ]))
             ->add(TextFilter::new('phone'))
         ;
     }

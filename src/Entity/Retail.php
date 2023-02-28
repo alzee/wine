@@ -16,7 +16,7 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
 )]
-#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'store' => 'exact', 'consumer' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'store' => 'exact', 'customer' => 'exact'])]
 class Retail
 {
     #[ORM\Id]
@@ -31,7 +31,6 @@ class Retail
     private ?Org $store = null;
 
     #[ORM\ManyToOne(inversedBy: 'retails')]
-    #[ORM\JoinColumn(nullable: false)]
     #[Groups(['read'])]
     private ?Consumer $consumer = null;
 
@@ -60,6 +59,16 @@ class Retail
     #[ORM\Column(type: Types::SMALLINT)]
     #[Groups(['read'])]
     private ?int $status = 0;
+
+    #[ORM\ManyToOne]
+    #[Groups(['read'])]
+    private ?User $customer = null;
+
+    #[ORM\OneToOne(inversedBy: 'retail', cascade: ['persist', 'remove'])]
+    private ?Bottle $bottle = null;
+
+    #[ORM\OneToOne(mappedBy: 'retail', cascade: ['persist', 'remove'])]
+    private ?Claim $claim = null;
 
     public function __toString()
     {
@@ -168,6 +177,47 @@ class Retail
     public function setStatus(int $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getCustomer(): ?User
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?User $customer): self
+    {
+        $this->customer = $customer;
+
+        return $this;
+    }
+
+    public function getBottle(): ?Bottle
+    {
+        return $this->bottle;
+    }
+
+    public function setBottle(?Bottle $bottle): self
+    {
+        $this->bottle = $bottle;
+
+        return $this;
+    }
+
+    public function getClaim(): ?Claim
+    {
+        return $this->claim;
+    }
+
+    public function setClaim(Claim $claim): self
+    {
+        // set the owning side of the relation if necessary
+        if ($claim->getRetail() !== $this) {
+            $claim->setRetail($this);
+        }
+
+        $this->claim = $claim;
 
         return $this;
     }

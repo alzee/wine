@@ -14,6 +14,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Events;
+use App\Entity\Choice;
 
 #[AsEntityListener(event: Events::preUpdate, entity: User::class)]
 class UserUpdate
@@ -32,15 +33,8 @@ class UserUpdate
             $user->eraseCredentials();
         }
 
-        if ($event->hasChangedField('org')) {
-            $role = match ($user->getOrg()->getType()) {
-                0 => 'HEAD',
-                1 => 'AGENCY',
-                2 => 'STORE',
-                3 => 'RESTAURANT',
-            };
-
-            $user->setRoles(['ROLE_' . $role]);
+        if ($event->hasChangedField('org') || $event->hasChangedField('roles')) {
+            $user->setReloginRequired(true);
         }
     }
 }

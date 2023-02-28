@@ -1,6 +1,28 @@
-- head stock
+- collect: which product?
+- prize voucher toStore and then? store can't use voucher
+- cron to set claim expire
+- weird when editing roles in crud user, addRole/removeRole will be invoked
+- api org/new handle exceptions
+- product voucher to box, rewards/shares to bottle
+- disable edit on certain entries on index
+- doctrine get incremental:
+  - https://groups.google.com/d/topic/doctrine-user/u8CbdciWT1A
+  - https://medium.com/parallaxtec/bulk-insert-auto-increment-hibernate-yes-its-possible-d76b5dfec0f7
+- event ordersNew to change box org
+- validate boxPrize sum of qty equal to bottleQty
+- migration after renaming Scan::$consumer: 1553 Cannot drop index '...': needed in a foreign key constraint
+- $customer nullable false
+  - Scan
+  - Retail
+  - RetailReturn
+  - OrderRestaurant
+- move referrer/submitter if have any:
+  - reward
+  - reg
+  - org
+- STDERR PHP stream
+- update roles when org change in event UserUpdate
 - png to jpg
-- gen poster for prod
 - custom error page
 - ckeditor5 add form data
 - image process service
@@ -8,7 +30,6 @@
 - orgDetail node height limit
 - uplaod file type, frontend for all and validator for MediaObject 
 - only show products which have stock when creating orders
-- command moveStock MUST do before commit 0fe966b and migrations/Version20230112102505.php. moveStock will not work after this migration because stock field dropped and stock data lost
 - doctrine querybuilder parameter in array
 
 vichuploader attribute cause apiplatform error: 'Attribute class "ApiPlatform\Core\Annotation\ApiResource" not found'

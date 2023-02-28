@@ -54,7 +54,7 @@ class Org
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $type = 1;
 
-    #[ORM\Column(options: ["unsigned" => true])]
+    #[ORM\Column]
     #[Groups(['read', 'write'])]
     private ?int $voucher = null;
 
@@ -144,10 +144,7 @@ class Org
     private ?int $shareWithdrawable = 0;
 
     #[ORM\ManyToOne]
-    private ?Consumer $partner = null;
-
-    #[ORM\ManyToOne]
-    private ?Consumer $referrer = null;
+    private ?User $referrer = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?Reg $reg = null;
@@ -156,6 +153,22 @@ class Org
     #[Groups(['read'])]
     private ?string $area = null;
 
+    #[ORM\OneToMany(mappedBy: 'org', targetEntity: Box::class)]
+    private Collection $boxes;
+
+    #[ORM\OneToMany(mappedBy: 'store', targetEntity: Claim::class)]
+    private Collection $claims;
+
+    #[ORM\ManyToOne]
+    private ?User $admin = null;
+
+    #[ORM\OneToMany(mappedBy: 'serveStore', targetEntity: Claim::class)]
+    private Collection $serveClaims;
+
+    #[ORM\Column]
+    #[Groups(['read'])]
+    private ?int $point = 0;
+
     public function __construct()
     {
         $this->voucher = 0;
@@ -163,6 +176,9 @@ class Org
         $this->vouchers = new ArrayCollection();
         $this->retails = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->boxes = new ArrayCollection();
+        $this->claims = new ArrayCollection();
+        $this->serveClaims = new ArrayCollection();
     }
 
     public function __toString()
@@ -611,24 +627,12 @@ class Org
         return $this;
     }
 
-    public function getPartner(): ?Consumer
-    {
-        return $this->partner;
-    }
-
-    public function setPartner(?Consumer $partner): self
-    {
-        $this->partner = $partner;
-
-        return $this;
-    }
-
-    public function getReferrer(): ?Consumer
+    public function getReferrer(): ?User
     {
         return $this->referrer;
     }
 
-    public function setReferrer(?Consumer $referrer): self
+    public function setReferrer(?User $referrer): self
     {
         $this->referrer = $referrer;
 
@@ -655,6 +659,120 @@ class Org
     public function setArea(?string $area): self
     {
         $this->area = $area;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Box>
+     */
+    public function getBoxes(): Collection
+    {
+        return $this->boxes;
+    }
+
+    public function addBox(Box $box): self
+    {
+        if (!$this->boxes->contains($box)) {
+            $this->boxes->add($box);
+            $box->setOrg($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBox(Box $box): self
+    {
+        if ($this->boxes->removeElement($box)) {
+            // set the owning side to null (unless already changed)
+            if ($box->getOrg() === $this) {
+                $box->setOrg(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Claim>
+     */
+    public function getClaims(): Collection
+    {
+        return $this->claims;
+    }
+
+    public function addClaim(Claim $claim): self
+    {
+        if (!$this->claims->contains($claim)) {
+            $this->claims->add($claim);
+            $claim->setStore($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClaim(Claim $claim): self
+    {
+        if ($this->claims->removeElement($claim)) {
+            // set the owning side to null (unless already changed)
+            if ($claim->getStore() === $this) {
+                $claim->setStore(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getAdmin(): ?User
+    {
+        return $this->admin;
+    }
+
+    public function setAdmin(?User $admin): self
+    {
+        $this->admin = $admin;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Claim>
+     */
+    public function getServeClaims(): Collection
+    {
+        return $this->serveClaims;
+    }
+
+    public function addServeClaim(Claim $serveClaim): self
+    {
+        if (!$this->serveClaims->contains($serveClaim)) {
+            $this->serveClaims->add($serveClaim);
+            $serveClaim->setServeStore($this);
+        }
+
+        return $this;
+    }
+
+    public function removeServeClaim(Claim $serveClaim): self
+    {
+        if ($this->serveClaims->removeElement($serveClaim)) {
+            // set the owning side to null (unless already changed)
+            if ($serveClaim->getServeStore() === $this) {
+                $serveClaim->setServeStore(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getPoint(): ?int
+    {
+        return $this->point;
+    }
+
+    public function setPoint(int $point): self
+    {
+        $this->point = $point;
 
         return $this;
     }

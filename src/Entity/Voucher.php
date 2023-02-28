@@ -15,7 +15,7 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
 )]
-#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'org' => 'exact', 'consumer' => 'exact', 'type' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'org' => 'exact', 'customer' => 'exact', 'type' => 'exact'])]
 class Voucher
 {
     #[ORM\Id]
@@ -47,6 +47,10 @@ class Voucher
     #[ORM\ManyToOne(inversedBy: 'vouchers')]
     #[Groups(['read'])]
     private ?Consumer $consumer = null;
+
+    #[ORM\ManyToOne]
+    #[Groups(['read'])]
+    private ?User $customer = null;
 
     public function __construct()
     {
@@ -126,6 +130,18 @@ class Voucher
     public function setConsumer(?Consumer $consumer): self
     {
         $this->consumer = $consumer;
+
+        return $this;
+    }
+
+    public function getCustomer(): ?User
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?User $customer): self
+    {
+        $this->customer = $customer;
 
         return $this;
     }

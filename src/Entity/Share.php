@@ -46,10 +46,7 @@ class Share
 
     #[ORM\Column(type: Types::SMALLINT)]
     #[Groups(['read'])]
-    private ?int $status = 0;
-
-    #[ORM\ManyToOne]
-    private ?RetailReturn $retailReturn = null;
+    private ?int $status = 1;
 
     public function __construct()
     {
@@ -129,18 +126,6 @@ class Share
     public function setStatus(int $status): self
     {
         $this->status = $status;
-
-        return $this;
-    }
-
-    public function getRetailReturn(): ?RetailReturn
-    {
-        return $this->retailReturn;
-    }
-
-    public function setRetailReturn(?RetailReturn $retailReturn): self
-    {
-        $this->retailReturn = $retailReturn;
 
         return $this;
     }

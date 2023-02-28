@@ -31,7 +31,8 @@ Sn: 商品编号
 Contact: 联系人
 Phone: 电话
 Address: 详细地址
-Value: 面值
+Value: 数值
+Value2: 数值2
 Username: 用户名
 Password: 密码
 Roles: 角色
@@ -45,8 +46,7 @@ Orders: 订单
 Org: 机构
 OrgManage: 机构管理
 Returns: 退货
-Consumer: 顾客
-ConsumerManage: 顾客管理
+CustomerManage: 顾客管理
 Type: 类型
 Seller: 发货方
 Buyer: 收货方
@@ -62,7 +62,7 @@ Note: 备注
 Retail: 酒零售
 RetailReturn: 零售退货
 Upstream: 所属代理商
-Consumer.name: 姓名
+Customer.name: 姓名
 Openid: 微信ID
 Repeat password: 密码确认
 Applicant: 申请方
@@ -115,7 +115,6 @@ Manager: 业务员
 RegList: 合作报备
 Reg: 报备
 Person Name: 姓名
-Partner: 合伙人
 Submitter: 提交人
 Weight: 权重
 Is Off: 异业
@@ -156,3 +155,63 @@ deal: 达成
 Nick: 昵称
 New Org: 新增机构
 Area: 地区
+Withdrawable: 可提现
+Withdrawing: 提现中
+head: 总公司
+agency: 代理商
+store: 门店
+restaurant: 餐厅
+customer: 顾客
+Customer: 顾客
+variant_head: 代理商(异业)
+variant_agency: 区域代理商(异业)
+variant_store: 门店(异业)
+BoxManage: 箱码管理
+Box: 箱码
+Boxes: 箱码
+box.sn: 箱码
+BottleManage: 瓶码管理
+Bottle: 瓶码
+bottle.sn: 瓶码
+PrizeManage: 奖项设置
+Prize: 奖项
+Bottle Qty: 瓶每箱
+Cipher: 密文
+Expire: 兑奖期限（天）
+Odds: 中奖率
+Big: 大奖
+Box Prizes: 每箱奖项
+Batch Prizes: 每箱奖项
+Qty: 数量
+Sn Start: 起始箱码
+Sn End: 结束箱码
+Batch: 批量操作记录
+Batch Edit: 批量编辑
+Batch New: 批量新增
+Bottle Sn: 瓶码
+Specific Bottles: 指定瓶码
+Bottle Sn format ABCD1234.1: 瓶码格式 ABCD1234.1
+for_sale: 待售
+sold: 已售
+List Bottles: 瓶码列表
+new: 新增
+edit: 编辑
+qr: 二维码
+Batch Qr: 下载二维码
+claimed: 已兑奖
+Claim: 兑奖记录
+Waiter Tip: 服务员扫码奖
+Store Tip: 门店兑奖服务费
+Borrow: 领用记录
+PackManage: 奖品方案
+Pack: 方案
+Pack Prizes: 奖品方案
+Order Items.Ord: 订单
+For Restaurant: 限定餐厅
+salesman: 业务员
+storeman: 仓管
+org_admin: 商家管理员
+waiter: 服务员
+To Customer: 顾客奖
+To Store: 门店奖
+Label: 系统标识

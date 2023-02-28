@@ -157,6 +157,11 @@ class Orders
         return $this->note;
     }
 
+    public function getFirst()
+    {
+        return $this->getOrderItems()[0];
+    }
+
     public function getFirstProduct()
     {
         return $this->getOrderItems()[0]->getProduct();

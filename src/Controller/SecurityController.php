@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use App\Entity\Consumer;
+use App\Entity\User;
 use Doctrine\Persistence\ManagerRegistry;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use App\Service\Wx;
@@ -47,11 +47,10 @@ class SecurityController extends AbstractDashboardController
     #[Route(path: '/api/login', name: 'api_login', methods: ['POST'])]
     public function apiLogin()
     {
-        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+        if (! $this->isGranted('IS_AUTHENTICATED_FULLY')) {
             $resp = [
                 "code" => 1
             ];
-            dump($resp);
         } else {
             $user = $this->getUser();
             $uid = $user->getId();
@@ -61,6 +60,7 @@ class SecurityController extends AbstractDashboardController
             $data = [
                 "uid" => $uid,
                 "role" => $role,
+                "roles" => $user->getRoles(),
                 "username" => $username,
                 "org" => $org
             ];
@@ -72,37 +72,44 @@ class SecurityController extends AbstractDashboardController
         return $this->json($resp);
     }
 
-    #[Route(path: '/api/consumer_login', name: 'api_consumer_login', methods: ['POST'])]
-    public function consumerLogin(Request $request)
+    #[Route(path: '/api/wxlogin', name: 'api_wx_login', methods: ['POST'])]
+    public function wxLogin(Request $request)
     {
         $data = json_decode($request->getContent());
         $code = $data->code;
         $openid = $this->wx->getOpenid($code);
 
-        $consumer = $this->doctrine->getRepository(Consumer::class)->findOneBy(['openid' => $openid]);
-        if (is_null($consumer)) {
+        $user = $this->doctrine->getRepository(User::class)->findOneBy(['openid' => $openid]);
+        $em = $this->doctrine->getManager();
+        if (is_null($user)) {
             // create
-            $em = $this->doctrine->getManager();
-            $consumer = new Consumer();
-            $consumer->setOpenid($openid);
-            $consumer->setName(substr($openid, 0, 8));
+            $user = new User();
+            $user->setOpenid($openid);
             if (isset($data->referrerId)) {
-                $referrer = $this->doctrine->getRepository(Consumer::class)->find($data->referrerId);
+                $referrer = $this->doctrine->getRepository(User::class)->find($data->referrerId);
                 if ($referrer) {
-                    $consumer->setReferrer($referrer);
+                    $user->setReferrer($referrer);
                 }
             }
-            $em->persist($consumer);
+            $em->persist($user);
+            $em->flush();
+        }
+        
+        if ($user->isReloginRequired()) {
+            $user->setReloginRequired(false);
             $em->flush();
         }
 
         $resp = [
-            "cid" => $consumer->getId(),
-            "role" => 4,
-            "name" => $consumer->getName(),
-            "phone" => $consumer->getPhone(),
-            "voucher" => $consumer->getVoucher(),
-            "avatar" => $consumer->getAvatar(),
+            "uid" => $user->getId(),
+            "role" => $user->getOrg()->getType(),
+            "otype" => $user->getOrg()->getType(),
+            "roles" => $user->getRoles(),
+            "name" => $user->getName(),
+            "phone" => $user->getPhone(),
+            "voucher" => $user->getVoucher(),
+            "avatar" => $user->getAvatar(),
+            "org" => $user->getOrg()
         ];
         return $this->json($resp);
     }

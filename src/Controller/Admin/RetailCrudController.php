@@ -41,8 +41,8 @@ class RetailCrudController extends AbstractCrudController
             AssociationField::new('store')->onlyWhenCreating()->setQueryBuilder (
                 fn (QueryBuilder $qb) => $qb->andWhere('entity.id = :id')->setParameter('id', $this->getUser()->getOrg())
             ),
-            TextareaField::new('consumer')->HideWhenCreating(),
-            AssociationField::new('consumer')->onlyWhenCreating(),
+            TextareaField::new('customer')->HideWhenCreating(),
+            AssociationField::new('customer')->onlyWhenCreating(),
             TextareaField::new('product')->HideWhenCreating(),
             AssociationField::new('product')
                 ->onlyWhenCreating()

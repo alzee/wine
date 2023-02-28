@@ -12,7 +12,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Withdraw;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use App\Entity\Org;
-use App\Service\WxPay;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Events;
 
@@ -20,13 +19,6 @@ use Doctrine\ORM\Events;
 #[AsEntityListener(event: Events::postPersist, entity: Withdraw::class)]
 class WithdrawNew extends AbstractController
 {
-    private $wxpay;
-
-    public function __construct(WxPay $wxpay)
-    {
-        $this->wxpay = $wxpay;
-    }
-
     public function prePersist(Withdraw $withdraw, LifecycleEventArgs $event): void
     {
         $em = $event->getEntityManager();
@@ -45,7 +37,7 @@ class WithdrawNew extends AbstractController
                 $withdraw->setActualAmount($withdraw->getAmount() * $applicant->getDiscount());
             }
         } else {
-            $applicant = $withdraw->getConsumer();
+            $applicant = $withdraw->getCustomer();
         }
 
         $applicant->setWithdrawable($applicant->getWithdrawable() - $amount);
@@ -55,29 +47,7 @@ class WithdrawNew extends AbstractController
     public function postPersist(Withdraw $withdraw, LifecycleEventArgs $event): void
     {
         $em = $event->getEntityManager();
-        $consumer = $withdraw->getConsumer();
-        $amount = 1;
-        if (! is_null($consumer)) {
-            $id = str_pad($withdraw->getId(), 9, 0, STR_PAD_LEFT); // WxPay require out_batch_no to be string and length > 5
-            $batch = [
-                'id' => $id, // WxPay require out_batch_no to be string and length > 5
-                'name' => $consumer->getName() . 'withdraw',
-                'note' => $consumer->getName() . 'withdraw note',
-                'amount' => $amount,
-                // 'scene' => 1000
-            ];
-            $list = [
-                [
-                    'out_detail_no' => $id,
-                    'transfer_amount' => $amount,
-                    'transfer_remark' => 'I want money.',
-                    'openid' => $consumer->getOpenid(),
-                ]
-            ];
-            $this->wxpay->toBalanceBatch($batch, $list);
-        }
-
-        // $em->persist($record);
-        // $em->flush();
+        $withdraw->setStatus(5);
+        $em->flush();
     }
 }

@@ -39,7 +39,7 @@ class Reg
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['read', 'write'])]
-    private ?Consumer $submitter = null;
+    private ?User $submitter = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['read', 'write'])]
@@ -110,12 +110,12 @@ class Reg
         return $this;
     }
 
-    public function getSubmitter(): ?Consumer
+    public function getSubmitter(): ?User
     {
         return $this->submitter;
     }
 
-    public function setSubmitter(?Consumer $submitter): self
+    public function setSubmitter(?User $submitter): self
     {
         $this->submitter = $submitter;
 

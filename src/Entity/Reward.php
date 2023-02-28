@@ -15,7 +15,7 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
 )]
-#[ApiFilter(SearchFilter::class, properties: ['referrer' => 'exact', 'retail' => 'exact', 'ord' => 'exact', 'type' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['referrer' => 'exact', 'retail' => 'exact', 'type' => 'exact'])]
 class Reward
 {
     #[ORM\Id]
@@ -41,22 +41,12 @@ class Reward
     private ?Retail $retail = null;
 
     #[ORM\ManyToOne]
-    #[Groups(['read'])]
-    private ?Orders $ord = null;
-
-    #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['read'])]
-    private ?Consumer $referrer = null;
+    private ?User $referrer = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
-    private ?int $status = 0;
-
-    #[ORM\ManyToOne]
-    private ?Returns $ret = null;
-
-    #[ORM\ManyToOne]
-    private ?RetailReturn $retailReturn = null;
+    private ?int $status = 1;
 
     public function __construct()
     {
@@ -116,24 +106,12 @@ class Reward
         return $this;
     }
 
-    public function getOrd(): ?Orders
-    {
-        return $this->ord;
-    }
-
-    public function setOrd(?Orders $ord): self
-    {
-        $this->ord = $ord;
-
-        return $this;
-    }
-
-    public function getReferrer(): ?Consumer
+    public function getReferrer(): ?User
     {
         return $this->referrer;
     }
 
-    public function setReferrer(?Consumer $referrer): self
+    public function setReferrer(?User $referrer): self
     {
         $this->referrer = $referrer;
 
@@ -148,30 +126,6 @@ class Reward
     public function setStatus(int $status): self
     {
         $this->status = $status;
-
-        return $this;
-    }
-
-    public function getRet(): ?Returns
-    {
-        return $this->ret;
-    }
-
-    public function setRet(?Returns $ret): self
-    {
-        $this->ret = $ret;
-
-        return $this;
-    }
-
-    public function getRetailReturn(): ?RetailReturn
-    {
-        return $this->retailReturn;
-    }
-
-    public function setRetailReturn(?RetailReturn $retailReturn): self
-    {
-        $this->retailReturn = $retailReturn;
 
         return $this;
     }

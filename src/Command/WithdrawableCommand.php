@@ -16,7 +16,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 #[AsCommand(
     name: 'app:withdrawable',
-    description: 'Add a short description for your command',
+    description: 'Settle reward/share to withdrawable',
 )]
 class WithdrawableCommand extends Command
 {

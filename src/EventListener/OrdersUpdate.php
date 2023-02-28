@@ -32,14 +32,14 @@ class OrdersUpdate extends AbstractController
             if ($status == 5) {
                 $seller = $order->getSeller();
                 $buyer = $order->getBuyer();
-                foreach ($order->getOrderItems() as $i) {
-                    $product = $i->getProduct();
+                foreach ($order->getOrderItems() as $item) {
+                    $product = $item->getProduct();
                     $sn = $product->getSn();
-                    $quantity = $i->getQuantity();
+                    $quantity = $item->getQuantity();
                     $price = $product->getPrice();
                     $unitVoucher = $product->getVoucher();
                     // seller stock - quantity, only if seller is not head
-                    if ($seller->getType() != 0) {
+                    if ($seller->getType() !== 0) {
                         $stockRecordOfSeller = $em->getRepository(Stock::class)->findOneBy(['org' => $seller, 'product' => $product]);
                         $stockRecordOfSeller->setStock($stockRecordOfSeller->getStock() - $quantity);
                     }
@@ -56,6 +56,36 @@ class OrdersUpdate extends AbstractController
                     }
                     // buyer stock + quantity
                     $stockRecordOfBuyer->setStock($stockRecordOfBuyer->getStock() + $quantity);
+                    
+                    $boxes = $item->getBoxes()->toArray();
+                    foreach ($boxes as $box) {
+                        // set box org
+                        $box->setOrg($buyer);
+                        // only when head to agency
+                        if ($seller->getType() === 0) {
+                            // set box pack
+                            $pack = $item->getPack();
+                            if (! is_null($pack)) {
+                                $box->setPack($pack);
+                                $box->setProduct($item->getProduct());
+                                // bottles prize
+                                $packPrizes = $pack->getPackPrizes();
+                                $prizes = [];
+                                foreach ($packPrizes as $v) {
+                                    for ($i = 0; $i < $v->getQty(); $i++) {
+                                        $prizes[] = $v->getPrize();
+                                    }
+                                }
+                                shuffle($prizes);
+                                $bottles = $box->getBottles();
+                                for ($i = 0; $i < count($bottles); $i++) {
+                                    if (isset($prizes[$i])) {
+                                        $bottles[$i]->setPrize($prizes[$i]);
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
 
                 $voucher = $order->getVoucher();

@@ -27,7 +27,7 @@ class Poster
         $this->imgdir = $imgdir;
     }
 
-    public function generate(int $cid)
+    public function generate(int $uid)
     {
         $dir = $this->imgdir . '/poster/';
         $access_token = $this->wx->getAccessToken();
@@ -38,13 +38,13 @@ class Poster
         }
         $data = [
             'page' => 'pages/chooseLogin/index',
-            'scene' => $cid,
+            'scene' => $uid,
             'env_version' => $ver, // default 'release'
             'is_hyaline' => true
             // 'width' => 280 // Min 280px
         ];
         $response = $this->httpClient->request('POST', $url, ['json' => $data]);
-        $file = $dir . $cid . '.jpg';
+        $file = $dir . $uid . '.jpg';
         $fileHandler = fopen($file, 'w');
         foreach ($this->httpClient->stream($response) as $chunk) {
             fwrite($fileHandler, $chunk->getContent());

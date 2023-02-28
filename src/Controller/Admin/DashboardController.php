@@ -10,25 +10,30 @@ use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use App\Entity\Product;
 use App\Entity\Order;
+use App\Entity\Prize;
 use App\Entity\OrderRestaurant;
 use App\Entity\Voucher;
 use App\Entity\Stock;
 use App\Entity\Restaurant;
 use App\Entity\User;
 use App\Entity\Node;
+use App\Entity\Box;
+use App\Entity\Batch;
+use App\Entity\Bottle;
 use App\Entity\Org;
 use App\Entity\Orders;
 use App\Entity\Returns;
-use App\Entity\Consumer;
 use App\Entity\Reg;
 use App\Entity\Withdraw;
 use App\Entity\Retail;
-use App\Entity\RetailReturn;
 use App\Entity\City;
 use App\Entity\Industry;
 use App\Entity\Conf;
 use App\Entity\Share;
 use App\Entity\Reward;
+use App\Entity\Claim;
+use App\Entity\Borrow;
+use App\Entity\Pack;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\UX\Chartjs\Model\Chart;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -63,13 +68,13 @@ class DashboardController extends AbstractDashboardController
         $countAgencies = $orgRepo->count(['type' => 1]);
         $countStroes = $orgRepo->count(['type' => 2]);
         $countRestaurants = $orgRepo->count(['type' => 3]);
-        $countConsumers = $this->doctrine->getRepository(Consumer::class)->count([]);
+        $countCustomers = $this->doctrine->getRepository(User::class)->countCustomers();
 
         $data = [
           'countAgencies' => $countAgencies,
           'countStroes' => $countStroes,
           'countRestaurants' => $countRestaurants,
-          'countConsumers' => $countConsumers,
+          'countCustomers' => $countCustomers,
         ];
         return $this->render('dashboard.html.twig', $data);
     }
@@ -113,7 +118,6 @@ class DashboardController extends AbstractDashboardController
 
         if ($this->isGranted('ROLE_STORE') || $this->isGranted('ROLE_VARIANT_STORE') || $this->isGranted('ROLE_RESTAURANT')) {
             yield MenuItem::linkToCrud('Retail', 'fas fa-bag-shopping', Retail::class);
-            yield MenuItem::linkToCrud('RetailReturn', 'fas fa-cart-shopping', RetailReturn::class);
         }
 
         if ($this->isGranted('ROLE_RESTAURANT')) {
@@ -148,7 +152,8 @@ class DashboardController extends AbstractDashboardController
         }
 
         if ($this->isGranted('ROLE_HEAD')) {
-            yield MenuItem::linkToCrud('ConsumerManage', 'fas fa-users', Consumer::class);
+            yield MenuItem::linkToCrud('Claim', 'fas fa-award', Claim::class);
+            yield MenuItem::linkToCrud('Borrow', 'fas fa-gift', Borrow::class);
             yield MenuItem::linkToCrud('RegList', 'fas fa-handshake-alt', Reg::class);
         }
         yield MenuItem::linkToCrud('Chpwd', 'fas fa-key', User::class)
@@ -169,6 +174,11 @@ class DashboardController extends AbstractDashboardController
                 MenuItem::linkToCrud('UserManage', 'fas fa-user', User::class),
             ];
             if ($this->isGranted('ROLE_HEAD')) {
+                array_push($items, (MenuItem::linkToCrud('Batch', 'fas fa-qrcode', Batch::class)));
+                array_push($items, (MenuItem::linkToCrud('BoxManage', 'fas fa-box', Box::class)));
+                array_push($items, (MenuItem::linkToCrud('BottleManage', 'fas fa-bottle-water', Bottle::class)));
+                array_push($items, (MenuItem::linkToCrud('PackManage', 'fas fa-cube', Pack::class)));
+                array_push($items, (MenuItem::linkToCrud('PrizeManage', 'fas fa-medal', Prize::class)));
                 array_push($items, (MenuItem::linkToCrud('NodeManage', 'fas fa-file', Node::class)));
                 array_push($items, (MenuItem::linkToCrud('CityManage', 'fas fa-city', City::class)));
                 array_push($items, (MenuItem::linkToCrud('IndustryManage', 'fas fa-industry', Industry::class)));
@@ -204,14 +214,15 @@ class DashboardController extends AbstractDashboardController
             ->add(Crud::PAGE_EDIT, Action::SAVE_AND_CONTINUE)
 
             ->add(Crud::PAGE_NEW, Action::SAVE_AND_RETURN)
-            ->add(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER)
+            // ->add(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER)
             ;
     }
 
-    // public function configureAssets(): Assets
-    // {
-    //     return Assets::new()
-    //         ->addJsFile(Asset::new('js/initChart.js')->defer())
-    //     ;
-    // }
+    public function configureAssets(): Assets
+    {
+        return Assets::new()
+            // ->addJsFile(Asset::new('js/initChart.js')->defer())
+            ->addCssFile('css/main.css')
+        ;
+    }
 }

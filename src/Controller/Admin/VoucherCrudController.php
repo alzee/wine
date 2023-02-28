@@ -48,7 +48,7 @@ class VoucherCrudController extends AbstractCrudController
                     ->andWhere('entity.type <= 3')
                     ->andWhere('entity.type != 0')
             );
-        yield AssociationField::new('consumer')->onlyOnIndex();
+        yield AssociationField::new('customer')->onlyOnIndex();
         yield MoneyField::new('voucher')->setCurrency('CNY');
         yield ChoiceField::new('type')->setChoices(Choice::VOUCHER_TYPES)->HideWhenCreating();
         yield ChoiceField::new('type')
@@ -92,7 +92,7 @@ class VoucherCrudController extends AbstractCrudController
             ->setHelp('index', $helpIndex)
             ->setHelp('new', $helpNew)
             ->overrideTemplates([ 'crud/index' => 'admin/pages/index.html.twig', ])
-            ->setSearchFields(['org.name', 'consumer.name'])
+            ->setSearchFields(['org.name', 'customer.name'])
         ;
     }
 
@@ -101,7 +101,7 @@ class VoucherCrudController extends AbstractCrudController
         return $filters
             ->add(DateTimeFilter::new('date'))
             // ->add(EntityFilter::new('org'))
-            ->add(EntityFilter::new('consumer'))
+            ->add(EntityFilter::new('customer'))
         ;
     }
 

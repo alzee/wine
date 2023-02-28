@@ -20,7 +20,7 @@ use App\Entity\Org;
 
 #[AsCommand(
     name: 'app:moveStock',
-    description: 'Move stock in product repo to stock',
+    description: 'Move stock column data in table Product to table Stock',
 )]
 class MoveStockCommand extends Command
 {
@@ -91,7 +91,7 @@ class MoveStockCommand extends Command
         // product
         $products = $this->em->getRepository(Product::class)->findAll();
         foreach ($products as $p) {
-            if ($p->getOrg() != $head) {
+            if ($p->getOrg() == $head) {
                 $product = $p;
             } else {
                 $product = $this->em->getRepository(Product::class)->findOneBy(['sn' => $p->getSn() , 'org' => $head]);

@@ -61,12 +61,12 @@ class OrgCrudController extends AbstractCrudController
 
         if ($this->isGranted('ROLE_HEAD')) {
             $orgChoices = [
-                'Agency' => 1,
-                'Store' => 2,
-                'Restaurant' => 3,
-                'VariantHead' => 10,
-                'VariantAgency' => 11,
-                'VariantStore' => 12,
+                'agency' => 1,
+                'store' => 2,
+                'restaurant' => 3,
+                'variant_head' => 10,
+                'variant_agency' => 11,
+                'variant_store' => 12,
             ];
         }
         if ($this->isGranted('ROLE_AGENCY')) {
@@ -88,7 +88,7 @@ class OrgCrudController extends AbstractCrudController
             ->onlyWhenCreating()
             ->setChoices($orgChoices);
         yield ChoiceField::new('type')
-            ->setChoices(Choice::ORG_TYPES)
+            ->setChoices(Choice::ORG_TYPES_ALL)
             ->hideWhenCreating()
             ->setDisabled()
         ;
@@ -113,32 +113,14 @@ class OrgCrudController extends AbstractCrudController
             ;
         yield TextField::new('address');
         // yield AssociationField::new('city');
-        yield TextField::new('payee')
-            ->onlyWhenUpdating()
-            ->setDisabled()
-        ;
-        yield TextField::new('bank')
-            ->onlyWhenUpdating()
-            ->setDisabled()
-        ;
-        yield TextField::new('bank_account')
-            ->onlyWhenUpdating()
-            ->setDisabled()
-        ;
-        yield TextField::new('bank_addr')
-            ->onlyWhenUpdating()
-            ->setDisabled()
-        ;
         yield AssociationField::new('industry');
         yield MoneyField::new('voucher')
                 ->setCurrency('CNY')
                 ->hideOnForm()
                 // ->setFormTypeOptions(['disabled' => 'disabled'])
             ;
-        if ($this->isGranted('ROLE_VARIANT_HEAD')) {
-            yield AssociationField::new('partner')->hideOnIndex();
-        }
         yield AssociationField::new('referrer')->hideOnIndex();
+        yield AssociationField::new('admin')->hideOnIndex();
         if ($this->isGranted('ROLE_AGENCY')) {
             yield PercentField::new('discount');
             // yield AssociationField::new('manager')

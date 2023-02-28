@@ -99,8 +99,15 @@ class Product
     #[Groups(['read'])]
     private ?int $unitPricePromo = null;
 
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Box::class)]
+    private Collection $boxes;
+
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $bottleQty = 6;
+
     public function __construct()
     {
+        $this->boxes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -305,6 +312,48 @@ class Product
     public function setUnitPricePromo(int $unitPricePromo): self
     {
         $this->unitPricePromo = $unitPricePromo;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Box>
+     */
+    public function getBoxes(): Collection
+    {
+        return $this->boxes;
+    }
+
+    public function addBox(Box $box): self
+    {
+        if (!$this->boxes->contains($box)) {
+            $this->boxes->add($box);
+            $box->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBox(Box $box): self
+    {
+        if ($this->boxes->removeElement($box)) {
+            // set the owning side to null (unless already changed)
+            if ($box->getProduct() === $this) {
+                $box->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getBottleQty(): ?int
+    {
+        return $this->bottleQty;
+    }
+
+    public function setBottleQty(int $bottleQty): self
+    {
+        $this->bottleQty = $bottleQty;
 
         return $this;
     }

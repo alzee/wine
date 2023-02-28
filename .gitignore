@@ -1,5 +1,6 @@
 *.swp
 /admin
+/qr
 /cert
 ###> symfony/framework-bundle ###
 /.env.local

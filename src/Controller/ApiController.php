@@ -17,60 +17,35 @@ use App\Entity\ReturnItems;
 use App\Entity\Retail;
 use App\Entity\OrderRestaurant;
 use App\Entity\Scan;
-use App\Entity\Consumer;
 use App\Entity\User;
+use App\Entity\Box;
+use App\Entity\Bottle;
 use App\Entity\Choice;
+use App\Entity\Conf;
+use App\Entity\Claim;
+use App\Entity\Prize;
+use App\Entity\Borrow;
 use App\Entity\RetailReturn;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Service\Sms;
+use App\Service\Sn;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/api')]
 class ApiController extends AbstractController
 {
     private $doctrine;
+    private $translator;
 
-    public function __construct(ManagerRegistry $doctrine)
+    public function __construct(ManagerRegistry $doctrine, TranslatorInterface $translator)
     {
         $this->doctrine = $doctrine;
-    }
-
-    #[Route('/order/new', methods: ['POST'])]
-    public function orderNew(Request $request): JsonResponse
-    {
-        $params  = $request->toArray();
-        $seller = $this->doctrine->getRepository(Org::class)->find($params['sellerid']);
-        $buyer = $this->doctrine->getRepository(Org::class)->find($params['buyerid']);
-        $product = $this->doctrine->getRepository(Product::class)->find($params['product']);
-        $quantity = $params['quantity'];
-        $em = $this->doctrine->getManager();
-
-        $item = new OrderItems();
-        $item->setProduct($product);
-        $item->setQuantity($quantity);
-        $em->persist($item);
-        $em->flush();
-
-        $order = new Orders();
-        $order->setSeller($seller);
-        $order->setBuyer($buyer);
-        $order->setNote($params['note']);
-        $order->addOrderItem($item);
-
-        $em->persist($order);
-        $em->flush();
-        
-        $item->setOrd($order);
-
-        $em->flush();
-
-        return $this->json([
-            'code' => 0,
-        ]);
+        $this->translator =$translator;
     }
 
     #[Route('/return/new', methods: ['POST'])]
@@ -107,55 +82,24 @@ class ApiController extends AbstractController
         ]);
     }
 
-    #[Route('/retail/new', methods: ['POST'])]
-    public function retailNew(Request $request): JsonResponse
-    {
-        $params  = $request->toArray();
-        $store = $this->doctrine->getRepository(Org::class)->find($params['oid']);
-        $consumer = $this->doctrine->getRepository(Consumer::class)->find($params['cid']);
-        $product = $this->doctrine->getRepository(Product::class)->find($params['pid']);
-        $rand = $params['timestamp'];
-        $quantity = $params['quantity'];
-        $em = $this->doctrine->getManager();
-
-        $retail = new Retail();
-        $retail->setStore($store);
-        $retail->setConsumer($consumer);
-        $retail->setProduct($product);
-        $retail->setQuantity($quantity);
-        $em->persist($retail);
-
-        $scan = new Scan();
-        $scan->setConsumer($consumer);
-        $scan->setOrg($store);
-        $scan->setRand($rand);
-        $em->persist($scan);
-
-        $em->flush();
-
-        return $this->json([
-            'code' => 0,
-        ]);
-    }
-
     #[Route('/dine/new', methods: ['POST'])]
     public function dineNew(Request $request): JsonResponse
     {
         $params  = $request->toArray();
         $restaurant = $this->doctrine->getRepository(Org::class)->find($params['oid']);
-        $consumer = $this->doctrine->getRepository(Consumer::class)->find($params['cid']);
+        $customer = $this->doctrine->getRepository(User::class)->find($params['uid']);
         $rand = $params['timestamp'];
         $voucher = $params['voucher'];
         $em = $this->doctrine->getManager();
 
         $dine = new OrderRestaurant();
         $dine->setRestaurant($restaurant);
-        $dine->setConsumer($consumer);
+        $dine->setCustomer($customer);
         $dine->setVoucher($voucher);
         $em->persist($dine);
 
         $scan = new Scan();
-        $scan->setConsumer($consumer);
+        $scan->setCustomer($customer);
         $scan->setOrg($restaurant);
         $scan->setRand($rand);
         $em->persist($scan);
@@ -167,140 +111,21 @@ class ApiController extends AbstractController
         ]);
     }
 
-    #[Route('/retail_return/new', methods: ['POST'])]
-    public function retailReturnNew(Request $request): JsonResponse
-    {
-        $params  = $request->toArray();
-        $store = $this->doctrine->getRepository(Org::class)->find($params['oid']);
-        $consumer = $this->doctrine->getRepository(Consumer::class)->find($params['cid']);
-        $product = $this->doctrine->getRepository(Product::class)->find($params['pid']);
-        $rand = $params['timestamp'];
-        $quantity = $params['quantity'];
-        $em = $this->doctrine->getManager();
-
-        $ret = new RetailReturn();
-        $ret->setStore($store);
-        $ret->setConsumer($consumer);
-        $ret->setProduct($product);
-        $ret->setQuantity($quantity);
-        $em->persist($ret);
-
-        $scan = new Scan();
-        $scan->setConsumer($consumer);
-        $scan->setOrg($store);
-        $scan->setRand($rand);
-        $em->persist($scan);
-
-        $em->flush();
-
-        return $this->json([
-            'code' => 0,
-        ]);
-    }
-
-    #[Route('/chpwd', methods: ['POST'])]
-    public function chpwd(Request $request, UserPasswordHasherInterface $hasher): JsonResponse
-    {
-        $params  = $request->toArray();
-        $user = $this->doctrine->getRepository(User::class)->find($params['uid']);
-        $oldPass = $params['oldPass'];
-        $plainPassword = $params['plainPassword'];
-        $em = $this->doctrine->getManager();
-
-        // if oldPass is right
-        if ($hasher->isPasswordValid($user, $oldPass)) {
-            $user->setPlainPassword($plainPassword);
-            $em->flush();
-            $code = 0;
-        } else {
-            $code = 1;
-        }
-
-        return $this->json([
-            'code' => $code,
-        ]);
-    }
-
-    #[Route('/resetpwd', methods: ['POST'])]
-    public function resetPWD(Request $request, UserPasswordHasherInterface $hasher): JsonResponse
-    {
-        $params  = $request->toArray();
-        $user = $this->doctrine->getRepository(User::class)->findOneBy(['phone' => $params['phone']]);
-        $pwd = $params['pwd1'];
-        $em = $this->doctrine->getManager();
-        $user->setPlainPassword($pwd);
-        $em->flush();
-        $code = 0;
-
-        return $this->json([
-            'code' => $code,
-        ]);
-    }
-
-    #[Route('/sms', methods: ['POST'])]
-    public function sms(Sms $sms, Request $request): JsonResponse
-    {
-        $params  = $request->toArray();
-        $phone = $params['phone'];
-        $sms->send($phone);
-        return $this->json([
-            'code' => 0,
-        ]);
-    }
-
-    #[Route('/chkotp', methods: ['POST'])]
-    public function chkotp(Request $request): JsonResponse
-    {
-        $params  = $request->toArray();
-        $phone = $params['phone'];
-        $otp = $params['otp'];
-        $cache = new RedisAdapter(RedisAdapter::createConnection('redis://localhost'));
-        // $cache = new FilesystemAdapter();
-        $otp0 = $cache->get($phone, function (ItemInterface $item){
-            return 0;
-        });
-
-        if ($otp == $otp0) {
-            $code = 0;
-        } else {
-            $code = 1;
-        }
-        return $this->json([
-            'code' => $code,
-        ]);
-    }
-
     #[Route('/refretail/{cid}', requirements: ['cid' => '\d+'],  methods: ['GET'])]
     public function refRetail(int $cid): JsonResponse
     {
-        $myRefs = $this->doctrine->getRepository(Consumer::class)->findBy(['referrer' => $cid]);
+        $myRefs = $this->doctrine->getRepository(User::class)->findBy(['referrer' => $cid]);
         // dump($myRefs);
         // $refRetails = $this->doctrine->getRepository(Retail::class)->findByMyRefs($myRefs);
         $refRetails = [];
         foreach ($myRefs as $v) {
             // dump($v);
-            $retails = $this->doctrine->getRepository(Retail::class)->findBy(['consumer' => $v]);
+            $retails = $this->doctrine->getRepository(Retail::class)->findBy(['customer' => $v]);
             // dump($retails);
             $refRetails = array_merge($refRetails, $retails);
         }
         // dump($refRetails);
         return $this->json($refRetails);
-    }
-
-    #[Route('/chkphone', methods: ['POST'])]
-    public function chkPhone(Request $request): JsonResponse
-    {
-        $params  = $request->toArray();
-        $phone = $params['phone'];
-        $user = $this->doctrine->getRepository(User::class)->findOneBy(['phone' => $phone]);
-        if ($user) {
-            $code = 0;
-        } else {
-            $code = 1;
-        }
-        return $this->json([
-            'code' => $code,
-        ]);
     }
 
     #[Route('/orgs-have-stock-of-product/{pid}', methods: ['GET'])]
@@ -318,36 +143,27 @@ class ApiController extends AbstractController
         return $this->json($orgs);
     }
 
-    #[Route('/create-user-org', methods: ['POST'])]
-    public function createUserAndOrg(Request $request): JsonResponse
+    #[Route('/org/new', methods: ['POST'])]
+    public function createOrgAndBindAdmin(Request $request): JsonResponse
     {
         $params  = $request->toArray();
         $em = $this->doctrine->getManager();
-        $users = $this->doctrine->getRepository(User::class)->findOneBy(['username' => $params['username']]);
-        // if username already not in use
-        if (is_null($users)) {
-            $org = new Org();
-            $org->setAddress($params['address']);
-            $org->setContact($params['contact']);
-            $org->setArea($params['area']);
-            $org->setName($params['name']);
-            $org->setPhone($params['phone']);
-            $org->setType($params['type']);
-            $up = $this->doctrine->getRepository(Org::class)->find($params['upstreamId']);
-            $org->setUpstream($up);
-            $em->persist($org);
-
-            $user = new User();
-            $user->setUsername($params['username']);
-            $user->setPlainPassword($params['plainPassword']);
-            $user->setOrg($org);
-
-            $em->persist($user);
-            $em->flush();
-            $code = 0;
-        } else {
-            $code = 1;
-        }
+        $admin = $this->doctrine->getRepository(User::class)->find($params['uid']);
+        
+        $org = new Org();
+        $org->setAddress($params['address']);
+        $org->setContact($params['contact']);
+        $org->setArea($params['area']);
+        $org->setName($params['name']);
+        $org->setPhone($params['phone']);
+        $org->setType($params['type']);
+        $up = $this->doctrine->getRepository(Org::class)->find($params['upstreamId']);
+        $org->setUpstream($up);
+        $org->setAdmin($admin);
+        $em->persist($org);
+        $admin->setOrg($org);
+        $em->flush();
+        $code = 0;
 
         return $this->json(['code' => $code]);
     }
@@ -355,14 +171,378 @@ class ApiController extends AbstractController
     #[Route('/choices/{taxon}')]
     public function getChoices($taxon): JsonResponse
     {
-        $a = array_flip(Choice::get($taxon));
-        return $this->json($a);
+        $choice = array_flip(Choice::get($taxon));
+        $arr = [];
+        foreach($choice as $v => $k){
+            $arr[] = [
+                'id' => $v,
+                'value' => $this->translator->trans($k)
+            ];
+        }
+        return $this->json($arr);
     }
 
-    #[Route('/pca')]
-    public function getPca(): Response
+    #[Route('/scan/box', methods: ['POST'])]
+    public function scanBox(Request $request): Response
     {
-        $pca = file_get_contents('pca.json');
-        return new Response($pca);
+        $em = $this->doctrine->getManager();
+        $params  = $request->toArray();
+        $oid = $params['oid'];
+        $sn = $params['s'];
+        $boxid = Sn::toId($sn);
+        $cipher = $params['e'];
+        $org = $em->getRepository(Org::class)->find($oid);
+        $box = $em->getRepository(Box::class)->find($boxid);
+        // Verify cipher
+        $cipher0 = explode('.', $box->getCipher())[0];
+        if ($cipher !== $cipher0) {
+            $code = 11;
+            $msg = '错误的二维码';
+            // $msg = 'Wrong cipher.';
+            return $this->json(['code' => $code, 'msg' => $msg]);
+        }
+        // Check upstream
+        if ($org->getUpstream() !== $box->getOrg()) {
+            $code = 12;
+            $msg = '您不能进货此商品';
+            // $msg = 'You can not order this box.';
+            return $this->json(['code' => $code, 'msg' => $msg]);
+        }
+        // Check forRestaurant
+        if ($org->getType() !== 3 && $box->getPack()->isForRestaurant()) {
+            $code = 13;
+            $msg = '此商品限定餐厅';
+            // $msg = 'Only for restaurants';
+            return $this->json(['code' => $code, 'msg' => $msg]);
+        }
+        // If all pass, create new order
+        $product = $box->getProduct();
+        $qty = 1;
+        
+        $item = new OrderItems();
+        $item->setProduct($product);
+        $item->setQuantity($qty);
+        $item->addBox($box);
+        $em->persist($item);
+        
+        $order = new Orders();
+        $order->setSeller($org->getUpstream());
+        $order->setBuyer($org);
+        $order->addOrderItem($item);
+        $em->persist($order);
+        
+        $item->setOrd($order);
+
+        $em->flush();
+        $order->setStatus(5);
+        $em->flush();
+        
+        $code = 0;
+        $msg = '已入库';
+        // $msg = 'Done';
+        $ord = ['product' => $product, 'qty' => $qty];
+        
+        return $this->json(['code' => $code, 'msg' => $msg, 'ord' => $ord]);
+    }
+    
+    #[Route('/scan/bottle', methods: ['POST'])]
+    public function scanBottle(Request $request): Response
+    {
+        $em = $this->doctrine->getManager();
+        $params  = $request->toArray();
+        $uid = $params['uid'];
+        $sn = $params['s'];
+        $bid = Sn::toId($sn);
+        $cipher = $params['e'];
+        $user = $em->getRepository(User::class)->find($uid);
+        $bottle = $em->getRepository(Bottle::class)->findOneBy(['sn' => $sn]);
+        $box = $bottle->getBox();
+        $org = $box->getOrg();
+        $qty = 1;
+        // Verify cipher
+        $cipher0 = explode('.', $bottle->getCipher())[0];
+        if ($cipher !== $cipher0) {
+            $code = 11;
+            $msg = '错误的二维码';
+            // $msg = 'Wrong cipher.';
+            return $this->json(['code' => $code, 'msg' => $msg]);
+        }
+        
+        // If unsold
+        if ($bottle->getStatus() === 0) {
+            // $retail = $em->getRepository(Retail::class)->findOneBy(['bottle' => $bottle]);
+            // if (! is_null($retail)) {
+            //     $code = 14;
+            //     $msg = '此二维码已抽奖';
+            //     // $msg = 'Can not draw again.';
+            //     return $this->json(['code' => $code, 'msg' => $msg]);
+            // }
+        
+            // Only sold if box is in stores
+            if ($org->getType() === 2 || $org->getType() === 12 || $org->getType() === 3) {
+                $retail = new Retail();
+                $retail->setStore($org);
+                $retail->setCustomer($user);
+                $retail->setProduct($box->getProduct());
+                $retail->setQuantity($qty);
+                $retail->setBottle($bottle);
+                $em->persist($retail);
+                $em->flush();
+                
+                $code = 0;
+                // $msg = 'Done.';
+                $msg = "获得奖品";
+                $prize = $bottle->getPrize();
+                // prize 7 and 8
+                if (is_null($retail->getClaim())) {
+                    $value = 1;
+                } else {
+                    $value = $retail->getClaim()->getPrize()->getToCustomer();
+                }
+                return $this->json([
+                    'code' => $code,
+                    'msg' => $msg,
+                    'prize' => $prize->getName(),
+                    'value' => $value,
+                ]);
+            } else {
+                $code = 12;
+                // $msg = 'Bottle not in store.';
+                $msg = '您不能购买此商品';
+                return $this->json(['code' => $code, 'msg' => $msg]);
+            }
+        }
+        // if sold
+        if ($bottle->getStatus() === 1) {
+            // If is waiter
+            if (in_array('ROLE_WAITER', $user->getRoles())) {
+                // If no waiter scanned yet
+                if (is_null($bottle->getWaiter())) {
+                    // Tip waiter
+                    $conf = $em->getRepository(Conf::class)->find(1);
+                    $tip = $conf->getWaiterTip();
+                    $user->setWithdrawable($user->getWithdrawable() + $tip);
+                    $bottle->setWaiter($user);
+                    // $bottle->setStatus(2);
+                    $em->flush();
+                    $code = 1;
+                    $msg = "恭喜您获得提现金额";
+                    // $msg = 'Waiter tipped.';
+                    return $this->json(['code' => $code, 'msg' => $msg, 'tip' => $tip]);
+                } else {
+                    $code = 13;
+                    $msg = '此二维码已使用';
+                    // $msg = 'Can not tip again.';
+                    return $this->json(['code' => $code, 'msg' => $msg]);
+                }
+            } else {
+                $code = 14;
+                $msg = '此二维码已抽奖';
+                // $msg = 'Can not draw again.';
+                return $this->json(['code' => $code, 'msg' => $msg]);
+            }
+        }
+    }
+    
+    #[Route('/scan/storeman', methods: ['POST'])]
+    public function scanStoreman(Request $request): Response
+    {
+        $em = $this->doctrine->getManager();
+        $params  = $request->toArray();
+        $oid = $params['oid'];
+        $sns = $params['sns'];
+        $qty = count($sns);
+        $pid = $params['pid'];
+        $product = $em->getRepository(Product::class)->find($pid);
+        $buyer = $em->getRepository(Org::class)->find($oid);
+        $head = $em->getRepository(Org::class)->findOneBy(['type' => 0]);
+        // Verify cipher
+        
+        $item = new OrderItems();
+        $item->setProduct($product);
+        $item->setQuantity($qty);
+        foreach ($sns as $sn) {
+            $box = $em->getRepository(Box::class)->find(Sn::toId($sn));
+            // Check if box is in head
+            if ($box->getOrg() === $head) {
+                $item->addBox($box);
+            }
+        }
+        $em->persist($item);
+        
+        $order = new Orders();
+        $order->setSeller($head);
+        $order->setBuyer($buyer);
+        $order->addOrderItem($item);
+        $em->persist($order);
+        
+        $item->setOrd($order);
+
+        $em->flush();
+        
+        $code = 0;
+        $msg = '已生成订单';
+        // $msg = 'Done';
+        $ord = ['product' => $product, 'qty' => $qty];
+        
+        return $this->json(['code' => $code, 'msg' => $msg, 'ord' => $ord]);
+    }
+    
+    #[Route('/org/staff/add', methods: ['POST'])]
+    public function addstaff(Request $request): Response
+    {
+        $em = $this->doctrine->getManager();
+        $params = $request->toArray();
+        $user = $em->getRepository(User::class)->find($params['uid']);
+        // TODO: check if $user have perm
+        $staff = $em->getRepository(User::class)->find($params['staffId']);
+        $org = $em->getRepository(Org::class)->find($params['oid']);
+        $staff->setOrg($org);
+        $em->flush();
+        return $this->json(['code' => 0]);
+    }
+    
+    #[Route('/org/admin/bind', methods: ['POST'])]
+    public function bindOrgAdmin(Request $request): Response
+    {
+        $em = $this->doctrine->getManager();
+        $params = $request->toArray();
+        $user = $em->getRepository(User::class)->find($params['uid']);
+        // TODO: check if $user have perm
+        $admin = $em->getRepository(User::class)->find($params['adminId']);
+        $org = $em->getRepository(Org::class)->find($params['oid']);
+        $org->setAdmin($admin);
+        $em->flush();
+        return $this->json(['code' => 0]);
+    }
+    
+    #[Route('/waiter/reg', methods: ['POST'])]
+    public function watierReg(Request $request): Response
+    {
+        $em = $this->doctrine->getManager();
+        $params = $request->toArray();
+        $user = $em->getRepository(User::class)->find($params['uid']);
+        // TODO: check if actual have salesman role
+        $waiter = $em->getRepository(User::class)->find($params['waiterId']);
+        if (! is_null($waiter)) {
+            $waiter->addRole('waiter');
+            $em->flush();
+        }
+        return $this->json(['code' => 0]);
+    }
+    
+    #[Route('/claim/done', methods: ['POST'])]
+    public function setClaimed(Request $request): Response
+    {
+        $em = $this->doctrine->getManager();
+        $params = $request->toArray();
+        $claim = $em->getRepository(Claim::class)->find($params['id']);
+        $org = $em->getRepository(Org::class)->find($params['oid']);
+        $conf = $em->getRepository(Conf::class)->find(1);
+        $tip = $conf->getStoreTip();
+        
+        $claim->setServeStore($org);
+        $claim->setStatus(1);
+        $org->setWithdrawable($org->getWithdrawable() + $tip);
+        
+        $em->flush();
+        return $this->json(['code' => 0, 'tip' => $tip]);
+    }
+    
+    #[Route('/claim/settle', methods: ['POST'])]
+    public function setttleClaim(Request $request): Response
+    {
+        $em = $this->doctrine->getManager();
+        $params = $request->toArray();
+        $type = $params['type'];
+        $claim = $em->getRepository(Claim::class)->find($params['id']);
+        $borrow = $em->getRepository(Borrow::class)->findOneBy(['claim' => $claim]);
+        
+        $code = 0;
+        // TODO: check if actual have salesman role
+        // if ($salesman) {
+        // }
+        if (! is_null($borrow)) {
+            if ($type = 'store') {
+                $claim->setStoreSettled(true);
+            }
+            if ($type = 'serveStore') {
+                $claim->setServeStoreSettled(true);
+            }
+            // $borrow->setStatus(3);
+        } else {
+            $code = 1;
+        }
+        $em->flush();
+        return $this->json(['code' => $code]);
+    }
+    
+    #[Route('/borrow/new', methods: ['POST'])]
+    public function newBorrow(Request $request): Response
+    {
+        $em = $this->doctrine->getManager();
+        $params = $request->toArray();
+        $salesman = $em->getRepository(User::class)->find($params['uid']);
+        // TODO: check if actual have salesman role
+        $claim = $em->getRepository(Claim::class)->find($params['id']);
+        $bottle = $claim->getBottle();
+        if (! is_null($bottle)) {
+            $product = $bottle->getBox()->getProduct();
+        } else {
+            $product = $em->getRepository(Product::class)->find(88);
+        }
+        
+        $borrow = new Borrow();
+        $borrow->setSalesman($salesman);
+        $borrow->setProduct($product);
+        $borrow->setQty(2);
+        $borrow->setClaim($claim);
+        $em->persist($borrow);
+        $em->flush();
+            
+        return $this->json(['code' => 0]);
+    }
+    
+    #[Route('/withdrawable_move_to_person', methods: ['POST'])]
+    public function withdrawable_move_to_person(Request $request): Response
+    {
+        $em = $this->doctrine->getManager();
+        $params = $request->toArray();
+        $user = $em->getRepository(User::class)->find($params['uid']);
+        $org = $em->getRepository(Org::class)->find($params['oid']);
+        $admin = $org->getAdmin();
+        $orgW = $org->getWithdrawable();
+        //TODO: check if $user have perm
+        if (! is_null($admin)) {
+            $admin->setWithdrawable($admin->getWithdrawable() + $orgW);
+            $org->setWithdrawable(0);
+            $em->flush();
+        }
+        
+        return $this->json(['code' => 0]);
+    }
+    
+    #[Route('/collect', methods: ['POST'])]
+    public function collect(Request $request): Response
+    {
+        $em = $this->doctrine->getManager();
+        $params = $request->toArray();
+        $user = $em->getRepository(User::class)->find($params['uid']);
+        $org = $em->getRepository(Org::class)->find($params['oid']);
+        $claim = new Claim();
+        $claim->setStatus(0);
+        $prize = $em->getRepository(Prize::class)->findOneBy(['label' => 'onemore']);
+        $claim->setPrize($prize);
+        if (isset($params['type'])) {
+            $org->setPoint($org->getPoint() - 300);
+            $claim->setStore($org);
+        } else {
+            $user->setPoint($user->getPoint() - 300);
+            $claim->setCustomer($user);
+        }
+        $em->persist($claim);
+        $em->flush();
+        
+        return $this->json(['code' => 0]);
     }
 }

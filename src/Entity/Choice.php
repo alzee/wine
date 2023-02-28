@@ -4,26 +4,78 @@ namespace App\Entity;
 
 class Choice
 {
+    public const ROLES = [
+        'ROLE_HEAD',
+        'ROLE_AGENCY',
+        'ROLE_STORE',
+        'ROLE_RESTAURANT',
+        'ROLE_VARIANT_HEAD',
+        'ROLE_VARIANT_AGENCY',
+        'ROLE_VARIANT_STORE',
+        'ROLE_ORG_ADMIN',
+        'ROLE_ADMIN',
+        'ROLE_STOREMAN',
+        'ROLE_SALESMAN',
+        'ROLE_WAITER',
+    ];
+    
+    public const WXQR_TYPES = [
+        'box' => 0,
+        'bottle' => 1,
+        'userqr' => 2,
+    ];
+    
+    public const CLAIM_TYPES = [
+        'one_more' => 0,
+        'bidirectional_one_mroe' => 1,
+        'three_to_one' => 1,
+    ];
+    
+    public const CLAIM_STATUSES = [
+        'pending' => 0,
+        'claimed' => 1,
+        'expired' => 2,
+    ];
+    
+    public const BORROW_STATUSES = [
+        'pending' => 0,
+        'approved' => 1,
+        'borrowed' => 2,
+        'settled' => 3,
+    ];
+
+    public const BATCH_TYPES = [
+        'new' => 0,
+        'edit' => 1,
+        'qr' => 2
+    ];
+    
+    public const BOTTLE_STATUSES = [
+        'for_sale' => 0,
+        'sold' => 1,
+        'waiter_scanned' => 2
+    ];
+
     public const REWARD_TYPES = [
-        'refAgency' => 0,
-        'refVariantHead' => 1,
-        'refVariantAgency' => 2,
-        'refStore' => 3,
-        'refVariantStore' => 4,
-        'refConsumer' => 5,
-        'return' => 6
+        'agency' => 0,
+        'variant_head' => 1,
+        'variant_agency' => 2,
+        'store' => 3,
+        'variant_store' => 4,
+        'restaurant' => 5,
+        'customer' => 6,
     ];
     public const SHARE_TYPES = [
-        'variantStoreShare' => 0,
-        'variantAgencyShare' => 1,
-        'variantHeadShare' => 2,
+        'variant_store' => 0,
+        'variant_agency' => 1,
+        'variant_head' => 2,
         'return' => 3
     ];
     public const REWARD_SHARE_STATUSES = [
         'lock' => 0,
         'withdrawable' => 1,
-        'withdrawDone' => 2,
-        'returnLock' => 3,
+        'withdraw_done' => 2,
+        'return_lock' => 3,
         'returned' => 4,
     ];
     public const MEDIA_TYPESS = [
@@ -38,21 +90,30 @@ class Choice
     public const ORDER_STATUSES = ['Pending' => 0, 'Cancelled' => 4, 'Success' => 5];
     public const WITHDRAW_STATUSES = ['Pending' => 0, 'Approved' => 3 , 'Rejected' => 4, 'Paid' => 5];
     public const ORG_TYPES = [
-        'Head' => 0,
-        'Agency' => 1,
-        'Store' => 2,
-        'Restaurant' => 3,
-        'Consumer' => 4,
-        'VariantHead' => 10,
-        'VariantAgency' => 11,
-        'VariantStore' => 12,
+        'agency' => 1,
+        'store' => 2,
+        'restaurant' => 3,
+        'variant_head' => 10,
+        'variant_agency' => 11,
+        'variant_store' => 12,
+    ];
+    public const ORG_TYPES_ALL = [
+        'head' => 0,
+        'agency' => 1,
+        'store' => 2,
+        'restaurant' => 3,
+        'customer' => 4,
+        'variant_head' => 10,
+        'variant_agency' => 11,
+        'variant_store' => 12,
     ];
     public const REG_TYPES = [
-        'Store' => 0,
-        'Agency' => 1,
-        'VariantHead' => 2,
-        'VariantAgency' => 3,
-        'VariantStore' => 4,
+        'agency' => 0,
+        'store' => 1,
+        'restaurant' => 2,
+        'variant_head' => 3,
+        'variant_agency' => 4,
+        'variant_store' => 5,
     ];
     public const REG_STATUSES = [
         'pending' => 0,
@@ -66,6 +127,8 @@ class Choice
         '提现兑付' => 10,
         '顾客餐饮消费' => 12,
         '零售退货' => 13,
+        '中奖-代金券' => 14,
+        '中奖-随机金额代金券' => 15,
         // '代理商-进货' => 0,
         // '门店-进货' => 1,
         // '餐厅-进货' => 2,

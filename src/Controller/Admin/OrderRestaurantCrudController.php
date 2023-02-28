@@ -41,7 +41,7 @@ class OrderRestaurantCrudController extends AbstractCrudController
             AssociationField::new('restaurant')->onlyWhenCreating()->setQueryBuilder (
                 fn (QueryBuilder $qb) => $qb->andWhere('entity.id = :id')->setParameter('id', $this->getUser()->getOrg())
             ),
-            AssociationField::new('consumer'),
+            AssociationField::new('customer'),
             // TextField::new('orderNo')
             //     ->setHelp('顾客在餐厅消费的订单号')
             // ,
