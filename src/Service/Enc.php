@@ -15,7 +15,7 @@ class Enc
 
     public function __construct()
     {
-        $this->key = $_ENV['AES_KEY'];
+        $this->key = base64_decode($_ENV['AES_KEY']);
     }
 
     public function enc(string $plaintext)
