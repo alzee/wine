@@ -25,6 +25,9 @@ class Claim
     #[Groups(['read'])]
     private ?int $id = null;
 
+    #[Groups(['read'])]
+    private ?string $name = null;
+    
     #[ORM\OneToOne(inversedBy: 'claim', cascade: ['persist', 'remove'])]
     private ?Retail $retail = null;
 
@@ -76,6 +79,18 @@ class Claim
     public function getId(): ?int
     {
         return $this->id;
+    }
+    
+    public function getName(): ?string
+    {
+        $s = '';
+        if (! is_null($this->store)) {
+            $s = '售出: ' . $this->store->getName();
+        }
+        if (! is_null($this->serveStore)) {
+            $s .= '兑奖: ' . $this->serveStore->getName();
+        }
+        return $s;
     }
 
     public function getRetail(): ?Retail
