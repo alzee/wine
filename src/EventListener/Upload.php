@@ -28,7 +28,7 @@ class Upload
     public function onVichUploaderPostUpload(Event $event): void
     {
         $target_width = 600;
-        $target_height = 300;
+        $target_height = 450;
         $target_quality = 75;
         $thumbnail_width = 200;
 
