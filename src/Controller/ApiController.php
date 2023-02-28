@@ -514,4 +514,28 @@ class ApiController extends AbstractController
         
         return $this->json(['code' => 0]);
     }
+    
+    #[Route('/collect', methods: ['POST'])]
+    public function collect(Request $request): Response
+    {
+        $em = $this->doctrine->getManager();
+        $params = $request->toArray();
+        $user = $em->getRepository(User::class)->find($params['uid']);
+        $org = $em->getRepository(Org::class)->find($params['oid']);
+        $claim = new Claim();
+        $claim->setStatus(0);
+        $prize = $em->getRepository(Prize::class)->findOneBy(['label' => 'onemore']);
+        $claim->setPrize($prize);
+        if (isset($params['type'])) {
+            $org->setPoint($org->getPoint() - 300);
+            $claim->setStore($org);
+        } else {
+            $user->setPoint($user->getPoint() - 300);
+            $claim->setCustomer($user);
+        }
+        $em->persist($claim);
+        $em->flush();
+        
+        return $this->json(['code' => 0]);
+    }
 }
