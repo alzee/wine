@@ -184,7 +184,7 @@ class RetailNew extends AbstractController
         
         // claim
         $prize = $bottle->getPrize();
-        if ($prize->getLabel() !== 'collect')) {
+        if ($prize->getLabel() !== 'collect') {
             $claim = new Claim();
             $claim->setBottle($bottle);
             $claim->setRetail($retail);
