@@ -63,18 +63,18 @@ class Prize
 
     public function __toString()
     {
-        // return $this->getInfo();
-        return $this->name;
+        return $this->getInfo();
+        // return $this->name;
     }
 
     public function getInfo()
     {
         $s = $this->name;
-        if (! is_null($this->value)) {
-            $s .= ' ' . $this->value;
+        if (! is_null($this->toCustomer)) {
+            $s .= ' ' . $this->toCustomer;
         }
-        if (! is_null($this->value2)) {
-            $s .= '-' . $this->value2;
+        if (! is_null($this->toStore)) {
+            $s .= '-' . $this->toStore;
         }
         return $s;
     }
