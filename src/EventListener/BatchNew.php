@@ -19,6 +19,9 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Events;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 #[AsEntityListener(event: Events::prePersist, entity: Batch::class)]
 class BatchNew extends AbstractController
@@ -136,6 +139,53 @@ class BatchNew extends AbstractController
 
                 unlink($filename);
             }
+        }
+        
+        // Download Strings
+        if ($type === 3) {
+            $url = $_ENV["WXQR_URL"];
+            $filename = "{$snStart}-{$snEnd}.xlsx";
+            $boxes = $em->getRepository(Box::class)->findBetween($start, $start + $qty - 1);
+            if (! is_null($boxes)) {
+                $rows = [];
+                foreach ($boxes as $box) {
+                    foreach ($box->getBottles() as $bottle) {
+                        $sn = $bottle->getSn();
+                        $enc = explode('.', $bottle->getCipher())[0];
+                        $row = [];
+                        $row['sn'] = $bottle->getSn();
+                        $row['url'] = "{$url}?t=1&s={$sn}&e={$enc}";
+                        $rows[] = $row;
+                    }
+                    $row = [];
+                    $sn = $box->getSn();
+                    $enc = explode('.', $box->getCipher())[0];
+                    $row['sn'] = $sn;
+                    $row['url'] = "{$url}?t=0&s={$sn}&e={$enc}";
+                    $rows[] = $row;
+                }
+            }
+            
+            if ($sn !== $snEnd) {
+                $filename = "{$snStart}-{$sn}.xlsx";
+            }
+            
+            $spreadsheet = new Spreadsheet();
+            $sheet = $spreadsheet->getActiveSheet();
+
+            $sheet->fromArray($rows, null);
+
+            $writer = new Xlsx($spreadsheet);
+            
+            $response =  new StreamedResponse(
+                function () use ($writer) {
+                    $writer->save('php://output');
+                }
+            );
+            $response->headers->set('Content-Type', 'application/vnd.ms-excel');
+            $response->headers->set('Content-Disposition', "attachment;filename=\"{$filename}\"");
+            $response->headers->set('Cache-Control','max-age=0');
+            $response->send();
         }
     }
 }
