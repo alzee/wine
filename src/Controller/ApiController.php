@@ -469,7 +469,7 @@ class ApiController extends AbstractController
             if ($type = 'serveStore') {
                 $claim->setServeStoreSettled(true);
             }
-            $borrow->setStatus(3);
+            // $borrow->setStatus(3);
         } else {
             $code = 1;
         }
