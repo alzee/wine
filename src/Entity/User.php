@@ -119,6 +119,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $claims;
 
     #[ORM\Column]
+    #[Groups(['read'])]
     private ?int $point = 0;
 
     #[ORM\Column]

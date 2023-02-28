@@ -165,6 +165,10 @@ class Org
     #[ORM\OneToMany(mappedBy: 'serveStore', targetEntity: Claim::class)]
     private Collection $serveClaims;
 
+    #[ORM\Column]
+    #[Groups(['read'])]
+    private ?int $point = 0;
+
     public function __construct()
     {
         $this->voucher = 0;
@@ -757,6 +761,18 @@ class Org
                 $serveClaim->setServeStore(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPoint(): ?int
+    {
+        return $this->point;
+    }
+
+    public function setPoint(int $point): self
+    {
+        $this->point = $point;
 
         return $this;
     }
