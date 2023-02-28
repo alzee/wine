@@ -58,6 +58,7 @@ class Prize
     private ?int $toCustomer = 0;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['read'])]
     private ?string $label = null;
 
     public function __toString()
