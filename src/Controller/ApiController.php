@@ -23,6 +23,7 @@ use App\Entity\Bottle;
 use App\Entity\Choice;
 use App\Entity\Conf;
 use App\Entity\Claim;
+use App\Entity\Prize;
 use App\Entity\Borrow;
 use App\Entity\RetailReturn;
 use Doctrine\Persistence\ManagerRegistry;
