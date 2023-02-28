@@ -608,8 +608,10 @@ class ApiController extends AbstractController
         $em = $this->doctrine->getManager();
         $params = $request->toArray();
         $user = $em->getRepository(User::class)->find($params['uid']);
+        // TODO: check if $user have perm
+        $staff = $em->getRepository(User::class)->find($params['staffId']);
         $org = $em->getRepository(Org::class)->find($params['oid']);
-        $user->setOrg($org);
+        $staff->setOrg($org);
         $em->flush();
         return $this->json(['code' => 0]);
     }
@@ -620,8 +622,10 @@ class ApiController extends AbstractController
         $em = $this->doctrine->getManager();
         $params = $request->toArray();
         $user = $em->getRepository(User::class)->find($params['uid']);
+        // TODO: check if $user have perm
+        $admin = $em->getRepository(User::class)->find($params['adminId']);
         $org = $em->getRepository(Org::class)->find($params['oid']);
-        $org->setAdmin($user);
+        $org->setAdmin($admin);
         $em->flush();
         return $this->json(['code' => 0]);
     }
@@ -631,10 +635,11 @@ class ApiController extends AbstractController
     {
         $em = $this->doctrine->getManager();
         $params = $request->toArray();
-        $uid = $params['uid'];
-        $user = $em->getRepository(User::class)->find($uid);
-        if (! is_null($user)) {
-            $user->addRole('waiter');
+        $user = $em->getRepository(User::class)->find($params['uid']);
+        // TODO: check if actual have salesman role
+        $waiter = $em->getRepository(User::class)->find($params['waiterId']);
+        if (! is_null($waiter)) {
+            $waiter->addRole('waiter');
             $em->flush();
         }
         return $this->json(['code' => 0]);
@@ -667,7 +672,7 @@ class ApiController extends AbstractController
         $borrow = $em->getRepository(Borrow::class)->findOneBy(['claim' => $claim]);
         
         $code = 0;
-        // check if actual have salesman role
+        // TODO: check if actual have salesman role
         // if ($salesman) {
         // }
         if (! is_null($borrow)) {
@@ -686,6 +691,7 @@ class ApiController extends AbstractController
         $em = $this->doctrine->getManager();
         $params = $request->toArray();
         $salesman = $em->getRepository(User::class)->find($params['uid']);
+        // TODO: check if actual have salesman role
         $claim = $em->getRepository(Claim::class)->find($params['id']);
         $bottle = $claim->getBottle();
         if (! is_null($bottle)) {
@@ -710,9 +716,11 @@ class ApiController extends AbstractController
     {
         $em = $this->doctrine->getManager();
         $params = $request->toArray();
-        $admin = $em->getRepository(User::class)->find($params['uid']);
+        $user = $em->getRepository(User::class)->find($params['uid']);
         $org = $em->getRepository(Org::class)->find($params['oid']);
+        $admin = $org->getAdmin();
         $orgW = $org->getWithdrawable();
+        //TODO: check if $user have perm
         if (! is_null($admin)) {
             $admin->setWithdrawable($admin->getWithdrawable() + $orgW);
             $org->setWithdrawable(0);

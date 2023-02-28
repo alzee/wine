@@ -1,3 +1,4 @@
+- prize voucher toStore and then? store can't use voucher
 - cron to set claim expire
 - weird when editing roles in crud user, addRole/removeRole will be invoked
 - api org/new handle exceptions
