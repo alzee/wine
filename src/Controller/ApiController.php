@@ -320,7 +320,7 @@ class ApiController extends AbstractController
                 if (is_null($bottle->getWaiter())) {
                     // Tip waiter
                     $conf = $em->getRepository(Conf::class)->find(1);
-                    $tip = $conf->getWaiterTip() / 100;
+                    $tip = $conf->getWaiterTip();
                     $user->setWithdrawable($user->getWithdrawable() + $tip);
                     $bottle->setWaiter($user);
                     // $bottle->setStatus(2);
@@ -439,7 +439,7 @@ class ApiController extends AbstractController
         $claim = $em->getRepository(Claim::class)->find($params['id']);
         $org = $em->getRepository(Org::class)->find($params['oid']);
         $conf = $em->getRepository(Conf::class)->find(1);
-        $tip = $conf->getStoreTip() / 100;
+        $tip = $conf->getStoreTip();
         
         $claim->setServeStore($org);
         $claim->setStatus(1);
