@@ -454,6 +454,7 @@ class ApiController extends AbstractController
     {
         $em = $this->doctrine->getManager();
         $params = $request->toArray();
+        $type = $params['type'];
         $claim = $em->getRepository(Claim::class)->find($params['id']);
         $borrow = $em->getRepository(Borrow::class)->findOneBy(['claim' => $claim]);
         
@@ -462,7 +463,12 @@ class ApiController extends AbstractController
         // if ($salesman) {
         // }
         if (! is_null($borrow)) {
-            $claim->setSettled(true);
+            if ($type = 'store') {
+                $claim->setStoreSettled(true);
+            }
+            if ($type = 'serveStore') {
+                $claim->setServeStoreSettled(true);
+            }
             $borrow->setStatus(3);
         } else {
             $code = 1;
