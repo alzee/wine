@@ -184,7 +184,7 @@ class RetailNew extends AbstractController
         
         // claim
         $prize = $bottle->getPrize();
-        if (! in_array($prize->getId(), [7, 8])) {
+        if ($prize->getLabel() !== 'collect')) {
             $claim = new Claim();
             $claim->setBottle($bottle);
             $claim->setRetail($retail);
@@ -195,10 +195,9 @@ class RetailNew extends AbstractController
             $em->persist($claim);
             // Why is this necessary?
             $retail->setClaim($claim);
-        }
-
-        if ($prize->getId() === 7) {
+        } else {
             $customer->setPoint($customer->getPoint() + 100);
+            $store->setPoint($store->getPoint() + 100);
         }
         
         $em->flush();
