@@ -71,10 +71,10 @@ class Prize
     {
         $s = $this->name;
         if (! is_null($this->toCustomer)) {
-            $s .= ' ' . $this->toCustomer;
+            $s .= ' ' . $this->toCustomer / 100;
         }
         if (! is_null($this->toStore)) {
-            $s .= '-' . $this->toStore;
+            $s .= '-' . $this->toStore / 100;
         }
         return $s;
     }
