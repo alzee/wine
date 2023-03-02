@@ -123,6 +123,7 @@ class UserCrudController extends AbstractCrudController
             ->add(EntityFilter::new('org'))
             ->add(ArrayFilter::new('roles')->setChoices([
                 '业务员' => 'ROLE_SALESMAN',
+                '餐厅业务员' => 'ROLE_SALESMAN_RESTAURANT',
                 '仓管' => 'ROLE_STOREMAN',
                 '商家管理员' => 'ROLE_ORG_ADMIN',
                 '服务员' => 'ROLE_WAITER',
