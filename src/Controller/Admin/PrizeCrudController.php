@@ -37,8 +37,6 @@ class PrizeCrudController extends AbstractCrudController
         yield MoneyField::new('toStore')
                 ->setCurrency('CNY')
             ;
-        yield IntegerField::new('value');
-        yield IntegerField::new('value2');
         yield IntegerField::new('expire');
         yield NumberField::new('odds')
             ->setNumDecimals(8)
