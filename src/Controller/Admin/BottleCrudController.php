@@ -57,11 +57,12 @@ class BottleCrudController extends AbstractCrudController
             ->hideOnIndex()
             ->setDisabled()
             ;
-        yield TextField::new('cipher')
-            ->onlyOnIndex()
-            ->setMaxLength(25)
-            ->hideWhenCreating()
+        if ($this->isGranted('ROLE_SUPER_ADMIN')) {
+            yield TextField::new('cipher')
+                ->onlyOnIndex()
+                // ->setMaxLength(25)
             ;
+        }
         yield TextField::new('cipher')
             ->hideOnIndex()
             ->setDisabled()

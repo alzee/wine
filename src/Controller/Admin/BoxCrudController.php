@@ -36,10 +36,12 @@ class BoxCrudController extends AbstractCrudController
         yield IntegerField::new('sn', 'Box')
             // ->onlyWhenCreating()
         ;
-        yield TextField::new('cipher')
-            ->setMaxLength(25)
-            ->hideWhenCreating()
+        if ($this->isGranted('ROLE_SUPER_ADMIN')) {
+            yield TextField::new('cipher')
+                ->onlyOnIndex()
+                // ->setMaxLength(25)
             ;
+        }
         yield AssociationField::new('org')
             ;
         yield AssociationField::new('product')
