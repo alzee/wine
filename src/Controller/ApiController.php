@@ -398,6 +398,9 @@ class ApiController extends AbstractController
         $staff = $em->getRepository(User::class)->find($params['staffId']);
         $org = $em->getRepository(Org::class)->find($params['oid']);
         $staff->setOrg($org);
+        if ($org->getType === 3) {
+            $staff->addRole('ROLE_WAITER');
+        }
         $em->flush();
         return $this->json(['code' => 0]);
     }
