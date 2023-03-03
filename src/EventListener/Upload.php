@@ -70,9 +70,9 @@ class Upload
         };
 
         // if is org/product/node image, crop height and create thumbnail
-        if ($object instanceof Org || $object instanceof Node || ($object instanceof MediaObject && $type < 3)) {
-            // Only crop if is not featured node
-            if (! ($object instanceof Node && in_array(1, $object->getTags()))) {
+        if ($object instanceof Org || $object instanceof Product || $object instanceof Node || ($object instanceof MediaObject && $type < 3)) {
+            // Only crop if is not featured node and not product
+            if (! ($object instanceof Node && in_array(1, $object->getTags())) && ! $object instanceof Product) {
                 $new_height = $target_width / $info[0] * $info[1];
                 // Only crop if greater than $target_height
                 if ($new_height > $target_height) {
