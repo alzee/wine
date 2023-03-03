@@ -40,6 +40,7 @@ class Poster
             'page' => 'pages/chooseLogin/index',
             'scene' => $uid,
             'env_version' => $ver, // default 'release'
+            'line_color' => ['r'=>'255', 'g'=>'255', 'b'=>'255'],
             'is_hyaline' => true
             // 'width' => 280 // Min 280px
         ];
