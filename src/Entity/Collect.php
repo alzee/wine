@@ -5,7 +5,16 @@ namespace App\Entity;
 use App\Repository\CollectRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 
+#[ApiResource(
+    normalizationContext: ['groups' => ['read']],
+    denormalizationContext: ['groups' => ['write']],
+)]
+#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'user' => 'exact', 'product' => 'exact'])]
 #[ORM\Entity(repositoryClass: CollectRepository::class)]
 class Collect
 {
@@ -16,13 +25,16 @@ class Collect
 
     #[ORM\ManyToOne(inversedBy: 'collects')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['read'])]
     private ?User $user = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['read'])]
     private ?Product $product = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
+    #[Groups(['read'])]
     private ?int $qty = null;
 
     public function getId(): ?int
