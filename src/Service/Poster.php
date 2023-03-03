@@ -41,7 +41,7 @@ class Poster
             'scene' => $uid,
             'env_version' => $ver, // default 'release'
             'line_color' => ['r'=>'255', 'g'=>'255', 'b'=>'255'],
-            'is_hyaline' => true
+            // 'is_hyaline' => true
             // 'width' => 280 // Min 280px
         ];
         $response = $this->httpClient->request('POST', $url, ['json' => $data]);
@@ -53,8 +53,8 @@ class Poster
 
         $poster = new \Imagick($dir . 'poster.jpg');
         $qr = new \Imagick($file);
-        $qr->resizeimage(200, 200, \Imagick::FILTER_UNDEFINED, 1);
-        $poster->compositeImage($qr, \Imagick::COMPOSITE_ATOP, 200, 720);
+        $qr->resizeimage(280, 280, \Imagick::FILTER_UNDEFINED, 1);
+        $poster->compositeImage($qr, \Imagick::COMPOSITE_ATOP, 410, 1320);
         $poster->writeImage($file);
     }
 }
