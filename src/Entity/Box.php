@@ -44,6 +44,9 @@ class Box
     #[ORM\ManyToMany(targetEntity: OrderItems::class, mappedBy: 'boxes')]
     private Collection $orderItems;
 
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $bottleSold = 0;
+
     public function __construct()
     {
         $this->bottles = new ArrayCollection();
@@ -197,6 +200,18 @@ class Box
         if ($this->orderItems->removeElement($orderItem)) {
             $orderItem->removeBox($this);
         }
+
+        return $this;
+    }
+
+    public function getBottleSold(): ?int
+    {
+        return $this->bottleSold;
+    }
+
+    public function setBottleSold(int $bottleSold): self
+    {
+        $this->bottleSold = $bottleSold;
 
         return $this;
     }
