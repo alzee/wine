@@ -44,7 +44,6 @@ class OrderRestaurant
     private ?int $voucher = null;
 
     #[ORM\ManyToOne(inversedBy: 'orderRestaurants')]
-    #[ORM\JoinColumn(nullable: false)]
     #[Groups(['read'])]
     private ?Consumer $consumer = null;
 
