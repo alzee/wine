@@ -38,6 +38,10 @@ class UserCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        $disabled = true;
+        if ($this->isGranted('ROLE_SUPER_ADMIN')) {
+            $disabled = false;
+        }
         $userOrgId = $this->getUser()->getOrg()->getId();
         yield IdField::new('id')->onlyOnIndex();
         yield
@@ -54,7 +58,8 @@ class UserCrudController extends AbstractCrudController
         yield TextField::new('nick')->HideWhenUpdating();
         yield AssociationField::new('org')
             ->OnlyWhenUpdating()
-            ->setFormTypeOptions(['disabled' => 'disabled']);
+            ->setDisabled($disabled)
+        ;
         yield ChoiceField::new('roles')
             ->setChoices([
                 'Salesman' => 'ROLE_SALESMAN',
