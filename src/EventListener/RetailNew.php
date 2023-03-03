@@ -21,6 +21,7 @@ use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Events;
 use App\Entity\Bottle;
 use App\Entity\Claim;
+use App\Entity\Collect;
 
 #[AsEntityListener(event: Events::postPersist, entity: Retail::class)]
 class RetailNew extends AbstractController
@@ -170,8 +171,29 @@ class RetailNew extends AbstractController
             // Why is this necessary?
             $retail->setClaim($claim);
         } else {
-            $customer->setPoint($customer->getPoint() + 100);
-            $store->setPoint($store->getPoint() + 100);
+            // find user's collect of this product
+            $collect = $em->getRepository(Collect::class)->findOneBy(['user' => $customer, 'product' => $product]);
+            if (is_null($collect)) {
+                // new collect if not found
+                $collect = new Collect();
+                $collect->setUser($customer);
+                $collect->setProduct($product);
+                $em->persist($collect);
+            } else {
+                $collect->setQty($collect->getQty() + 1);
+            }
+            
+            // find store's collect of this product
+            $collect = $em->getRepository(Collect::class)->findOneBy(['store' => $store, 'product' => $product]);
+            if (is_null($collect)) {
+                // new collect if not found
+                $collect = new Collect();
+                $collect->setStore($store);
+                $collect->setProduct($product);
+                $em->persist($collect);
+            } else {
+                $collect->setQty($collect->getQty() + 1);
+            }
         }
         
         $em->flush();

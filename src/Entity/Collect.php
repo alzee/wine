@@ -14,7 +14,7 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
 )]
-#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'user' => 'exact', 'product' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'customer' => 'exact', 'product' => 'exact'])]
 #[ORM\Entity(repositoryClass: CollectRepository::class)]
 class Collect
 {
@@ -23,11 +23,6 @@ class Collect
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'collects')]
-    #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['read'])]
-    private ?User $user = null;
-
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['read'])]
@@ -35,23 +30,11 @@ class Collect
 
     #[ORM\Column(type: Types::SMALLINT)]
     #[Groups(['read'])]
-    private ?int $qty = null;
+    private ?int $qty = 1;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
     }
 
     public function getProduct(): ?Product
