@@ -24,7 +24,6 @@ class Scan
     private ?int $id = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
     #[Groups(['read', 'write'])]
     private ?Consumer $consumer = null;
 
