@@ -126,6 +126,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['read'])]
     private ?bool $reloginRequired = false;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Collect::class)]
+    private Collection $collects;
+
     public function __toString()
     {
         $s = '';
@@ -143,6 +146,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->claims = new ArrayCollection();
+        $this->collects = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -469,6 +473,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setReloginRequired(bool $reloginRequired): self
     {
         $this->reloginRequired = $reloginRequired;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Collect>
+     */
+    public function getCollects(): Collection
+    {
+        return $this->collects;
+    }
+
+    public function addCollect(Collect $collect): self
+    {
+        if (!$this->collects->contains($collect)) {
+            $this->collects->add($collect);
+            $collect->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCollect(Collect $collect): self
+    {
+        if ($this->collects->removeElement($collect)) {
+            // set the owning side to null (unless already changed)
+            if ($collect->getUser() === $this) {
+                $collect->setUser(null);
+            }
+        }
 
         return $this;
     }
