@@ -28,9 +28,9 @@ class PrizeCrudController extends AbstractCrudController
         }
         
         yield TextField::new('name');
-        yield TextField::new('label')
-            ->hideOnIndex()
-            ;
+        if ($this->isGranted('ROLE_SUPER_ADMIN')) {
+            yield TextField::new('label');
+        }
         yield MoneyField::new('toCustomer')
                 ->setCurrency('CNY')
             ;
