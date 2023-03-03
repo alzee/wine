@@ -152,6 +152,9 @@ class RetailNew extends AbstractController
         $bottle = $retail->getBottle();
         $bottle->setCustomer($customer);
         $bottle->setStatus(1);
+        // update box BottleSold
+        $box = $bottle->getBox();
+        $box->setBottleSold($box->getBottleSold + 1);
         
         // claim
         $prize = $bottle->getPrize();
