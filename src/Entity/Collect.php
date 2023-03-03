@@ -32,6 +32,12 @@ class Collect
     #[Groups(['read'])]
     private ?int $qty = 1;
 
+    #[ORM\ManyToOne(inversedBy: 'collects')]
+    private ?User $customer = null;
+
+    #[ORM\ManyToOne]
+    private ?Org $store = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -57,6 +63,30 @@ class Collect
     public function setQty(int $qty): self
     {
         $this->qty = $qty;
+
+        return $this;
+    }
+
+    public function getCustomer(): ?User
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?User $customer): self
+    {
+        $this->customer = $customer;
+
+        return $this;
+    }
+
+    public function getStore(): ?Org
+    {
+        return $this->store;
+    }
+
+    public function setStore(?Org $store): self
+    {
+        $this->store = $store;
 
         return $this;
     }
