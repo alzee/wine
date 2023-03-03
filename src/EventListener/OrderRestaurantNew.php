@@ -28,15 +28,15 @@ class OrderRestaurantNew extends AbstractController
         $voucher = $order->getVoucher();
         $resta->setWithdrawable($resta->getWithdrawable() + $voucher);
 
-        // consumer - voucher
-        $consumer = $order->getConsumer();
-        $consumer->setVoucher($consumer->getVoucher() - $voucher);
+        // customer - voucher
+        $customer = $order->getCustomer();
+        $customer->setVoucher($customer->getVoucher() - $voucher);
 
-        // voucher record for consumer
+        // voucher record for customer
         $record = new Voucher();
         $consumers = $em->getRepository(Org::class)->findOneByType(4);
         $record->setOrg($consumers);
-        $record->setConsumer($consumer);
+        $record->setCustomer($customer);
         $record->setVoucher(-$voucher);
         $type = Choice::VOUCHER_TYPES['餐饮消费'];
         $record->setType($type);
