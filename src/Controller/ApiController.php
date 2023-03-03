@@ -25,6 +25,7 @@ use App\Entity\Conf;
 use App\Entity\Claim;
 use App\Entity\Prize;
 use App\Entity\Borrow;
+use App\Entity\Collect;
 use App\Entity\RetailReturn;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -527,21 +528,27 @@ class ApiController extends AbstractController
         $em = $this->doctrine->getManager();
         $params = $request->toArray();
         $user = $em->getRepository(User::class)->find($params['uid']);
-        $org = $em->getRepository(Org::class)->find($params['oid']);
-        $claim = new Claim();
-        $claim->setStatus(0);
-        $prize = $em->getRepository(Prize::class)->findOneBy(['label' => 'onemore']);
-        $claim->setPrize($prize);
-        if (isset($params['type'])) {
-            $org->setPoint($org->getPoint() - 300);
-            $claim->setStore($org);
+        $collect = $em->getRepository(Collect::class)->find($params['id']);
+        $qty = $collect->getQty();
+        if ($qty < 3) {
+            $code = 1;
         } else {
-            $user->setPoint($user->getPoint() - 300);
-            $claim->setCustomer($user);
+            $claim = new Claim();
+            $claim->setStatus(0);
+            $prize = $em->getRepository(Prize::class)->findOneBy(['label' => 'onemore']);
+            $claim->setPrize($prize);
+            $collect->setQty($qty - 3);
+            if (isset($params['type'])) {
+                $claim->setStore($org);
+            } else {
+                $claim->setCustomer($user);
+            }
+            $em->persist($claim);
+            $em->flush();
+            $code = 0;
         }
-        $em->persist($claim);
-        $em->flush();
         
-        return $this->json(['code' => 0]);
+        
+        return $this->json(['code' => $code]);
     }
 }

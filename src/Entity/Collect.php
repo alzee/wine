@@ -33,9 +33,11 @@ class Collect
     private ?int $qty = 1;
 
     #[ORM\ManyToOne(inversedBy: 'collects')]
+    #[Groups(['read'])]
     private ?User $customer = null;
 
     #[ORM\ManyToOne]
+    #[Groups(['read'])]
     private ?Org $store = null;
 
     public function getId(): ?int
