@@ -88,28 +88,6 @@ class OrdersUpdate extends AbstractController
                     }
                 }
 
-                $voucher = $order->getVoucher();
-                // seller voucher - voucher
-                $seller->setVoucher($seller->getVoucher() - $voucher);
-
-                // buyer voucher + voucher
-                $buyer->setVoucher($buyer->getVoucher() + $voucher);
-
-                // voucher record for seller
-                $record = new Voucher();
-                $record->setOrg($seller);
-                $record->setVoucher(-$voucher);
-                $type = Choice::VOUCHER_TYPES['发货'];
-                $record->setType($type);
-                $em->persist($record);
-
-                // voucher record for buyer 
-                $record = new Voucher();
-                $record->setOrg($buyer);
-                $record->setVoucher($voucher);
-                $record->setType($type - 100);
-                $em->persist($record);
-
                 $em->flush();
             }
         }

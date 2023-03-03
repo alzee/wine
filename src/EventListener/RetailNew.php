@@ -32,39 +32,10 @@ class RetailNew extends AbstractController
         $product = $retail->getProduct();
         $quantity = $retail->getQuantity();
         $amount = $quantity * $product->getPrice() / $product->getBottleQty();
-        $voucher = $quantity * $product->getVoucher() / $product->getBottleQty();
         $store = $retail->getStore();
         $customer = $retail->getCustomer();
 
         $retail->setAmount($amount);
-        $retail->setVoucher($voucher);
-
-        // store stock - quantity
-        // $stockRecord = $em->getRepository(Stock::class)->findOneBy(['org' => $store, 'product' => $product]);
-        // $stockRecord->setStock($stockRecord->getStock() - $quantity);
-
-        // customer + voucher
-        $customer->setVoucher($customer->getVoucher() + $voucher);
-
-        // store - voucher
-        $store->setVoucher($store->getVoucher() - $voucher);
-
-        // voucher record for store
-        $record = new Voucher();
-        $record->setOrg($store);
-        $record->setVoucher(-$voucher);
-        $type = Choice::VOUCHER_TYPES['酒零售'];
-        $record->setType($type);
-        $em->persist($record);
-
-        // voucher record for customer
-        $record = new Voucher();
-        $orgCustomer = $em->getRepository(Org::class)->findOneByType(4);
-        $record->setOrg($orgCustomer);
-        $record->setCustomer($customer);
-        $record->setVoucher($voucher);
-        $record->setType($type - 100);
-        $em->persist($record);
 
         // Reward customer's referrer
         $referrer = $customer->getReferrer();
