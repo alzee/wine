@@ -32,7 +32,8 @@ class NodeCrudController extends AbstractCrudController
         '企业简介' => 2,
         '用户协议' => 3,
         '活动公告' => 4,
-        '滚动信息' => 5,
+        '兑奖说明' => 5,
+        '门店活动' => 6,
     ];
 
     public static function getEntityFqcn(): string
