@@ -49,28 +49,6 @@ class ReturnsUpdate
                     }
                 }
 
-                $voucher = $return->getVoucher();
-                // sender voucher - voucher
-                $sender->setVoucher($sender->getVoucher() - $voucher);
-
-                // recipient voucher + voucher
-                $recipient->setVoucher($recipient->getVoucher() + $voucher);
-
-                // voucher record for sender
-                $record = new Voucher();
-                $record->setOrg($sender);
-                $record->setVoucher(-$voucher);
-                $type = Choice::VOUCHER_TYPES['退货发出'];
-                $record->setType($type);
-                $em->persist($record);
-
-                // voucher record for recipient 
-                $record = new Voucher();
-                $record->setOrg($recipient);
-                $record->setVoucher($voucher);
-                $record->setType($type - 100);
-                $em->persist($record);
-
                 $em->flush();
             }
         }
