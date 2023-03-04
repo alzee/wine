@@ -49,7 +49,6 @@ class WithdrawUpdate
                 // or
                 // $applicant->setWithdrawing(0);
                 
-                $amount = 10;
                 if (! is_null($applicant)) {
                     // WxPay require out_batch_no to be string and length > 5
                     $id = 'wx' . str_pad($withdraw->getId(), 18, 0, STR_PAD_LEFT);
@@ -64,7 +63,7 @@ class WithdrawUpdate
                         [
                             'out_detail_no' => $id,
                             'transfer_amount' => $amount,
-                            'transfer_remark' => 'I want money.',
+                            'transfer_remark' => '老酒库现金奖励',
                             'openid' => $applicant->getOpenid(),
                         ]
                     ];
