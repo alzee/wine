@@ -63,10 +63,22 @@ class WxPay
         return $this->httpClient->request('POST', $url, ['headers' => $headers, 'body' => $json])->toArray();
     }
     
-    public function checkBatch(string $batch_id, bool $need_query_detail = false)
+    public function checkBatch(string $batch_id, $need_query_detail = 'true', $detail_status = 'ALL')
     {
-        $url = 'https://api.mch.weixin.qq.com/v3/transfer/batches/batch-id/' . $batch_id . '?need_query_detail=' . $need_query_detail;
-        // $json = json_encode($data);
+        $url = 'https://api.mch.weixin.qq.com/v3/transfer/batches/batch-id/' 
+            . $batch_id . '?need_query_detail=' . $need_query_detail
+            . '&detail_status=' . $detail_status;
+        $sig = $this->genSig($url, 'GET', '');
+        $headers[] = "Authorization: {$sig}";
+        $headers[] = 'Content-Type: application/json';
+        $headers[] = 'Accept:application/json';
+        return $this->httpClient->request('GET', $url, ['headers' => $headers])->toArray();
+    }
+    
+    public function checkDetail(string $batch_id, string $detail_id)
+    {
+        $url = 'https://api.mch.weixin.qq.com/v3/transfer/batches/batch-id/' . $batch_id . '/details/detail-id/'
+            . $detail_id;
         $sig = $this->genSig($url, 'GET', '');
         $headers[] = "Authorization: {$sig}";
         $headers[] = 'Content-Type: application/json';

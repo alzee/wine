@@ -36,17 +36,20 @@ use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use App\Service\WxPay;
 
 #[Route('/api')]
 class ApiController extends AbstractController
 {
     private $doctrine;
     private $translator;
+    private $wxpay;
 
-    public function __construct(ManagerRegistry $doctrine, TranslatorInterface $translator)
+    public function __construct(ManagerRegistry $doctrine, TranslatorInterface $translator, WxPay $wxpay)
     {
         $this->doctrine = $doctrine;
-        $this->translator =$translator;
+        $this->translator = $translator;
+        $this->wxpay = $wxpay;
     }
 
     #[Route('/return/new', methods: ['POST'])]
@@ -553,5 +556,21 @@ class ApiController extends AbstractController
         
         
         return $this->json(['code' => $code]);
+    }
+    
+    #[Route('/checkbatch/{id}', methods: ['GET'])]
+    public function checkBatch(string $id): Response
+    {
+        $resp = $this->wxpay->checkBatch($id);
+        
+        return new Response('<body></body>');
+    }
+    
+    #[Route('/checkdetail/{batchid}/{detailid}', methods: ['GET'])]
+    public function checkDetail(string $batchid, string $detailid): Response
+    {
+        $resp = $this->wxpay->checkDetail($batchid, $detailid);
+        
+        return new Response('<body></body>');
     }
 }

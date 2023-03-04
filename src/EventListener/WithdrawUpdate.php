@@ -54,8 +54,8 @@ class WithdrawUpdate
                     $id = 'wx' . str_pad($withdraw->getId(), 18, 0, STR_PAD_LEFT);
                     $batch = [
                         'id' => $id,
-                        'name' => $applicant->getName() . 'withdraw',
-                        'note' => $applicant->getName() . 'withdraw note',
+                        'name' => $applicant->getName() . ' 提现',
+                        'note' => $applicant->getName() . ' 提现',
                         'amount' => $amount,
                         // 'scene' => 1000
                     ];
