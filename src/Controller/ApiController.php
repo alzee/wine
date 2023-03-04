@@ -186,6 +186,62 @@ class ApiController extends AbstractController
         return $this->json($arr);
     }
 
+    #[Route('/scan/ret', methods: ['POST'])]
+    public function scanReturn(Request $request): Response
+    {
+        $em = $this->doctrine->getManager();
+        $params  = $request->toArray();
+        $oid = $params['oid'];
+        $sn = $params['s'];
+        $boxid = Sn::toId($sn);
+        $cipher = $params['e'];
+        $org = $em->getRepository(Org::class)->find($oid);
+        $box = $em->getRepository(Box::class)->find($boxid);
+        // Verify cipher
+        $cipher0 = explode('.', $box->getCipher())[0];
+        if ($cipher !== $cipher0) {
+            $code = 11;
+            $msg = '错误的二维码';
+            // $msg = 'Wrong cipher.';
+            return $this->json(['code' => $code, 'msg' => $msg]);
+        }
+        // Check upstream
+        if ($org !== $box->getOrg()) {
+            $code = 12;
+            $msg = '您不能退货此商品';
+            // $msg = 'You can not return this box.';
+            return $this->json(['code' => $code, 'msg' => $msg]);
+        }
+        // If all pass, create new ret
+        $product = $box->getProduct();
+        $qty = 1;
+        
+        $item = new ReturnItems();
+        $item->setProduct($product);
+        $item->setQuantity($qty);
+        $item->addBox($box);
+        $em->persist($item);
+
+        $ret = new Returns();
+        $ret->setSender($org);
+        $ret->setRecipient($org->getUpstream());
+        $ret->addReturnItem($item);
+        $em->persist($ret);
+        
+        $item->setRet($ret);
+
+        $em->flush();
+        $ret->setStatus(5);
+        $em->flush();
+       
+        $code = 0;
+        $msg = '已退货';
+        // $msg = 'Done';
+        $ret = ['product' => $product, 'qty' => $qty];
+        
+        return $this->json(['code' => $code, 'msg' => $msg, 'ord' => $ret]);
+    }
+
     #[Route('/scan/box', methods: ['POST'])]
     public function scanBox(Request $request): Response
     {
