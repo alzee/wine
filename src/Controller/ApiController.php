@@ -212,6 +212,13 @@ class ApiController extends AbstractController
             // $msg = 'You can not return this box.';
             return $this->json(['code' => $code, 'msg' => $msg]);
         }
+        // Check if have bottle sold
+        if ($box->getBottleSold() > 0) {
+            $code = 13;
+            $msg = '已有单瓶售出';
+            // $msg = 'You can not return this box.';
+            return $this->json(['code' => $code, 'msg' => $msg]);
+        }
         // If all pass, create new ret
         $product = $box->getProduct();
         $qty = 1;
