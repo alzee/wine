@@ -66,7 +66,8 @@ class WxPay
     public function checkBatch(string $batch_id, bool $need_query_detail = false)
     {
         $url = 'https://api.mch.weixin.qq.com/v3/transfer/batches/batch-id/' . $batch_id . '?need_query_detail=' . $need_query_detail;
-        $sig = $this->genSig($url, 'POST', $json);
+        // $json = json_encode($data);
+        $sig = $this->genSig($url, 'GET', '');
         $headers[] = "Authorization: {$sig}";
         $headers[] = 'Content-Type: application/json';
         $headers[] = 'Accept:application/json';
