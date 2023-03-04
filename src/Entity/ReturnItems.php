@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ReturnItemsRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -38,6 +40,14 @@ class ReturnItems
     #[Groups(['read', 'write'])]
     #[Assert\Positive]
     private ?int $quantity = null;
+
+    #[ORM\ManyToMany(targetEntity: Box::class)]
+    private Collection $boxes;
+
+    public function __construct()
+    {
+        $this->boxes = new ArrayCollection();
+    }
 
     public function __toString(): string
     {
@@ -81,6 +91,30 @@ class ReturnItems
     public function setQuantity(int $quantity): self
     {
         $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Box>
+     */
+    public function getBoxes(): Collection
+    {
+        return $this->boxes;
+    }
+
+    public function addBox(Box $box): self
+    {
+        if (!$this->boxes->contains($box)) {
+            $this->boxes->add($box);
+        }
+
+        return $this;
+    }
+
+    public function removeBox(Box $box): self
+    {
+        $this->boxes->removeElement($box);
 
         return $this;
     }
