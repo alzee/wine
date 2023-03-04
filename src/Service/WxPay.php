@@ -62,6 +62,16 @@ class WxPay
          */
         return $this->httpClient->request('POST', $url, ['headers' => $headers, 'body' => $json])->toArray();
     }
+    
+    public function checkBatch(string $batch_id, bool $need_query_detail = false)
+    {
+        $url = 'https://api.mch.weixin.qq.com/v3/transfer/batches/batch-id/' . $batch_id . '?need_query_detail=' . $need_query_detail;
+        $sig = $this->genSig($url, 'POST', $json);
+        $headers[] = "Authorization: {$sig}";
+        $headers[] = 'Content-Type: application/json';
+        $headers[] = 'Accept:application/json';
+        return $this->httpClient->request('GET', $url, ['headers' => $headers])->toArray();
+    }
 
     public function toBank()
     {
