@@ -31,9 +31,9 @@ class ReturnsUpdate
             if ($status == 5) {
                 $sender = $return->getSender();
                 $recipient = $return->getRecipient();
-                foreach ($return->getReturnItems() as $i) {
-                    $product = $i->getProduct();
-                    $quantity = $i->getQuantity();
+                foreach ($return->getReturnItems() as $item) {
+                    $product = $item->getProduct();
+                    $quantity = $item->getQuantity();
                     $sn = $product->getSn();
                     $price = $product->getPrice();
                     $unitVoucher = $product->getVoucher();
@@ -46,6 +46,11 @@ class ReturnsUpdate
                     if ($recipient->getType() != 0) {
                         $stockRecordOfRecipient = $em->getRepository(Stock::class)->findOneBy(['org' => $recipient, 'product' => $product]);
                         $stockRecordOfRecipient->setStock($stockRecordOfRecipient->getStock() + $quantity);
+                    }
+                    
+                    $boxes = $item->getBoxes()->toArray();
+                    foreach ($boxes as $box) {
+                        $box->setOrg($recipient);
                     }
                 }
 
