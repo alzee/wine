@@ -10,10 +10,7 @@ namespace App\EventListener;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use App\Entity\Returns;
-use App\Entity\Product;
-use App\Entity\Org;
-use App\Entity\Voucher;
-use App\Entity\Choice;
+use App\Entity\Stock;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Events;
 
