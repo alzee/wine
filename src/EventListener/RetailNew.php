@@ -155,7 +155,7 @@ class RetailNew extends AbstractController
         $bottle->setStatus(1);
         // update box BottleSold
         $box = $bottle->getBox();
-        $box->setBottleSold($box->getBottleSold + 1);
+        $box->setBottleSold($box->getBottleSold() + 1);
         
         // claim
         $prize = $bottle->getPrize();
@@ -172,11 +172,11 @@ class RetailNew extends AbstractController
             $retail->setClaim($claim);
         } else {
             // find user's collect of this product
-            $collect = $em->getRepository(Collect::class)->findOneBy(['user' => $customer, 'product' => $product]);
+            $collect = $em->getRepository(Collect::class)->findOneBy(['customer' => $customer, 'product' => $product]);
             if (is_null($collect)) {
                 // new collect if not found
                 $collect = new Collect();
-                $collect->setUser($customer);
+                $collect->setCustomer($customer);
                 $collect->setProduct($product);
                 $em->persist($collect);
             } else {
