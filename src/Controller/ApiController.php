@@ -361,7 +361,8 @@ class ApiController extends AbstractController
                 $msg = "获得奖品";
                 $prize = $bottle->getPrize();
                 if (is_null($retail->getClaim())) {
-                    $value = 1;
+                    // collect amount 1, set 100 because frontend will divide 100
+                    $value = 100;
                 } else {
                     $value = $retail->getClaim()->getPrize()->getToCustomer();
                 }
