@@ -380,8 +380,8 @@ class ApiController extends AbstractController
         }
         // if sold
         if ($bottle->getStatus() === 1) {
-            // If is waiter
-            if (in_array('ROLE_WAITER', $user->getRoles())) {
+            // If is waiter and box pack is for restaurant
+            if (in_array('ROLE_WAITER', $user->getRoles()) && $box->getPack()->isForRestaurant()) {
                 // If no waiter scanned yet
                 if (is_null($bottle->getWaiter())) {
                     // Tip waiter
