@@ -166,6 +166,7 @@ class RetailNew extends AbstractController
             $claim->setCustomer($customer);
             $claim->setPrize($prize);
             $claim->setStore($store);
+            $claim->setProduct($product);
             $claim->setStatus(0);
             $em->persist($claim);
             // Why is this necessary?

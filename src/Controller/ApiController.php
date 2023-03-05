@@ -598,6 +598,7 @@ class ApiController extends AbstractController
         $params = $request->toArray();
         $user = $em->getRepository(User::class)->find($params['uid']);
         $collect = $em->getRepository(Collect::class)->find($params['id']);
+        $product = $collect->getProduct();
         $qty = $collect->getQty();
         if ($qty < 3) {
             $code = 1;
@@ -606,6 +607,7 @@ class ApiController extends AbstractController
             $claim->setStatus(0);
             $prize = $em->getRepository(Prize::class)->findOneBy(['label' => 'onemore']);
             $claim->setPrize($prize);
+            $claim->setProduct($product);
             $collect->setQty($qty - 3);
             if (isset($params['type'])) {
                 $claim->setStore($org);

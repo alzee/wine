@@ -76,6 +76,7 @@ class Claim
     private ?bool $serveStoreSettled = false;
 
     #[ORM\ManyToOne]
+    #[Groups(['read'])]
     private ?Product $product = null;
     
     public function __construct()
