@@ -14,7 +14,7 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
 )]
-#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'customer' => 'exact', 'product' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'customer' => 'exact', 'store' => 'exact', 'product' => 'exact'])]
 #[ORM\Entity(repositoryClass: CollectRepository::class)]
 class Collect
 {
