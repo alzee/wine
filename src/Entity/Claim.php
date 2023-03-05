@@ -74,6 +74,9 @@ class Claim
     #[ORM\Column]
     #[Groups(['read'])]
     private ?bool $serveStoreSettled = false;
+
+    #[ORM\ManyToOne]
+    private ?Product $product = null;
     
     public function __construct()
     {
@@ -237,6 +240,18 @@ class Claim
     public function setServeStoreSettled(bool $serveStoreSettled): self
     {
         $this->serveStoreSettled = $serveStoreSettled;
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): self
+    {
+        $this->product = $product;
 
         return $this;
     }
