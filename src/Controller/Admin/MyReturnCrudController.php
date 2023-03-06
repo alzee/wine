@@ -79,9 +79,6 @@ class MyReturnCrudController extends AbstractCrudController
         yield MoneyField::new('amount')
             ->setCurrency('CNY')
             ->onlyOnIndex();
-        yield MoneyField::new('voucher')
-            ->setCurrency('CNY')
-            ->onlyOnIndex();
         // if (!is_null($instance)) {
         //     if ($instance->getStatus() > 3 || $instance->getRecipient() != $user->getOrg()) {
         //         yield ChoiceField::new('status')

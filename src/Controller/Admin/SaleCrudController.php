@@ -114,9 +114,6 @@ class SaleCrudController extends AbstractCrudController
         yield MoneyField::new('amount')
             ->setCurrency('CNY')
             ->onlyOnIndex();
-        yield MoneyField::new('voucher')
-            ->setCurrency('CNY')
-            ->onlyOnIndex();
         yield ChoiceField::new('status')
             ->hideWhenCreating()
             ->setChoices(Choice::ORDER_STATUSES)
