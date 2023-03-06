@@ -32,15 +32,10 @@ class ReturnsNew extends AbstractController
             $product = $i->getProduct();
             $quantity = $i->getQuantity();
             $price = $product->getPrice();
-            $unitVoucher = $product->getVoucher();
-            // accumulate voucher
             $amount += $price * $quantity;
-            // accumulate amount
-            $voucher += $unitVoucher * $quantity;
         }
 
         $return->setAmount($amount);
-        $return->setVoucher($voucher);
     }
 
     public function postPersist(Returns $return, LifecycleEventArgs $event): void

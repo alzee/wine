@@ -44,7 +44,6 @@ class Orders
     private ?int $amount = 0;
 
     #[ORM\Column(options: ["unsigned" => true])]
-    #[Groups(['read'])]
     private ?int $voucher = 0;
 
     #[ORM\Column(type: Types::SMALLINT)]
