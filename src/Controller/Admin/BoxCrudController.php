@@ -94,6 +94,7 @@ class BoxCrudController extends AbstractCrudController
         $listBottles = Action::new('listBottles')
             ->linkToUrl(function (Box $entity){
                 return $this->adminUrlGenerator
+                    ->unset('sort')
                     ->setController(BottleCrudController::class)
                     // ->setDashboard(DashboardController::class)
                     ->setAction('index')
