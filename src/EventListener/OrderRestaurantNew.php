@@ -26,7 +26,9 @@ class OrderRestaurantNew extends AbstractController
         // restaurant + withdrawable
         $resta = $order->getRestaurant();
         $voucher = $order->getVoucher();
-        $resta->setWithdrawable($resta->getWithdrawable() + $voucher);
+        $discount = $resta->getDiscount();
+        $actualAmount = $voucher * $discount;
+        $resta->setWithdrawable($resta->getWithdrawable() + $actualAmount);
 
         // customer - voucher
         $customer = $order->getCustomer();
@@ -41,13 +43,6 @@ class OrderRestaurantNew extends AbstractController
         $type = Choice::VOUCHER_TYPES['餐饮消费'];
         $record->setType($type);
         $em->persist($record);
-
-        // voucher record for restaurant
-        // $record = new Voucher();
-        // $record->setOrg($resta);
-        // $record->setVoucher($voucher);
-        // $record->setType($type - 100);
-        // $em->persist($record);
 
         $em->flush();
     }
