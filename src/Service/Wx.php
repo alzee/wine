@@ -25,13 +25,12 @@ class Wx
         $this->httpClient = $client;
         $this->appid = $_ENV['WX_APP_ID'];
         $this->secret = $_ENV['WX_APP_SECRET'];
-        $cache = new RedisAdapter(RedisAdapter::createConnection('redis://localhost'));
+        $this->cache = new RedisAdapter(RedisAdapter::createConnection('redis://localhost'));
         // $cache = new FilesystemAdapter();
     }
 
     public function getAccessToken()
     {
-
         return $this->cache->get('WX_ACCESS_TOKEN', function (ItemInterface $item) {
             $item->expiresAfter(7200);
             $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={$this->appid}&secret={$this->secret}";
@@ -60,10 +59,10 @@ class Wx
     
     public function genUrlLink(string $page, string $query = '')
     {
-        $token = $this->getAccessToken();
-        $url = "https://api.weixin.qq.com/wxa/generate_urllink?access_token={$token}";
-        return $this->cache->get("WX_URL_LINK_{$page}_{$query}", function (ItemInterface $item) {
+        return $this->cache->get("WX_URL_LINK_{$page}_{$query}", function (ItemInterface $item) use ($page, $query) {
             $item->expiresAfter(3600 * 24 * 20);
+            $token = $this->getAccessToken();
+            $url = "https://api.weixin.qq.com/wxa/generate_urllink?access_token={$token}";
             $data = [
                 'path' => "/pages/{$page}/index",
                 'query' => $query,
