@@ -22,10 +22,21 @@ use Doctrine\ORM\Events;
 use App\Entity\Bottle;
 use App\Entity\Claim;
 use App\Entity\Collect;
+use App\Service\Sms;
+use App\Service\Wx;
 
 #[AsEntityListener(event: Events::postPersist, entity: Retail::class)]
 class RetailNew extends AbstractController
 {
+    private $sms;
+    private $wx;
+    
+    public function __construct(Sms $sms, Wx $wx)
+    {
+        $this->sms = $sms;
+        $this->wx = $wx;
+    }
+    
     public function postPersist(Retail $retail, LifecycleEventArgs $event): void
     {
         $em = $event->getEntityManager();
@@ -200,5 +211,23 @@ class RetailNew extends AbstractController
         }
         
         $em->flush();
+        
+        // sms to customer
+        $phone = $customer->getPhone();
+        $prizeInfo = $prize->getName() . ' ' . $prize->getToCustomer() / 100;
+        $url_claim_customer = $this->wx->genUrlLink('myClaim', 'type=user');
+        if (! is_null($phone)) {
+            $this->sms->send($phone, 'customer_draw', ['prize' => $prizeInfo, 'url' => $url_claim_customer]);
+        }
+        
+        if ($prize->getToStore() !== 0) {
+            // sms to store
+            $phone = $store->getPhone();
+            $prizeInfo = $prize->getName() . ' ' . $prize->getToStore() / 100;
+            $url_claim_store = $this->wx->genUrlLink('myClaim', 'type=store');
+            if (! is_null($phone)) {
+                $this->sms->send($phone, 'store_draw', ['prize' => $prizeInfo, 'url' => $url_claim_store]);
+            }
+        }
     }
 }
