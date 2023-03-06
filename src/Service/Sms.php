@@ -53,6 +53,12 @@ class Sms
     public function send($phone, $type = 'verify', $params = [], $cc = false)
     {
         switch($type){
+            case 'customer_draw':
+                $templateCode = 'SMS_272440782';
+                break;
+            case 'store_draw':
+                $templateCode = 'SMS_272575805';
+                break;
             case 'verify':
                 $templateCode = 'SMS_268695017';
                 break;
