@@ -482,6 +482,8 @@ class ApiController extends AbstractController
         $admin = $em->getRepository(User::class)->find($params['adminId']);
         $org = $em->getRepository(Org::class)->find($params['oid']);
         $org->setAdmin($admin);
+        $admin->setOrg($org);
+        $admin->setReloginRequired(true);
         $em->flush();
         return $this->json(['code' => 0]);
     }
