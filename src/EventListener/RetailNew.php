@@ -184,16 +184,18 @@ class RetailNew extends AbstractController
                 $collect->setQty($collect->getQty() + 1);
             }
             
-            // find store's collect of this product
-            $collect = $em->getRepository(Collect::class)->findOneBy(['store' => $store, 'product' => $product]);
-            if (is_null($collect)) {
-                // new collect if not found
-                $collect = new Collect();
-                $collect->setStore($store);
-                $collect->setProduct($product);
-                $em->persist($collect);
-            } else {
-                $collect->setQty($collect->getQty() + 1);
+            if ($prize->getToStore() !== 0) {
+                // find store's collect of this product
+                $collect = $em->getRepository(Collect::class)->findOneBy(['store' => $store, 'product' => $product]);
+                if (is_null($collect)) {
+                    // new collect if not found
+                    $collect = new Collect();
+                    $collect->setStore($store);
+                    $collect->setProduct($product);
+                    $em->persist($collect);
+                } else {
+                    $collect->setQty($collect->getQty() + 1);
+                }
             }
         }
         
