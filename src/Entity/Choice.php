@@ -4,6 +4,14 @@ namespace App\Entity;
 
 class Choice
 {
+    public const PRIZE_TYPES = [
+        'onemore' => 0,
+        'collect' => 1,
+        'wx' => 2,
+        'voucher' => 3,
+        'object' => 4,
+    ];
+    
     public const ROLES = [
         'ROLE_HEAD',
         'ROLE_AGENCY',
