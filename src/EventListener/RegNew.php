@@ -60,9 +60,6 @@ class RegNew extends AbstractController
         $contactPhone = $reg->getPhone();
         $address = $reg->getAddress();
 
-        // for testing
-        $phone = '';
-
         if (! empty($phone)) {
             $this->sms->send($phone, 'orgReg', [
                 'name' => $name,
