@@ -81,7 +81,16 @@ class RetailCrudController extends AbstractCrudController
     {
         $userOrg = $this->getUser()->getOrg()->getId();
         $response = $this->container->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
-        $response->andWhere("entity.store = $userOrg");
+        if (! $this->isGranted('ROLE_SUPER_ADMIN')) {
+            $response->andWhere("entity.store = $userOrg");
+        }
         return $response;
+    }
+    
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setSearchFields(['store.name', 'customer.name'])
+        ;
     }
 }

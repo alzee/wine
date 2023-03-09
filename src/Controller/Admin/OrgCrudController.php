@@ -119,9 +119,22 @@ class OrgCrudController extends AbstractCrudController
                 ->hideOnForm()
                 // ->setFormTypeOptions(['disabled' => 'disabled'])
             ;
+        if ($this->isGranted('ROLE_SUPER_ADMIN')) {
+            yield MoneyField::new('withdrawable')
+                ->setCurrency('CNY')
+                ->hideOnForm()
+            ;
+            yield MoneyField::new('withdrawing')
+                ->setCurrency('CNY')
+                ->hideOnForm()
+            ;
+            yield AssociationField::new('upstream')
+                ->hideOnForm()
+            ;
+        }
         yield AssociationField::new('referrer')->hideOnIndex();
         yield AssociationField::new('admin')->hideOnIndex();
-        if ($this->isGranted('ROLE_AGENCY')) {
+        if ($this->isGranted('ROLE_AGENCY') || $this->isGranted('ROLE_SUPER_ADMIN')) {
             yield PercentField::new('discount');
             // yield AssociationField::new('manager')
             // ->setQueryBuilder(

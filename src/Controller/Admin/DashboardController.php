@@ -125,7 +125,7 @@ class DashboardController extends AbstractDashboardController
                 ->setController(MyReturnCrudController::class);
         }
 
-        if ($this->isGranted('ROLE_STORE') || $this->isGranted('ROLE_VARIANT_STORE') || $this->isGranted('ROLE_RESTAURANT')) {
+        if ($this->isGranted('ROLE_SUPER_ADMIN') || $this->isGranted('ROLE_STORE') || $this->isGranted('ROLE_VARIANT_STORE') || $this->isGranted('ROLE_RESTAURANT')) {
             yield MenuItem::linkToCrud('Retail', 'fas fa-bag-shopping', Retail::class);
         }
 
