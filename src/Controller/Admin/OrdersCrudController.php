@@ -122,6 +122,7 @@ class OrdersCrudController extends AbstractCrudController
             ->setDefaultSort(['id' => 'DESC'])
             ->setHelp('index', $helpIndex)
             ->setHelp('new', $helpNew)
+            ->setSearchFields(['seller.name', 'buyer.name', 'orderItems.product.name'])
         ;
     }
 
