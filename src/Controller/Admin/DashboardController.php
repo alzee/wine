@@ -95,8 +95,13 @@ class DashboardController extends AbstractDashboardController
         if ($this->isGranted('ROLE_HEAD')) {
             yield MenuItem::linkToCrud('ProductManage', 'fas fa-wine-bottle', Product::class);
         }
-
+        
         yield MenuItem::linkToCrud('MyStock', 'fas fa-warehouse', Stock::class);
+        
+        if ($this->isGranted('ROLE_SUPER_ADMIN')) {
+            yield MenuItem::linkToCrud('Orders', 'fas fa-cog', Orders::class);
+            yield MenuItem::linkToCrud('Returns', 'fas fa-cog', Returns::class)
+        }
 
         if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_AGENCY') || $this->isGranted('ROLE_VARIANT_HEAD') || $this->isGranted('ROLE_VARIANT_AGENCY')) {
             yield MenuItem::linkToCrud('Sale', 'fas fa-file-export', Orders::class)

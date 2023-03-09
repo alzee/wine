@@ -101,14 +101,6 @@ class OrdersCrudController extends AbstractCrudController
         yield TextareaField::new('note');
     }
 
-    public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
-    {
-        $userOrg = $this->getUser()->getOrg()->getId();
-        $response = $this->container->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
-        $response->andWhere("entity.seller = $userOrg")->orWhere("entity.buyer = $userOrg");
-        return $response;
-    }
-
     public function configureActions(Actions $actions): Actions
     {
         if ($this->isGranted('ROLE_STORE') || $this->isGranted('ROLE_RESTAURANT')) {
