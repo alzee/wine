@@ -54,7 +54,8 @@ class Org
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $type = 1;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["unsigned" => true])]
+    #[Assert\PositiveOrZero]
     #[Groups(['read', 'write'])]
     private ?int $voucher = null;
 
@@ -74,11 +75,12 @@ class Org
     #[Groups(['read', 'write'])]
     private ?self $upstream = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["unsigned" => true])]
     #[Groups(['read', 'write'])]
     private ?float $discount = 1.00;
 
     #[ORM\Column(options: ["unsigned" => true])]
+    #[Assert\PositiveOrZero]
     #[Groups(['read'])]
     private ?int $withdrawable = 0;
 
@@ -101,7 +103,8 @@ class Org
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["unsigned" => true])]
+    #[Assert\PositiveOrZero]
     #[Groups(['read'])]
     private ?int $withdrawing = 0;
 
@@ -136,11 +139,13 @@ class Org
     #[ORM\ManyToOne]
     private ?User $manager = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["unsigned" => true])]
+    #[Assert\PositiveOrZero]
     #[Groups(['read'])]
     private ?int $share = 0;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["unsigned" => true])]
+    #[Assert\PositiveOrZero]
     private ?int $shareWithdrawable = 0;
 
     #[ORM\ManyToOne]
