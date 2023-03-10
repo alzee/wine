@@ -32,7 +32,7 @@ class Wx
     public function getAccessToken()
     {
         return $this->cache->get('WX_ACCESS_TOKEN', function (ItemInterface $item) {
-            $item->expiresAfter(7200);
+            $item->expiresAfter(7000);
             $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={$this->appid}&secret={$this->secret}";
             $content = $this->httpClient->request('GET', $url)->toArray();
             // dump($content);
