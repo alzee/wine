@@ -187,6 +187,11 @@ class Returns
 
         return $this;
     }
+    
+    public function getFirst()
+    {
+        return $this->getReturnItems()[0];
+    }
 
     public function getFirstProduct()
     {

@@ -39,6 +39,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use App\Entity\Choice;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\DateTimeFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
+use EasyCorp\Bundle\EasyAdminBundle\Filter\ArrayFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Factory\FilterFactory;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -105,12 +106,16 @@ class SaleCrudController extends AbstractCrudController
             ->onlyOnIndex()
             ;
         yield CollectionField::new('orderItems')
+            ->onlyOnForms()
             ->allowAdd(false)
             ->allowDelete(false)
             ->renderExpanded()
             ->setRequired(true)
             ->setDisabled($disabled)
             ->useEntryCrudForm();
+        yield ArrayField::new('first.boxes')
+            ->onlyOnIndex()
+        ;
         yield MoneyField::new('amount')
             ->setCurrency('CNY')
             ->onlyOnIndex();
@@ -212,7 +217,7 @@ class SaleCrudController extends AbstractCrudController
             ->setHelp('index', $helpIndex)
             ->setHelp('new', $helpNew)
             ->setPageTitle('index', 'Sale')
-            ->setSearchFields(['buyer.name', 'orderItems.product.name'])
+            ->setSearchFields(['buyer.name', 'orderItems.product.name', 'orderItems.boxes.sn'])
             ->overrideTemplates([ 'crud/index' => 'admin/pages/index.html.twig', ])
         ;
     }
