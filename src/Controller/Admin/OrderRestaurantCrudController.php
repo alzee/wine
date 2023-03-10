@@ -60,10 +60,7 @@ class OrderRestaurantCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-        if (! $this->isGranted('ROLE_SUPER_ADMIN')) {
-            return $actions;
-        }
-        if ($this->isGranted('ROLE_RESTAURANT')) {
+        if ($this->isGranted('ROLE_SUPER_ADMIN') || $this->isGranted('ROLE_RESTAURANT')) {
             return $actions
                 ->disable(Action::DELETE, Action::EDIT)
             ;
