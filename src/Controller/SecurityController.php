@@ -101,14 +101,10 @@ class SecurityController extends AbstractDashboardController
         }
 
         $resp = [
-            "uid" => $user->getId(),
-            "role" => $user->getOrg()->getType(),
-            "otype" => $user->getOrg()->getType(),
+            "id" => $user->getId(),
             "roles" => $user->getRoles(),
             "name" => $user->getName(),
             "phone" => $user->getPhone(),
-            "voucher" => $user->getVoucher(),
-            "avatar" => $user->getAvatar(),
             "org" => $user->getOrg()
         ];
         return $this->json($resp);
