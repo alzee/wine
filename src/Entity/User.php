@@ -78,7 +78,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['read'])]
     private ?string $openid = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["unsigned" => true])]
+    #[Assert\PositiveOrZero]
     #[Groups(['read'])]
     private ?int $voucher = 0;
 
@@ -99,15 +100,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(targetEntity: self::class)]
     private ?self $referrer = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["unsigned" => true])]
+    #[Assert\PositiveOrZero]
     #[Groups(['read'])]
     private ?int $reward = 0;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["unsigned" => true])]
+    #[Assert\PositiveOrZero]
     #[Groups(['read'])]
     private ?int $withdrawable = 0;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["unsigned" => true])]
+    #[Assert\PositiveOrZero]
     #[Groups(['read'])]
     private ?int $withdrawing = 0;
 
