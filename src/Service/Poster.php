@@ -30,7 +30,7 @@ class Poster
     public function generate(int $uid)
     {
         $dir = $this->imgdir . '/poster/';
-        $access_token = $this->wx->getAccessToken();
+        $access_token = $this->wx->getStableAccessToken();
         $url = "https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token={$access_token}";
         $ver = 'release';
         if ($_ENV['APP_ENV'] !== 'prod') {

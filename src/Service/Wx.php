@@ -39,6 +39,23 @@ class Wx
             return $content['access_token'];
         });
     }
+    
+    public function getStableAccessToken($force = false)
+    {
+        return $this->cache->get('WX_STABLE_ACCESS_TOKEN', function (ItemInterface $item) use ($force){
+            $item->expiresAfter(7000);
+            $url = "https://api.weixin.qq.com/cgi-bin/stable_token";
+            $data = [
+                'grant_type' => "client_credential",
+                'appid' => $this->appid,
+                'secret' => $this->secret,
+                'force_refresh' => $force,
+            ];
+            $content = $this->httpClient->request('POST', $url, ['json' => $data])->toArray();
+            dump($content);
+            return $content['access_token'];
+        });
+    }
 
     public function getOpenid($code)
     {
@@ -61,7 +78,7 @@ class Wx
     {
         return $this->cache->get("WX_URL_LINK_{$page}_{$query}", function (ItemInterface $item) use ($page, $query) {
             $item->expiresAfter(3600 * 24 * 20);
-            $token = $this->getAccessToken();
+            $token = $this->getStableAccessToken();
             $url = "https://api.weixin.qq.com/wxa/generate_urllink?access_token={$token}";
             $data = [
                 'path' => "/pages/{$page}/index",
