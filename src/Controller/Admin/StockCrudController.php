@@ -37,25 +37,6 @@ class StockCrudController extends AbstractCrudController
             yield TextField::new('product.spec', 'Spec');
             yield MoneyField::new('product.price', 'Price')->setCurrency('CNY');
             yield IntegerField::new('stock');
-            yield MoneyField::new('product.voucher', 'Voucher')
-                ->setCurrency('CNY')
-                ->setHelp('<b>代金券</b>为本件商品随增的代金券金额')
-            ;
-            yield MoneyField::new('product.refReward', 'Ref Reward')
-                ->setCurrency('CNY')
-            ;
-            yield MoneyField::new('product.orgRefReward', 'Org Ref Reward')
-                ->setCurrency('CNY')
-            ;
-            yield MoneyField::new('product.variantHeadShare', 'Variant Head Share')
-                ->setCurrency('CNY')
-            ;
-            yield MoneyField::new('product.variantAgencyShare', 'Variant Agency Share')
-                ->setCurrency('CNY')
-            ;
-            yield MoneyField::new('product.variantStoreShare', 'Variant Store Share')
-                ->setCurrency('CNY')
-            ;
             yield ImageField::new('product.img', 'Product Image')
                 ->onlyOnIndex()
                 ->setBasePath('img/product/thumbnail/')
