@@ -26,9 +26,6 @@ class ConfCrudController extends AbstractCrudController
         yield FormField::addTab('短信');
         yield ArrayField::new('cc');
         yield FormField::addTab('奖项');
-        yield MoneyField::new('waiterTip')
-                ->setCurrency('CNY')
-            ;
         yield MoneyField::new('storeTip')
                 ->setCurrency('CNY')
             ;
