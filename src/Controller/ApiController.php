@@ -324,6 +324,7 @@ class ApiController extends AbstractController
         $user = $em->getRepository(User::class)->find($uid);
         $bottle = $em->getRepository(Bottle::class)->findOneBy(['sn' => $sn]);
         $box = $bottle->getBox();
+        $product = $box->getProduct();
         $org = $box->getOrg();
         $qty = 1;
         // Verify cipher
@@ -350,7 +351,7 @@ class ApiController extends AbstractController
                 $retail = new Retail();
                 $retail->setStore($org);
                 $retail->setCustomer($user);
-                $retail->setProduct($box->getProduct());
+                $retail->setProduct($product);
                 $retail->setQuantity($qty);
                 $retail->setBottle($bottle);
                 $em->persist($retail);
@@ -386,8 +387,7 @@ class ApiController extends AbstractController
                 // If no waiter scanned yet
                 if (is_null($bottle->getWaiter())) {
                     // Tip waiter
-                    $conf = $em->getRepository(Conf::class)->find(1);
-                    $tip = $conf->getWaiterTip();
+                    $tip = $product->getWaiterTip();
                     $user->setWithdrawable($user->getWithdrawable() + $tip);
                     $bottle->setWaiter($user);
                     // $bottle->setStatus(2);
