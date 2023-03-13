@@ -56,7 +56,6 @@ class UserCrudController extends AbstractCrudController
                     ->orWhere("entity.upstream = $userOrgId")
             );
         yield TextField::new('name', 'Person Name')->HideWhenUpdating();
-        yield TextField::new('nick')->HideWhenUpdating();
         yield AssociationField::new('org')
             ->OnlyWhenUpdating()
             ->setDisabled($disabled)
