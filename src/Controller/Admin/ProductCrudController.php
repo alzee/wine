@@ -83,6 +83,9 @@ class ProductCrudController extends AbstractCrudController
             MoneyField::new('variantStoreShare')
                 ->setCurrency('CNY')
             ,
+            MoneyField::new('waiterTip')
+                ->setCurrency('CNY')
+            ,
             ImageField::new('img', 'Product Image')
                 ->hideOnForm()
                 ->setBasePath('img/product/thumbnail/')

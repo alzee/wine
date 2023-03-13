@@ -105,6 +105,11 @@ class Product
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $bottleQty = 6;
 
+    #[ORM\Column(options: ["unsigned" => true])]
+    #[Assert\Positive]
+    #[Groups(['read'])]
+    private ?int $waiterTip = null;
+
     public function __construct()
     {
         $this->boxes = new ArrayCollection();
@@ -354,6 +359,18 @@ class Product
     public function setBottleQty(int $bottleQty): self
     {
         $this->bottleQty = $bottleQty;
+
+        return $this;
+    }
+
+    public function getWaiterTip(): ?int
+    {
+        return $this->waiterTip;
+    }
+
+    public function setWaiterTip(int $waiterTip): self
+    {
+        $this->waiterTip = $waiterTip;
 
         return $this;
     }
