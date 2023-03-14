@@ -14,6 +14,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DatetimeField;
 
 class ClaimCrudController extends AbstractCrudController
 {
@@ -37,6 +38,7 @@ class ClaimCrudController extends AbstractCrudController
         yield AssociationField::new('serveStore');
         yield BooleanField::new('storeSettled')->renderAsSwitch(false);
         yield BooleanField::new('serveStoreSettled')->renderAsSwitch(false);
+        yield DatetimeField::new('createdAt');
     }
     
     public function configureActions(Actions $actions): Actions
