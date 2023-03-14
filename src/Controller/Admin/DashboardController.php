@@ -32,7 +32,7 @@ use App\Entity\Conf;
 use App\Entity\Share;
 use App\Entity\Reward;
 use App\Entity\Claim;
-use App\Entity\Borrow;
+use App\Entity\Settle;
 use App\Entity\Pack;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\UX\Chartjs\Model\Chart;
@@ -162,7 +162,7 @@ class DashboardController extends AbstractDashboardController
 
         if ($this->isGranted('ROLE_HEAD')) {
             yield MenuItem::linkToCrud('Claim', 'fas fa-award', Claim::class);
-            yield MenuItem::linkToCrud('Borrow', 'fas fa-gift', Borrow::class);
+            yield MenuItem::linkToCrud('Settle', 'fas fa-gift', Settle::class);
             yield MenuItem::linkToCrud('RegList', 'fas fa-handshake-alt', Reg::class);
         }
         yield MenuItem::linkToCrud('Chpwd', 'fas fa-key', User::class)
