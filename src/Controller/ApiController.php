@@ -23,6 +23,7 @@ use App\Entity\Bottle;
 use App\Entity\Choice;
 use App\Entity\Conf;
 use App\Entity\Claim;
+use App\Entity\Settle;
 use App\Entity\Prize;
 use App\Entity\Collect;
 use App\Entity\RetailReturn;
@@ -525,17 +526,28 @@ class ApiController extends AbstractController
         $params = $request->toArray();
         $type = $params['type'];
         $claim = $em->getRepository(Claim::class)->find($params['id']);
+        $salesman = $em->getRepository(User::class)->find($params['uid']);
+        $product = '';
+        $type = '';
         
         $code = 0;
         // TODO: check if actual have salesman role
         // if ($salesman) {
         // }
+        if ($type = 'user') {
+            return $this->json(['code' => 1, 'msg' => 'Salesman can not settle for customer']);
+        }
         if ($type = 'store') {
             $claim->setStoreSettled(true);
         }
         if ($type = 'serveStore') {
             $claim->setServeStoreSettled(true);
         }
+        $settle = new Settle();
+        $settle->setSalesman($salesman);
+        $settle->setClaim($claim);
+        $settle->setProduct($product);
+        $settle->setType($type);
         $em->flush();
         return $this->json(['code' => $code]);
     }
