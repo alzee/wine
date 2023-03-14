@@ -24,7 +24,6 @@ use App\Entity\Choice;
 use App\Entity\Conf;
 use App\Entity\Claim;
 use App\Entity\Prize;
-use App\Entity\Borrow;
 use App\Entity\Collect;
 use App\Entity\RetailReturn;
 use Doctrine\Persistence\ManagerRegistry;
@@ -526,51 +525,19 @@ class ApiController extends AbstractController
         $params = $request->toArray();
         $type = $params['type'];
         $claim = $em->getRepository(Claim::class)->find($params['id']);
-        $borrow = $em->getRepository(Borrow::class)->findOneBy(['claim' => $claim]);
         
         $code = 0;
         // TODO: check if actual have salesman role
         // if ($salesman) {
         // }
-        if (! is_null($borrow)) {
-            if ($type = 'store') {
-                $claim->setStoreSettled(true);
-            }
-            if ($type = 'serveStore') {
-                $claim->setServeStoreSettled(true);
-            }
-            // $borrow->setStatus(3);
-        } else {
-            $code = 1;
+        if ($type = 'store') {
+            $claim->setStoreSettled(true);
+        }
+        if ($type = 'serveStore') {
+            $claim->setServeStoreSettled(true);
         }
         $em->flush();
         return $this->json(['code' => $code]);
-    }
-    
-    #[Route('/borrow/new', methods: ['POST'])]
-    public function newBorrow(Request $request): Response
-    {
-        $em = $this->doctrine->getManager();
-        $params = $request->toArray();
-        $salesman = $em->getRepository(User::class)->find($params['uid']);
-        // TODO: check if actual have salesman role
-        $claim = $em->getRepository(Claim::class)->find($params['id']);
-        $bottle = $claim->getBottle();
-        if (! is_null($bottle)) {
-            $product = $bottle->getBox()->getProduct();
-        } else {
-            $product = $em->getRepository(Product::class)->find(88);
-        }
-        
-        $borrow = new Borrow();
-        $borrow->setSalesman($salesman);
-        $borrow->setProduct($product);
-        $borrow->setQty(2);
-        $borrow->setClaim($claim);
-        $em->persist($borrow);
-        $em->flush();
-            
-        return $this->json(['code' => 0]);
     }
     
     #[Route('/withdrawable_move_to_person', methods: ['POST'])]
