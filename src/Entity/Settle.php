@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\SettleRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SettleRepository::class)]
@@ -25,6 +26,9 @@ class Settle
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $type = null;
     
     public function __construct()
     {
@@ -80,6 +84,18 @@ class Settle
     public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getType(): ?int
+    {
+        return $this->type;
+    }
+
+    public function setType(int $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }
