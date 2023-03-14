@@ -71,7 +71,10 @@ class ProductCrudController extends AbstractCrudController
             MoneyField::new('refReward')
                 ->setCurrency('CNY')
             ,
-            MoneyField::new('orgRefReward')
+            MoneyField::new('agencyRefReward')
+                ->setCurrency('CNY')
+            ,
+            MoneyField::new('storeRefReward')
                 ->setCurrency('CNY')
             ,
             MoneyField::new('variantHeadShare')

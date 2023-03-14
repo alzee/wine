@@ -110,6 +110,14 @@ class Product
     #[Groups(['read'])]
     private ?int $waiterTip = null;
 
+    #[ORM\Column(type: Types::SMALLINT, options: ["unsigned" => true])]
+    #[Assert\Positive]
+    private ?int $agencyRefReward = null;
+
+    #[ORM\Column(type: Types::SMALLINT, options: ["unsigned" => true])]
+    #[Assert\Positive]
+    private ?int $storeRefReward = null;
+
     public function __construct()
     {
         $this->boxes = new ArrayCollection();
@@ -371,6 +379,30 @@ class Product
     public function setWaiterTip(int $waiterTip): self
     {
         $this->waiterTip = $waiterTip;
+
+        return $this;
+    }
+
+    public function getAgencyRefReward(): ?int
+    {
+        return $this->agencyRefReward;
+    }
+
+    public function setAgencyRefReward(int $agencyRefReward): self
+    {
+        $this->agencyRefReward = $agencyRefReward;
+
+        return $this;
+    }
+
+    public function getStoreRefReward(): ?int
+    {
+        return $this->storeRefReward;
+    }
+
+    public function setStoreRefReward(int $storeRefReward): self
+    {
+        $this->storeRefReward = $storeRefReward;
 
         return $this;
     }
