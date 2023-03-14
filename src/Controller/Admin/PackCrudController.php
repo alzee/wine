@@ -35,6 +35,7 @@ class PackCrudController extends AbstractCrudController
             ;
         yield TextField::new('name');
         yield BooleanField::new('forRestaurant');
+        yield BooleanField::new('forClaim');
         yield CollectionField::new('packPrizes')
                 ->useEntryCrudForm()
                 ->renderExpanded()

@@ -26,6 +26,9 @@ class Pack
 
     #[ORM\Column]
     private ?bool $forRestaurant = false;
+
+    #[ORM\Column]
+    private ?bool $forClaim = null;
     
     public function __toString()
     {
@@ -92,6 +95,18 @@ class Pack
     public function setForRestaurant(bool $forRestaurant): self
     {
         $this->forRestaurant = $forRestaurant;
+
+        return $this;
+    }
+
+    public function isForClaim(): ?bool
+    {
+        return $this->forClaim;
+    }
+
+    public function setForClaim(bool $forClaim): self
+    {
+        $this->forClaim = $forClaim;
 
         return $this;
     }
