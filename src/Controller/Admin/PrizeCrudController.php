@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Prize;
+use App\Entity\Choice;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
@@ -12,6 +13,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 
 class PrizeCrudController extends AbstractCrudController
 {
@@ -28,9 +30,10 @@ class PrizeCrudController extends AbstractCrudController
         }
         
         yield TextField::new('name');
-        if ($this->isGranted('ROLE_SUPER_ADMIN')) {
-            yield TextField::new('label');
-        }
+        yield ChoiceField::new('label', 'Type')
+            ->setChoices(Choice::PRIZE_TYPES)
+            ->setRequired(true)
+            ;
         yield MoneyField::new('toCustomer')
                 ->setCurrency('CNY')
             ;
