@@ -3,9 +3,17 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Claim;
+use App\Entity\Choice;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 
 class ClaimCrudController extends AbstractCrudController
 {
@@ -14,16 +22,22 @@ class ClaimCrudController extends AbstractCrudController
         return Claim::class;
     }
 
-    /*
     public function configureFields(string $pageName): iterable
     {
-        return [
-            IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
-        ];
+        yield IdField::new('id');
+        yield AssociationField::new('retail');
+        yield AssociationField::new('store');
+        yield AssociationField::new('customer');
+        yield AssociationField::new('bottle');
+        yield AssociationField::new('product');
+        yield AssociationField::new('prize');
+        yield ChoiceField::new('status')
+            ->setChoices(Choice::CLAIM_STATUSES)
+            ;
+        yield AssociationField::new('serveStore');
+        yield BooleanField::new('storeSettled')->renderAsSwitch(false);
+        yield BooleanField::new('serveStoreSettled')->renderAsSwitch(false);
     }
-    */
     
     public function configureActions(Actions $actions): Actions
     {
