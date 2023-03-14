@@ -63,9 +63,9 @@ class RetailNew extends AbstractController
         }
 
         // org_ref_rewards begin
-        $reward = $product->getOrgRefReward() * $quantity;
         // Reward store's referrer
         $referrer = $store->getReferrer();
+        $reward = $product->getStoreRefReward() * $quantity;
         if (! is_null($referrer)) {
             $referrer->setWithdrawable($referrer->getWithdrawable() + $reward);
             $rewardRecord = new Reward();
@@ -90,6 +90,7 @@ class RetailNew extends AbstractController
         // Reward agency's referrer
         $agency = $store->getUpstream();
         $referrer = $agency->getReferrer();
+        $reward = $product->getAgencyRefReward() * $quantity;
         if (! is_null($referrer)) {
             $referrer->setWithdrawable($referrer->getWithdrawable() + $reward);
             $rewardRecord = new Reward();
