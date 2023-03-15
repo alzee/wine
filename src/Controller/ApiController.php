@@ -528,28 +528,37 @@ class ApiController extends AbstractController
         $claim = $em->getRepository(Claim::class)->find($params['id']);
         $salesman = $em->getRepository(User::class)->find($params['uid']);
         $product = $claim->getProduct();
+        $pass = false;
         
         $code = 0;
+        $msg = 'done';
         // TODO: check if actual have salesman role
         // if ($salesman) {
         // }
         if ($type === 'user') {
             return $this->json(['code' => 1, 'msg' => 'Salesman can not settle for customer']);
         }
-        if ($type === 'store') {
+        if ($type === 'store' && $claim->isStoreSettled() === false ) {
             $claim->setStoreSettled(true);
+            $pass = true;
         }
-        if ($type === 'serveStore') {
+        if ($type === 'serveStore' && $claim->isServeStoreSettled() === false) {
             $claim->setServeStoreSettled(true);
+            $pass = true;
         }
-        $settle = new Settle();
-        $settle->setSalesman($salesman);
-        $settle->setClaim($claim);
-        $settle->setProduct($product);
-        $settle->setType(Choice::SETTLE_TYPES[$type]);
-        $em->persist($settle);
-        $em->flush();
-        return $this->json(['code' => $code]);
+        if ($pass) {
+            $settle = new Settle();
+            $settle->setSalesman($salesman);
+            $settle->setClaim($claim);
+            $settle->setProduct($product);
+            $settle->setType(Choice::SETTLE_TYPES[$type]);
+            $em->persist($settle);
+            $em->flush();
+        } else {
+            $code = 2;
+            $msg = 'cant settle again';
+        }
+        return $this->json(['code' => $code, 'msg' => $msg]);
     }
     
     #[Route('/withdrawable_move_to_person', methods: ['POST'])]
