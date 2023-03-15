@@ -4,6 +4,11 @@ namespace App\Entity;
 
 class Choice
 {
+    public const SETTLE_TYPES = [
+        'store' => 0,
+        'serveStore' => 1
+    ];
+    
     public const SETTLE_STATUSES = [
         'unsettle' => 0,
         'settled' => 1

@@ -527,27 +527,26 @@ class ApiController extends AbstractController
         $type = $params['type'];
         $claim = $em->getRepository(Claim::class)->find($params['id']);
         $salesman = $em->getRepository(User::class)->find($params['uid']);
-        $product = '';
-        $type = '';
+        $product = $claim->getProduct();
         
         $code = 0;
         // TODO: check if actual have salesman role
         // if ($salesman) {
         // }
-        if ($type = 'user') {
+        if ($type === 'user') {
             return $this->json(['code' => 1, 'msg' => 'Salesman can not settle for customer']);
         }
-        if ($type = 'store') {
+        if ($type === 'store') {
             $claim->setStoreSettled(true);
         }
-        if ($type = 'serveStore') {
+        if ($type === 'serveStore') {
             $claim->setServeStoreSettled(true);
         }
         $settle = new Settle();
         $settle->setSalesman($salesman);
         $settle->setClaim($claim);
         $settle->setProduct($product);
-        $settle->setType($type);
+        $settle->setType(Choice::SETTLE_TYPES[$type]);
         $em->flush();
         return $this->json(['code' => $code]);
     }
