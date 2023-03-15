@@ -5,8 +5,8 @@ namespace App\Entity;
 class Choice
 {
     public const SETTLE_STATUSES = [
-        'unsettle',
-        'settled'
+        'unsettle' => 0,
+        'settled' => 1
     ];
     
     public const PRIZE_TYPES = [
