@@ -223,6 +223,7 @@ For Claim: 兑奖专用
 Agency Ref Reward: 推荐代理商佣金
 Store Ref Reward: 推荐门店佣金
 Serve Store: 服务门店
+serveStore: 服务门店
 Store Settled: 门店已兑付
 Serve Store Settled: 服务门店已兑付
 onemore: 再来一瓶
@@ -232,3 +233,4 @@ voucher: 代金券
 object: 实物
 unsettle: 未核销
 settled: 已核销
+Salesman: 业务员
