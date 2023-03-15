@@ -4,6 +4,11 @@ namespace App\Entity;
 
 class Choice
 {
+    public const SETTLE_STATUSES = [
+        'unsettle',
+        'settled'
+    ];
+    
     public const PRIZE_TYPES = [
         'onemore' => 'onemore',
         'collect' => 'collect',

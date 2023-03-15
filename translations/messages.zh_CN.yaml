@@ -230,3 +230,5 @@ collect: 集兑
 wx: 微信红包
 voucher: 代金券
 object: 实物
+unsettle: 未核销
+settled: 已核销
