@@ -47,7 +47,7 @@ class Settle
     private ?int $type = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
-    #[Groups(['read'])]
+    #[Groups(['read', 'write'])]
     private ?int $status = 0;
     
     public function __construct()
