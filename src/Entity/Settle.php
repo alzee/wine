@@ -29,6 +29,9 @@ class Settle
 
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $type = null;
+
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $status = 0;
     
     public function __construct()
     {
@@ -96,6 +99,18 @@ class Settle
     public function setType(int $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getStatus(): ?int
+    {
+        return $this->status;
+    }
+
+    public function setStatus(int $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
