@@ -547,6 +547,7 @@ class ApiController extends AbstractController
         $settle->setClaim($claim);
         $settle->setProduct($product);
         $settle->setType(Choice::SETTLE_TYPES[$type]);
+        $em->persist($settle);
         $em->flush();
         return $this->json(['code' => $code]);
     }
