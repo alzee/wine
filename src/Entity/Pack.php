@@ -28,7 +28,7 @@ class Pack
     private ?bool $forRestaurant = false;
 
     #[ORM\Column]
-    private ?bool $forClaim = null;
+    private ?bool $forClaim = false;
     
     public function __toString()
     {
