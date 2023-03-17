@@ -68,9 +68,6 @@ class Org
     #[ORM\OneToMany(mappedBy: 'store', targetEntity: Retail::class)]
     private Collection $retails;
 
-    #[ORM\OneToMany(mappedBy: 'org', targetEntity: User::class)]
-    private Collection $users;
-
     #[ORM\ManyToOne(targetEntity: self::class)]
     #[Groups(['read', 'write'])]
     private ?self $upstream = null;
@@ -177,7 +174,6 @@ class Org
         $this->orderRestaurants = new ArrayCollection();
         $this->vouchers = new ArrayCollection();
         $this->retails = new ArrayCollection();
-        $this->users = new ArrayCollection();
         $this->boxes = new ArrayCollection();
         $this->claims = new ArrayCollection();
         $this->serveClaims = new ArrayCollection();
@@ -349,36 +345,6 @@ class Org
             // set the owning side to null (unless already changed)
             if ($retail->getStore() === $this) {
                 $retail->setStore(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, User>
-     */
-    public function getUsers(): Collection
-    {
-        return $this->users;
-    }
-
-    public function addUser(User $user): self
-    {
-        if (!$this->users->contains($user)) {
-            $this->users->add($user);
-            $user->setOrg($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        if ($this->users->removeElement($user)) {
-            // set the owning side to null (unless already changed)
-            if ($user->getOrg() === $this) {
-                $user->setOrg(null);
             }
         }
 
