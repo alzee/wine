@@ -133,9 +133,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Collect::class)]
     private Collection $collects;
 
-    #[ORM\OneToMany(mappedBy: 'salesman', targetEntity: Org::class)]
-    private Collection $salesmanOf;
-
     public function __toString()
     {
         $s = '';
@@ -154,7 +151,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->createdAt = new \DateTimeImmutable();
         $this->claims = new ArrayCollection();
         $this->collects = new ArrayCollection();
-        $this->salesmanOf = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -509,36 +505,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($collect->getCustomer() === $this) {
                 $collect->setCustomer(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Org>
-     */
-    public function getSalesmanOf(): Collection
-    {
-        return $this->salesmanOf;
-    }
-
-    public function addSalesmanOf(Org $salesmanOf): self
-    {
-        if (!$this->salesmanOf->contains($salesmanOf)) {
-            $this->salesmanOf->add($salesmanOf);
-            $salesmanOf->setSalesman($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSalesmanOf(Org $salesmanOf): self
-    {
-        if ($this->salesmanOf->removeElement($salesmanOf)) {
-            // set the owning side to null (unless already changed)
-            if ($salesmanOf->getSalesman() === $this) {
-                $salesmanOf->setSalesman(null);
             }
         }
 
