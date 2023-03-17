@@ -137,13 +137,6 @@ class OrgCrudController extends AbstractCrudController
         yield AssociationField::new('admin')->hideOnIndex();
         if ($this->isGranted('ROLE_AGENCY') || $this->isGranted('ROLE_SUPER_ADMIN')) {
             yield PercentField::new('discount');
-            // yield AssociationField::new('manager')
-            // ->setQueryBuilder(
-            //     fn (QueryBuilder $qb) => $qb
-            //         ->andWhere('entity.roles LIKE :roles')
-            //         ->setParameter('roles', '%ROLE_MANAGER%')
-            // )
-            // ;
             yield BooleanField::new('display');
         }
     }

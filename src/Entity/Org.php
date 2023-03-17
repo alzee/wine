@@ -136,9 +136,6 @@ class Org
     #[Groups(['read'])]
     private ?bool $display = true;
 
-    #[ORM\ManyToOne]
-    private ?User $manager = null;
-
     #[ORM\Column(options: ["unsigned" => true])]
     #[Assert\PositiveOrZero]
     #[Groups(['read'])]
@@ -596,18 +593,6 @@ class Org
     public function setDisplay(bool $display): self
     {
         $this->display = $display;
-
-        return $this;
-    }
-
-    public function getManager(): ?User
-    {
-        return $this->manager;
-    }
-
-    public function setManager(?User $manager): self
-    {
-        $this->manager = $manager;
 
         return $this;
     }
