@@ -105,7 +105,7 @@ class Product
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $bottleQty = 6;
 
-    #[ORM\Column(options: ["unsigned" => true])]
+    #[ORM\Column(type: Types::SMALLINT, options: ["unsigned" => true])]
     #[Assert\Positive]
     #[Groups(['read'])]
     private ?int $waiterTip = null;
@@ -117,6 +117,11 @@ class Product
     #[ORM\Column(type: Types::SMALLINT, options: ["unsigned" => true])]
     #[Assert\Positive]
     private ?int $storeRefReward = null;
+
+    #[ORM\Column(type: Types::SMALLINT, options: ["unsigned" => true])]
+    #[Assert\Positive]
+    #[Groups(['read'])]
+    private ?int $storeTip = null;
 
     public function __construct()
     {
@@ -403,6 +408,18 @@ class Product
     public function setStoreRefReward(int $storeRefReward): self
     {
         $this->storeRefReward = $storeRefReward;
+
+        return $this;
+    }
+
+    public function getStoreTip(): ?int
+    {
+        return $this->storeTip;
+    }
+
+    public function setStoreTip(int $storeTip): self
+    {
+        $this->storeTip = $storeTip;
 
         return $this;
     }
