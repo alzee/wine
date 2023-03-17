@@ -25,10 +25,6 @@ class ConfCrudController extends AbstractCrudController
         yield IntegerField::new('returnDays');
         yield FormField::addTab('短信');
         yield ArrayField::new('cc');
-        yield FormField::addTab('奖项');
-        yield MoneyField::new('storeTip')
-                ->setCurrency('CNY')
-            ;
     }
 
     public function configureActions(Actions $actions): Actions

@@ -21,9 +21,6 @@ class Conf
     #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
     private array $cc = [];
 
-    #[ORM\Column(type: Types::SMALLINT)]
-    private ?int $storeTip = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -49,18 +46,6 @@ class Conf
     public function setCc(?array $cc): self
     {
         $this->cc = $cc;
-
-        return $this;
-    }
-
-    public function getStoreTip(): ?int
-    {
-        return $this->storeTip;
-    }
-
-    public function setStoreTip(int $storeTip): self
-    {
-        $this->storeTip = $storeTip;
 
         return $this;
     }
