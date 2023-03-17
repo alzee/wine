@@ -507,16 +507,21 @@ class ApiController extends AbstractController
         $em = $this->doctrine->getManager();
         $params = $request->toArray();
         $claim = $em->getRepository(Claim::class)->find($params['id']);
-        $org = $em->getRepository(Org::class)->find($params['oid']);
-        $conf = $em->getRepository(Conf::class)->find(1);
-        $tip = $conf->getStoreTip();
         
-        $claim->setServeStore($org);
-        $claim->setStatus(1);
-        $org->setWithdrawable($org->getWithdrawable() + $tip);
+        if ($claim->getStatus() === 0) {
+            $product = $claim->getProduct();
+            $org = $em->getRepository(Org::class)->find($params['oid']);
+            $tip = $product->getStoreTip();
+            $claim->setServeStore($org);
+            $claim->setStatus(1);
+            $org->setWithdrawable($org->getWithdrawable() + $tip);
+            $em->flush();
+            $code = 0;
+        } else {
+            $code = 1;
+        }
         
-        $em->flush();
-        return $this->json(['code' => 0, 'tip' => $tip]);
+        return $this->json(['code' => $code, 'tip' => $tip]);
     }
     
     #[Route('/claim/settle', methods: ['POST'])]
