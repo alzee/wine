@@ -171,13 +171,16 @@ class RetailNew extends AbstractController
         
         // claim
         $prize = $bottle->getPrize();
+        $toStore = $prize->getToStore();
         if ($prize->getLabel() !== 'collect') {
             $claim = new Claim();
             $claim->setBottle($bottle);
             $claim->setRetail($retail);
             $claim->setCustomer($customer);
             $claim->setPrize($prize);
-            $claim->setStore($store);
+            if ($toStore !== 0) {
+                $claim->setStore($store);
+            }
             $claim->setProduct($product);
             $claim->setStatus(0);
             $em->persist($claim);
@@ -196,7 +199,7 @@ class RetailNew extends AbstractController
                 $collect->setQty($collect->getQty() + 1);
             }
             
-            if ($prize->getToStore() !== 0) {
+            if ($toStore !== 0) {
                 // find store's collect of this product
                 $collect = $em->getRepository(Collect::class)->findOneBy(['store' => $store, 'product' => $product]);
                 if (is_null($collect)) {
@@ -222,10 +225,10 @@ class RetailNew extends AbstractController
             $this->sms->send($phone, 'customer_draw', ['prize' => $prizeInfo, 'path' => $path]);
         }
         
-        if ($prize->getToStore() !== 0) {
+        if ($toStore !== 0) {
             // sms to store
             $phone = $store->getPhone();
-            $prizeInfo = $prize->getName() . ' ' . $prize->getToStore() / 100;
+            $prizeInfo = $prize->getName() . ' ' . $toStore / 100;
             $url_claim_store = $this->wx->genUrlLink('myClaim', 'type=store');
             $path = ltrim($url_claim_store, 'https://wxaurl.cn/');
             if (! is_null($phone)) {

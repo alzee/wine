@@ -42,8 +42,10 @@ class ClaimNew extends AbstractController
             $em->persist($voucher);
             $customer->setVoucher($customer->getVoucher() + $toCustomer);
             
-            // for store is cash
-            $store->setWithdrawable($store->getWithdrawable() + $toStore);
+            if ($toStore > 0) {
+                // for store is cash
+                $store->setWithdrawable($store->getWithdrawable() + $toStore);
+            }
             
             $claim->setStatus(1);
         }
@@ -53,7 +55,9 @@ class ClaimNew extends AbstractController
             // new withdraw to directly wx balance
             // or
             $customer->setWithdrawable($customer->getWithdrawable() + $toCustomer);
-            $store->setWithdrawable($store->getWithdrawable() + $toStore);
+            if ($toStore > 0) {
+                $store->setWithdrawable($store->getWithdrawable() + $toStore);
+            }
             
             $claim->setStatus(1);
         }
