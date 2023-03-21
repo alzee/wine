@@ -632,4 +632,29 @@ class ApiController extends AbstractController
         
         return new Response('<body></body>');
     }
+    
+    #[Route('/claim/salesman/{uid}', requirements: ['uid' => '\d+'],  methods: ['GET'])]
+    public function claimOfSalesman(int $uid): JsonResponse
+    {
+        $myStoreClaims = $this->doctrine->getRepository(Claim::class)->findSalesmanStore($uid);
+        $myServeStoreClaims = $this->doctrine->getRepository(Claim::class)->findSalesmanServeStore($uid);
+        $claims = [];
+        foreach ($myStoreClaims as $c) {
+            $claim = [];
+            $claim['title'] = $c->getProduct()->getName() . ' ' . $c->getStore()->getName() . ' (售出门店)';
+            $claim['createdAt'] = $c->getCreatedAt();
+            $claim['status'] = $c->isStoreSettled();
+            // $claim['status'] = $c->isServeStoreSettled();
+            $claims[] = $claim;
+        }
+        foreach ($myServeStoreClaims as $c) {
+            $claim = [];
+            $claim['title'] = $c->getProduct()->getName() . ' ' . $c->getStore()->getName() . ' (服务门店)';
+            $claim['createdAt'] = $c->getCreatedAt();
+            $claim['status'] = $c->isServeStoreSettled();
+            $claims[] = $claim;
+        }
+        
+        return $this->json($claims);
+    }
 }
