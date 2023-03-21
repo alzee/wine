@@ -45,6 +45,7 @@ class ClaimRepository extends ServiceEntityRepository
                     ->leftJoin('c.store', 'store')
                     ->andWhere('store.salesman = :uid')
                     ->setParameter('uid', $uid)
+                    ->orderBy('c.id', 'DESC')
                     ->getQuery()
                     ->getResult()
                 ;
@@ -56,6 +57,7 @@ class ClaimRepository extends ServiceEntityRepository
                     ->leftJoin('c.serveStore', 'serveStore')
                     ->andWhere('serveStore.salesman = :uid')
                     ->setParameter('uid', $uid)
+                    ->orderBy('c.id', 'DESC')
                     ->getQuery()
                     ->getResult()
                 ;
