@@ -168,6 +168,9 @@ class Org
     #[Groups(['read'])]
     private ?int $point = 0;
 
+    #[ORM\ManyToOne]
+    private ?User $salesman = null;
+
     public function __construct()
     {
         $this->voucher = 0;
@@ -729,6 +732,18 @@ class Org
     public function setPoint(int $point): self
     {
         $this->point = $point;
+
+        return $this;
+    }
+
+    public function getSalesman(): ?User
+    {
+        return $this->salesman;
+    }
+
+    public function setSalesman(?User $salesman): self
+    {
+        $this->salesman = $salesman;
 
         return $this;
     }
