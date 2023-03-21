@@ -38,6 +38,28 @@ class ClaimRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    
+    public function findSalesmanStore($uid): array
+    {
+        return $this->createQueryBuilder('c')
+                    ->leftJoin('c.store', 'store')
+                    ->andWhere('store.salesman = :uid')
+                    ->setParameter('uid', $uid)
+                    ->getQuery()
+                    ->getResult()
+                ;
+    }
+    
+    public function findSalesmanServeStore($uid): array
+    {
+        return $this->createQueryBuilder('c')
+                    ->leftJoin('c.serveStore', 'serveStore')
+                    ->andWhere('serveStore.salesman = :uid')
+                    ->setParameter('uid', $uid)
+                    ->getQuery()
+                    ->getResult()
+                ;
+    }
 
 //    /**
 //     * @return Claim[] Returns an array of Claim objects
