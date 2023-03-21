@@ -115,16 +115,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['read'])]
     private ?int $withdrawing = 0;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['read', 'write'])]
-    private ?string $nick = null;
-
     #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Claim::class)]
     private Collection $claims;
-
-    #[ORM\Column]
-    #[Groups(['read'])]
-    private ?int $point = 0;
 
     #[ORM\Column]
     #[Groups(['read'])]
@@ -415,18 +407,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getNick(): ?string
-    {
-        return $this->nick;
-    }
-
-    public function setNick(?string $nick): self
-    {
-        $this->nick = $nick;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Claim>
      */
@@ -453,18 +433,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $claim->setCustomer(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getPoint(): ?int
-    {
-        return $this->point;
-    }
-
-    public function setPoint(int $point): self
-    {
-        $this->point = $point;
 
         return $this;
     }
