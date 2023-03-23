@@ -30,8 +30,8 @@ class RewardCrudController extends AbstractCrudController
             ;
         yield AssociationField::new('referrer');
         yield AssociationField::new('retail');
-        yield ChoiceField::new('status')
-            ->setChoices(Choice::REWARD_SHARE_STATUSES);
+        // yield ChoiceField::new('status')
+        //     ->setChoices(Choice::REWARD_SHARE_STATUSES);
         yield DateTimeField::new('createdAt');
     }
 
