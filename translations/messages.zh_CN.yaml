@@ -234,3 +234,4 @@ object: 实物
 unsettle: 未核销
 settled: 已核销
 Salesman: 业务员
+Fail: 失败
