@@ -101,9 +101,9 @@ class UserCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-        if ($this->isGranted('ROLE_HEAD') || $this->isGranted('ROLE_AGENCY') || $this->isGranted('ROLE_VARIANT_HEAD') || $this->isGranted('ROLE_VARIANT_AGENCY')) {
+        if ($this->isGranted('ROLE_HEAD')) {
             return $actions
-                ->disable(Action::DELETE, Action::NEW)
+                ->disable(Action::DELETE)
                 ;
         } else {
             return $actions
