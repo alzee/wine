@@ -35,5 +35,13 @@ class OrgUpdate extends AbstractController
             }
             $em->flush();
         }
+        
+        if (isset($changeSet['salesman'])) {
+            $salesman = $changeSet['salesman'][1];
+            if (! is_null($salesman)) {
+                $salesman->addRole('salesman');
+            }
+            $em->flush();
+        }
     }
 }
