@@ -57,6 +57,12 @@ class OrgCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        $disabled = true;
+        
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $disabled = false;
+        }
+        
         $user = $this->getUser();
 
         if ($this->isGranted('ROLE_HEAD')) {
@@ -132,8 +138,8 @@ class OrgCrudController extends AbstractCrudController
                 ->hideOnForm()
             ;
         }
-        yield AssociationField::new('referrer')->hideOnIndex();
-        yield AssociationField::new('admin')->hideOnIndex();
+        yield AssociationField::new('referrer')->hideOnIndex()->setDisabled($disabled);
+        yield AssociationField::new('admin')->hideOnIndex()->autocomplete()->setDisabled($disabled);
         yield AssociationField::new('salesman')->hideOnIndex()->autocomplete();
         if ($this->isGranted('ROLE_AGENCY') || $this->isGranted('ROLE_SUPER_ADMIN')) {
             yield PercentField::new('discount');
