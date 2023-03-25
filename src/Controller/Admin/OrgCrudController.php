@@ -134,7 +134,7 @@ class OrgCrudController extends AbstractCrudController
         }
         yield AssociationField::new('referrer')->hideOnIndex();
         yield AssociationField::new('admin')->hideOnIndex();
-        yield AssociationField::new('salesman')->hideOnIndex();
+        yield AssociationField::new('salesman')->hideOnIndex()->autocomplete();
         if ($this->isGranted('ROLE_AGENCY') || $this->isGranted('ROLE_SUPER_ADMIN')) {
             yield PercentField::new('discount');
             yield BooleanField::new('display');
