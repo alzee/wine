@@ -26,6 +26,7 @@ use App\Entity\Claim;
 use App\Entity\Settle;
 use App\Entity\Prize;
 use App\Entity\Collect;
+use App\Entity\Industry;
 use App\Entity\RetailReturn;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -163,6 +164,8 @@ class ApiController extends AbstractController
         $org->setType($params['type']);
         $up = $this->doctrine->getRepository(Org::class)->find($params['upstreamId']);
         $org->setUpstream($up);
+        $industry = $this->doctrine->getRepository(Industry::class)->find($params['industryId']);
+        $org->setIndustry($industry);
         $org->setAdmin($admin);
         $em->persist($org);
         $admin->setOrg($org);
