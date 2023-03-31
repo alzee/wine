@@ -167,9 +167,13 @@ class Org
     #[ORM\ManyToOne]
     private ?User $salesman = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $createdAt = null;
+
     public function __construct()
     {
         $this->voucher = 0;
+        $this->createdAt = new \DateTimeImmutable();
         $this->orderRestaurants = new ArrayCollection();
         $this->vouchers = new ArrayCollection();
         $this->retails = new ArrayCollection();
@@ -728,6 +732,18 @@ class Org
     public function setSalesman(?User $salesman): self
     {
         $this->salesman = $salesman;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }

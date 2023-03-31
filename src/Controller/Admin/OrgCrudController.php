@@ -14,6 +14,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\PercentField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DatetimeField;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
@@ -145,6 +146,7 @@ class OrgCrudController extends AbstractCrudController
             yield PercentField::new('discount');
             yield BooleanField::new('display');
         }
+        yield DatetimeField::new('createdAt')->hideOnForm();
     }
 
     // public function configureAssets(Assets $assets): Assets
