@@ -35,6 +35,7 @@ class SettleCrudController extends AbstractCrudController
         yield ChoiceField::new('status')
             ->setChoices(Choice::SETTLE_STATUSES)
         ;
+        yield BooleanField::new('delivered');
         yield DatetimeField::new('createdAt');
     }
     

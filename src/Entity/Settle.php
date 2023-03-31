@@ -49,6 +49,9 @@ class Settle
     #[ORM\Column(type: Types::SMALLINT)]
     #[Groups(['read', 'write'])]
     private ?int $status = 0;
+
+    #[ORM\Column]
+    private ?bool $delivered = null;
     
     public function __construct()
     {
@@ -128,6 +131,18 @@ class Settle
     public function setStatus(int $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function isDelivered(): ?bool
+    {
+        return $this->delivered;
+    }
+
+    public function setDelivered(bool $delivered): self
+    {
+        $this->delivered = $delivered;
 
         return $this;
     }
