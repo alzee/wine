@@ -123,6 +123,10 @@ class Product
     #[Groups(['read'])]
     private ?int $storeTip = null;
 
+    #[ORM\Column(type: Types::SMALLINT, options: ["unsigned" => true])]
+    #[Assert\Positive]
+    private ?int $salesmanTip = null;
+
     public function __construct()
     {
         $this->boxes = new ArrayCollection();
@@ -420,6 +424,18 @@ class Product
     public function setStoreTip(int $storeTip): self
     {
         $this->storeTip = $storeTip;
+
+        return $this;
+    }
+
+    public function getSalesmanTip(): ?int
+    {
+        return $this->salesmanTip;
+    }
+
+    public function setSalesmanTip(int $salesmanTip): self
+    {
+        $this->salesmanTip = $salesmanTip;
 
         return $this;
     }
