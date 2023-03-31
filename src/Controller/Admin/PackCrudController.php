@@ -34,7 +34,14 @@ class PackCrudController extends AbstractCrudController
             ->hideOnForm();
             ;
         yield TextField::new('name');
-        yield BooleanField::new('forRestaurant');
+        yield BooleanField::new('forRestaurant')
+            ->setHelp('
+<ul>
+  <li>只有类型为餐厅的机构才能入库</li>
+  <li>服务员可以获得扫码奖</li>
+</ul>
+')
+        ;
         // yield BooleanField::new('forClaim');
         yield CollectionField::new('packPrizes')
                 ->useEntryCrudForm()
