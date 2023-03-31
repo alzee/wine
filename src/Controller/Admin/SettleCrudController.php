@@ -41,8 +41,14 @@ class SettleCrudController extends AbstractCrudController
     
     public function configureActions(Actions $actions): Actions
     {
-        return $actions
-            ->disable(Action::DELETE, Action::EDIT, Action::NEW, Action::DETAIL)
-        ;
+        if ($this->isGranted('ROLE_HEAD')) {
+            return $actions
+                ->disable(Action::DELETE, Action::NEW, Action::DETAIL)
+            ;
+        } else {
+            return $actions
+                ->disable(Action::DELETE, Action::EDIT, Action::NEW, Action::DETAIL)
+            ;
+        }
     }
 }
