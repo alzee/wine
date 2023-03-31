@@ -8,6 +8,10 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 
 #[ORM\Entity(repositoryClass: BoxRepository::class)]
 class Box
@@ -15,6 +19,7 @@ class Box
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -39,6 +44,7 @@ class Box
     private ?Product $product = null;
 
     #[ORM\ManyToOne]
+    #[Groups(['read'])]
     private ?Pack $pack = null;
 
     #[ORM\ManyToMany(targetEntity: OrderItems::class, mappedBy: 'boxes')]

@@ -5,13 +5,23 @@ namespace App\Entity;
 use App\Repository\BottleRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 
 #[ORM\Entity(repositoryClass: BottleRepository::class)]
+#[ApiResource(
+    normalizationContext: ['groups' => ['read']],
+    denormalizationContext: ['groups' => ['write']],
+    paginationEnabled: false,
+)]
 class Bottle
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
@@ -24,6 +34,7 @@ class Bottle
     private ?int $bid = null;
 
     #[ORM\ManyToOne]
+    #[Groups(['read'])]
     private ?Prize $prize = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
@@ -31,6 +42,7 @@ class Bottle
 
     #[ORM\ManyToOne(inversedBy: 'bottles')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['read'])]
     private ?Box $box = null;
 
     #[ORM\OneToOne(mappedBy: 'bottle', cascade: ['persist', 'remove'])]
