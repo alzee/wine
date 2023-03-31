@@ -555,6 +555,9 @@ class ApiController extends AbstractController
             $pass = true;
         }
         if ($pass) {
+            $tip = $product->getSalesmanTip();
+            $salesman->setWithdrawable($salesman->getWithdrawable() + $tip);
+            
             $settle = new Settle();
             $settle->setSalesman($salesman);
             $settle->setClaim($claim);
@@ -566,7 +569,7 @@ class ApiController extends AbstractController
             $code = 2;
             $msg = 'cant settle again';
         }
-        return $this->json(['code' => $code, 'msg' => $msg]);
+        return $this->json(['code' => $code, 'msg' => $msg, 'tip' => $tip]);
     }
     
     #[Route('/withdrawable_move_to_person', methods: ['POST'])]
