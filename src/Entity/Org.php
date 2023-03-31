@@ -57,7 +57,7 @@ class Org
     #[ORM\Column(options: ["unsigned" => true])]
     #[Assert\PositiveOrZero]
     #[Groups(['read', 'write'])]
-    private ?int $voucher = null;
+    private ?int $voucher = 0;
 
     #[ORM\OneToMany(mappedBy: 'restaurant', targetEntity: OrderRestaurant::class)]
     private Collection $orderRestaurants;
@@ -172,7 +172,6 @@ class Org
 
     public function __construct()
     {
-        $this->voucher = 0;
         $this->createdAt = new \DateTimeImmutable();
         $this->orderRestaurants = new ArrayCollection();
         $this->vouchers = new ArrayCollection();
