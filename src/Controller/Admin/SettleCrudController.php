@@ -15,6 +15,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DatetimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\BatchActionDto;
 
 class SettleCrudController extends AbstractCrudController
 {
@@ -44,15 +45,35 @@ class SettleCrudController extends AbstractCrudController
     
     public function configureActions(Actions $actions): Actions
     {
+        $deliver = Action::new('deliver')
+            ->linkToCrudAction('deliver')
+            ->addCssClass('btn btn-primary')
+            ->setIcon('fa fa-send')
+        ;
         if ($this->isGranted('ROLE_HEAD')) {
             return $actions
                 ->disable(Action::DELETE, Action::NEW, Action::DETAIL)
                 ->remove('index', Action::EDIT)
+                ->addBatchAction($deliver)
             ;
         } else {
             return $actions
                 ->disable(Action::DELETE, Action::EDIT, Action::NEW, Action::DETAIL)
             ;
         }
+    }
+    
+    public function deliver(BatchActionDto $batchActionDto)
+    {
+        $className = $batchActionDto->getEntityFqcn();
+        $entityManager = $this->container->get('doctrine')->getManagerForClass($className);
+        foreach ($batchActionDto->getEntityIds() as $id) {
+            $settle = $entityManager->find($className, $id);
+            $settle->setDelivered(true);
+        }
+
+        $entityManager->flush();
+
+        return $this->redirect($batchActionDto->getReferrerUrl());
     }
 }
