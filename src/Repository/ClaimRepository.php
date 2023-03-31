@@ -43,8 +43,11 @@ class ClaimRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('c')
                     ->leftJoin('c.store', 'store')
+                    ->leftJoin('c.prize', 'prize')
                     ->andWhere('store.salesman = :uid')
+                    ->andWhere('prize.label = :label')
                     ->setParameter('uid', $uid)
+                    ->setParameter('label', 'onemore')
                     ->orderBy('c.id', 'DESC')
                     ->getQuery()
                     ->getResult()
@@ -55,8 +58,11 @@ class ClaimRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('c')
                     ->leftJoin('c.serveStore', 'serveStore')
+                    ->leftJoin('c.prize', 'prize')
                     ->andWhere('serveStore.salesman = :uid')
+                    ->andWhere('prize.label = :label')
                     ->setParameter('uid', $uid)
+                    ->setParameter('label', 'onemore')
                     ->orderBy('c.id', 'DESC')
                     ->getQuery()
                     ->getResult()
