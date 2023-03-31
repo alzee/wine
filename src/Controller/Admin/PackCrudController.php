@@ -39,6 +39,7 @@ class PackCrudController extends AbstractCrudController
 <ul>
   <li>只有类型为餐厅的机构才能入库</li>
   <li>服务员可以获得扫码奖</li>
+  <li>顾客中再来一瓶只能在餐厅兑奖</li>
 </ul>
 ')
         ;
