@@ -51,7 +51,7 @@ class Settle
     private ?int $status = 0;
 
     #[ORM\Column]
-    private ?bool $delivered = null;
+    private ?bool $delivered = false;
     
     public function __construct()
     {
