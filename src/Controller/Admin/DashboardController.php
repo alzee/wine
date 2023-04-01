@@ -25,6 +25,7 @@ use App\Entity\Orders;
 use App\Entity\Returns;
 use App\Entity\Reg;
 use App\Entity\Withdraw;
+use App\Entity\Transaction;
 use App\Entity\Retail;
 use App\Entity\City;
 use App\Entity\Industry;
@@ -146,6 +147,7 @@ class DashboardController extends AbstractDashboardController
             yield MenuItem::linkToCrud('DownstreamWithdraw', 'fas fa-cash-register', Withdraw::class)
                 ->setController(DownstreamWithdrawCrudController::class);
             ;
+            yield MenuItem::linkToCrud('Transaction', 'fas fa-list', Transaction::class);
         }
 
         if (! $this->isGranted('ROLE_VARIANT_HEAD') && ! $this->isGranted('ROLE_VARIANT_AGENCY') && ! $this->isGranted('ROLE_VARIANT_STORE')) {
