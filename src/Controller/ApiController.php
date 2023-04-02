@@ -27,6 +27,7 @@ use App\Entity\Settle;
 use App\Entity\Prize;
 use App\Entity\Collect;
 use App\Entity\Industry;
+use App\Entity\Transaction;
 use App\Entity\RetailReturn;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -392,6 +393,11 @@ class ApiController extends AbstractController
                     // Tip waiter
                     $tip = $product->getWaiterTip();
                     $user->setWithdrawable($user->getWithdrawable() + $tip);
+                    $transaction = new Transaction();
+                    $transaction->setUser($user);
+                    $transaction->setType(4);
+                    $transaction->setAmount($tip);
+                    $em->persist($transaction);
                     $bottle->setWaiter($user);
                     // $bottle->setStatus(2);
                     $em->flush();
@@ -518,6 +524,11 @@ class ApiController extends AbstractController
             $claim->setServeStore($org);
             $claim->setStatus(1);
             $org->setWithdrawable($org->getWithdrawable() + $tip);
+            $transaction = new Transaction();
+            $transaction->setOrg($org);
+            $transaction->setType(14);
+            $transaction->setAmount($tip);
+            $em->persist($transaction);
             $em->flush();
             $code = 0;
         } else {
@@ -557,6 +568,11 @@ class ApiController extends AbstractController
         if ($pass) {
             $tip = $product->getSalesmanTip();
             $salesman->setWithdrawable($salesman->getWithdrawable() + $tip);
+            $transaction = new Transaction();
+            $transaction->setUser($salesman);
+            $transaction->setType(5);
+            $transaction->setAmount($tip);
+            $em->persist($transaction);
             
             $settle = new Settle();
             $settle->setSalesman($salesman);
@@ -584,7 +600,19 @@ class ApiController extends AbstractController
         //TODO: check if $user have perm
         if (! is_null($admin)) {
             $admin->setWithdrawable($admin->getWithdrawable() + $orgW);
+            $transaction = new Transaction();
+            $transaction->setUser($admin);
+            $transaction->setType(6);
+            $transaction->setAmount($orgW);
+            $em->persist($transaction);
+            
             $org->setWithdrawable(0);
+            $transaction = new Transaction();
+            $transaction->setOrg($org);
+            $transaction->setType(21);
+            $transaction->setAmount(-$orgW);
+            $em->persist($transaction);
+            
             $em->flush();
         }
         

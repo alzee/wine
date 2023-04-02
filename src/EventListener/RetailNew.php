@@ -22,6 +22,7 @@ use Doctrine\ORM\Events;
 use App\Entity\Bottle;
 use App\Entity\Claim;
 use App\Entity\Collect;
+use App\Entity\Transaction;
 use App\Service\Sms;
 use App\Service\Wx;
 
@@ -60,6 +61,12 @@ class RetailNew extends AbstractController
             $rewardRecord->setReferrer($referrer);
             $rewardRecord->setAmount($reward);
             $em->persist($rewardRecord);
+            
+            $transaction = new Transaction();
+            $transaction->setUser($referrer);
+            $transaction->setType(0);
+            $transaction->setAmount($reward);
+            $em->persist($transaction);
         }
 
         // org_ref_rewards begin
@@ -85,6 +92,12 @@ class RetailNew extends AbstractController
             $rewardRecord->setReferrer($referrer);
             $rewardRecord->setAmount($reward);
             $em->persist($rewardRecord);
+            
+            $transaction = new Transaction();
+            $transaction->setUser($referrer);
+            $transaction->setType(2);
+            $transaction->setAmount($reward);
+            $em->persist($transaction);
         }
 
         // Reward agency's referrer
@@ -107,6 +120,12 @@ class RetailNew extends AbstractController
             $rewardRecord->setReferrer($referrer);
             $rewardRecord->setAmount($reward);
             $em->persist($rewardRecord);
+            
+            $transaction = new Transaction();
+            $transaction->setUser($referrer);
+            $transaction->setType(1);
+            $transaction->setAmount($reward);
+            $em->persist($transaction);
         }
 
         // variant_head
@@ -121,6 +140,12 @@ class RetailNew extends AbstractController
                 $rewardRecord->setReferrer($referrer);
                 $rewardRecord->setAmount($reward);
                 $em->persist($rewardRecord);
+                
+                $transaction = new Transaction();
+                $transaction->setUser($referrer);
+                $transaction->setType(1);
+                $transaction->setAmount($reward);
+                $em->persist($transaction);
             }
         }
         // org_ref_rewards end
@@ -136,6 +161,12 @@ class RetailNew extends AbstractController
             $shareRecord->setOrg($store);
             $shareRecord->setAmount($share);
             $em->persist($shareRecord);
+            
+            $transaction = new Transaction();
+            $transaction->setOrg($store);
+            $transaction->setType(12);
+            $transaction->setAmount($share);
+            $em->persist($transaction);
 
             // variantAgencyShare
             $share = $product->getVariantAgencyShare() * $quantity;
@@ -147,6 +178,12 @@ class RetailNew extends AbstractController
             $shareRecord->setOrg($variantAgency);
             $shareRecord->setAmount($share);
             $em->persist($shareRecord);
+            
+            $transaction = new Transaction();
+            $transaction->setOrg($variantAgency);
+            $transaction->setType(11);
+            $transaction->setAmount($share);
+            $em->persist($transaction);
 
             // variantHeadShare
             $share = $product->getVariantHeadShare() * $quantity;
@@ -158,6 +195,12 @@ class RetailNew extends AbstractController
             $shareRecord->setOrg($variantHead);
             $shareRecord->setAmount($share);
             $em->persist($shareRecord);
+            
+            $transaction = new Transaction();
+            $transaction->setOrg($variantHead);
+            $transaction->setType(10);
+            $transaction->setAmount($share);
+            $em->persist($transaction);
         }
         // share end
         

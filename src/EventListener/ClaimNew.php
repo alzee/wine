@@ -16,6 +16,7 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Events;
 use App\Entity\Org;
+use App\Entity\Transaction;
 
 #[AsEntityListener(event: Events::postPersist, entity: Claim::class)]
 class ClaimNew extends AbstractController
@@ -45,6 +46,12 @@ class ClaimNew extends AbstractController
             if ($toStore > 0) {
                 // for store is cash
                 $store->setWithdrawable($store->getWithdrawable() + $toStore);
+                
+                $transaction = new Transaction();
+                $transaction->setOrg($store);
+                $transaction->setType(13);
+                $transaction->setAmount($toStore);
+                $em->persist($transaction);
             }
             
             $claim->setStatus(1);
@@ -55,8 +62,21 @@ class ClaimNew extends AbstractController
             // new withdraw to directly wx balance
             // or
             $customer->setWithdrawable($customer->getWithdrawable() + $toCustomer);
+            
+            $transaction = new Transaction();
+            $transaction->setUser($customer);
+            $transaction->setType(3);
+            $transaction->setAmount($toCustomer);
+            $em->persist($transaction);
+            
             if ($toStore > 0) {
                 $store->setWithdrawable($store->getWithdrawable() + $toStore);
+                
+                $transaction = new Transaction();
+                $transaction->setOrg($store);
+                $transaction->setType(13);
+                $transaction->setAmount($toStore);
+                $em->persist($transaction);
             }
             
             $claim->setStatus(1);

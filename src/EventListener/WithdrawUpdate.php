@@ -15,6 +15,7 @@ use App\Entity\Org;
 use App\Entity\Withdraw;
 use App\Entity\Voucher;
 use App\Entity\Choice;
+use App\Entity\Transaction;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Events;
 use App\Service\WxPay;
@@ -69,6 +70,13 @@ class WithdrawUpdate
                     ];
                     $resp = $this->wxpay->toBalanceBatch($batch, $list);
                     $withdraw->setWxBatchId($resp['batch_id']);
+                    
+                    // TODO only if success
+                    $transaction = new Transaction();
+                    $transaction->setUser($applicant);
+                    $transaction->setType(20);
+                    $transaction->setAmount(-$amount);
+                    $em->persist($transaction);
                 }
             }
 
