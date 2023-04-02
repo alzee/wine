@@ -14,6 +14,7 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
 use App\Entity\Voucher;
 use App\Entity\Org;
 use App\Entity\Choice;
+use App\Entity\Transaction;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Events;
 
@@ -29,6 +30,12 @@ class OrderRestaurantNew extends AbstractController
         $discount = $resta->getDiscount();
         $actualAmount = $voucher * $discount;
         $resta->setWithdrawable($resta->getWithdrawable() + $actualAmount);
+        
+        $transaction = new Transaction();
+        $transaction->setOrg($resta);
+        $transaction->setType(15);
+        $transaction->setAmount($actualAmount);
+        $em->persist($transaction);
 
         // customer - voucher
         $customer = $order->getCustomer();
