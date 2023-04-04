@@ -532,7 +532,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $agency = $org->getUpstream();
                 break;
             case 4:
-                $agency = $org;
+                $agency = null;
                 break;
             case 10:
                 $agency = $org;
