@@ -18,6 +18,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DatetimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\BatchActionDto;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
+use App\Filter\Admin\AgencyFilter;
+use Doctrine\ORM\EntityRepository as ER;
 
 class SettleCrudController extends AbstractCrudController
 {
@@ -82,7 +84,17 @@ class SettleCrudController extends AbstractCrudController
     
     public function configureFilters(Filters $filters): Filters
     {
+        $f = AgencyFilter::new('salesman', 'Agency')
+            ->setFormTypeOption('value_type_options.class', 'App\Entity\Org')
+            ->setFormTypeOption(
+                'value_type_options.query_builder',
+                static fn(ER $rep) => $rep
+                    ->createQueryBuilder('o')
+                    ->andWhere('o.type = 1')
+                )
+            ;
         return $filters
+            ->add($f)
         ;
     }
 }
