@@ -90,7 +90,7 @@ class SettleCrudController extends AbstractCrudController
                 'value_type_options.query_builder',
                 static fn(ER $rep) => $rep
                     ->createQueryBuilder('o')
-                    ->andWhere('o.type = 1')
+                    ->andWhere('o.type = 1 OR o.type = 11')
                 )
             ;
         return $filters
