@@ -685,7 +685,6 @@ class ApiController extends AbstractController
             $claim['title'] = $c->getProduct()->getName() . ' ' . $c->getStore()->getName() . ' (售出门店)';
             $claim['createdAt'] = $c->getCreatedAt();
             $claim['status'] = $c->isStoreSettled();
-            // $claim['status'] = $c->isServeStoreSettled();
             $claims[] = $claim;
         }
         
