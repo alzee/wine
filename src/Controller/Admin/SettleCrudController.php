@@ -97,4 +97,11 @@ class SettleCrudController extends AbstractCrudController
             ->add($f)
         ;
     }
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setSearchFields(null)
+        ;
+    }
 }
