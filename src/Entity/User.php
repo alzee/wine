@@ -514,4 +514,37 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+    
+    public function getAgency(): ?Org
+    {
+        $org = $this->org;
+        switch ($org->getType()) {
+            case 0:
+                $agency = $org;
+                break;
+            case 1:
+                $agency = $org;
+                break;
+            case 2:
+                $agency = $org->getUpstream();
+                break;
+            case 3:
+                $agency = $org->getUpstream();
+                break;
+            case 4:
+                $agency = $org;
+                break;
+            case 10:
+                $agency = $org;
+                break;
+            case 11:
+                $agency = $org;
+                break;
+            case 12:
+                $agency = $org->getUpstream();
+                break;
+        }
+        return $agency;
+    }
+
 }
