@@ -66,7 +66,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['read'])]
     private ?Org $org = null;
-
+    
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $plainPassword = null;
 
@@ -546,5 +546,4 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
         return $agency;
     }
-
 }
