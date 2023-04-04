@@ -27,6 +27,7 @@ class SettleCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         yield IdField::new('id');
+        yield TextField::new('salesman.agency');
         yield AssociationField::new('salesman');
         yield AssociationField::new('claim');
         yield AssociationField::new('product');
