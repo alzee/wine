@@ -75,17 +75,14 @@ class Wx
     
     public function genUrlLink(string $page, string $query = '')
     {
-        return $this->cache->get("WX_URL_LINK_{$page}_{$query}", function (ItemInterface $item) use ($page, $query) {
-            $item->expiresAfter(3600 * 24 * 20);
-            $token = $this->getStableAccessToken();
-            $url = "https://api.weixin.qq.com/wxa/generate_urllink?access_token={$token}";
-            $data = [
-                'path' => "/pages/{$page}/index",
-                'query' => $query,
-            ];
-            $content = $this->httpClient->request('POST', $url, ['json' => $data])->toArray();
-            return $content['url_link'];
-        });
+        $token = $this->getStableAccessToken();
+        $url = "https://api.weixin.qq.com/wxa/generate_urllink?access_token={$token}";
+        $data = [
+            'path' => "/pages/{$page}/index",
+            'query' => $query,
+        ];
+        $content = $this->httpClient->request('POST', $url, ['json' => $data])->toArray();
+        return $content['url_link'];
     }
     
     public function genScheme(string $page, string $query = '')
@@ -100,5 +97,21 @@ class Wx
         ];
         $content = $this->httpClient->request('POST', $url, ['json' => $data])->toArray();
         return $content['openlink'];
+    }
+    
+    public function getUrlLinkFromCache(string $page, string $query = '', int $uid)
+    {
+        return $this->cache->get("WX_URLLINK_{$page}_{$query}_{$uid}", function (ItemInterface $item) use ($page, $query) {
+            $item->expiresAfter(3600 * 24 * 20);
+            return $this->genUrlLink($page, $query);
+        });
+    }
+    
+    public function getSchemeFromCache(string $page, string $query = '', int $uid)
+    {
+        return $this->cache->get("WX_SCHEME_{$page}_{$query}_{$uid}", function (ItemInterface $item) use ($page, $query) {
+            $item->expiresAfter(3600 * 24 * 20);
+            return $this->genScheme($page, $query);
+        });
     }
 }
