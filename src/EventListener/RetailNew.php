@@ -262,20 +262,16 @@ class RetailNew extends AbstractController
         // sms to customer
         $phone = $customer->getPhone();
         $prizeInfo = $prize->getName() . ' ' . $prize->getToCustomer() / 100;
-        $url_claim_customer = $this->wx->genUrlLink('myClaim', 'type=user');
-        $path = ltrim($url_claim_customer, 'https://wxaurl.cn/');
         if (! is_null($phone)) {
-            $this->sms->send($phone, 'customer_draw', ['prize' => $prizeInfo, 'path' => $path]);
+            $this->sms->send($phone, 'customer_draw', ['prize' => $prizeInfo]);
         }
         
         if ($toStore !== 0) {
             // sms to store
             $phone = $store->getPhone();
             $prizeInfo = $prize->getName() . ' ' . $toStore / 100;
-            $url_claim_store = $this->wx->genUrlLink('myClaim', 'type=store');
-            $path = ltrim($url_claim_store, 'https://wxaurl.cn/');
             if (! is_null($phone)) {
-                $this->sms->send($phone, 'store_draw', ['prize' => $prizeInfo, 'path' => $path]);
+                $this->sms->send($phone, 'store_draw', ['prize' => $prizeInfo]);
             }
         }
     }
