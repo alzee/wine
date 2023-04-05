@@ -99,17 +99,17 @@ class Wx
         return $content['openlink'];
     }
     
-    public function getUrlLinkFromCache(string $page, string $query = '', int $uid)
+    public function getUrlLinkFromCache(int $uid, string $page, string $query = '')
     {
-        return $this->cache->get("WX_URLLINK_{$page}_{$query}_{$uid}", function (ItemInterface $item) use ($page, $query) {
+        return $this->cache->get("WX_URLLINK_{$uid}_{$page}_{$query}", function (ItemInterface $item) use ($page, $query) {
             $item->expiresAfter(3600 * 24 * 20);
             return $this->genUrlLink($page, $query);
         });
     }
     
-    public function getSchemeFromCache(string $page, string $query = '', int $uid)
+    public function getSchemeFromCache(int $uid, string $page, string $query = '')
     {
-        return $this->cache->get("WX_SCHEME_{$page}_{$query}_{$uid}", function (ItemInterface $item) use ($page, $query) {
+        return $this->cache->get("WX_SCHEME_{$uid}_{$page}_{$query}", function (ItemInterface $item) use ($page, $query) {
             $item->expiresAfter(3600 * 24 * 20);
             return $this->genScheme($page, $query);
         });
