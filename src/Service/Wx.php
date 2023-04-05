@@ -88,4 +88,18 @@ class Wx
             return $content['url_link'];
         });
     }
+    
+    public function genScheme(string $page, string $query = '')
+    {
+        $token = $this->getStableAccessToken();
+        $url = "https://api.weixin.qq.com/wxa/generatescheme?access_token={$token}";
+        $data = [
+            'jump_wxa' => [
+                'path' => "/pages/{$page}/index",
+                'query' => $query,
+            ],
+        ];
+        $content = $this->httpClient->request('POST', $url, ['json' => $data])->toArray();
+        return $content['openlink'];
+    }
 }
