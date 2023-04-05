@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}跳转小程序{% endblock %}
+
+{% block javascripts %}
+<script>
+location.href = "{{ scheme }}"
+</script>
+{% endblock %}
