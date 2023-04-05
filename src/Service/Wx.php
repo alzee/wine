@@ -43,7 +43,6 @@ class Wx
     public function getStableAccessToken($force = false)
     {
         return $this->cache->get('WX_STABLE_ACCESS_TOKEN', function (ItemInterface $item) use ($force){
-            $item->expiresAfter(7000);
             $url = "https://api.weixin.qq.com/cgi-bin/stable_token";
             $data = [
                 'grant_type' => "client_credential",
@@ -52,6 +51,7 @@ class Wx
                 'force_refresh' => $force,
             ];
             $content = $this->httpClient->request('POST', $url, ['json' => $data])->toArray();
+            $item->expiresAfter($content['expires_in']);
             return $content['access_token'];
         });
     }
