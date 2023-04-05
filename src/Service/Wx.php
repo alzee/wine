@@ -52,7 +52,6 @@ class Wx
                 'force_refresh' => $force,
             ];
             $content = $this->httpClient->request('POST', $url, ['json' => $data])->toArray();
-            dump($content);
             return $content['access_token'];
         });
     }
