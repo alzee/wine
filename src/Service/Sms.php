@@ -117,7 +117,15 @@ class Sms
             ]);
 
             $resp = $this->client->sendSms($sendSmsRequest);
-            $this->logger->info("SMS resp: type: {$type}, to: {$to}, code: {$resp->body->code}, msg: {$resp->body->message}, templateParam: {$templateParam}");
+            $this->logger->info('SMS resp: type: {type}, to: {to}, code: {code}, msg: {msg}, templateParam: {templateParam}',
+                [
+                    'type' => $type,
+                    'to' => $to,
+                    'code' => $resp->body->code,
+                    'msg' => $resp->body->message,
+                    'templateParam' => $templateParam
+                ]
+            );
         }
 
     }
