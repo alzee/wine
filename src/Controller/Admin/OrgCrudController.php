@@ -136,7 +136,7 @@ class OrgCrudController extends AbstractCrudController
                 ->hideOnForm()
             ;
             yield AssociationField::new('upstream')
-                ->hideOnForm()
+                // ->hideOnForm()
             ;
         }
         yield AssociationField::new('referrer')->hideOnIndex();
