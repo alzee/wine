@@ -27,7 +27,7 @@ class Sms
     private $signName;
     private $em;
 
-    public function __construct(LoggerInterface $logger, EntityManagerInterface $em)
+    public function __construct(LoggerInterface $smsLogger, EntityManagerInterface $em)
     {
         $accessKeyId = $_ENV['SMS_ACCESS_KEY_ID'];
         $accessKeySecret = $_ENV['SMS_ACCESS_KEY_SECRET'];
@@ -37,7 +37,7 @@ class Sms
         ]);
 
         $this->client = new Dysmsapi($config);
-        $this->logger = $logger;
+        $this->logger = $smsLogger;
         $this->signName = $_ENV['SMS_SIGNATURE'];
         $this->em = $em;
     }
