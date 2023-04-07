@@ -53,6 +53,9 @@ class Sms
     public function send($phone, $type = 'verify', $params = [], $cc = false)
     {
         switch($type){
+            case 'expiry':
+                $templateCode = 'SMS_275460600';
+                break;
             case 'customer_draw':
                 $templateCode = 'SMS_272440782';
                 break;
