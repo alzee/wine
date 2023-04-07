@@ -62,19 +62,21 @@ class CheckExpiryCommand extends Command
             
             if ($daysLeft <= 0) {
                 // set expired;
-                $io->info('set expired');
+                $c->setStatus(2);
+                $this->em->flush();
             } else {
+                $dueDate = $createdAt->modify(+$expiry . 'days');
                 if ($daysPassed % 7 === 0) {
-                    $io->info('send sms every 7 days');
                     // sms every 7 days
+                    $this->sms->send($phone, 'expiry', ['prize' => $prizeInfo, 'expiry' => $dueDate]);
                 } else if ($daysLeft <= 3) {
                     // sms every day in last 3 days
-                    $io->info('send sms every 7 days');
+                    $this->sms->send($phone, 'expiry', ['prize' => $prizeInfo, 'expiry' => $dueDate]);
                 }
             }
         }
         
-        $io->success('DONE.');
+        // $io->success('DONE.');
 
         return Command::SUCCESS;
     }
