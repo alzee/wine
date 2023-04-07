@@ -46,6 +46,7 @@ class SettleCrudController extends AbstractCrudController
             // ->setDisabled(true)
         ;
         yield DatetimeField::new('createdAt');
+        yield DatetimeField::new('settledAt');
     }
     
     public function configureActions(Actions $actions): Actions

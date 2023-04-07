@@ -52,6 +52,9 @@ class Settle
 
     #[ORM\Column]
     private ?bool $delivered = false;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $settledAt = null;
     
     public function __construct()
     {
@@ -143,6 +146,18 @@ class Settle
     public function setDelivered(bool $delivered): self
     {
         $this->delivered = $delivered;
+
+        return $this;
+    }
+
+    public function getSettledAt(): ?\DateTimeImmutable
+    {
+        return $this->settledAt;
+    }
+
+    public function setSettledAt(?\DateTimeImmutable $settledAt): self
+    {
+        $this->settledAt = $settledAt;
 
         return $this;
     }
