@@ -20,10 +20,12 @@ use Doctrine\ORM\EntityManagerInterface;
 class CheckExpiryCommand extends Command
 {
     private $em;
+    private $sms;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, Sms $sms)
     {
         $this->em = $em;
+        $this->sms = $sms;
         parent::__construct();
     }
     
