@@ -67,7 +67,10 @@ class CheckExpiryCommand extends Command
                 $c->setStatus(2);
                 $this->em->flush();
             } else {
+                $phone = $c->getCustomer()->getPhone();
+                $prizeInfo = $prize->getName() . ' ' . $prize->getToCustomer() / 100;
                 $dueDate = $createdAt->modify(+$expiry . 'days')->format('Y-m-d');
+                
                 if ($daysPassed % 7 === 0) {
                     // sms every 7 days
                     $this->sms->send($phone, 'expiry', ['prize' => $prizeInfo, 'expiry' => $dueDate]);
