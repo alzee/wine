@@ -66,6 +66,17 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
                     ->getSingleScalarResult()
                 ;
     }
+    
+    public function findVoucherMoreThan($value): array
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.voucher >= :val')
+            ->setParameter('val', $value)
+            ->orderBy('u.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
 //    /**
 //     * @return User[] Returns an array of User objects
