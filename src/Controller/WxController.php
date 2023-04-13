@@ -17,7 +17,7 @@ class WxController extends AbstractController
         $this->wx = $wx;
     }
     
-    #[Route('/cu', name: 'wx_claim_user')]
+    #[Route('.cu', name: 'wx_claim_user')]
     public function cu(): Response
     {
         $scheme = $this->wx->genScheme('myClaim', 'type=user');
@@ -26,7 +26,7 @@ class WxController extends AbstractController
         ]);
     }
     
-    #[Route('/cs', name: 'wx_claim_store')]
+    #[Route('.cs', name: 'wx_claim_store')]
     public function cs(): Response
     {
         $scheme = $this->wx->genScheme('myClaim', 'type=user');
