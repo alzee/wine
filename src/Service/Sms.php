@@ -53,6 +53,9 @@ class Sms
     public function send($phone, $type = 'verify', $params = [], $cc = false)
     {
         switch($type){
+            case 'settle_notify':
+                $templateCode = 'SMS_276330229';
+                break;
             case 'voucher_notify':
                 $templateCode = 'SMS_276475186';
                 break;

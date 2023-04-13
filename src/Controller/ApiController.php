@@ -46,12 +46,14 @@ class ApiController extends AbstractController
     private $doctrine;
     private $translator;
     private $wxpay;
+    private $sms;
 
-    public function __construct(ManagerRegistry $doctrine, TranslatorInterface $translator, WxPay $wxpay)
+    public function __construct(ManagerRegistry $doctrine, TranslatorInterface $translator, WxPay $wxpay, Sms $sms)
     {
         $this->doctrine = $doctrine;
         $this->translator = $translator;
         $this->wxpay = $wxpay;
+        $this->sms = $sms;
     }
 
     #[Route('/return/new', methods: ['POST'])]
@@ -560,10 +562,12 @@ class ApiController extends AbstractController
         if ($type === 'store' && $claim->isStoreSettled() === false ) {
             $claim->setStoreSettled(true);
             $pass = true;
+            $phone = $claim->getStore()->getPhone();
         }
         if ($type === 'serveStore' && $claim->isServeStoreSettled() === false) {
             $claim->setServeStoreSettled(true);
             $pass = true;
+            $phone = $claim->getServeStore()->getPhone();
         }
         if ($pass) {
             $tip = $product->getSalesmanTip();
@@ -581,6 +585,10 @@ class ApiController extends AbstractController
             $settle->setType(Choice::SETTLE_TYPES[$type]);
             $em->persist($settle);
             $em->flush();
+            
+            if (!is_null($phone)) {
+                $this->sms->send($phone, 'settle_notify', ['prize' => $claim->getPrize()->getName()]);
+            }
         } else {
             $code = 2;
             $msg = 'cant settle again';
