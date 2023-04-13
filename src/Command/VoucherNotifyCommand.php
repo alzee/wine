@@ -15,7 +15,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 #[AsCommand(
     name: 'app:voucherNotify',
-    description: 'Notify voucher',
+    description: 'Notify if user has voucher more than <threshold>',
 )]
 class VoucherNotifyCommand extends Command
 {
@@ -32,28 +32,20 @@ class VoucherNotifyCommand extends Command
     protected function configure(): void
     {
         $this
-            ->addArgument('arg1', InputArgument::OPTIONAL, 'Argument description')
-            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description')
+            ->addArgument('threshold', InputArgument::REQUIRED, 'min voucher value')
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $arg1 = $input->getArgument('arg1');
+        $threshold = $input->getArgument('threshold') * 100;
 
-        if ($arg1) {
-            $io->note(sprintf('You passed an argument: %s', $arg1));
-        }
-
-        if ($input->getOption('option1')) {
-            // ...
-        }
-        
-        $users = $this->em->getRepository(User::class)->findBy(['status' => 0]);
-        
-        foreach ($users as $u) {
-            $this->sms->send($phone, 'voucher_notify', ['voucher' => $u->getVoucher() / 100]);
+        if ($threshold) {
+            $users = $this->em->getRepository(User::class)->findVoucherMoreThan($threshold);
+            foreach ($users as $u) {
+                $this->sms->send($phone, 'voucher_notify', ['voucher' => $u->getVoucher() / 100]);
+            }
         }
 
         // $io->success('DONE.');
