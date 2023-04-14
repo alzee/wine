@@ -23,6 +23,7 @@ class Box
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['read'])]
     private ?string $sn = null;
 
     #[ORM\ManyToOne]
