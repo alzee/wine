@@ -48,6 +48,7 @@ class OrderItems
     private ?Pack $pack = null;
 
     #[ORM\ManyToMany(targetEntity: Box::class, inversedBy: 'orderItems')]
+    #[Groups(['read'])]
     private Collection $boxes;
 
     public function __construct()
