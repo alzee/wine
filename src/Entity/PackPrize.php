@@ -26,6 +26,11 @@ class PackPrize
     #[ORM\Column(type: Types::SMALLINT)]
     #[Assert\Positive]
     private ?int $qty = null;
+    
+    public function __toString()
+    {
+        return $this->prize->getInfo() . ' x ' . $this->qty;
+    }
 
     public function getId(): ?int
     {

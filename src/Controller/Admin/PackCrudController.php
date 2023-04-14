@@ -45,9 +45,26 @@ class PackCrudController extends AbstractCrudController
         ;
         // yield BooleanField::new('forClaim');
         yield CollectionField::new('packPrizes')
-                ->useEntryCrudForm()
-                ->renderExpanded()
-                ->setRequired(true)
+            ->useEntryCrudForm()
+            ->renderExpanded()
+            ->setRequired(true)
+            ->onlyOnForms()
+        ;
+        yield ArrayField::new('packPrizes')
+            ->onlyOnDetail()
+        ;
+    }
+    
+    public function configureActions(Actions $actions): Actions
+    {
+        $actions->disable(Action::DELETE);
+        if ($this->isGranted('ROLE_ADMIN')) {
+        } else {
+            $actions
+                ->disable(Action::EDIT, Action::NEW)
+                ->add('index', Action::DETAIL)
             ;
+        }
+        return $actions;
     }
 }
