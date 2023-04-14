@@ -32,9 +32,9 @@ port=${tt%/*}
 
 dir=~/w/$db.sql
 mkdir -p $dir; cd $dir
-git status 2> /dev/null
+git status &> /dev/null
 [ "$?" -eq 128 ] && git init
 mysqldump --skip-extended-insert -u$user -p$passwd -h $host -P $port $db  > $db.sql
 git add .
-git commit -m "mysqldump" --no-gpg-sign
+git commit -m "mysqldump" --no-gpg-sign > /dev/null
 git push &> /dev/null
