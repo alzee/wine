@@ -44,7 +44,10 @@ class VoucherNotifyCommand extends Command
         if ($threshold) {
             $users = $this->em->getRepository(User::class)->findVoucherMoreThan($threshold);
             foreach ($users as $u) {
-                $this->sms->send($phone, 'voucher_notify', ['voucher' => $u->getVoucher() / 100]);
+                $phone = $u->getPhone();
+                if (!is_null($phone)) {
+                    $this->sms->send($phone, 'voucher_notify', ['voucher' => $u->getVoucher() / 100]);
+                }
             }
         }
 
