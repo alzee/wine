@@ -34,4 +34,13 @@ class WxController extends AbstractController
             'scheme' => $scheme,
         ]);
     }
+    
+    #[Route('.v', name: 'wx_voucher')]
+    public function cs(): Response
+    {
+        $scheme = $this->wx->genScheme('voucher');
+        return $this->render('wx/index.html.twig', [
+            'scheme' => $scheme,
+        ]);
+    }
 }
