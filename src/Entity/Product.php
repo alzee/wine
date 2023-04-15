@@ -69,7 +69,6 @@ class Product
     private ?int $refReward = 0;
 
     #[ORM\Column(options: ["unsigned" => true])]
-    #[Assert\Positive]
     private ?int $orgRefReward = 0;
 
     #[ORM\Column(type: Types::SMALLINT, options: ["unsigned" => true])]
