@@ -50,9 +50,8 @@ class Product
     private ?string $sn = null;
 
     #[ORM\Column(options: ["unsigned" => true])]
-    #[Assert\Positive]
     #[Groups(['read', 'write'])]
-    private ?int $voucher = null;
+    private ?int $voucher = 0;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['read', 'write'])]
@@ -108,24 +107,24 @@ class Product
     #[ORM\Column(type: Types::SMALLINT, options: ["unsigned" => true])]
     #[Assert\Positive]
     #[Groups(['read'])]
-    private ?int $waiterTip = null;
+    private ?int $waiterTip = 0;
 
     #[ORM\Column(type: Types::SMALLINT, options: ["unsigned" => true])]
     #[Assert\Positive]
-    private ?int $agencyRefReward = null;
+    private ?int $agencyRefReward = 0;
 
     #[ORM\Column(type: Types::SMALLINT, options: ["unsigned" => true])]
     #[Assert\Positive]
-    private ?int $storeRefReward = null;
+    private ?int $storeRefReward = 0;
 
     #[ORM\Column(type: Types::SMALLINT, options: ["unsigned" => true])]
     #[Assert\Positive]
     #[Groups(['read'])]
-    private ?int $storeTip = null;
+    private ?int $storeTip = 0;
 
     #[ORM\Column(type: Types::SMALLINT, options: ["unsigned" => true])]
     #[Assert\Positive]
-    private ?int $salesmanTip = null;
+    private ?int $salesmanTip = 0;
 
     public function __construct()
     {
