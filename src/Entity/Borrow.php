@@ -49,7 +49,7 @@ class Borrow
 
     #[ORM\Column(type: Types::SMALLINT)]
     #[Groups(['read'])]
-    private ?int $used = null;
+    private ?int $used = 0;
     
     public function __construct()
     {
