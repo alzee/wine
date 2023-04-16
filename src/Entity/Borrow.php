@@ -27,16 +27,16 @@ class Borrow
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['read'])]
+    #[Groups(['read', 'write'])]
     private ?User $salesman = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['read'])]
+    #[Groups(['read', 'write'])]
     private ?Product $product = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
-    #[Groups(['read'])]
+    #[Groups(['read', 'write'])]
     private ?int $qty = null;
 
     #[ORM\Column]
