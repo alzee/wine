@@ -46,6 +46,10 @@ class Borrow
     #[ORM\Column(type: Types::SMALLINT)]
     #[Groups(['read'])]
     private ?int $status = 0;
+
+    #[ORM\Column(type: Types::SMALLINT)]
+    #[Groups(['read'])]
+    private ?int $used = null;
     
     public function __construct()
     {
@@ -113,6 +117,18 @@ class Borrow
     public function setStatus(int $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getUsed(): ?int
+    {
+        return $this->used;
+    }
+
+    public function setUsed(int $used): self
+    {
+        $this->used = $used;
 
         return $this;
     }
