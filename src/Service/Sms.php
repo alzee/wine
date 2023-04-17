@@ -57,16 +57,16 @@ class Sms
                 $templateCode = 'SMS_276330229';
                 break;
             case 'voucher_notify':
-                $templateCode = 'SMS_276475186';
+                $templateCode = 'SMS_276385464';
                 break;
             case 'expiry':
-                $templateCode = 'SMS_275460600';
+                $templateCode = 'SMS_276310470';
                 break;
             case 'customer_draw':
-                $templateCode = 'SMS_272440782';
+                $templateCode = 'SMS_276475441';
                 break;
             case 'store_draw':
-                $templateCode = 'SMS_272575805';
+                $templateCode = 'SMS_276400472';
                 break;
             case 'verify':
                 $templateCode = 'SMS_268695017';
