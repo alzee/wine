@@ -14,12 +14,27 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 
 class PrizeCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
         return Prize::class;
+    }
+    
+    public function configureActions(Actions $actions): Actions
+    {
+        $actions->disable(Action::DELETE);
+        if ($this->isGranted('ROLE_ADMIN')) {
+        } else {
+            $actions
+                ->disable(Action::EDIT, Action::NEW)
+                // ->add('index', Action::DETAIL)
+            ;
+        }
+        return $actions;
     }
 
     public function configureFields(string $pageName): iterable
