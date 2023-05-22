@@ -50,10 +50,13 @@ class ClaimCrudController extends AbstractCrudController
             ->setChoices(Choice::CLAIM_STATUSES)
         ;
         yield AssociationField::new('serveStore')
-            ->onlyOnIndex()
         ;
-        yield BooleanField::new('storeSettled')->renderAsSwitch(false);
-        yield BooleanField::new('serveStoreSettled')->renderAsSwitch(false);
+        yield BooleanField::new('storeSettled')
+            ->onlyOnIndex()
+            ->renderAsSwitch(false);
+        yield BooleanField::new('serveStoreSettled')
+            ->onlyOnIndex()
+            ->renderAsSwitch(false);
         yield DatetimeField::new('createdAt')
             ->onlyOnIndex()
         ;
@@ -63,7 +66,7 @@ class ClaimCrudController extends AbstractCrudController
     {
         $actions
             ->disable(Action::DELETE, Action::NEW, Action::DETAIL);
-        if (!$this->isGranted('ROLE_SUPER_ADMIN')) {
+        if (!$this->isGranted('ROLE_ADMIN')) {
             $actions
                 ->disable(Action::EDIT);
         }
