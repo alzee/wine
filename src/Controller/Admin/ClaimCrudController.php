@@ -25,26 +25,48 @@ class ClaimCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        yield IdField::new('id');
-        yield AssociationField::new('retail');
-        yield AssociationField::new('store');
-        yield AssociationField::new('customer');
-        yield AssociationField::new('bottle');
-        yield AssociationField::new('product');
-        yield AssociationField::new('prize');
+        yield IdField::new('id')
+            ->onlyOnIndex()
+        ;
+        yield AssociationField::new('retail')
+            ->onlyOnIndex()
+        ;
+        yield AssociationField::new('store')
+            ->onlyOnIndex()
+        ;
+        yield AssociationField::new('customer')
+            ->onlyOnIndex()
+        ;
+        yield AssociationField::new('bottle')
+            ->onlyOnIndex()
+        ;
+        yield AssociationField::new('product')
+            ->onlyOnIndex()
+        ;
+        yield AssociationField::new('prize')
+            ->onlyOnIndex()
+        ;
         yield ChoiceField::new('status')
             ->setChoices(Choice::CLAIM_STATUSES)
-            ;
-        yield AssociationField::new('serveStore');
+        ;
+        yield AssociationField::new('serveStore')
+            ->onlyOnIndex()
+        ;
         yield BooleanField::new('storeSettled')->renderAsSwitch(false);
         yield BooleanField::new('serveStoreSettled')->renderAsSwitch(false);
-        yield DatetimeField::new('createdAt');
+        yield DatetimeField::new('createdAt')
+            ->onlyOnIndex()
+        ;
     }
     
     public function configureActions(Actions $actions): Actions
     {
-        return $actions
-            ->disable(Action::DELETE, Action::EDIT, Action::NEW, Action::DETAIL)
-        ;
+        $actions
+            ->disable(Action::DELETE, Action::NEW, Action::DETAIL);
+        if (!$this->isGranted('ROLE_SUPER_ADMIN')) {
+            $actions
+                ->disable(Action::EDIT);
+        }
+        return $actions;
     }
 }
