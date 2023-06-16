@@ -77,6 +77,7 @@ class OrderRestaurantCrudController extends AbstractCrudController
         $helpNew = '请填写<b>餐厅订单号</b>及<b>金额</b>以便于后期对账。';
         return $crud
             ->setDefaultSort(['id' => 'DESC'])
+            ->setSearchFields(['restaurant.name', 'customer.name'])
             // ->setHelp('index', $helpIndex)
             // ->setHelp('new', $helpNew)
         ;
@@ -86,6 +87,7 @@ class OrderRestaurantCrudController extends AbstractCrudController
     {
         return $filters
             ->add('date')
+            ->add('restaurant')
         ;
     }
 
