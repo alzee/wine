@@ -570,6 +570,7 @@ class ApiController extends AbstractController
             $phone = $claim->getServeStore()->getPhone();
         }
         if ($pass) {
+            /**
             $tip = $product->getSalesmanTip();
             $salesman->setWithdrawable($salesman->getWithdrawable() + $tip);
             $transaction = new Transaction();
@@ -577,6 +578,7 @@ class ApiController extends AbstractController
             $transaction->setType(5);
             $transaction->setAmount($tip);
             $em->persist($transaction);
+            */
             
             $settle = new Settle();
             $settle->setSalesman($salesman);
