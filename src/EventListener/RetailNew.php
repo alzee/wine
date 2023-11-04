@@ -50,6 +50,7 @@ class RetailNew extends AbstractController
 
         $retail->setAmount($amount);
 
+        /**
         // Reward customer's referrer
         $referrer = $customer->getReferrer();
         if (! is_null($referrer)) {
@@ -149,6 +150,7 @@ class RetailNew extends AbstractController
             }
         }
         // org_ref_rewards end
+         */
 
         // share begin
         if ($store->getType() == 12) {
