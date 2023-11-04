@@ -525,12 +525,14 @@ class ApiController extends AbstractController
             $tip = $product->getStoreTip();
             $claim->setServeStore($org);
             $claim->setStatus(1);
+            /**
             $org->setWithdrawable($org->getWithdrawable() + $tip);
             $transaction = new Transaction();
             $transaction->setOrg($org);
             $transaction->setType(14);
             $transaction->setAmount($tip);
             $em->persist($transaction);
+             */
             $em->flush();
             $code = 0;
         } else {
