@@ -59,13 +59,13 @@ class ClaimNew extends AbstractController
        
         // wx
         if ($label === 'wx') {
+            $customer->setWithdrawable($customer->getWithdrawable() + $toCustomer);
+            
             // new withdraw to directly wx balance
             $withdraw = new Withdraw();
             $withdraw->setCustomer($customer);
             $withdraw->setAmount($toCustomer);
             $em->persist($withdraw);
-            // or to app withdrawable
-            // $customer->setWithdrawable($customer->getWithdrawable() + $toCustomer);
             
             $transaction = new Transaction();
             $transaction->setUser($customer);
